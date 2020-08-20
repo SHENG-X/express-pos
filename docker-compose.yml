@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  # express pos backend service
+  pos-backend:
+    container_name: express-pos_core
+    build: ./core
+    restart: always
+    working_dir: /user/src/express-pos
+    volumes: 
+      - ./core:/user/src/express-pos
+    depends_on: 
+      - pos-mongo
+    env_file:
+      - ./.env
+    environment: 
+      WAIT_HOSTS: 'express-pos_mongo:${MONGO_PORT}'
+      MONGODB_URI: 'mongodb://${ROOT_USERNAME}:${ROOT_PASSWORD}@express-database:${MONGO_PORT}/${DATABASE_NAME}?authSource=admin'
+    ports:
+      - '3000:3000'
+
+  # express pos mongo database service
+  pos-mongo:
+    container_name: express-pos_mongo
+    image: mongo
+    restart: always
+    env_file:
+      - ./.env
+    environment:
+      MONGO_INITDB_DATABASE: ${DATABASE_NAME}
+      MONGO_INITDB_ROOT_USERNAME: ${ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${ROOT_PASSWORD}
+    ports:
+      - '${MONGO_PORT}:${MONGO_PORT}'
+
+  # mongo express web ui
+  pos-mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    restart: always
+    depends_on: 
+      - pos-mongo
+    env_file: 
+      - ./.env
+    environment: 
+      ME_CONFIG_MONGODB_SERVER: express-pos_mongo
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${ROOT_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${ROOT_PASSWORD}
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGOEXPRESS_LOGIN}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGOEXPRESS_PASSWORD}
+    ports:
+      - '8081:8081'
