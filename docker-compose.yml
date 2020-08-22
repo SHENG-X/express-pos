@@ -18,6 +18,8 @@ services:
       MONGODB_URI: 'mongodb://${ROOT_USERNAME}:${ROOT_PASSWORD}@pos-mongo:${MONGO_PORT}/${DATABASE_NAME}?authSource=admin'
     ports:
       - '3000:3000'
+      - '9229:9229'
+    command: npm run debug
 
   # express pos mongo database service
   pos-mongo:
