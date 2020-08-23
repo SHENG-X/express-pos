@@ -19,7 +19,12 @@ const signInUser = async (req, res) => {
 
   const authenticated = await bcrypt.compareSync(password, user.password);
   if (authenticated) {
-    return res.status(200).json({ ...user._doc, password: null });
+    return user.populate('store').execPopulate((error, user) => {
+      if (error) {
+        return res.status(500).json(error);
+      }
+      return res.status(200).json({ ...user._doc, password: null });
+    });
   }
 
   return res.status(401).json(email);
