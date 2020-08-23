@@ -4,8 +4,8 @@ const storeModel = require('../model/storeModel');
 const getCategory = (req, res) => {
   const store = req.query.store;
   const categoryId = req.query.id;
-  if (!store) {
-    return res.status(400).json(store);
+  if (!store || !categoryId) {
+    return res.status(400).json({ store, categoryId });
   }
   return storeModel.findById(store, (error, storeData) => {
     if (error) {
@@ -30,7 +30,7 @@ const getCategory = (req, res) => {
       });
     }
   
-    return categoryModel.find({}, (error, categories) => {
+    return categoryModel.find({ store }, (error, categories) => {
       if (error) {
         return res.status(500).json(error);
       }
@@ -57,20 +57,69 @@ const createCategory = (req, res) => {
     const category = new categoryModel({ thumbnail, name, store});
     return category.save((error, categoryData) => {
       if (error) {
-        res.status(500).json(error);
+        return res.status(500).json(error);
       }
 
-      return res.status(201).json(categoryData._doc);
+      // add category to the store categories
+      storeData.categories.push(categoryData._id);
+
+      return storeData.save((error) => {
+        if (error) {
+          return res.status(500).json(error);
+        }
+
+        return res.status(201).json(categoryData._doc);
+      });
+
     });
   });
 }
 
 const updateCategory = (req, res) => {
+  const { _id, thumbnail = '', name } = req.body;
+  return categoryModel.findById(_id, (error, categoryData) => {
+    if (error) {
+      return res.status(500).json(error);
+    }
+    
+    if (!categoryData) {
+      // requested category not found
+      return res.status(400).json(categoryData);
+    }
 
+    categoryData.thumbnail = thumbnail;
+    categoryData.name = name;
+
+    return categoryData.save((error, categoryData) => {
+      if (error) {
+        return res.status(500).json(error);
+      }
+      return res.status(200).json(categoryData._doc);
+    });
+  });
 }
 
 const deleteCategory = (req, res) => {
+  const { store, _id } = req.body;
+  return categoryModel.deleteOne({ _id }, (error) => {
+    if (error) {
+      return res.status(500).json(error);
+    }
 
+    return storeModel.findById(store, (error, storeData) => {
+      if (error) {
+        return res.status(500).json(error);
+      }
+
+      storeData.categories = storeData.categories.filters(category => category._id !== _id);
+      return storeData.save((error) => {
+        if (error) {
+          return res.status(500).json(error);
+        }
+        return res.status(204).json(_id);
+      });
+    });
+  });
 }
 
 module.exports = {
