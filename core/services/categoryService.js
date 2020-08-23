@@ -22,11 +22,11 @@ const getCategory = (req, res) => {
           return res.status(500).json(error);
         }
   
-        if (category) {
-          return res.status(200).json(category); 
+        if (!category) {
+          return res.status(400).json(category);
         }
+        return res.status(200).json(category); 
   
-        return res.status(404).json(null);
       });
     }
   
