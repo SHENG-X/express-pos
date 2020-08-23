@@ -21,7 +21,12 @@ const productSchema = new Schema({
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category'
-  }
+  },
+  store: {
+    type: Schema.Types.ObjectId,
+    ref: 'Store',
+    required: true,
+  },
 });
 
 const productModel = mongoose.model('Product', productSchema);

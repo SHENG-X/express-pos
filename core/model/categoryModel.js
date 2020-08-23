@@ -9,6 +9,11 @@ const categorySchema = new Schema({
   name: {
     type: String,
     required: true,
+  },
+  store: {
+    type: Schema.Types.ObjectId,
+    ref: 'Store',
+    required: true,
   }
 });
 
