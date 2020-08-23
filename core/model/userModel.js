@@ -18,6 +18,7 @@ const userSchema = new Schema({
   store: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Store',
+    required: true,
   }
 });
 
