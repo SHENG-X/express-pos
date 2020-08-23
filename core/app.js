@@ -7,6 +7,7 @@ const productRouter = require('./routes/product');
 const categoryRouter = require('./routes/category');
 const userRouter = require('./routes/user');
 const taxRouter = require('./routes/tax');
+const orderRouter = require('./routes/order');
 
 // application port
 const PORT = 3000;
@@ -26,6 +27,7 @@ app.use('/api/product', productRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/user', userRouter);
 app.use('/api/tax', taxRouter);
+app.use('/api/order', orderRouter);
 
 mongoose.connect(process.env.MONGODB_URI, options).then(() => {
   app.listen(PORT, () => {
