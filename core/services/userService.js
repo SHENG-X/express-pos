@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 
 const userModel = require('../model/userModel');
+const storeModel = require('../model/storeModel');
 
 const saltRounds = 10;
 
@@ -33,6 +34,8 @@ const signUpUser = async (req, res) =>{
 
   const hashedPassword = await bcrypt.hashSync(password, saltRounds);
   const user = new userModel({ username, email, password: hashedPassword });
+  const store = new storeModel({ user: user._id });
+  user.store = store._id;
 
   return user.save((error, user) => {
 
@@ -40,7 +43,19 @@ const signUpUser = async (req, res) =>{
       return res.status(500).json(error);
     }
 
-     return res.status(201).json({ ...user._doc, password: null });
+    return store.save((error, store) => {
+      if (error) {
+        return res.status(500).json(error);
+      }
+
+      return user.populate('store').execPopulate((error, user) => {
+        if (error) {
+          return res.status(500).json(error);
+        }
+
+        return res.status(201).json({ ...user._doc, password: null });
+      });
+    });
   });
 }
 
