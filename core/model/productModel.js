@@ -14,6 +14,10 @@ const productSchema = new Schema({
     type: [Number],
     required: true,
   },
+  cost :{
+    type: Number,
+    default: 0,
+  },
   count: {
     type: Number,
     default: 0,
