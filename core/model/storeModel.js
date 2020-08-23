@@ -7,6 +7,10 @@ const storeSchema = new Schema({
     ref: 'User',
     required: true
   },
+  name: {
+    type: String,
+    required: true,
+  },
   categories: {
     type: [{
       type: mongoose.Schema.Types.ObjectId,

@@ -26,15 +26,15 @@ const signInUser = async (req, res) => {
 }
 
 const signUpUser = async (req, res) =>{
-  const { username, email, password } = req.body;
+  const { name, email, password } = req.body;
 
   if (await userExist(email)) {
     return res.status(226).json(email);
   }
 
   const hashedPassword = await bcrypt.hashSync(password, saltRounds);
-  const user = new userModel({ username, email, password: hashedPassword });
-  const store = new storeModel({ user: user._id });
+  const user = new userModel({ email, password: hashedPassword });
+  const store = new storeModel({ name, user: user._id });
   user.store = store._id;
 
   return user.save((error, user) => {
