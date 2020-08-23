@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 
 const productRouter = require('./routes/product');
 const categoryRouter = require('./routes/category');
+const userRouter = require('./routes/user');
 
 // application port
 const PORT = 3000;
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 
 app.use('/api/product', productRouter);
 app.use('/api/category', categoryRouter);
+app.use('/api/user', userRouter);
 
 mongoose.connect(process.env.MONGODB_URI, options).then(() => {
   app.listen(PORT, () => {
