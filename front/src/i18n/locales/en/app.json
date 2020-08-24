@@ -1,0 +1,23 @@
+{
+  "translation": {
+    "common": {
+      "required": "Required",
+      "email": "Email",
+      "password": "Password",
+      "inProgress": "In progress..."
+    },
+    "signIn": {
+      "heading": "SIGN IN",
+      "subtitle": "Not a member yet?",
+      "subtitleAction": "Sign Up here",
+      "forgotPassword": "Forgot password?",
+      "invalid": "Invalid email or password"
+    },
+    "signUp": {
+      "heading": "SIGN UP",
+      "subtitle": "Already have an account?",
+      "business": "Business name",
+      "invalid": "Email was already used"
+    }
+  }
+}

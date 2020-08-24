@@ -1,0 +1,15 @@
+{
+  "translation": {
+    "common": {
+      "required": "Required"
+    },
+    "signIn": {
+      "heading": "SIGN IN",
+      "subtitle": "Not a member yet?",
+      "subtitleAction": "Sign Up here",
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot password?"
+    }
+  }
+}
