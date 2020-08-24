@@ -46,12 +46,12 @@ const SignIn = () => {
 
   const validate = (values) => {
 
-    const errors = required(['email', 'password'], values);
+    const errors = required(['email', 'password'], values, t('common.required'));
 
     if (!errors.email) {
-      const emailError = email(values.email);
+      const emailError = email(values.email, t('common.invalidEmail'));
       if (emailError) {
-        errors.email = email(values.email);
+        errors.email = email(values.email, t('common.invalidEmail'));
       }
     }
 

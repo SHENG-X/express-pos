@@ -50,9 +50,9 @@ const SignUp = () => {
     );
 
     if (!errors.email) {
-      const emailError = email(values.email);
+      const emailError = email(values.email, t('common.invalidEmail'));
       if (emailError) {
-        errors.email = email(values.email);
+        errors.email = email(values.email, t('common.invalidEmail'));
       }
     }
 

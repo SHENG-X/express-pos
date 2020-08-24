@@ -3,6 +3,7 @@
     "common": {
       "required": "Required",
       "email": "Email",
+      "invalidEmail": "Invalid email",
       "password": "Password",
       "inProgress": "In progress..."
     },
