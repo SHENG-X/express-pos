@@ -15,7 +15,11 @@ const orderSchema = new Schema(
               type: mongoose.Schema.Types.ObjectId,
               ref: 'Product'
           },
-          amount: {
+          price: {
+            type: Number,
+            required: true,
+          },
+          count: {
             type: Number,
             default: 1,
           }
