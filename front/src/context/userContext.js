@@ -17,16 +17,20 @@ const userReducer = (state, { type, payload }) => {
 }
 
 const signUp = () => {
-  return async ({ name, email, password }) => {
+  return async ({ name, email, password }, callback) => {
     const response = await register(name, email, password);
-    return response;
+    if (callback) {
+      callback(response);
+    }
   };
 }
 
 const signIn = () => {
-  return async ({ email, password }) => {
+  return async ({ email, password }, callback) => {
     const response = await authenticate(email, password);
-    return response;
+    if (callback) {
+      callback(response);
+    }
   };
 }
 

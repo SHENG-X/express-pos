@@ -6,6 +6,8 @@ import { Field, Form, FormSpy } from 'react-final-form';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
+import { useHistory } from "react-router-dom";
+
 import Typography from './modules/components/Typography';
 import AppFooter from './modules/views/AppFooter';
 import AppAppBar from './modules/views/AppAppBar';
@@ -38,6 +40,7 @@ const SignIn = () => {
   const [sent, setSent] = useState(false);
   const [invalid, setInvalid] = useState(false);
   const { t } = useTranslation();
+  const history = useHistory();
 
   const { signIn } = useContext(UserContext);
 
@@ -58,10 +61,13 @@ const SignIn = () => {
   const handleSubmit = async (values) => {
     setSent(true);
     setInvalid(false);
-    const response = await signIn({ email: values.email, password: values.password });
-    if (response.status === 401) {
-      setInvalid(true);
-    }
+    await signIn({ email: values.email, password: values.password }, (response) =>{
+      if (response.status === 401) {
+        setInvalid(true);
+      } else if (response.status === 200) {
+        history.push('/');
+      }
+    });
     setSent(false);
   };
 
