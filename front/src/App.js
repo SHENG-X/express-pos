@@ -11,6 +11,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Home from './pages/Home';
+import Sale from './pages/Sale';
 
 import { UserProvider } from './context/userContext';
 
@@ -39,6 +40,9 @@ const App = () => {
           </Route>
           <Route path="/privacy">
             <Privacy />
+          </Route>
+          <Route path="/sale">
+            <Sale />
           </Route>
           <Route path="/">
             <Home />

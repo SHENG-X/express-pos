@@ -1,6 +1,38 @@
-.app {
-  background: red;
-  .header {
-    color: white;
+.receipt {
+  .row {
+    display: grid;
+    grid-template-columns: 100px minmax(120px, 1fr) 80px 80px 80px;
+    div {
+      display: flex;
+      padding: 0 0.5rem;
+    }
+    .col-qty {
+      display: flex;
+      .count {
+        display: flex;
+        align-items: center;
+      }
+    }
+    .col-del {
+      justify-content: flex-end;
+    }
+  }
+  .content {
+    .row {
+      div {
+        align-self: center;
+      }
+    }
+  }
+  .footer {
+    .row {
+      display: flex;
+      justify-content: flex-end;
+      .col-amount {
+        width: 80px;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
   }
 }
