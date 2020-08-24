@@ -2,15 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
+import { 
+  IconButton, 
+  withStyles,
+  Link,
+} from '@material-ui/core';
+import {
+  Menu,
+} from '@material-ui/icons';
 
-import { withStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
 import AppBar from '../components/AppBar';
 import Toolbar, { styles as toolbarStyles } from '../components/Toolbar';
 
 const styles = (theme) => ({
   title: {
     fontSize: 24,
+    display: 'flex',
+    alignItems: 'center',
   },
   placeholder: toolbarStyles(theme).root,
   toolbar: {
@@ -18,6 +26,7 @@ const styles = (theme) => ({
   },
   left: {
     flex: 1,
+    display: 'flex',
   },
   leftLinkActive: {
     color: theme.palette.common.white,
@@ -45,16 +54,20 @@ function AppAppBar(props) {
     <div>
       <AppBar position="fixed">
         <Toolbar className={classes.toolbar}>
-          <div className={classes.left} />
-          <Link
-            variant="h6"
-            underline="none"
-            color="inherit"
-            className={classes.title}
-            href="/"
-          >
-            {'Express POS'}
-          </Link>
+          <div className={classes.left}>
+            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+              <Menu />
+            </IconButton>
+            <Link
+              variant="h6"
+              underline="none"
+              color="inherit"
+              className={classes.title}
+              href="/"
+            >
+              {'Express POS'}
+            </Link>
+          </div>
           <div className={classes.right}>
             <Link
               color="inherit"
@@ -72,6 +85,14 @@ function AppAppBar(props) {
               href="/sign-up/"
             >
               { t('signUp.heading') }
+            </Link>
+            <Link
+              variant="h6"
+              underline="none"
+              className={clsx(classes.rightLink)}
+              href="/"
+            >
+              { `SIGN OUT` }
             </Link>
           </div>
         </Toolbar>
