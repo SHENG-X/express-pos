@@ -12,6 +12,7 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Home from './pages/Home';
 import Sale from './pages/Sale';
+import Dashboard from './pages/Dashboard';
 
 import { UserProvider } from './context/userContext';
 
@@ -43,6 +44,9 @@ const App = () => {
           </Route>
           <Route path="/sale">
             <Sale />
+          </Route>
+          <Route path="/dashboard">
+            <Dashboard />
           </Route>
           <Route path="/">
             <Home />
