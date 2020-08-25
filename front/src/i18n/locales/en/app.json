@@ -5,7 +5,9 @@
       "email": "Email",
       "invalidEmail": "Invalid email",
       "password": "Password",
-      "inProgress": "In progress..."
+      "inProgress": "In progress...",
+      "save": "Save",
+      "cancel": "Cancel"
     },
     "signIn": {
       "heading": "SIGN IN",
@@ -19,6 +21,16 @@
       "subtitle": "Already have an account?",
       "business": "Business name",
       "invalid": "Email was already used"
+    },
+    "sale": {
+      "quantity": "Quantity",
+      "product": "Product",
+      "price": "Price",
+      "amount": "Amount",
+      "del": "Del",
+      "subtotal": "Subtotal",
+      "tax": "Sales Tax",
+      "total": "Total Amount"
     }
   }
 }
