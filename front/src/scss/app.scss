@@ -26,6 +26,7 @@
     }
   }
   .content {
+    padding: 0.5rem;
     .row {
       div {
         align-self: center;
@@ -33,6 +34,7 @@
     }
   }
   .footer {
+    padding: 1rem 0.5rem;
     .row {
       display: flex;
       justify-content: flex-end;
