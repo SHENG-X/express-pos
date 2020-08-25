@@ -120,7 +120,7 @@ const createProduct = (req, res) => {
 }
 
 const updateProduct = (req, res) => {
-  const { _id, thumbnail = '', name, prices, cost, count, category } = req.body;
+  const { _id, thumbnail = '', enable, name, prices, cost, count, category } = req.body;
   
   if (!_id) {
     return res.status(400).json(_id);
@@ -137,6 +137,7 @@ const updateProduct = (req, res) => {
 
     // update product detail
     productData.thumbnail = thumbnail;
+    productData.enable = enable;
     productData.name = name;
     productData.prices = prices;
     productData.cost = cost;
