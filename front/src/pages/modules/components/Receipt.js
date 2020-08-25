@@ -4,29 +4,25 @@ import React, {
 import {
   IconButton,
   Button,
-  makeStyles
+  withStyles,
 } from '@material-ui/core';
 import {
   Add,
   Remove,
   Delete
 } from '@material-ui/icons';
+import { useTranslation } from 'react-i18next';
 
 import Paper from './Paper';
 import Typography from './Typography';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-    padding: '2rem'
-  },
+const styles = (theme) => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
-}));
-
+});
 const mockProducts = [ 
   {
     _id: '2314124124131232214',
@@ -46,12 +42,15 @@ const mockProducts = [
     count: 2,
     price: 4.45
   },
-]
+];
 
 const Receipt = () => {
-  const classes = useStyles();
   const [products, setProducts] = useState(mockProducts);
-  const [taxRate, setTaxRate] = useState(0.12);
+  const [tax] = useState({
+    rate: 0.12,
+    enable: true
+  });
+  const { t } = useTranslation();
 
   const deleteProduct = (pid) => {
     const newProducts = products.filter(prod => prod._id !== pid);
@@ -81,7 +80,7 @@ const Receipt = () => {
   }
 
   const calcTax = () => {
-    return (taxRate * Number(calcSubtotal())).toFixed(2);
+    return (tax.rate * Number(calcSubtotal())).toFixed(2);
   }
 
   const calcTotal = () => {
@@ -89,69 +88,82 @@ const Receipt = () => {
   }
 
   return (
-    <Paper className={classes.paper}>
+    <Paper
+      elevation={3}
+      className={styles.paper}
+    >
       <div className="receipt">
         <div className="heading row">
           <div className="col-qty">
             <Typography variant="subtitle1">
-              Quantity
+              { t('sale.quantity') }
             </Typography>
           </div>
           <div className="col-product">
             <Typography variant="subtitle1">
-              Product
+              { t('sale.product') }
             </Typography>
           </div>
           <div className="col-price">
             <Typography variant="subtitle1">
-              Price
+              { t('sale.price') }
             </Typography>
           </div>
           <div className="col-total">
             <Typography variant="subtitle1">
-              Amount
+              { t('sale.amount') }
             </Typography>
           </div>
           <div className="col-del">
             <Typography variant="subtitle1">
-              Del
+              { t('sale.del') }
             </Typography>
           </div>
         </div>
         <div className="content">
         {
-          products.map(prod => <ReceiptItem product={prod} addRemoveProduct={addRemoveProduct} deleteProduct={deleteProduct} />)
+          products.map(prod => <ReceiptItem product={prod} addRemoveProduct={addRemoveProduct} deleteProduct={deleteProduct} key={prod._id} />)
         }
         </div>
         <div className="footer">
+          {
+            tax.enable ? 
+            <React.Fragment>
+              <div className="row">
+                <div className="col-label">
+                  <Typography variant="subtitle2">
+                    { t('sale.subtotal') }
+                  </Typography>
+                </div>
+                <div className="col-amount">
+                  <Typography variant="body2">
+                    { calcSubtotal() }
+                  </Typography>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-label">
+                  <Typography variant="subtitle2">
+                    <span style={{'padding-right': '0.2rem'}}>
+                      { t('sale.tax') }
+                    </span> 
+                    { tax.rate * 100 }%
+                  </Typography>
+                </div>
+                <div className="col-amount">
+                  <Typography variant="body2">
+                    { calcTax() }
+                  </Typography>
+                </div>
+              </div>
+            </React.Fragment>
+            :
+            null
+          }
           <div className="row">
             <div className="col-label">
               <Typography variant="subtitle2">
-                Subtotal
-              </Typography>
-            </div>
-            <div className="col-amount">
-              <Typography variant="body2">
-                { calcSubtotal() }
-              </Typography>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-label">
-              <Typography variant="subtitle2">
-                Sales Tax 12%
-              </Typography>
-            </div>
-            <div className="col-amount">
-              <Typography variant="body2">
-                { calcTax() }
-              </Typography>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-label">
-              <Typography variant="subtitle2">
-                Receipt Total
+                { t('sale.total') }
               </Typography>
             </div>
             <div className="col-amount">
@@ -162,10 +174,10 @@ const Receipt = () => {
           </div>
           <div className="row">
             <Button>
-              Cancel
+              { t('common.cancel') }
             </Button>
             <Button>
-              Save
+              { t('common.save') }
             </Button>
           </div>
         </div>
@@ -227,4 +239,4 @@ const ReceiptItem = ({ product, addRemoveProduct, deleteProduct }) => {
   );
 }
 
-export default Receipt;
+export default withStyles(styles)(Receipt);
