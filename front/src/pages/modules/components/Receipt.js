@@ -4,7 +4,6 @@ import React, {
 import {
   IconButton,
   Button,
-  withStyles,
 } from '@material-ui/core';
 import {
   Add,
@@ -16,54 +15,30 @@ import { useTranslation } from 'react-i18next';
 import Paper from './Paper';
 import Typography from './Typography';
 
-const styles = (theme) => ({
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-});
-const mockProducts = [ 
-  {
-    _id: '2314124124131232214',
-    name: 'Chai Tea Latte',
-    count: 1,
-    price: 12.45
-  },
-  {
-    _id: '2314123412413654121',
-    name: 'Milk Latte',
-    count: 1,
-    price: 8.45
-  },
-  {
-    _id: '2986753412413654121',
-    name: 'Dark Roast',
-    count: 2,
-    price: 4.45
-  },
-];
-
-const Receipt = () => {
-  const [products, setProducts] = useState(mockProducts);
+const Receipt = ({ order, setOrder }) => {
   const [tax] = useState({
     rate: 0.12,
     enable: true
   });
   const { t } = useTranslation();
 
-  const deleteProduct = (pid) => {
-    const newProducts = products.filter(prod => prod._id !== pid);
-    setProducts(newProducts);
+  const deleteProduct = (product) => {
+    const newProducts = order.filter(prod => {
+      if (prod._id === product._id && prod.price === product.price) {
+      } else {
+        return prod;
+      }
+    });
+    setOrder(newProducts);
   }
 
-  const addRemoveProduct = (action, pid) => {
+  const addRemoveProduct = (action, product) => {
     let base = 1;
     if (action === 'remove') {
       base = -1;
     }
-    const newProducts = products.map(prod => {
-      if (prod._id === pid) {
+    const newProducts = order.map(prod => {
+      if (prod._id === product._id && prod.price === product.price ) {
         if (prod.count + base < 1) {
           return prod;
         }
@@ -72,11 +47,11 @@ const Receipt = () => {
       }
       return prod;
     });
-    setProducts(newProducts);
+    setOrder(newProducts);
   }
 
   const calcSubtotal = () => {
-    return products.reduce((res, prod) => res += prod.count * prod.price, 0).toFixed(2);
+    return order.reduce((res, prod) => res += prod.count * prod.price, 0).toFixed(2);
   }
 
   const calcTax = () => {
@@ -90,7 +65,6 @@ const Receipt = () => {
   return (
     <Paper
       elevation={3}
-      className={styles.paper}
     >
       <div className="receipt">
         <div className="heading row">
@@ -120,67 +94,78 @@ const Receipt = () => {
             </Typography>
           </div>
         </div>
-        <div className="content">
         {
-          products.map(prod => <ReceiptItem product={prod} addRemoveProduct={addRemoveProduct} deleteProduct={deleteProduct} key={prod._id} />)
+          order.length ? 
+          <React.Fragment>
+            <div className="content">
+            {
+              order.map(prod => <ReceiptItem product={prod} addRemoveProduct={addRemoveProduct} deleteProduct={deleteProduct} key={prod._id} />)
+            }
+            </div>
+            <div className="footer">
+              {
+                tax.enable ? 
+                <React.Fragment>
+                  <div className="row">
+                    <div className="col-label">
+                      <Typography variant="subtitle2">
+                        { t('sale.subtotal') }
+                      </Typography>
+                    </div>
+                    <div className="col-amount">
+                      <Typography variant="body2">
+                        { calcSubtotal() }
+                      </Typography>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-label">
+                      <Typography variant="subtitle2">
+                        <span style={{'padding-right': '0.2rem'}}>
+                          { t('sale.tax') }
+                        </span> 
+                        { tax.rate * 100 }%
+                      </Typography>
+                    </div>
+                    <div className="col-amount">
+                      <Typography variant="body2">
+                        { calcTax() }
+                      </Typography>
+                    </div>
+                  </div>
+                </React.Fragment>
+                :
+                null
+              }
+              <div className="row">
+                <div className="col-label">
+                  <Typography variant="subtitle2">
+                    { t('sale.total') }
+                  </Typography>
+                </div>
+                <div className="col-amount">
+                  <Typography variant="body1">
+                    { calcTotal() }
+                  </Typography>
+                </div>
+              </div>
+              <div className="row">
+                <Button>
+                  { t('common.cancel') }
+                </Button>
+                <Button>
+                  { t('common.save') }
+                </Button>
+              </div>
+            </div>
+          </React.Fragment>
+          :
+          <div className="no-product">
+            <Typography variant="subtitle1">
+              Waiting for entries.
+            </Typography>
+          </div>
         }
-        </div>
-        <div className="footer">
-          {
-            tax.enable ? 
-            <React.Fragment>
-              <div className="row">
-                <div className="col-label">
-                  <Typography variant="subtitle2">
-                    { t('sale.subtotal') }
-                  </Typography>
-                </div>
-                <div className="col-amount">
-                  <Typography variant="body2">
-                    { calcSubtotal() }
-                  </Typography>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-label">
-                  <Typography variant="subtitle2">
-                    <span style={{'padding-right': '0.2rem'}}>
-                      { t('sale.tax') }
-                    </span> 
-                    { tax.rate * 100 }%
-                  </Typography>
-                </div>
-                <div className="col-amount">
-                  <Typography variant="body2">
-                    { calcTax() }
-                  </Typography>
-                </div>
-              </div>
-            </React.Fragment>
-            :
-            null
-          }
-          <div className="row">
-            <div className="col-label">
-              <Typography variant="subtitle2">
-                { t('sale.total') }
-              </Typography>
-            </div>
-            <div className="col-amount">
-              <Typography variant="body1">
-                { calcTotal() }
-              </Typography>
-            </div>
-          </div>
-          <div className="row">
-            <Button>
-              { t('common.cancel') }
-            </Button>
-            <Button>
-              { t('common.save') }
-            </Button>
-          </div>
-        </div>
       </div>
     </Paper>
   );
@@ -194,7 +179,7 @@ const ReceiptItem = ({ product, addRemoveProduct, deleteProduct }) => {
           color="primary"
           size="small"
           aria-label="add one"
-          onClick={() => addRemoveProduct('add', product._id)}
+          onClick={() => addRemoveProduct('add', product)}
         >
           <Add />
         </IconButton>
@@ -205,7 +190,7 @@ const ReceiptItem = ({ product, addRemoveProduct, deleteProduct }) => {
           color="primary"
           size="small"
           aria-label="remove one"
-          onClick={() => addRemoveProduct('remove', product._id)}
+          onClick={() => addRemoveProduct('remove', product)}
         >
           <Remove />
         </IconButton>
@@ -230,7 +215,7 @@ const ReceiptItem = ({ product, addRemoveProduct, deleteProduct }) => {
           color="primary"
           size="small"
           aria-label="delete"
-          onClick={() => deleteProduct(product._id) }
+          onClick={() => deleteProduct(product) }
         >
           <Delete />
         </IconButton>
@@ -239,4 +224,4 @@ const ReceiptItem = ({ product, addRemoveProduct, deleteProduct }) => {
   );
 }
 
-export default withStyles(styles)(Receipt);
+export default Receipt;
