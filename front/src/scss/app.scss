@@ -1,4 +1,12 @@
 .receipt {
+  .heading {
+    padding: 0.5rem;
+    background-color: #1e1e1f;
+    color: #ffffff;
+    h3 {
+      font-weight: 550;
+    }
+  }
   .row {
     display: grid;
     grid-template-columns: 100px minmax(120px, 1fr) 80px 80px 80px;
