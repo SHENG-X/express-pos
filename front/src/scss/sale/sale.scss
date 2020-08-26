@@ -15,7 +15,8 @@
     .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-8 {
       height: 100%;
       max-width: unset;
-      flex-flow: 1;
+      flex-basis: unset;
+      flex: 1;
       .products {
         height: 100%;
         .list-container {
