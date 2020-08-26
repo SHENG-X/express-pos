@@ -1,0 +1,17 @@
+.tax-tab {
+  & > .heading {
+    padding: 1rem 2rem;
+    background-color: $primary-dark;
+    color: $on-primary-dark;
+    .MuiTypography-subtitle1 {
+      font-weight: 550;
+    }
+  }
+  .row {
+    padding: 1rem 2rem;
+    display: flex;
+    .label {
+      width: 80px;
+    }
+  }
+}
