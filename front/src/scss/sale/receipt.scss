@@ -1,0 +1,54 @@
+.receipt {
+  .heading {
+    padding: 0.5rem;
+    background-color: $primary-dark;
+    color: $on-primary-dark;
+    h3 {
+      font-weight: 550;
+    }
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 100px minmax(120px, 1fr) 80px 80px 80px;
+    div {
+      display: flex;
+      padding: 0 0.5rem;
+    }
+    .col-qty {
+      display: flex;
+      .count {
+        display: flex;
+        align-items: center;
+      }
+    }
+    .col-del {
+      justify-content: flex-end;
+    }
+  }
+  .content {
+    padding: 0.5rem;
+    .row {
+      div {
+        align-self: center;
+      }
+    }
+  }
+  .footer {
+    padding: 1rem 0.5rem;
+    .row {
+      display: flex;
+      justify-content: flex-end;
+      .col-amount {
+        width: 80px;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+  }
+  .no-product {
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

@@ -1,0 +1,22 @@
+
+.carpet {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  left: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .heading {
+    background-color: #1e1e1f;
+    color: #ffffff;
+    padding: 1rem;
+  }
+}
+
+#menu- {
+  z-index: 10000 !important;
+}
