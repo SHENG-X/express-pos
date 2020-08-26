@@ -10,31 +10,39 @@ const ACTIONS = {
 const userReducer = (state, { type, payload }) => {
   switch (type) {
     case ACTIONS.SIGN_IN:
-      break;
+      return payload;
     case ACTIONS.SIGN_UP:
       break;
+    default:
+      return state;
   }
 }
 
-const signUp = () => {
+const signUp = (dispatch) => {
   return async ({ name, email, password }, callback) => {
     const response = await register(name, email, password);
+    if (response.status === 200) {
+      dispatch({type: ACTIONS.SIGN_UP, payload: response.data});
+    }
     if (callback) {
       callback(response);
     }
   };
 }
 
-const signIn = () => {
+const signIn = (dispatch) => {
   return async ({ email, password }, callback) => {
     const response = await authenticate(email, password);
+    if (response.status === 200) {
+      dispatch({type: ACTIONS.SIGN_IN, payload: response.data});
+    }
     if (callback) {
       callback(response);
     }
   };
 }
 
-const { Context, Provider } = createDataContext(
+export const { Context, Provider } = createDataContext(
   userReducer,
   {
     signIn,
@@ -42,6 +50,3 @@ const { Context, Provider } = createDataContext(
   },
   {}
 );
-
-export const UserContext = Context;
-export const UserProvider = Provider;

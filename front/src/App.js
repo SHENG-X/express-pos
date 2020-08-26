@@ -14,27 +14,19 @@ import Home from './pages/Home';
 import Sale from './pages/Sale';
 import Dashboard from './pages/Dashboard';
 
-import { UserProvider } from './context/userContext';
-
 const App = () => {
   return (
     <Router>
       <div>
         <Switch>
           <Route path="/sign-in">
-            <UserProvider>
-              <SignIn />
-            </UserProvider>
+            <SignIn />
           </Route>
           <Route path="/sign-up">
-            <UserProvider>
-              <SignUp />
-            </UserProvider>
+            <SignUp />
           </Route>
           <Route path="/forgot-password">
-            <UserProvider>
-              <ForgotPassword />
-            </UserProvider>
+            <ForgotPassword />
           </Route>
           <Route path="/terms">
             <Terms />

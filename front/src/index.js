@@ -5,10 +5,13 @@ import './scss/app.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './i18n';
+import { Provider } from './context/storeContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
