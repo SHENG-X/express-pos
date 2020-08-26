@@ -17,7 +17,7 @@ import RFTextField from './modules/form/RFTextField';
 import FormButton from './modules/form/FormButton';
 import FormFeedback from './modules/form/FormFeedback';
 import withRoot from './modules/withRoot';
-import { UserContext } from '../context/userContext';
+import { Context } from '../context/storeContext';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -42,7 +42,7 @@ const SignIn = () => {
   const { t } = useTranslation();
   const history = useHistory();
 
-  const { signIn } = useContext(UserContext);
+  const { signIn } = useContext(Context);
 
   const validate = (values) => {
 
@@ -65,7 +65,7 @@ const SignIn = () => {
       if (response.status === 401) {
         setInvalid(true);
       } else if (response.status === 200) {
-        history.push('/');
+        history.push('/dashboard');
       }
     });
     setSent(false);
