@@ -12,7 +12,7 @@ import {
 import {
   Search,
 } from '@material-ui/icons';
-import Typography from './Typography';
+import Typography from '../Typography';
 
 const mockProducts = [ 
   {
@@ -70,7 +70,7 @@ const ProductItem = ({ product, handleOpen }) => {
       <Card className="card">
         <CardMedia
           className="media"
-          image={require('../../../static/no-product-image.png')}
+          image={require('../../../../static/no-product-image.png')}
           title={product.name}
         />
         <CardHeader

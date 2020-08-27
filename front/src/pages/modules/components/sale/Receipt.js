@@ -12,8 +12,8 @@ import {
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 
-import Paper from './Paper';
-import Typography from './Typography';
+import Paper from '../Paper';
+import Typography from '../Typography';
 
 const Receipt = ({ order, setOrder }) => {
   const [tax] = useState({
