@@ -24,3 +24,36 @@
     }
   }
 }
+
+
+.product-modal {
+  & > div {
+    width: 360px;
+  }
+  .content {
+    .row {
+      display: flex;
+      padding: 1rem 2rem;
+      .label {
+        width: 120px;
+      }
+      .MuiFormControl-root {
+        min-width: 160px;
+      }
+    }
+    .count {
+      .action {
+        display: flex;
+        align-items: center;
+        h6 {
+          padding: 0 0.5rem;
+        }
+      }
+    }
+  }
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+  }
+}
