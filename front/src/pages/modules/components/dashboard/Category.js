@@ -14,6 +14,7 @@ import {
   Edit,
   Delete
 } from '@material-ui/icons';
+import CategoryModal from './CategoryModal';
 
 const categoryMock = [
   {
@@ -30,63 +31,72 @@ const categoryMock = [
 
 const Category = ({ handleOpen }) => {
   const [categories, setCategories] = useState(categoryMock);
+  const [open, setOpen] = useState(false);
 
   return (
-    <Paper>
-      <div className="category-tab">
-        <div className="heading">
-          <Typography variant="subtitle1">
-            Product category
-          </Typography>
-        </div>
-        <div className="actions">
-          <Button
-            // onClick={() => handleOpen(true)}
-          >
-            Add new category
-          </Button>
-          <div className="search">
-            <Input
-              placeholder="Search for a category"
-              startAdornment={
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
+    <React.Fragment>
+      <Paper>
+        <div className="category-tab">
+          <div className="heading">
+            <Typography variant="subtitle1">
+              Product category
+            </Typography>
+          </div>
+          <div className="actions">
+            <Button
+              onClick={() => setOpen(true)}
+            >
+              Add new category
+            </Button>
+            <div className="search">
+              <Input
+                placeholder="Search for a category"
+                startAdornment={
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                }
+              />
+            </div>
+          </div>
+          <div className="content">
+            <div className="row heading">
+              <div class="col-img">
+                <Typography variant="subtitle1">
+                  IMG
+                </Typography>
+              </div>
+              <div class="col-name">
+                <Typography variant="subtitle1">
+                  Name
+                </Typography>
+              </div>
+              <div class="col-count">
+                <Typography variant="subtitle1">
+                  Product Count
+                </Typography>
+              </div>
+              <div class="col-actions">
+                <Typography variant="subtitle1">
+                  Actions
+                </Typography>
+              </div>
+            </div>
+            <div className="list">
+              {
+                categories.map(category => <CategoryRow category={category} key={category._id} />)
               }
-            />
+            </div>
           </div>
         </div>
-        <div className="content">
-          <div className="row heading">
-            <div class="col-img">
-              <Typography variant="subtitle1">
-                IMG
-              </Typography>
-            </div>
-            <div class="col-name">
-              <Typography variant="subtitle1">
-                Name
-              </Typography>
-            </div>
-            <div class="col-count">
-              <Typography variant="subtitle1">
-                Product Count
-              </Typography>
-            </div>
-            <div class="col-actions">
-              <Typography variant="subtitle1">
-                Actions
-              </Typography>
-            </div>
-          </div>
-          <div className="list">
-            {
-              categories.map(category => <CategoryRow category={category} key={category._id} />)
-            }
-          </div>
-        </div>
-      </div>
-    </Paper>
+      </Paper>
+      {
+        open ?
+        <CategoryModal handleOpen={val => setOpen(val)} />
+        :
+        null
+      }
+    </React.Fragment>
   );
 }
 
@@ -104,7 +114,7 @@ const CategoryRow = ({ category }) => {
         { category.name }
       </div>
       <div className="col-count">
-        { category.count }
+        { category.prodCount }
       </div>
       <div className="col-actions">
         <IconButton

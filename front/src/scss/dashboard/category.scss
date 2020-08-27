@@ -46,3 +46,26 @@
     }
   }
 }
+
+.category-modal {
+  & > div {
+    width: 360px;
+  }
+  .content {
+    .row {
+      display: flex;
+      padding: 1rem 2rem;
+      .label {
+        width: 120px;
+      }
+      .MuiFormControl-root {
+        min-width: 160px;
+      }
+    }
+  }
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+  }
+}
