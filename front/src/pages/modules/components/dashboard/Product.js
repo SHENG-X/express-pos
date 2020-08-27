@@ -18,6 +18,7 @@ import {
 import Paper from '../Paper';
 import Button from '../Button';
 import { Context } from '../../../../context/storeContext';
+import ProductModal from './ProductModal';
 
 const mockProducts = [ 
   {
@@ -60,76 +61,88 @@ const mockProducts = [
 const Product = ({ handleOpen }) => {
   const [products, setProducts] = useState(mockProducts);
   const { state } = useContext(Context);
+  const [open, setOpen] = useState(false);
 
   return (
-    <Paper elevation={3} className="product-tab">
-      <div className="heading">
-        <Typography variant="subtitle1">
-          Products
-        </Typography>
-      </div>
-      <div className="actions">
-        <Button
-          onClick={() => handleOpen(true)}
-        >
-          Add new product
-        </Button>
-        <div className="search">
-          <Input
-            placeholder="Search for a product"
-            startAdornment={
-              <InputAdornment position="start">
-                <Search />
-              </InputAdornment>
-            }
-          />
+    <React.Fragment>
+      <Paper elevation={3} className="product-tab">
+
+        <div className="heading">
+          <Typography variant="subtitle1">
+            Products
+          </Typography>
         </div>
-      </div>
-      <div className="content">
-        <div className="row heading">
-          <div className="col-img">
-            <Typography variant="subtitle1">
-              IMG
-            </Typography>
-          </div>
-          <div className="col-name">
-            <Typography variant="subtitle1">
-              Name
-            </Typography>
-          </div>
-          <div className="col-count">
-            <Typography variant="subtitle1">
-              Count
-            </Typography>
-          </div>
-          <div className="col-category">
-            <Typography variant="subtitle1">
-              Category
-            </Typography>
-          </div>
-          <div className="col-prices">
-            <Typography variant="subtitle1">
-              Prices
-            </Typography>
-          </div>
-          <div className="col-cost">
-            <Typography variant="subtitle1">
-              Cost
-            </Typography>
-          </div>
-          <div className="col-actions">
-            <Typography variant="subtitle1">
-              Actions
-            </Typography>
+        <div className="actions">
+          <Button
+            onClick={() => setOpen(true)}
+          >
+            Add new product
+          </Button>
+          <div className="search">
+            <Input
+              placeholder="Search for a product"
+              startAdornment={
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              }
+            />
           </div>
         </div>
-        <div className="list">
-            {
-              products.map(prod => prod.enable && <ProductRow product={prod} key={prod._id}/>)
-            }
+        <div className="content">
+          <div className="row heading">
+            <div className="col-img">
+              <Typography variant="subtitle1">
+                IMG
+              </Typography>
+            </div>
+            <div className="col-name">
+              <Typography variant="subtitle1">
+                Name
+              </Typography>
+            </div>
+            <div className="col-count">
+              <Typography variant="subtitle1">
+                Count
+              </Typography>
+            </div>
+            <div className="col-category">
+              <Typography variant="subtitle1">
+                Category
+              </Typography>
+            </div>
+            <div className="col-prices">
+              <Typography variant="subtitle1">
+                Prices
+              </Typography>
+            </div>
+            <div className="col-cost">
+              <Typography variant="subtitle1">
+                Cost
+              </Typography>
+            </div>
+            <div className="col-actions">
+              <Typography variant="subtitle1">
+                Actions
+              </Typography>
+            </div>
+          </div>
+          <div className="list">
+              {
+                products.map(prod => prod.enable && <ProductRow product={prod} key={prod._id}/>)
+              }
+          </div>
         </div>
-      </div>
-    </Paper>
+      </Paper>
+      {
+        open ?
+        <ProductModal
+          handleOpen={val => setOpen(val)}
+        />
+        :
+        null
+      }
+    </React.Fragment>
   );
 }
 
