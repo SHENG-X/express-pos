@@ -15,7 +15,16 @@ const productSchema = new Schema({
     required: true,
   },
   prices: {
-    type: [Number],
+    type: [{
+      name: {
+        type: String,
+        default: '',
+      },
+      value: {
+        type: Number,
+        required: true,
+      }
+    }],
     required: true,
   },
   cost :{
