@@ -21,6 +21,9 @@
       background: #aaa;
       color: white;
       padding: 0 1rem;
+      & > div {
+        padding-top: 0 !important;
+      }
     }
     .row {
       display: grid;
