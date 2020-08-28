@@ -1,17 +1,36 @@
-import React from 'react';
+import React, {
+  useState,
+  useContext,
+} from 'react';
 import {
   Typography,
   TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Button,
 } from '@material-ui/core';
 
 import ModalBase from '../ModalBase';
+import { Context } from '../../../../context/storeContext';
 
-const CategoryModal = ({handleOpen, handleConfirm}) => {
+const CategoryModal = ({ handleOpen }) => {
+  const defaultCategory = {
+    thumbnail: '',
+    name: '',
+    prodCount: 0,
+  };
+
+  const [category, setCategory] = useState({...defaultCategory});
+  const { addCategory } = useContext(Context);
+
+  const handleCancel = () => {
+    setCategory({...defaultCategory});
+    handleOpen(false);
+  }
+
+  const handleConfirm = () => {
+    addCategory(category);
+    handleCancel();
+  }
+
   return (
     <ModalBase
       title="Add a category"
@@ -38,6 +57,8 @@ const CategoryModal = ({handleOpen, handleConfirm}) => {
             <div className="input">
               <TextField
                 required
+                value={category.name}
+                onChange={e => setCategory({...category, name: e.target.value})}
                 placeholder="Product name"
               />
             </div>
@@ -47,12 +68,12 @@ const CategoryModal = ({handleOpen, handleConfirm}) => {
       actions={
         <div>
           <Button 
-            onClick={() => handleOpen(false)}
+            onClick={handleCancel}
           >
             Cancel
           </Button>
           <Button
-            onClick={() => handleOpen(false)}
+            onClick={handleConfirm}
           >
             Confirm
           </Button>

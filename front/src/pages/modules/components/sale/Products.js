@@ -1,5 +1,6 @@
 import React, {
-  useState
+  useState,
+  useContext,
 } from 'react';
 import {
   Input,
@@ -12,31 +13,10 @@ import {
 import {
   Search,
 } from '@material-ui/icons';
-import Typography from '../Typography';
-
-const mockProducts = [ 
-  {
-    _id: '2314124124131232214',
-    name: 'Chai Tea Latte',
-    count: 1,
-    prices: [12.45, 10.31, 8.24]
-  },
-  {
-    _id: '2314123412413654121',
-    name: 'Milk Latte',
-    count: 1,
-    prices: [8.24, 7.85, 6.24]
-  },
-  {
-    _id: '2986753412413654121',
-    name: 'Dark Roast',
-    count: 1,
-    prices: [4.45, 3.98, 3.56]
-  },
-];
+import { Context } from '../../../../context/storeContext';
 
 const Products = ({ handleOpen }) => {
-  const [products, setProducts] = useState(mockProducts);
+  const { state } = useContext(Context);
 
   return (
     <div className="products">
@@ -53,7 +33,7 @@ const Products = ({ handleOpen }) => {
       <div className="list-container">
         <div className="list">
           {
-            products.map(prod => <ProductItem product={prod} handleOpen={handleOpen} key={prod._id}/>)
+            state.products.map(prod => prod.enable && <ProductItem product={prod} handleOpen={handleOpen} key={prod._id}/>)
           }
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React, {
-  useState
+  useState,
+  useContext
 } from 'react';
 import {
   IconButton,
@@ -14,12 +15,10 @@ import { useTranslation } from 'react-i18next';
 
 import Paper from '../Paper';
 import Typography from '../Typography';
+import { Context } from '../../../../context/storeContext';
 
 const Receipt = ({ order, setOrder }) => {
-  const [tax] = useState({
-    rate: 0.12,
-    enable: true
-  });
+  const { state } = useContext(Context);
   const { t } = useTranslation();
 
   const deleteProduct = (product) => {
@@ -55,7 +54,7 @@ const Receipt = ({ order, setOrder }) => {
   }
 
   const calcTax = () => {
-    return (tax.rate * Number(calcSubtotal())).toFixed(2);
+    return (state.tax.rate * Number(calcSubtotal())).toFixed(2);
   }
 
   const calcTotal = () => {
@@ -104,7 +103,7 @@ const Receipt = ({ order, setOrder }) => {
             </div>
             <div className="footer">
               {
-                tax.enable ? 
+                state.tax.enable ? 
                 <React.Fragment>
                   <div className="row">
                     <div className="col-label">
@@ -124,7 +123,7 @@ const Receipt = ({ order, setOrder }) => {
                         <span style={{'padding-right': '0.2rem'}}>
                           { t('sale.tax') }
                         </span> 
-                        { tax.rate * 100 }%
+                        { state.tax.rate * 100 }%
                       </Typography>
                     </div>
                     <div className="col-amount">

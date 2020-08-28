@@ -3,7 +3,9 @@ import React, {
 } from 'react';
 import {
   Grid,
+  Button
 } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 
 import withRoot from './modules/withRoot';
 import AppAppBar from './modules/views/AppAppBar';
@@ -15,6 +17,7 @@ const Sale = () => {
   const [open, setOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState({});
   const [order, setOrder] = useState([]);
+  const history = useHistory();
   
   const handleOpen = (product) => {
     setSelectedProduct({...product, price: Math.max(...product.prices)});
@@ -43,6 +46,10 @@ const Sale = () => {
     <div className="sale" >
       <React.Fragment>
         <AppAppBar />
+        {/* TODO: Remove the button */}
+        <Button onClick={() => history.push('/dashboard')}>
+          Go to Dashboard
+        </Button>
         <Grid container spacing={3}>
           <Grid item xs={4}>
             <Receipt order={order} setOrder={setOrder} />

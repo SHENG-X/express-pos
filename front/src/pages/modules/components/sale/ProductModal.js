@@ -19,7 +19,8 @@ import {
 import ModalBase from '../ModalBase';
 
 const ProductModal = ({ selectedProduct, handleOpen, handleConfirm }) => {
-  const [product, setProduct] = useState(selectedProduct);
+  const prices = selectedProduct.prices.map(p => p.value);
+  const [product, setProduct] = useState({...selectedProduct, count: 1, price: Math.max(...prices)});
   const addRemoveProduct = (action) => {
     let base = 1;
     if (action === 'remove') {
@@ -82,7 +83,7 @@ const ProductModal = ({ selectedProduct, handleOpen, handleConfirm }) => {
                   label="Price"
                 >
                   {
-                    product.prices.map(p => (<MenuItem value={p} key={p}>{p}</MenuItem>))
+                    product.prices.map(p => (<MenuItem value={p.value} key={p.value}>{`${p.name} - ${p.value}`}</MenuItem>))
                   }
                 </Select>
               </FormControl>

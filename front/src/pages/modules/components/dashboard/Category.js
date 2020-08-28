@@ -1,5 +1,6 @@
 import React, {
-  useState
+  useState,
+  useContext
 } from 'react';
 import {
   Paper,
@@ -15,22 +16,10 @@ import {
   Delete
 } from '@material-ui/icons';
 import CategoryModal from './CategoryModal';
-
-const categoryMock = [
-  {
-    _id: '7850273978401739',
-    name: 'Nike',
-    prodCount: 100
-  },
-  {
-    _id: '7481937590759372',
-    name: 'Adidas',
-    prodCount: 50
-  }
-]
+import { Context } from '../../../../context/storeContext';
 
 const Category = ({ handleOpen }) => {
-  const [categories, setCategories] = useState(categoryMock);
+  const { state } = useContext(Context);
   const [open, setOpen] = useState(false);
 
   return (
@@ -84,7 +73,7 @@ const Category = ({ handleOpen }) => {
             </div>
             <div className="list">
               {
-                categories.map(category => <CategoryRow category={category} key={category._id} />)
+                state.categories.map(category => <CategoryRow category={category} key={category._id} />)
               }
             </div>
           </div>
@@ -101,6 +90,8 @@ const Category = ({ handleOpen }) => {
 }
 
 const CategoryRow = ({ category }) => {
+  const { deleteCategory } = useContext(Context);
+
   return (
     <div className="row">
       <div className="col-img">
@@ -126,6 +117,7 @@ const CategoryRow = ({ category }) => {
         <IconButton
           color="primary"
           size="small"
+          onClick={() => deleteCategory(category._id)}
         >
           <Delete />
         </IconButton>

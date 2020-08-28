@@ -1,5 +1,6 @@
 import React, {
-  useState
+  useState,
+  useContext
 } from 'react';
 import {
   Paper,
@@ -7,12 +8,10 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core'
+import { Context } from '../../../../context/storeContext';
 
 const Tax = () => {
-  const [tax, setTax] = useState({
-    enable: true,
-    rate: 0
-  });
+  const { state, updateTax } = useContext(Context);
 
   return (
     <Paper elevation={3}>
@@ -31,8 +30,8 @@ const Tax = () => {
               </div>
               <div className="input">
                 <Switch
-                  checked={tax.enable}
-                  onChange={(e, val) => setTax({...tax, enable: val})}
+                  checked={state.tax.enable}
+                  onChange={(e, val) => updateTax({...state.tax, enable: val})}
                   color="primary"
                   name="Tax enable"
                   inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -50,8 +49,8 @@ const Tax = () => {
                   required
                   type="number"
                   placeholder="Tax rate"
-                  value={tax.rate}
-                  onChange={e => setTax({...tax, rate: e.target.value})}
+                  value={state.tax.rate}
+                  onChange={e => updateTax({...state.tax, rate: e.target.value})}
                   inputProps={{step: 0.01}}
                 />
               </div>

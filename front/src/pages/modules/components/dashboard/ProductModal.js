@@ -1,5 +1,6 @@
 import React, {
-  useState
+  useState,
+  useContext
 } from 'react';
 import {
   Typography,
@@ -17,10 +18,12 @@ import {
 } from '@material-ui/icons';
 
 import ModalBase from '../ModalBase';
+import { Context } from '../../../../context/storeContext';
 
 const ProductModal = ({ handleOpen }) => {
   const defaultProduct = {
     thumbnail: '',
+    enable: true,
     name: '',
     count: undefined,
     category: '',
@@ -29,6 +32,8 @@ const ProductModal = ({ handleOpen }) => {
     ],
     cost: undefined
   };
+
+  const { state, addProduct } = useContext(Context);
 
   const [product, setProduct] = useState(JSON.parse(JSON.stringify(defaultProduct)));
 
@@ -41,6 +46,7 @@ const ProductModal = ({ handleOpen }) => {
   const addNewPrice = () => {
     setProduct({...product, prices: [...product.prices, { name: '', value: undefined }]});
   }
+
   const deletePrice = (idx) => {
     const newPrices = [...product.prices];
     newPrices.splice(idx, 1);
@@ -55,7 +61,7 @@ const ProductModal = ({ handleOpen }) => {
   }
 
   const handleConfirm = () => {
-    console.log(product);
+    addProduct(product);
     handleCancel();
   }
 
@@ -102,7 +108,7 @@ const ProductModal = ({ handleOpen }) => {
               <TextField
                 required
                 value={product.count}
-                onChange={e => setProduct({...product, count: e.target.value})}
+                onChange={e => setProduct({...product, count: Number(e.target.value)})}
                 type="number"
                 placeholder="Product count"
               />
@@ -126,9 +132,9 @@ const ProductModal = ({ handleOpen }) => {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>C1</MenuItem>
-                <MenuItem value={20}>C2</MenuItem>
-                <MenuItem value={30}>C3</MenuItem>
+                {
+                  state.categories.map(category => <MenuItem value={category.name} key={category._id} >{ category.name }</MenuItem>)
+                }
               </Select>
             </FormControl>
             </div>
@@ -155,7 +161,7 @@ const ProductModal = ({ handleOpen }) => {
                       required
                       type="number"
                       value={price.value}
-                      onChange={e => setProductPrices(idx, 'value', e.target.value)}
+                      onChange={e => setProductPrices(idx, 'value', Number(e.target.value))}
                       placeholder="Price value"
                     /> 
                     {
@@ -197,7 +203,7 @@ const ProductModal = ({ handleOpen }) => {
                 required
                 type="number"
                 value={product.cost}
-                onChange={e => setProduct({...product, cost: e.target.value})}
+                onChange={e => setProduct({...product, cost: Number(e.target.value)})}
                 placeholder="Product cost"
               />
             </div>
