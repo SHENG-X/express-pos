@@ -90,12 +90,13 @@ const userReducer = (state, { type, payload }) => {
     case ACTIONS.UPDATE_TAX:
       return {...state, tax: payload};
     case ACTIONS.UPDATE_PRODUCT:
-      return state.products.map(prod => {
+      const newProducts = state.products.map(prod => {
         if (prod._id === payload._id) {
           return payload;
         }
         return prod;
       });
+      return {...state, products: newProducts};
     default:
       return state;
   }
