@@ -46,7 +46,7 @@
 
 .product-modal {
   & > div {
-    width: 360px;
+    min-width: 640px;
   }
   .content {
     .row {
@@ -57,6 +57,21 @@
       }
       .MuiFormControl-root {
         min-width: 160px;
+      }
+      .price {
+        display: flex;
+        .price-row {
+          & > div {
+            width: 394px;
+            padding-bottom: 1rem;
+            & > div {
+              margin-right: 1rem;
+            }
+          }
+        }
+        .add {
+          padding: 0.5rem 1rem;
+        }
       }
     }
   }

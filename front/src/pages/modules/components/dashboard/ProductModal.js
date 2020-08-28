@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {
+  useState
+} from 'react';
 import {
   Typography,
   TextField,
@@ -7,11 +9,56 @@ import {
   Select,
   MenuItem,
   Button,
+  IconButton
 } from '@material-ui/core';
+import {
+  Add,
+  Delete
+} from '@material-ui/icons';
 
 import ModalBase from '../ModalBase';
 
 const ProductModal = ({ handleOpen }) => {
+  const defaultProduct = {
+    thumbnail: '',
+    name: '',
+    count: undefined,
+    category: '',
+    prices: [
+      { name:'', value: undefined }
+    ],
+    cost: undefined
+  };
+
+  const [product, setProduct] = useState(JSON.parse(JSON.stringify(defaultProduct)));
+
+  const setProductPrices = (idx, fieldName, val) => {
+    const newPrices = [...product.prices];
+    newPrices[idx][fieldName] = val;
+    setProduct({...product, prices: newPrices});
+  }
+
+  const addNewPrice = () => {
+    setProduct({...product, prices: [...product.prices, { name: '', value: undefined }]});
+  }
+  const deletePrice = (idx) => {
+    const newPrices = [...product.prices];
+    newPrices.splice(idx, 1);
+    setProduct({...product, prices: newPrices});
+  }
+
+  const handleCancel = () => {
+    // reset default product state
+    setProduct(JSON.parse(JSON.stringify(defaultProduct)));
+    // close modal window
+    handleOpen(false);
+  }
+
+  const handleConfirm = () => {
+    console.log(product);
+    handleCancel();
+  }
+
   return (
     <ModalBase
       title="Add a product"
@@ -38,6 +85,8 @@ const ProductModal = ({ handleOpen }) => {
             <div className="input">
               <TextField
                 required
+                value={product.name}
+                onChange={e => setProduct({...product, name: e.target.value})}
                 placeholder="Product name"
               />
             </div>
@@ -52,6 +101,8 @@ const ProductModal = ({ handleOpen }) => {
             <div className="input">
               <TextField
                 required
+                value={product.count}
+                onChange={e => setProduct({...product, count: e.target.value})}
                 type="number"
                 placeholder="Product count"
               />
@@ -68,8 +119,8 @@ const ProductModal = ({ handleOpen }) => {
             <FormControl variant="outlined">
               <InputLabel>Category</InputLabel>
               <Select
-                // value={category}
-                // onChange={e => setCategory(e.target.value)}
+                value={product.category}
+                onChange={e => setProduct({...product, category: e.target.value})}
                 label="Category"
               >
                 <MenuItem value="">
@@ -89,12 +140,49 @@ const ProductModal = ({ handleOpen }) => {
                 Prices
               </Typography>
             </div>
-            <div className="input">
-              <TextField
-                required
-                type="number"
-                placeholder="Product price"
-              />
+            <div className="input price">
+              <div class="price-row">
+               {
+                 product.prices.map((price, idx) => (
+                  <div>
+                    <TextField
+                      required
+                      value={price.name}
+                      onChange={e => setProductPrices(idx, 'name', e.target.value)}
+                      placeholder="Price name"
+                    />
+                    <TextField
+                      required
+                      type="number"
+                      value={price.value}
+                      onChange={e => setProductPrices(idx, 'value', e.target.value)}
+                      placeholder="Price value"
+                    /> 
+                    {
+                      idx !== 0 ?
+                      <IconButton
+                        color="primary"
+                        size="small"
+                        onClick={() => deletePrice(idx)}
+                      >
+                        <Delete />
+                      </IconButton>
+                      :
+                      null
+                    }
+                  </div>
+                 ))
+               }
+              </div>
+              <div className="add">
+                <IconButton
+                  color="primary"
+                  size="small"
+                  onClick={addNewPrice}
+                >
+                  <Add />
+                </IconButton>
+              </div>
             </div>
           </div>
 
@@ -108,6 +196,8 @@ const ProductModal = ({ handleOpen }) => {
               <TextField
                 required
                 type="number"
+                value={product.cost}
+                onChange={e => setProduct({...product, cost: e.target.value})}
                 placeholder="Product cost"
               />
             </div>
@@ -117,12 +207,12 @@ const ProductModal = ({ handleOpen }) => {
       actions={
         <div>
           <Button 
-            onClick={() => handleOpen(false)}
+            onClick={handleCancel}
           >
             Cancel
           </Button>
           <Button
-            onClick={() => handleOpen(false)}
+            onClick={handleConfirm}
           >
             Confirm
           </Button>
