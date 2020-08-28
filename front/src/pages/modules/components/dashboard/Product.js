@@ -13,7 +13,8 @@ import {
   Edit,
   Storage,
   Delete,
-  Visibility
+  Visibility,
+  VisibilityOff,
 } from '@material-ui/icons';
 import Paper from '../Paper';
 import Button from '../Button';
@@ -108,7 +109,7 @@ const Product = ({ handleOpen }) => {
 }
 
 const ProductRow = ({ product }) => {
-  const { deleteProduct } = useContext(Context);
+  const { deleteProduct, updateProduct } = useContext(Context);
   return (
     <div className="row">
       <div className="col-img">
@@ -156,14 +157,28 @@ const ProductRow = ({ product }) => {
             <Storage />
           </IconButton>
         </div>
-        <div>
-          <IconButton
-            color="primary"
-            size="small"
-          >
-            <Visibility />
-          </IconButton>
-        </div>
+        {
+          product.enable ?
+          <div>
+            <IconButton
+              color="primary"
+              size="small"
+              onClick={() => updateProduct({...product, enable: false})}
+            >
+              <Visibility />
+            </IconButton>
+          </div>
+          :
+          <div>
+            <IconButton
+              color="primary"
+              size="small"
+              onClick={() => updateProduct({...product, enable: true})}
+            >
+              <VisibilityOff />
+            </IconButton>
+          </div>
+        }
         <div>
           <IconButton
             color="primary"
