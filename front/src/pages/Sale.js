@@ -46,10 +46,6 @@ const Sale = () => {
     <div className="sale" >
       <React.Fragment>
         <AppAppBar />
-        {/* TODO: Remove the button */}
-        <Button onClick={() => history.push('/dashboard')}>
-          Go to Dashboard
-        </Button>
         <Grid container spacing={3}>
           <Grid item xs={4}>
             <Receipt order={order} setOrder={setOrder} />
