@@ -33,7 +33,7 @@ const Products = ({ handleOpen }) => {
       <div className="list-container">
         <div className="list">
           {
-            state.products.map(prod => prod.enable && <ProductItem product={prod} handleOpen={handleOpen} key={prod._id}/>)
+            state.store.products.map(prod => prod.enable && <ProductItem product={prod} handleOpen={handleOpen} key={prod._id}/>)
           }
         </div>
       </div>

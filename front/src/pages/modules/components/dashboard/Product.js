@@ -91,7 +91,7 @@ const Product = ({ handleOpen }) => {
           </div>
           <div className="list">
               {
-                state.products.map(prod => <ProductRow product={prod} key={prod._id}/>)
+                state.store.products.map(prod => <ProductRow product={prod} key={prod._id}/>)
               }
           </div>
         </div>

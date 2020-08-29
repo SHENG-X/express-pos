@@ -73,7 +73,7 @@ const Category = ({ handleOpen }) => {
             </div>
             <div className="list">
               {
-                state.categories.map(category => <CategoryRow category={category} key={category._id} />)
+                state.store.categories.map(category => <CategoryRow category={category} key={category._id} />)
               }
             </div>
           </div>
