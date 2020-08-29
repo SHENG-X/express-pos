@@ -20,3 +20,10 @@ export const authenticate = async (email, password) => {
   }
 }
 
+export const tokenAuthenticate = async (token) => {
+  try {
+    return await instance.get('/api/user', { params: { token } });
+  } catch (error) {
+    return error.response;
+  }
+}
