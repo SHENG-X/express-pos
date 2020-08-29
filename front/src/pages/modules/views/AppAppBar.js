@@ -68,7 +68,22 @@ function AppAppBar(props) {
               className={`${classes.title} app-bar-action`}
               onClick={() => history.push('/')}
             >
-              {'Express POS'}
+              <span>
+                {'Express POS'}
+              </span>
+              {
+                state.authenticated ?
+                <React.Fragment>
+                  <span class="dash-separator">
+                    -
+                  </span>  
+                  <span>
+                    { state.store.name }
+                  </span>
+                </React.Fragment>
+                :
+                null
+              }
             </MDCLink>
           </div>
           <div className={classes.right}>

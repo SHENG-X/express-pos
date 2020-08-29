@@ -3,6 +3,9 @@
   & > div {
     height: 100%;
   }
+  .dash-separator {
+    padding: 0 0.5rem;
+  }
   .app-bar-action {
     &:hover {
       cursor: pointer !important;
