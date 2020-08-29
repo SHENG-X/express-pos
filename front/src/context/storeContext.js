@@ -23,23 +23,23 @@ const userReducer = (state, { type, payload }) => {
     case ACTIONS.SIGN_OUT:
         return {};
     case ACTIONS.ADD_PRODUCT:
-      return {...state, products: [...state.products, payload]};
+      return {...state, store: {...state.store, products: [...state.products, payload]}};
     case ACTIONS.ADD_CATEGORY:
-      return {...state, categories: [...state.categories, payload]};
+      return {...state, store: {...state.store, categories: [...state.categories, payload]}};
     case ACTIONS.DELETE_PRODUCT:
-      return {...state, products: state.products.filter(product => product._id !== payload)};
+      return {...state, store: {...state.store, products: state.products.filter(product => product._id !== payload)}};
     case ACTIONS.DELETE_CATEGORY:
-      return {...state, categories: state.categories.filter(category => category._id !== payload)};
+      return {...state, store: {...state.store, categories: state.categories.filter(category => category._id !== payload)}};
     case ACTIONS.UPDATE_TAX:
-      return {...state, tax: payload};
+      return {...state, store: {...state.store, tax: payload}};
     case ACTIONS.UPDATE_PRODUCT:
-      const newProducts = state.products.map(prod => {
+      const newProducts = state.store.products.map(prod => {
         if (prod._id === payload._id) {
           return payload;
         }
         return prod;
       });
-      return {...state, products: newProducts};
+      return {...state, store: {...state.store, products: newProducts}};
     default:
       return state;
   }
