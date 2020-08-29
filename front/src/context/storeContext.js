@@ -1,70 +1,11 @@
 
 import createDataContext from './createDataContext';
-import { register, authenticate } from '../services';
-
-const mockCategories = [
-  {
-    _id: '7850273978401739',
-    name: 'Nike',
-    prodCount: 100
-  },
-  {
-    _id: '7481937590759372',
-    name: 'Adidas',
-    prodCount: 50
-  }
-];
-const mockProducts = [ 
-  {
-    _id: '2314124124131232214',
-    name: 'Chai Tea Latte',
-    count: 100,
-    enable: true,
-    prices: [
-      {name: 'Retail', value: 12.45},
-      {name: 'Bundle', value: 10.31},
-      {name: 'WholeSale', value: 8.24}
-    ],
-    cost: 6.54
-  },
-  {
-    _id: '2314123412413654121',
-    name: 'Milk Latte',
-    count: 87,
-    enable: true,
-    prices: [
-      {name: 'Retail', value: 8.24},
-      {name: 'Bundle', value: 7.85},
-      {name: 'WholeSale', value: 6.24}
-    ],
-    cost: 4.78
-  },
-  {
-    _id: '2986753412413654121',
-    name: 'Dark Roast',
-    count: 59,
-    enable: true,
-    prices: [
-      {name: 'Retail', value: 4.45},
-      {name: 'Bundle', value: 3.98},
-      {name: 'WholeSale', value: 3.56}
-    ],
-    cost: 2.89
-  },
-];
-
-const initialState = {
-  tax: {
-    enable: true,
-    rate: 0.12,
-  },
-  products: mockProducts,
-  categories: mockCategories
-};
+import { register, authenticate, tokenAuthenticate } from '../services';
 
 const ACTIONS = {
   SIGN_IN: 'SIGN_IN',
   SIGN_UP: 'SIGN_UP',
+  SIGN_OUT: 'SIGN_OUT',
   ADD_PRODUCT: 'ADD_PRODUCT',
   ADD_CATEGORY: 'ADD_CATEGORY',
   DELETE_PRODUCT: 'DELETE_PRODUCT',
@@ -76,9 +17,11 @@ const ACTIONS = {
 const userReducer = (state, { type, payload }) => {
   switch (type) {
     case ACTIONS.SIGN_IN:
-      return payload;
+      return {...payload, authenticated: true};
     case ACTIONS.SIGN_UP:
-      break;
+      return {...payload, authenticated: true};
+    case ACTIONS.SIGN_OUT:
+        return {};
     case ACTIONS.ADD_PRODUCT:
       return {...state, products: [...state.products, payload]};
     case ACTIONS.ADD_CATEGORY:
@@ -107,6 +50,8 @@ const signUp = (dispatch) => {
     const response = await register(name, email, password);
     if (response.status === 200) {
       dispatch({type: ACTIONS.SIGN_UP, payload: response.data});
+      // save jtw token to local storage
+      localStorage.setItem('EXPRESS-POS/token', response.data.token);
     }
     if (callback) {
       callback(response);
@@ -119,11 +64,36 @@ const signIn = (dispatch) => {
     const response = await authenticate(email, password);
     if (response.status === 200) {
       dispatch({type: ACTIONS.SIGN_IN, payload: response.data});
+      // save jtw token to local storage
+      localStorage.setItem('EXPRESS-POS/token', response.data.token);
     }
     if (callback) {
       callback(response);
     }
   };
+}
+
+const tokenAuth = (dispatch) => {
+  return async (callback) => {
+    const token = localStorage.getItem('EXPRESS-POS/token');
+    const response = await tokenAuthenticate(token);
+    if (response.status === 200) {
+      dispatch({type: ACTIONS.SIGN_IN, payload: response.data});
+      if (callback) {
+        callback();
+      }
+    }
+  }
+}
+
+const signOut = (dispatch) => {
+  return (callback) => {
+    localStorage.removeItem('EXPRESS-POS/token');
+    dispatch({type: ACTIONS.SIGN_OUT});
+    if (callback) {
+      callback();
+    }
+  }
 }
 
 const addProduct = (dispatch) => {
@@ -171,12 +141,14 @@ export const { Context, Provider } = createDataContext(
   {
     signIn,
     signUp,
+    signOut,
     addProduct,
     deleteProduct,
     addCategory,
     deleteCategory,
     updateTax,
-    updateProduct
+    updateProduct,
+    tokenAuth,
   },
-  initialState
+  {}
 );

@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {
+  useContext,
+  useEffect,
+} from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from "react-router-dom";
 
 import SignIn from './pages/SignIn';
@@ -13,8 +17,15 @@ import Terms from './pages/Terms';
 import Home from './pages/Home';
 import Sale from './pages/Sale';
 import Dashboard from './pages/Dashboard';
+import { Context } from './context/storeContext';
 
 const App = () => {
+  const { state, tokenAuth } = useContext(Context);
+
+  useEffect(() => {
+    tokenAuth();
+  }, []);
+
   return (
     <Router>
       <div>
@@ -35,10 +46,20 @@ const App = () => {
             <Privacy />
           </Route>
           <Route path="/sale">
+           {
+             state.authenticated ?
             <Sale />
+            :
+            <Redirect to="/" />
+           }
           </Route>
           <Route path="/dashboard">
-            <Dashboard />
+          {
+             state.authenticated ?
+             <Dashboard />
+            :
+            <Redirect to="/" />
+           }
           </Route>
           <Route path="/">
             <Home />
