@@ -3,6 +3,11 @@
   & > div {
     height: 100%;
   }
+  .app-bar-action {
+    &:hover {
+      cursor: pointer !important;
+    }
+  }
 }
 
 @import 'modal.scss';

@@ -1,18 +1,22 @@
-import React from 'react';
+import React, {
+  useContext
+} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { 
   IconButton, 
   withStyles,
-  Link,
+  Link as MDCLink,
 } from '@material-ui/core';
 import {
   Menu,
 } from '@material-ui/icons';
+import { useHistory } from 'react-router-dom';
 
 import AppBar from '../components/AppBar';
 import Toolbar, { styles as toolbarStyles } from '../components/Toolbar';
+import { Context } from '../../../context/storeContext';
 
 const styles = (theme) => ({
   title: {
@@ -49,51 +53,75 @@ const styles = (theme) => ({
 function AppAppBar(props) {
   const { classes } = props;
   const { t } = useTranslation();
+  const { state, signOut } = useContext(Context);
+  const history = useHistory();
 
   return (
     <div>
       <AppBar position="fixed">
         <Toolbar className={classes.toolbar}>
           <div className={classes.left}>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-              <Menu />
-            </IconButton>
-            <Link
+            <MDCLink
               variant="h6"
               underline="none"
               color="inherit"
-              className={classes.title}
-              href="/"
+              className={`${classes.title} app-bar-action`}
+              onClick={() => history.push('/')}
             >
               {'Express POS'}
-            </Link>
+            </MDCLink>
           </div>
           <div className={classes.right}>
-            <Link
-              color="inherit"
-              variant="h6"
-              underline="none"
-              className={classes.rightLink}
-              href="/sign-in/"
-            >
-              { t('signIn.heading') }
-            </Link>
-            <Link
-              variant="h6"
-              underline="none"
-              className={clsx(classes.rightLink, classes.linkSecondary)}
-              href="/sign-up/"
-            >
-              { t('signUp.heading') }
-            </Link>
-            <Link
-              variant="h6"
-              underline="none"
-              className={clsx(classes.rightLink)}
-              href="/"
-            >
-              { `SIGN OUT` }
-            </Link>
+            {
+              state.authenticated === true ?
+              <React.Fragment>
+                <MDCLink
+                  variant="h6"
+                  underline="none"
+                  className={`${clsx(classes.rightLink)} app-bar-action`}
+                  onClick={() => history.push('/dashboard')}
+                >
+                  { `Dashboard` }
+                </MDCLink>
+                <MDCLink
+                  variant="h6"
+                  underline="none"
+                  className={`${clsx(classes.rightLink)} app-bar-action`}
+                  onClick={() => history.push('/sale')}
+                >
+                  { `Sale` }
+                </MDCLink>
+                <MDCLink
+                  variant="h6"
+                  underline="none"
+                  className={`${clsx(classes.rightLink)} app-bar-action`}
+                  onClick={() => { signOut(()=>{history.push('/')});}}
+                >
+                  { `SIGN OUT` }
+                </MDCLink>
+              </React.Fragment>
+              :
+              <React.Fragment>
+                <MDCLink
+                  color="inherit"
+                  variant="h6"
+                  underline="none"
+                  className={`${classes.rightLink} app-bar-action`}
+                  onClick={() => history.push('/sign-in')}
+                >
+                  { t('signIn.heading') }
+                </MDCLink>
+                <MDCLink
+                  variant="h6"
+                  underline="none"
+                  className={`${clsx(classes.rightLink, classes.linkSecondary)} app-bar-action`}
+                  onClick={() => history.push('/sign-up')}
+                >
+                  { t('signUp.heading') }
+                </MDCLink>
+              </React.Fragment>
+            }
+            
           </div>
         </Toolbar>
       </AppBar>
