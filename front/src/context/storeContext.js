@@ -106,11 +106,15 @@ const signOut = (dispatch) => {
 }
 
 const addProduct = (dispatch) => {
-  return (product) => {
-    // TODO: save product to server side
-    // on success add the product response
+  return async (product, callback) => {
+    const response = await createProduct(product);
+    if (response.status === 201) {
     product = {...product, _id: `${Math.round(Math.random() * 10000000000)}`};
-    dispatch({type: ACTIONS.ADD_PRODUCT, payload: product});
+      dispatch({type: ACTIONS.ADD_PRODUCT, payload: product});
+    }
+    if (callback) {
+      callback(response);
+    }
   }
 }
 
