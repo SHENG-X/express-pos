@@ -10,6 +10,7 @@ import {
   deleteStoreProduct,
   deleteStoreCategory,
   updateStoreProduct,
+  updateStoreCategory,
 } from '../services';
 
 const ACTIONS = {
@@ -22,6 +23,7 @@ const ACTIONS = {
   DELETE_CATEGORY: 'DELETE_CATEGORY',
   UPDATE_TAX: 'UPDATE_TAX',
   UPDATE_PRODUCT: 'UPDATE_PRODUCT',
+  UPDATE_CATEGORY: 'UPDATE_CATEGORY',
 };
 
 const userReducer = (state, { type, payload }) => {
@@ -50,6 +52,14 @@ const userReducer = (state, { type, payload }) => {
         return prod;
       });
       return {...state, store: {...state.store, products: newProducts}};
+    case ACTIONS.UPDATE_CATEGORY:
+      const newCategories = state.store.categories.map(category => {
+        if (category._id === payload._id) {
+          return payload;
+        }
+        return category;
+      });
+      return {...state, store: {...state.store, categories: newCategories}};
     default:
       return state;
   }
@@ -173,6 +183,18 @@ const updateProduct = (dispatch) => {
   }
 }
 
+const updateCategory = (dispatch) => {
+  return async (category, callback) => {
+    const response = await updateStoreCategory(category);
+    if (response.status === 200) {
+      dispatch({type: ACTIONS.UPDATE_CATEGORY, payload: response.data});
+      if (callback) {
+        callback();
+      }
+    }
+  }
+}
+
 export const { Context, Provider } = createDataContext(
   userReducer,
   {
@@ -185,6 +207,7 @@ export const { Context, Provider } = createDataContext(
     deleteCategory,
     updateTax,
     updateProduct,
+    updateCategory,
     tokenAuth,
   },
   {}

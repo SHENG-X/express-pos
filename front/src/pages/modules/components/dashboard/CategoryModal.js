@@ -11,15 +11,18 @@ import {
 import ModalBase from '../ModalBase';
 import { Context } from '../../../../context/storeContext';
 
-const CategoryModal = ({ handleOpen }) => {
-  const defaultCategory = {
+const CategoryModal = ({ handleOpen, initCategory }) => {
+  let defaultCategory = {
     thumbnail: '',
     name: '',
-    prodCount: 0,
   };
 
+  if (initCategory) {
+    defaultCategory = initCategory;
+  }
+
   const [category, setCategory] = useState({...defaultCategory});
-  const { state, addCategory } = useContext(Context);
+  const { state, addCategory, updateCategory } = useContext(Context);
 
   const handleCancel = () => {
     setCategory({...defaultCategory});
@@ -27,13 +30,24 @@ const CategoryModal = ({ handleOpen }) => {
   }
 
   const handleConfirm = () => {
-    addCategory({...category, store: state.store._id}, (response) => {
-      if (response.status === 201) {
+    if (initCategory) {
+      const categoryOriginal = state.store.categories.find(ctgry => ctgry._id === category._id);
+      if (JSON.stringify(categoryOriginal) === JSON.stringify(category)) {
         handleCancel();
       } else {
-        console.log(response);
+        updateCategory(category, () => {
+          handleCancel();
+        });
       }
-    });
+    } else {
+      addCategory({...category, store: state.store._id}, (response) => {
+        if (response.status === 201) {
+          handleCancel();
+        } else {
+          console.log(response);
+        }
+      });
+    }
   }
 
   return (

@@ -21,6 +21,17 @@ import { Context } from '../../../../context/storeContext';
 const Category = ({ handleOpen }) => {
   const { state } = useContext(Context);
   const [open, setOpen] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState(null);
+
+  const handleAdd = () => {
+    setCurrentCategory(null);
+    setOpen(true);
+  }
+
+  const handleEdit = (category) => {
+    setCurrentCategory(category);
+    setOpen(true);
+  }
 
   return (
     <React.Fragment>
@@ -33,7 +44,7 @@ const Category = ({ handleOpen }) => {
           </div>
           <div className="actions">
             <Button
-              onClick={() => setOpen(true)}
+              onClick={handleAdd}
             >
               Add new category
             </Button>
@@ -73,7 +84,7 @@ const Category = ({ handleOpen }) => {
             </div>
             <div className="list">
               {
-                state.store.categories.map(category => <CategoryRow category={category} key={category._id} />)
+                state.store.categories.map(category => <CategoryRow category={category} handleEdit={handleEdit} key={category._id} />)
               }
             </div>
           </div>
@@ -81,7 +92,7 @@ const Category = ({ handleOpen }) => {
       </Paper>
       {
         open ?
-        <CategoryModal handleOpen={val => setOpen(val)} />
+        <CategoryModal handleOpen={val => setOpen(val)} initCategory={currentCategory}/>
         :
         null
       }
@@ -89,7 +100,7 @@ const Category = ({ handleOpen }) => {
   );
 }
 
-const CategoryRow = ({ category }) => {
+const CategoryRow = ({ category, handleEdit }) => {
   const { state, deleteCategory } = useContext(Context);
 
   const productCount = () => {
@@ -120,6 +131,7 @@ const CategoryRow = ({ category }) => {
         <IconButton
           color="primary"
           size="small"
+          onClick={() => handleEdit(category)}
         >
           <Edit />
         </IconButton>

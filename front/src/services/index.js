@@ -75,3 +75,11 @@ export const updateStoreProduct = async (product) => {
     return error.response;
   }
 }
+
+export const updateStoreCategory = async (category) => {
+  try {
+    return await instance.put('/api/category', { ...category });
+  } catch (error) {
+    return error.response;
+  }
+}
