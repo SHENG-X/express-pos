@@ -9,6 +9,26 @@ const saltRounds = 10;
 const userExist = async (email) => {
   return await userModel.findOne({ email });
 }
+const populateStore = (res, user) => {
+  return user.populate('store').execPopulate((error, user) => {
+    if (error) {
+      return res.status(500).json(error);
+    }
+    // populate categories
+    return user.populate('store.categories').execPopulate((error, user) => {
+      // populate products
+      if (error) {
+        return res.status(500).json(error);
+      }
+      return user.populate('store.products').execPopulate((error, user) => {
+        if (error) {
+          return res.status(500).json(error);
+        }
+        return res.status(200).json({ ...user._doc, password: null, token: jwt.sign({ uid: user._doc._id }, process.env.JWT_SECRET, { expiresIn: '8h' })});
+      });
+    });
+  });
+}
 
 const tokenAuth = async (req, res) => {
   const token = req.query.token;
@@ -21,12 +41,7 @@ const tokenAuth = async (req, res) => {
       if (error) {
         return res.status(500).json(error);
       }
-      return user.populate('store').execPopulate((error, user) => {
-        if (error) {
-          return res.status(500).json(error);
-        }
-        return res.status(200).json({ ...user._doc, password: null, token: jwt.sign({ uid: user._doc._id }, process.env.JWT_SECRET, { expiresIn: '8h' })});
-      });
+      return populateStore(res, user);
     });
   } catch(err) {
     return res.status(401).json(token);
@@ -42,16 +57,11 @@ const signInUser = async (req, res) => {
   }
 
   const authenticated = await bcrypt.compareSync(password, user.password);
-  if (authenticated) {
-    return user.populate('store').execPopulate((error, user) => {
-      if (error) {
-        return res.status(500).json(error);
-      }
-      return res.status(200).json({ ...user._doc, password: null, token: jwt.sign({ uid: user._doc._id }, process.env.JWT_SECRET, { expiresIn: '8h' })});
-    });
+  if (!authenticated) {
+    return res.status(401).json(email);
   }
 
-  return res.status(401).json(email);
+  return populateStore(res, user);
 }
 
 const signUpUser = async (req, res) =>{
@@ -82,7 +92,7 @@ const signUpUser = async (req, res) =>{
           return res.status(500).json(error);
         }
 
-        return res.status(201).json({ ...user._doc, password: null, token: jwt.sign({ uid: user._doc._id }, process.env.JTW_TOKEN, { expiresIn: '8h' })});
+        return populateStore(res, user);
       });
     });
   });
