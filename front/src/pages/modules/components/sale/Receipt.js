@@ -18,7 +18,7 @@ import Typography from '../Typography';
 import { Context } from '../../../../context/storeContext';
 
 const Receipt = ({ order, setOrder }) => {
-  const { state } = useContext(Context);
+  const { state, createOrder } = useContext(Context);
   const { t } = useTranslation();
 
   const deleteProduct = (product) => {
@@ -59,6 +59,25 @@ const Receipt = ({ order, setOrder }) => {
 
   const calcTotal = () => {
     return (Number(calcSubtotal()) + Number(calcTax())).toFixed(2);
+  }
+
+  const cancelOrder = () => {
+    setOrder([]);
+  }
+
+  const placeOrder = () => {
+    const products = order.map(prod => ({
+      product: prod._id,
+      price: prod.price,
+      count: prod.count
+    }));
+    const orderData = {
+      store: state.store._id,
+      products: products,
+    };
+    createOrder(orderData, () => {
+      setOrder([]);
+    });
   }
 
   return (
@@ -149,10 +168,14 @@ const Receipt = ({ order, setOrder }) => {
                 </div>
               </div>
               <div className="row">
-                <Button>
+                <Button
+                  onClick={cancelOrder}
+                >
                   { t('common.cancel') }
                 </Button>
-                <Button>
+                <Button
+                  onClick={placeOrder}
+                >
                   { t('common.save') }
                 </Button>
               </div>

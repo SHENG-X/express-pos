@@ -83,3 +83,11 @@ export const updateStoreCategory = async (category) => {
     return error.response;
   }
 }
+
+export const createStoreOrder = async (order) => {
+  try {
+    return await instance.post('/api/order', { ...order });
+  } catch (error) {
+    return error.response;
+  }
+}

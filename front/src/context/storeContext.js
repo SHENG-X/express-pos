@@ -11,6 +11,7 @@ import {
   deleteStoreCategory,
   updateStoreProduct,
   updateStoreCategory,
+  createStoreOrder,
 } from '../services';
 
 const ACTIONS = {
@@ -24,6 +25,7 @@ const ACTIONS = {
   UPDATE_TAX: 'UPDATE_TAX',
   UPDATE_PRODUCT: 'UPDATE_PRODUCT',
   UPDATE_CATEGORY: 'UPDATE_CATEGORY',
+  CREATE_ORDER: 'CREATE_ORDER',
 };
 
 const userReducer = (state, { type, payload }) => {
@@ -60,6 +62,8 @@ const userReducer = (state, { type, payload }) => {
         return category;
       });
       return {...state, store: {...state.store, categories: newCategories}};
+    case ACTIONS.CREATE_ORDER:
+      return { ...state }
     default:
       return state;
   }
@@ -195,6 +199,18 @@ const updateCategory = (dispatch) => {
   }
 }
 
+const createOrder = (dispatch) => {
+  return async (order, callback) => {
+    const response = await createStoreOrder(order);
+    if (response.status === 201) {
+      dispatch({type: ACTIONS.CREATE_ORDER, payload: response.data});
+      if (callback) {
+        callback();
+      }
+    }
+  }
+}
+
 export const { Context, Provider } = createDataContext(
   userReducer,
   {
@@ -209,6 +225,7 @@ export const { Context, Provider } = createDataContext(
     updateProduct,
     updateCategory,
     tokenAuth,
+    createOrder,
   },
   {}
 );
