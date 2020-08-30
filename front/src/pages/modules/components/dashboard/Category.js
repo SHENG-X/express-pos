@@ -92,6 +92,15 @@ const Category = ({ handleOpen }) => {
 const CategoryRow = ({ category }) => {
   const { state, deleteCategory } = useContext(Context);
 
+  const productCount = () => {
+    return state.store.products.reduce((acc, cur) => {
+      if (cur.category === category._id) {
+        return acc + 1;
+      }
+      return acc + 0;
+    }, 0);
+  }
+
   return (
     <div className="row">
       <div className="col-img">
@@ -105,7 +114,7 @@ const CategoryRow = ({ category }) => {
         { category.name }
       </div>
       <div className="col-count">
-        { category.prodCount }
+        { productCount() }
       </div>
       <div className="col-actions">
         <IconButton
