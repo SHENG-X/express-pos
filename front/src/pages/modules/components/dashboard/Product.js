@@ -110,6 +110,15 @@ const Product = ({ handleOpen }) => {
 
 const ProductRow = ({ product }) => {
   const { state, deleteProduct, updateProduct } = useContext(Context);
+
+  const computeCategoryName = () => {
+    const category = state.store.categories.find(category => category._id === product.category);
+    if (category) {
+      return category.name;
+    }
+    return '';
+  }
+
   return (
     <div className="row">
       <div className="col-img">
@@ -126,7 +135,9 @@ const ProductRow = ({ product }) => {
         { product.count }
       </div>
       <div className="col-category">
-        { product.category }
+        { 
+          computeCategoryName()
+        }
       </div>
       <div className="col-prices">
         { 
