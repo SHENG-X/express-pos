@@ -109,7 +109,7 @@ const Product = ({ handleOpen }) => {
 }
 
 const ProductRow = ({ product }) => {
-  const { deleteProduct, updateProduct } = useContext(Context);
+  const { state, deleteProduct, updateProduct } = useContext(Context);
   return (
     <div className="row">
       <div className="col-img">
@@ -183,7 +183,7 @@ const ProductRow = ({ product }) => {
           <IconButton
             color="primary"
             size="small"
-            onClick={() => deleteProduct(product._id)}
+            onClick={() => deleteProduct({ _id: product._id, store: state.store._id })}
           >
             <Delete />
           </IconButton>

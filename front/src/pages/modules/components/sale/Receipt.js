@@ -54,7 +54,7 @@ const Receipt = ({ order, setOrder }) => {
   }
 
   const calcTax = () => {
-    return (state.tax.rate * Number(calcSubtotal())).toFixed(2);
+    return (state.store.tax.rate * Number(calcSubtotal())).toFixed(2);
   }
 
   const calcTotal = () => {
@@ -103,7 +103,7 @@ const Receipt = ({ order, setOrder }) => {
             </div>
             <div className="footer">
               {
-                state.tax.enable ? 
+                state.store.tax.enable ? 
                 <React.Fragment>
                   <div className="row">
                     <div className="col-label">
@@ -123,7 +123,7 @@ const Receipt = ({ order, setOrder }) => {
                         <span style={{'padding-right': '0.2rem'}}>
                           { t('sale.tax') }
                         </span> 
-                        { state.tax.rate * 100 }%
+                        { state.store.tax.rate * 100 }%
                       </Typography>
                     </div>
                     <div className="col-amount">

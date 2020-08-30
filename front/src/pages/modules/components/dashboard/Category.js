@@ -90,7 +90,7 @@ const Category = ({ handleOpen }) => {
 }
 
 const CategoryRow = ({ category }) => {
-  const { deleteCategory } = useContext(Context);
+  const { state, deleteCategory } = useContext(Context);
 
   return (
     <div className="row">
@@ -117,7 +117,7 @@ const CategoryRow = ({ category }) => {
         <IconButton
           color="primary"
           size="small"
-          onClick={() => deleteCategory(category._id)}
+          onClick={() => deleteCategory({ _id: category._id, store: state.store._id })}
         >
           <Delete />
         </IconButton>
