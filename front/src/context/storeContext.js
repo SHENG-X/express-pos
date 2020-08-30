@@ -6,6 +6,7 @@ import {
   tokenAuthenticate,
   createCategory,
   createProduct,
+  updateStoreTax,
 } from '../services';
 
 const ACTIONS = {
@@ -136,8 +137,11 @@ const deleteCategory = (dispatch) => {
 }
 
 const updateTax = (dispatch) => {
-  return (tax) => {
-    dispatch({type: ACTIONS.UPDATE_TAX, payload: tax});
+  return async (tax) => {
+    const response = await updateStoreTax(tax);
+    if (response.status === 200) {
+      dispatch({type: ACTIONS.UPDATE_TAX, payload: response.data});
+    }
   }
 }
 

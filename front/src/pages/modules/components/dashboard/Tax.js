@@ -31,7 +31,7 @@ const Tax = () => {
               <div className="input">
                 <Switch
                   checked={state.store.tax.enable}
-                  onChange={(e, val) => updateTax({...state.store.tax, enable: val})}
+                  onChange={(e, val) => updateTax({tax: {...state.store.tax, enable: val}, store: state.store._id})}
                   color="primary"
                   name="Tax enable"
                   inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -50,7 +50,7 @@ const Tax = () => {
                   type="number"
                   placeholder="Tax rate"
                   value={state.store.tax.rate}
-                  onChange={e => updateTax({...state.store.tax, rate: e.target.value})}
+                  onChange={e => updateTax({ tax: {...state.store.tax, rate: e.target.value}, store: state.store._id})}
                   inputProps={{step: 0.01}}
                 />
               </div>
