@@ -47,7 +47,7 @@ const getProduct = (req, res) => {
 }
 
 const createProduct = (req, res) => {
-  const { thumbnail, name, price, cost, count, category, store } = req.body;
+  const { thumbnail, name, prices, cost, count, category, store } = req.body;
 
   if (!store) {
     return res.status(400).json(store);
@@ -73,7 +73,7 @@ const createProduct = (req, res) => {
           return res.status(400).json(categoryData);
         }
 
-        const product = new productModel({ thumbnail, name, price, cost, count, category, store });
+        const product = new productModel({ thumbnail, name, prices, cost, count, category, store });
         return product.save((error, productData) => {
           if (error) {
             return res.status(500).json(error);
@@ -95,7 +95,7 @@ const createProduct = (req, res) => {
         });
       });
     }
-    const product = new productModel({ thumbnail, name, price, cost, count, category, store });
+    const product = new productModel({ thumbnail, name, prices, cost, count, category, store });
     return product.save((error, productData) => {
       if (error) {
         return res.status(500).json(error);
