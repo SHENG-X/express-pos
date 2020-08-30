@@ -164,7 +164,7 @@ const deleteProduct = (req, res) => {
         return res.status(500).json(error);
       }
 
-      storeData.products = storeData.products.filter(product => product._id !==  _id);
+      storeData.products = storeData.products.filter(product => product.toString() !==  _id);
       return storeData.save((error) => {
         if (error) {
           return res.status(500).json(error);
