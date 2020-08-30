@@ -51,3 +51,11 @@ export const updateStoreTax = async (tax) => {
     return error.response;
   }
 }
+
+export const deleteStoreCategory = async (category) => {
+  try {
+    return await instance.delete('/api/category', { params: { ...category } });
+  } catch (error) {
+    return error.response;
+  }
+}

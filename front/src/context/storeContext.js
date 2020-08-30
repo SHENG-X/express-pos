@@ -7,6 +7,7 @@ import {
   createCategory,
   createProduct,
   updateStoreTax,
+  deleteStoreProduct,
 } from '../services';
 
 const ACTIONS = {
@@ -34,7 +35,7 @@ const userReducer = (state, { type, payload }) => {
     case ACTIONS.ADD_CATEGORY:
       return {...state, store: {...state.store, categories: [...state.store.categories, payload]}};
     case ACTIONS.DELETE_PRODUCT:
-      return {...state, store: {...state.store, products: state.products.filter(product => product._id !== payload)}};
+      return {...state, store: {...state.store, products: state.store.products.filter(product => product._id !== payload)}};
     case ACTIONS.DELETE_CATEGORY:
       return {...state, store: {...state.store, categories: state.categories.filter(category => category._id !== payload)}};
     case ACTIONS.UPDATE_TAX:
@@ -113,8 +114,11 @@ const addProduct = (dispatch) => {
 }
 
 const deleteProduct = (dispatch) => {
-  return (pid) => {
-    dispatch({type: ACTIONS.DELETE_PRODUCT, payload: pid});
+  return async (product) => {
+    const response = await deleteStoreProduct(product);
+    if (response.status === 204) {
+      dispatch({type: ACTIONS.DELETE_PRODUCT, payload: product._id});
+    }
   }
 }
 
