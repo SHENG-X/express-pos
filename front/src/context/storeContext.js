@@ -1,6 +1,11 @@
 
 import createDataContext from './createDataContext';
-import { register, authenticate, tokenAuthenticate } from '../services';
+import { 
+  register,
+  authenticate,
+  tokenAuthenticate,
+  createProduct,
+} from '../services';
 
 const ACTIONS = {
   SIGN_IN: 'SIGN_IN',
@@ -23,7 +28,7 @@ const userReducer = (state, { type, payload }) => {
     case ACTIONS.SIGN_OUT:
         return {};
     case ACTIONS.ADD_PRODUCT:
-      return {...state, store: {...state.store, products: [...state.products, payload]}};
+      return {...state, store: {...state.store, products: [...state.store.products, payload]}};
     case ACTIONS.ADD_CATEGORY:
       return {...state, store: {...state.store, categories: [...state.categories, payload]}};
     case ACTIONS.DELETE_PRODUCT:

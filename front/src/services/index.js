@@ -27,3 +27,11 @@ export const tokenAuthenticate = async (token) => {
     return error.response;
   }
 }
+
+export const createProduct = async (product) => {
+  try {
+    return await instance.post('/api/product', { ...product });
+  } catch (error) {
+    return error.response;
+  }
+}

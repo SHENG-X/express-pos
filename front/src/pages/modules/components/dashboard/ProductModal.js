@@ -61,8 +61,13 @@ const ProductModal = ({ handleOpen }) => {
   }
 
   const handleConfirm = () => {
-    addProduct(product);
-    handleCancel();
+    addProduct({...product, store: state.store._id}, (response) => {
+      if (response.status === 201) {
+        handleCancel();
+      } else {
+        console.log(response);
+      }
+    });
   }
 
   return (
@@ -133,7 +138,7 @@ const ProductModal = ({ handleOpen }) => {
                   <em>None</em>
                 </MenuItem>
                 {
-                  state.categories.map(category => <MenuItem value={category.name} key={category._id} >{ category.name }</MenuItem>)
+                  state.store.categories.map(category => <MenuItem value={category._id} key={category._id} >{ category.name }</MenuItem>)
                 }
               </Select>
             </FormControl>
