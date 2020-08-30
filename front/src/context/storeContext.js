@@ -85,11 +85,13 @@ const signIn = (dispatch) => {
 const tokenAuth = (dispatch) => {
   return async (callback) => {
     const token = localStorage.getItem('EXPRESS-POS/token');
-    const response = await tokenAuthenticate(token);
-    if (response.status === 200) {
-      dispatch({type: ACTIONS.SIGN_IN, payload: response.data});
-      if (callback) {
-        callback();
+    if (token) {
+      const response = await tokenAuthenticate(token);
+      if (response.status === 200) {
+        dispatch({type: ACTIONS.SIGN_IN, payload: response.data});
+        if (callback) {
+          callback();
+        }
       }
     }
   }
@@ -109,7 +111,6 @@ const addProduct = (dispatch) => {
   return async (product, callback) => {
     const response = await createProduct(product);
     if (response.status === 201) {
-    product = {...product, _id: `${Math.round(Math.random() * 10000000000)}`};
       dispatch({type: ACTIONS.ADD_PRODUCT, payload: product});
     }
     if (callback) {
