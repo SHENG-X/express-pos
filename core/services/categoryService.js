@@ -100,7 +100,7 @@ const updateCategory = (req, res) => {
 }
 
 const deleteCategory = (req, res) => {
-  const { store, _id } = req.body;
+  const { store, _id } = req.query;
   return categoryModel.deleteOne({ _id }, (error) => {
     if (error) {
       return res.status(500).json(error);
