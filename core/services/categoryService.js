@@ -111,7 +111,7 @@ const deleteCategory = (req, res) => {
         return res.status(500).json(error);
       }
 
-      storeData.categories = storeData.categories.filters(category => category._id !== _id);
+      storeData.categories = storeData.categories.filter(category => category._id !== _id);
       return storeData.save((error) => {
         if (error) {
           return res.status(500).json(error);
