@@ -59,7 +59,15 @@ const createOrder = (req, res) => {
         return res.status(500).json(error);
       }
 
-      return res.status(201).json(orderData);
+      // add order to store orders
+      storeData.orders = [...storeData.orders, orderData._id];
+
+      return storeData.save((error) => {
+        if (error) {
+          return res.status(500).json(error);
+        }
+        return res.status(201).json(orderData);
+      });
     });
   });
 }
