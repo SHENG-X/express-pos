@@ -59,3 +59,11 @@ export const deleteStoreCategory = async (category) => {
     return error.response;
   }
 }
+
+export const deleteStoreProduct = async (product) => {
+  try {
+    return await instance.delete('/api/product', { params: {...product} });
+  } catch (error) {
+    return error.response;
+  }
+}

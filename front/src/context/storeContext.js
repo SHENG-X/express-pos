@@ -8,6 +8,7 @@ import {
   createProduct,
   updateStoreTax,
   deleteStoreProduct,
+  deleteStoreCategory,
 } from '../services';
 
 const ACTIONS = {
@@ -135,8 +136,13 @@ const addCategory = (dispatch) => {
 }
 
 const deleteCategory = (dispatch) => {
-  return (pid) => {
-    dispatch({type: ACTIONS.DELETE_CATEGORY, payload: pid});
+  return async (category) => {
+    // TODO: check if category is used
+    // if category is used then do not delete the category
+    const response = await deleteStoreCategory(category);
+    if (response.status === 204) {
+      dispatch({type: ACTIONS.DELETE_CATEGORY, payload: category._id});
+    }
   }
 }
 
