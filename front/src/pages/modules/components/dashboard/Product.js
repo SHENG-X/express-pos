@@ -24,6 +24,17 @@ import ProductModal from './ProductModal';
 const Product = ({ handleOpen }) => {
   const { state } = useContext(Context);
   const [open, setOpen] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState(null);
+
+  const handleAddProduct = () => {
+    setCurrentProduct(null);
+    setOpen(true);
+  }
+
+  const editProduct = (product) => {
+    setCurrentProduct(product);
+    setOpen(true);
+  }
 
   return (
     <React.Fragment>
@@ -36,7 +47,7 @@ const Product = ({ handleOpen }) => {
         </div>
         <div className="actions">
           <Button
-            onClick={() => setOpen(true)}
+            onClick={handleAddProduct}
           >
             Add new product
           </Button>
@@ -91,7 +102,7 @@ const Product = ({ handleOpen }) => {
           </div>
           <div className="list">
               {
-                state.store.products.map(prod => <ProductRow product={prod} key={prod._id}/>)
+                state.store.products.map(prod => <ProductRow product={prod} editProduct={editProduct} key={prod._id}/>)
               }
           </div>
         </div>
@@ -100,6 +111,7 @@ const Product = ({ handleOpen }) => {
         open ?
         <ProductModal
           handleOpen={val => setOpen(val)}
+          initProduct={currentProduct}
         />
         :
         null
@@ -108,7 +120,7 @@ const Product = ({ handleOpen }) => {
   );
 }
 
-const ProductRow = ({ product }) => {
+const ProductRow = ({ product, editProduct }) => {
   const { state, deleteProduct, updateProduct } = useContext(Context);
 
   const computeCategoryName = () => {
@@ -156,6 +168,7 @@ const ProductRow = ({ product }) => {
           <IconButton
             color="primary"
             size="small"
+            onClick={() => editProduct(product)}
           >
             <Edit />
           </IconButton>

@@ -67,3 +67,11 @@ export const deleteStoreProduct = async (product) => {
     return error.response;
   }
 }
+
+export const updateStoreProduct = async (product) => {
+  try {
+    return await instance.put('/api/product', { ...product });
+  } catch (error) {
+    return error.response;
+  }
+}

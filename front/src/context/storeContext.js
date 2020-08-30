@@ -9,6 +9,7 @@ import {
   updateStoreTax,
   deleteStoreProduct,
   deleteStoreCategory,
+  updateStoreProduct,
 } from '../services';
 
 const ACTIONS = {
@@ -20,7 +21,7 @@ const ACTIONS = {
   DELETE_PRODUCT: 'DELETE_PRODUCT',
   DELETE_CATEGORY: 'DELETE_CATEGORY',
   UPDATE_TAX: 'UPDATE_TAX',
-  UPDATE_PRODUCT: 'UPDATE_PRODUCT'
+  UPDATE_PRODUCT: 'UPDATE_PRODUCT',
 };
 
 const userReducer = (state, { type, payload }) => {
@@ -161,8 +162,14 @@ const updateTax = (dispatch) => {
 }
 
 const updateProduct = (dispatch) => {
-  return (product) => {
-    dispatch({type: ACTIONS.UPDATE_PRODUCT, payload: product});
+  return async (product, callback) => {
+    const response = await updateStoreProduct(product);
+    if (response.status === 200) {
+      dispatch({type: ACTIONS.UPDATE_PRODUCT, payload: response.data});
+      if (callback) {
+        callback();
+      }
+    }
   }
 }
 

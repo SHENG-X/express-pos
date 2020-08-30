@@ -20,8 +20,8 @@ import {
 import ModalBase from '../ModalBase';
 import { Context } from '../../../../context/storeContext';
 
-const ProductModal = ({ handleOpen }) => {
-  const defaultProduct = {
+const ProductModal = ({ handleOpen, initProduct }) => {
+  let defaultProduct = {
     thumbnail: '',
     enable: true,
     name: '',
@@ -33,7 +33,11 @@ const ProductModal = ({ handleOpen }) => {
     cost: undefined
   };
 
-  const { state, addProduct } = useContext(Context);
+  if (initProduct) {
+    defaultProduct = initProduct;
+  }
+
+  const { state, addProduct, updateProduct } = useContext(Context);
 
   const [product, setProduct] = useState(JSON.parse(JSON.stringify(defaultProduct)));
 
@@ -61,13 +65,24 @@ const ProductModal = ({ handleOpen }) => {
   }
 
   const handleConfirm = () => {
-    addProduct({...product, store: state.store._id}, (response) => {
-      if (response.status === 201) {
+    if (initProduct) {
+      const productOriginal = state.store.products.find(prod => prod._id === product._id);
+      if (JSON.stringify(productOriginal) === JSON.stringify(product)) {
         handleCancel();
       } else {
-        console.log(response);
+        updateProduct(product, () => {
+          handleCancel();
+        });
       }
-    });
+    } else {
+      addProduct({...product, store: state.store._id}, (response) => {
+        if (response.status === 201) {
+          handleCancel();
+        } else {
+          console.log(response);
+        }
+      });
+    }
   }
 
   return (
@@ -134,7 +149,7 @@ const ProductModal = ({ handleOpen }) => {
                 onChange={e => setProduct({...product, category: e.target.value})}
                 label="Category"
               >
-                <MenuItem value="">
+                <MenuItem value={null}>
                   <em>None</em>
                 </MenuItem>
                 {
