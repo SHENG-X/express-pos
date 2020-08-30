@@ -4,6 +4,7 @@ import {
   register,
   authenticate,
   tokenAuthenticate,
+  createCategory,
   createProduct,
 } from '../services';
 
@@ -30,7 +31,7 @@ const userReducer = (state, { type, payload }) => {
     case ACTIONS.ADD_PRODUCT:
       return {...state, store: {...state.store, products: [...state.store.products, payload]}};
     case ACTIONS.ADD_CATEGORY:
-      return {...state, store: {...state.store, categories: [...state.categories, payload]}};
+      return {...state, store: {...state.store, categories: [...state.store.categories, payload]}};
     case ACTIONS.DELETE_PRODUCT:
       return {...state, store: {...state.store, products: state.products.filter(product => product._id !== payload)}};
     case ACTIONS.DELETE_CATEGORY:
@@ -117,9 +118,14 @@ const deleteProduct = (dispatch) => {
 }
 
 const addCategory = (dispatch) => {
-  return (category) => {
-    category = {...category, _id: `${Math.round(Math.random() * 10000000000)}`};
-    dispatch({type: ACTIONS.ADD_CATEGORY, payload: category});
+  return async (category, callback) => {
+    const response = await createCategory(category);
+    if (response.status === 201) {
+      dispatch({type: ACTIONS.ADD_CATEGORY, payload: response.data});
+    }
+    if (callback) {
+      callback(response);
+    }
   }
 }
 

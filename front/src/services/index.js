@@ -35,3 +35,11 @@ export const createProduct = async (product) => {
     return error.response;
   }
 }
+
+export const createCategory = async (category) => {
+  try {
+    return await instance.post('/api/category', { ...category });
+  } catch (error) {
+    return error.response;
+  }
+}

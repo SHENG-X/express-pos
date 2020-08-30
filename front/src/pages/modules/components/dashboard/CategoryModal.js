@@ -19,7 +19,7 @@ const CategoryModal = ({ handleOpen }) => {
   };
 
   const [category, setCategory] = useState({...defaultCategory});
-  const { addCategory } = useContext(Context);
+  const { state, addCategory } = useContext(Context);
 
   const handleCancel = () => {
     setCategory({...defaultCategory});
@@ -27,8 +27,13 @@ const CategoryModal = ({ handleOpen }) => {
   }
 
   const handleConfirm = () => {
-    addCategory(category);
-    handleCancel();
+    addCategory({...category, store: state.store._id}, (response) => {
+      if (response.status === 201) {
+        handleCancel();
+      } else {
+        console.log(response);
+      }
+    });
   }
 
   return (
