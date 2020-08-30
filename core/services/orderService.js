@@ -95,13 +95,24 @@ const updateOrder = (req, res) => {
 }
 
 const deleteOrder = (req, res) => {
-  const { _id } = req.body;
+  const { store, _id } = req.body;
   return orderModel.deleteOne({ _id }, (error) => {
     if (error) {
       return res.status(500).json(error);
     }
-
-    return res.status(204).json(_id);
+    return storeModel.findById(store, (error, storeData) => {
+      if (error) {
+        return res.status(500).json(error);
+      }
+      // update store data orders
+      storeData.orders = storeData.orders.filter(order => order.toString() !== _id);
+      return storeData.save((error) => {
+        if (error) {
+          return res.status(500).json(error);
+        }
+        return res.status(204).json(_id);
+      });
+    });
   });
 }
 
