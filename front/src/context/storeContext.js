@@ -38,7 +38,7 @@ const userReducer = (state, { type, payload }) => {
     case ACTIONS.DELETE_PRODUCT:
       return {...state, store: {...state.store, products: state.store.products.filter(product => product._id !== payload)}};
     case ACTIONS.DELETE_CATEGORY:
-      return {...state, store: {...state.store, categories: state.categories.filter(category => category._id !== payload)}};
+      return {...state, store: {...state.store, categories: state.store.categories.filter(category => category._id !== payload)}};
     case ACTIONS.UPDATE_TAX:
       return {...state, store: {...state.store, tax: payload}};
     case ACTIONS.UPDATE_PRODUCT:
