@@ -176,9 +176,30 @@ const deleteProduct = (req, res) => {
   });
 }
 
+const consumeProduct = (req, res) => {
+  const { _id, count } = req.body;
+  if (!_id) {
+    return res.status(400).json(_id);
+  }
+  return productModel.findById(_id, (error, product) => {
+    if (error) {
+      return res.status(500).json(error);
+    }
+
+    product.count -= count;
+    return product.save((error, prod) => {
+      if (error) {
+        return res.status(500).json(error);
+      }
+      return res.status(200).json(prod._doc);
+    });
+  });
+}
+
 module.exports = {
   getProduct,
   createProduct,
   updateProduct,
   deleteProduct,
+  consumeProduct,
 }

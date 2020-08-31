@@ -8,6 +8,8 @@ router.post('/', productService.createProduct);
 
 router.put('/', productService.updateProduct);
 
+router.put('/consume', productService.consumeProduct);
+
 router.delete('/', productService.deleteProduct);
 
 module.exports = router;
