@@ -61,6 +61,7 @@
     },
     "category": {
       "heading": "Category",
+      "title": "Add a category",
       "addNew": "Add new category",
       "search": "Search for a category"
     },

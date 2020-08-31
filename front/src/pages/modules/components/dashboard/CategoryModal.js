@@ -54,7 +54,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
 
   return (
     <ModalBase
-      title="Add a category"
+      title={ t('category.title') }
       className="category-modal"
       content={
         <div>
