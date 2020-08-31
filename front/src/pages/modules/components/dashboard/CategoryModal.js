@@ -7,6 +7,7 @@ import {
   TextField,
   Button,
 } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import ModalBase from '../ModalBase';
 import { Context } from '../../../../context/storeContext';
@@ -23,6 +24,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
 
   const [category, setCategory] = useState({...defaultCategory});
   const { state, addCategory, updateCategory } = useContext(Context);
+  const { t } = useTranslation();
 
   const handleCancel = () => {
     setCategory({...defaultCategory});
@@ -59,7 +61,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
           <div className="row">
             <div className="label">
               <Typography variant="subtitle2">
-                Thumbnail
+                { t('common.thumbnail') }
               </Typography>
             </div>
             <div className="input">
@@ -70,7 +72,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
           <div className="row">
             <div className="label">
               <Typography variant="subtitle2">
-                Name
+                { t('common.name') }
               </Typography>
             </div>
             <div className="input">
@@ -78,7 +80,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
                 required
                 value={category.name}
                 onChange={e => setCategory({...category, name: e.target.value})}
-                placeholder="Product name"
+                placeholder={ t('product.productName') }
               />
             </div>
           </div>
@@ -89,12 +91,12 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
           <Button 
             onClick={handleCancel}
           >
-            Cancel
+            { t('common.cancel') }
           </Button>
           <Button
             onClick={handleConfirm}
           >
-            Confirm
+            { t('common.confirm') }
           </Button>
         </div>
       }

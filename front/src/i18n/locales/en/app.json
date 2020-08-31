@@ -12,7 +12,8 @@
       "confirm": "Confirm",
       "img": "IMG",
       "name": "Name",
-      "actions": "Actions"
+      "actions": "Actions",
+      "thumbnail": "Thumbnail"
     },
     "signIn": {
       "heading": "SIGN IN",
@@ -44,8 +45,8 @@
       "taxRate": "Tax rate"
     },
     "product": {
-      "heading": "Product"
-
+      "heading": "Product",
+      "productName": "Product name"
     },
     "category": {
       "heading": "Category",
