@@ -54,7 +54,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
 
   return (
     <ModalBase
-      title={ t('category.title') }
+      title={ initCategory ? t('category.update') : t('category.title') }
       className="category-modal"
       content={
         <div>

@@ -51,6 +51,7 @@
     "product": {
       "heading": "Product",
       "title": "Add a product",
+      "update": "Update a product",
       "productName": "Product name",
       "addNew": "Add new product",
       "search": "Search for a product",
@@ -63,6 +64,7 @@
     "category": {
       "heading": "Category",
       "title": "Add a category",
+      "update": "Update a category",
       "addNew": "Add new category",
       "search": "Search for a category"
     },

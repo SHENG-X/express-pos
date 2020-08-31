@@ -90,7 +90,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
 
   return (
     <ModalBase
-      title={ t('product.title') }
+      title={ initProduct ? t('product.update') : t('product.title') }
       className="product-modal"
       content={
         <div>
