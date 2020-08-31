@@ -7,7 +7,8 @@
       "password": "Password",
       "inProgress": "In progress...",
       "save": "Save",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "enable": "Enable"
     },
     "signIn": {
       "heading": "SIGN IN",
@@ -31,6 +32,11 @@
       "subtotal": "Subtotal",
       "tax": "Sales Tax",
       "total": "Total Amount"
+    },
+    "tax": {
+      "heading": "Tax",
+      "rate": "Rate",
+      "taxRate": "Tax rate"
     }
   }
 }
