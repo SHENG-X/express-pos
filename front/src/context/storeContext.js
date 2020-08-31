@@ -12,6 +12,7 @@ import {
   updateStoreProduct,
   updateStoreCategory,
   createStoreOrder,
+  consumeProduct,
 } from '../services';
 
 const ACTIONS = {
@@ -204,6 +205,12 @@ const createOrder = (dispatch) => {
     const response = await createStoreOrder(order);
     if (response.status === 201) {
       dispatch({type: ACTIONS.CREATE_ORDER, payload: response.data});
+      order.products.forEach(async (prod) => {
+        const response = await consumeProduct({ _id: prod.product, count: prod.count });
+        if (response.status === 200) {
+          dispatch({type: ACTIONS.UPDATE_PRODUCT, payload: response.data});
+        }
+      });
       if (callback) {
         callback();
       }
