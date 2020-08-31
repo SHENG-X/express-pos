@@ -16,6 +16,7 @@ import {
   Add,
   Delete
 } from '@material-ui/icons';
+import { useTranslation } from 'react-i18next';
 
 import ModalBase from '../ModalBase';
 import { Context } from '../../../../context/storeContext';
@@ -40,6 +41,8 @@ const ProductModal = ({ handleOpen, initProduct }) => {
   const { state, addProduct, updateProduct } = useContext(Context);
 
   const [product, setProduct] = useState(JSON.parse(JSON.stringify(defaultProduct)));
+
+  const { t } = useTranslation();
 
   const setProductPrices = (idx, fieldName, val) => {
     const newPrices = [...product.prices];
@@ -87,14 +90,14 @@ const ProductModal = ({ handleOpen, initProduct }) => {
 
   return (
     <ModalBase
-      title="Add a product"
+      title={ t('product.title') }
       className="product-modal"
       content={
         <div>
           <div className="row">
             <div className="label">
               <Typography variant="subtitle2">
-                Thumbnail
+                { t('common.thumbnail') }
               </Typography>
             </div>
             <div className="input">
@@ -105,7 +108,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
           <div className="row">
             <div className="label">
               <Typography variant="subtitle2">
-                Name
+                { t('common.name') }
               </Typography>
             </div>
             <div className="input">
@@ -113,7 +116,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                 required
                 value={product.name}
                 onChange={e => setProduct({...product, name: e.target.value})}
-                placeholder="Product name"
+                placeholder={ t('product.productName') }
               />
             </div>
           </div>
@@ -121,7 +124,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
           <div className="row">
             <div className="label">
               <Typography variant="subtitle2">
-                Count
+                { t('common.Count') }
               </Typography>
             </div>
             <div className="input">
@@ -130,7 +133,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                 value={product.count}
                 onChange={e => setProduct({...product, count: Number(e.target.value)})}
                 type="number"
-                placeholder="Product count"
+                placeholder={ t('product.productCount') }
               />
             </div>
           </div>
@@ -138,19 +141,19 @@ const ProductModal = ({ handleOpen, initProduct }) => {
           <div className="row">
             <div className="label">
               <Typography variant="subtitle2">
-                Category
+                { t('category.heading') }
               </Typography>
             </div>
             <div className="input">
             <FormControl variant="outlined">
-              <InputLabel>Category</InputLabel>
+              <InputLabel>{ t('category.heading') }</InputLabel>
               <Select
                 value={product.category}
                 onChange={e => setProduct({...product, category: e.target.value})}
-                label="Category"
+                label={ t('category.heading') }
               >
                 <MenuItem value={null}>
-                  <em>None</em>
+                  <em>{ t('common.none') }</em>
                 </MenuItem>
                 {
                   state.store.categories.map(category => <MenuItem value={category._id} key={category._id} >{ category.name }</MenuItem>)
@@ -163,7 +166,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
           <div className="row">
             <div className="label">
               <Typography variant="subtitle2">
-                Prices
+                { t('sale.prices') }
               </Typography>
             </div>
             <div className="input price">
@@ -175,14 +178,14 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                       required
                       value={price.name}
                       onChange={e => setProductPrices(idx, 'name', e.target.value)}
-                      placeholder="Price name"
+                      placeholder={ t('product.priceName') }
                     />
                     <TextField
                       required
                       type="number"
                       value={price.value}
                       onChange={e => setProductPrices(idx, 'value', Number(e.target.value))}
-                      placeholder="Price value"
+                      placeholder={ t('product.priceValue') }
                     /> 
                     {
                       idx !== 0 ?
@@ -215,7 +218,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
           <div className="row">
             <div className="label">
               <Typography variant="subtitle2">
-                Cost
+                { t('product.cost') }
               </Typography>
             </div>
             <div className="input">
@@ -224,7 +227,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                 type="number"
                 value={product.cost}
                 onChange={e => setProduct({...product, cost: Number(e.target.value)})}
-                placeholder="Product cost"
+                placeholder={ t('product.productCost') }
               />
             </div>
           </div>
@@ -235,12 +238,12 @@ const ProductModal = ({ handleOpen, initProduct }) => {
           <Button 
             onClick={handleCancel}
           >
-            Cancel
+            { t('common.cancel') }
           </Button>
           <Button
             onClick={handleConfirm}
           >
-            Confirm
+            { t('common.confirm') }
           </Button>
         </div>
       }

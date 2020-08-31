@@ -14,7 +14,8 @@
       "name": "Name",
       "actions": "Actions",
       "thumbnail": "Thumbnail",
-      "count": "Count"
+      "count": "Count",
+      "none": "None"
     },
     "signIn": {
       "heading": "SIGN IN",
@@ -48,16 +49,20 @@
     },
     "product": {
       "heading": "Product",
+      "title": "Add a product",
       "productName": "Product name",
       "addNew": "Add new product",
       "search": "Search for a product",
-      "cost": "Cost"
+      "cost": "Cost",
       "productCount": "Product count",
+      "priceName": "Price name",
+      "priceValue": "Price value",
+      "productCost": "Product cost"
     },
     "category": {
       "heading": "Category",
       "addNew": "Add new category",
-      "search": "Search for a category",
+      "search": "Search for a category"
     },
     "store": {
       "heading": "Store Management"
