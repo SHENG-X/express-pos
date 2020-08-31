@@ -1,14 +1,156 @@
-import React from 'react';
+import React, {
+  useContext
+} from 'react';
 import {
-  Typography
+  Paper,
+  Typography,
+  IconButton,
+  Button,
 } from '@material-ui/core';
+import {
+  Edit,
+  Delete,
+  AmpStories,
+} from '@material-ui/icons';
+
+import { Context } from '../../../../context/storeContext';
 
 const SaleReport = () => {
+  const { state } = useContext(Context);
+
+  const calcRevenue = () => {
+    let totalRevenue = 0;
+    state.store.orders.forEach(order => {
+      order.products.forEach(product => {
+        totalRevenue += product.price;
+      });
+    });
+    return totalRevenue.toFixed(2);
+  }
+
+  const calcNetIncome = () => {
+    let totalCost = 0;
+    state.store.orders.forEach(order => {
+      order.products.forEach(product => {
+        const productCost = state.store.products.find(prod => prod._id === product.product).cost;
+        totalCost += productCost;
+      });
+    });
+    return (calcRevenue() - totalCost).toFixed(2);
+  }
+
   return (
     <div className="sale-tab">
-      <Typography variant="h4">
-        Sale Report Coming soon
-      </Typography>
+      <Paper elevation={3} >
+        <div className="revenue-pan">
+          <div className="heading">
+            {/* <div className="title"/> */}
+            <Button>All</Button>
+            <Button>Today</Button>
+            <Button>This Week</Button>
+            <Button>This Month</Button>
+          </div>
+          <div className="content">
+            <div className="col">
+              <div className="label">
+                <Typography variant="subtitle1">
+                  Revenue
+                </Typography>
+              </div>
+              <div className="label">
+                <Typography variant="subtitle1">
+                  Net Income
+                </Typography>
+              </div>
+            </div>
+            <div className="col">
+              <div className="value">
+                <Typography variant="subtitle1">  
+                  {
+                    calcRevenue()
+                  }
+                </Typography>
+              </div>
+              <div className="value">
+                <Typography variant="subtitle1">
+                  {
+                    calcNetIncome()
+                  }
+                </Typography>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Paper>
+
+      <Paper elevation={3} >
+        <div className="order-history">
+          <div className="row heading">
+            <div className="oid">
+            <Typography variant="subtitle1">
+              Order ID
+            </Typography>
+            </div>
+            <div className="timestamp">
+            <Typography variant="subtitle1">
+              Placed Timestamp
+            </Typography>
+            </div>
+            <div className="actions">
+            <Typography variant="subtitle1">
+              Actions
+            </Typography>
+            </div>
+          </div>
+          {
+            state.store.orders.map(order => <OrderRow order={order} key={order._id}/>)
+          }
+        </div>
+      </Paper>
+    </div>
+  );
+}
+
+const OrderRow = ({ order }) => {
+
+  return (
+    <div className="row">
+      <div className="oid">
+        {
+          order._id
+        }
+      </div>
+      <div className="timestamp">
+        {
+          new Date(order.createdAt).toLocaleString()
+        }
+      </div>
+      <div className="actions">
+        <div>
+          <IconButton
+            color="primary"
+            size="small"
+          >
+            <AmpStories />
+          </IconButton>
+        </div>
+        <div>
+          <IconButton
+            color="primary"
+            size="small"
+          >
+            <Edit />
+          </IconButton>
+        </div>
+        <div>
+          <IconButton
+            color="primary"
+            size="small"
+          >
+            <Delete />
+          </IconButton>
+        </div>
+      </div>
     </div>
   );
 }
