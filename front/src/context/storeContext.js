@@ -63,7 +63,7 @@ const userReducer = (state, { type, payload }) => {
       });
       return {...state, store: {...state.store, categories: newCategories}};
     case ACTIONS.CREATE_ORDER:
-      return { ...state }
+      return { ...state, store: {...state.store, orders: [...state.store.orders, payload]}};
     default:
       return state;
   }
