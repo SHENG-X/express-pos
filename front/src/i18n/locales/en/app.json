@@ -9,7 +9,10 @@
       "save": "Save",
       "cancel": "Cancel",
       "enable": "Enable",
-      "confirm": "Confirm"
+      "confirm": "Confirm",
+      "img": "IMG",
+      "name": "Name",
+      "actions": "Actions"
     },
     "signIn": {
       "heading": "SIGN IN",
@@ -45,7 +48,11 @@
 
     },
     "category": {
-      "heading": "Category"
+      "heading": "Category",
+      "productCategory": "Product category",
+      "addNew": "Add new category",
+      "search": "Search for a category",
+      "productCount": "Product count"
     },
     "store": {
       "heading": "Store Management"

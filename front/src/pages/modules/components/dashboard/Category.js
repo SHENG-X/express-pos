@@ -15,6 +15,8 @@ import {
   Edit,
   Delete
 } from '@material-ui/icons';
+import { useTranslation } from 'react-i18next';
+
 import CategoryModal from './CategoryModal';
 import { Context } from '../../../../context/storeContext';
 
@@ -22,6 +24,7 @@ const Category = ({ handleOpen }) => {
   const { state } = useContext(Context);
   const [open, setOpen] = useState(false);
   const [currentCategory, setCurrentCategory] = useState(null);
+  const { t } = useTranslation();
 
   const handleAdd = () => {
     setCurrentCategory(null);
@@ -39,18 +42,18 @@ const Category = ({ handleOpen }) => {
         <div className="category-tab">
           <div className="heading">
             <Typography variant="subtitle1">
-              Product category
+              { t('category.productCategory') }
             </Typography>
           </div>
           <div className="actions">
             <Button
               onClick={handleAdd}
             >
-              Add new category
+              { t('category.addNew') }
             </Button>
             <div className="search">
               <Input
-                placeholder="Search for a category"
+                placeholder={ t('category.search') }
                 startAdornment={
                   <InputAdornment position="start">
                     <Search />
@@ -63,22 +66,22 @@ const Category = ({ handleOpen }) => {
             <div className="row heading">
               <div class="col-img">
                 <Typography variant="subtitle1">
-                  IMG
+                  { t('common.img') }
                 </Typography>
               </div>
               <div class="col-name">
                 <Typography variant="subtitle1">
-                  Name
+                  { t('common.name') }
                 </Typography>
               </div>
               <div class="col-count">
                 <Typography variant="subtitle1">
-                  Product Count
+                  { t('category.productCount') }
                 </Typography>
               </div>
               <div class="col-actions">
                 <Typography variant="subtitle1">
-                  Actions
+                  { t('common.actions') }
                 </Typography>
               </div>
             </div>
