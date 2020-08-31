@@ -5,13 +5,9 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { 
-  IconButton, 
   withStyles,
   Link as MDCLink,
 } from '@material-ui/core';
-import {
-  Menu,
-} from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 
 import AppBar from '../components/AppBar';
@@ -74,7 +70,7 @@ function AppAppBar(props) {
               {
                 state.authenticated ?
                 <React.Fragment>
-                  <span class="dash-separator">
+                  <span className="dash-separator">
                     -
                   </span>  
                   <span>

@@ -3,9 +3,7 @@ import React, {
 } from 'react';
 import {
   Grid,
-  Button
 } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
 
 import withRoot from './modules/withRoot';
 import AppAppBar from './modules/views/AppAppBar';
@@ -17,7 +15,6 @@ const Sale = () => {
   const [open, setOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState({});
   const [order, setOrder] = useState([]);
-  const history = useHistory();
   
   const handleOpen = (product) => {
     setSelectedProduct({...product, price: Math.max(...product.prices)});

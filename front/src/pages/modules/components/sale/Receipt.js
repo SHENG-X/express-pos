@@ -1,10 +1,10 @@
 import React, {
-  useState,
   useContext
 } from 'react';
 import {
   IconButton,
   Button,
+  Paper,
 } from '@material-ui/core';
 import {
   Add,
@@ -13,7 +13,6 @@ import {
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 
-import Paper from '../Paper';
 import Typography from '../Typography';
 import { Context } from '../../../../context/storeContext';
 import { formatAsCurrency } from '../../../../utils';
@@ -25,11 +24,12 @@ const Receipt = ({ order, setOrder }) => {
   const deleteProduct = (product) => {
     const newProducts = order.filter(prod => {
       if (prod._id === product._id && prod.price === product.price) {
+        return null;
       } else {
         return prod;
       }
     });
-    setOrder(newProducts);
+    setOrder(newProducts.filter(prod => prod !== null));
   }
 
   const addRemoveProduct = (action, product) => {
@@ -140,7 +140,7 @@ const Receipt = ({ order, setOrder }) => {
                   <div className="row">
                     <div className="col-label">
                       <Typography variant="subtitle2">
-                        <span style={{'padding-right': '0.2rem'}}>
+                        <span style={{'paddingRight': '0.2rem'}}>
                           { t('sale.tax') }
                         </span> 
                         { state.store.tax.rate * 100 }%
@@ -196,7 +196,7 @@ const Receipt = ({ order, setOrder }) => {
 
 const ReceiptItem = ({ product, addRemoveProduct, deleteProduct }) => {
   return (
-    <div class="row">
+    <div className="row">
       <div className="col-qty">
         <IconButton
           color="primary"

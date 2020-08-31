@@ -1,5 +1,4 @@
 import React, {
-  useState,
   useContext,
 } from 'react';
 import {
@@ -55,7 +54,6 @@ const ProductItem = ({ product, handleOpen }) => {
         />
         <CardHeader
           title={product.name}
-          // subheader="September 14, 2016"
         />
       </Card>
     </ButtonBase>

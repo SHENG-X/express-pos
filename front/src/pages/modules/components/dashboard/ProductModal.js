@@ -170,7 +170,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
               </Typography>
             </div>
             <div className="input price">
-              <div class="price-row">
+              <div className="price-row">
                {
                  product.prices.map((price, idx) => (
                   <div>

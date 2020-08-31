@@ -30,7 +30,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div class="dashboard">
+    <div className="dashboard">
       <React.Fragment>
         <AppAppBar />
         <Grid container spacing={3} >

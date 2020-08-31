@@ -7,6 +7,7 @@ import {
   InputAdornment,
   Typography,
   IconButton,
+  Paper
 } from '@material-ui/core';
 import {
   Search,
@@ -18,7 +19,6 @@ import {
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 
-import Paper from '../Paper';
 import Button from '../Button';
 import { Context } from '../../../../context/storeContext';
 import ProductModal from './ProductModal';
@@ -158,7 +158,7 @@ const ProductRow = ({ product, editProduct }) => {
       <div className="col-prices">
         { 
           product.prices.map(price => (
-            <div className="price-item">
+            <div className="price-item" key={`${price.name}-${price.value}`}>
               <div className="name">{ price.name }</div>
               <div className="separator">-</div>
               <div className="value">{ formatAsCurrency(price.value) }</div>

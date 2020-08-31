@@ -64,22 +64,22 @@ const Category = ({ handleOpen }) => {
           </div>
           <div className="content">
             <div className="row heading">
-              <div class="col-img">
+              <div className="col-img">
                 <Typography variant="subtitle1">
                   { t('common.img') }
                 </Typography>
               </div>
-              <div class="col-name">
+              <div className="col-name">
                 <Typography variant="subtitle1">
                   { t('common.name') }
                 </Typography>
               </div>
-              <div class="col-count">
+              <div className="col-count">
                 <Typography variant="subtitle1">
                   { t('product.productCount') }
                 </Typography>
               </div>
-              <div class="col-actions">
+              <div className="col-actions">
                 <Typography variant="subtitle1">
                   { t('common.actions') }
                 </Typography>

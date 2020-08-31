@@ -24,7 +24,7 @@ const App = () => {
 
   useEffect(() => {
     tokenAuth();
-  }, []);
+  });
 
   return (
     <Router>
