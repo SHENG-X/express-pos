@@ -1,5 +1,6 @@
 import React, {
   useContext,
+  useState,
 } from 'react';
 import {
   Input,
@@ -16,6 +17,15 @@ import { Context } from '../../../../context/storeContext';
 
 const Products = ({ handleOpen }) => {
   const { state } = useContext(Context);
+  const [searchText, setSearchText] = useState('');
+
+  const computeProductList = () => {
+    let products = state.store.products;
+    if (searchText !== '') {
+      products = products.filter(prod => prod.name.toLowerCase().includes(searchText.toLowerCase()));
+    }
+    return products.map(prod => prod.enable && <ProductItem product={prod} handleOpen={handleOpen} key={prod._id}/>);
+  }
 
   return (
     <div className="products">
@@ -27,12 +37,13 @@ const Products = ({ handleOpen }) => {
               <Search />
             </InputAdornment>
           }
+          onChange={e => setSearchText(e.target.value)}
         />
       </div>
       <div className="list-container">
         <div className="list">
           {
-            state.store.products.map(prod => prod.enable && <ProductItem product={prod} handleOpen={handleOpen} key={prod._id}/>)
+            computeProductList()
           }
         </div>
       </div>
