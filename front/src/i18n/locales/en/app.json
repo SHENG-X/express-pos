@@ -8,7 +8,8 @@
       "inProgress": "In progress...",
       "save": "Save",
       "cancel": "Cancel",
-      "enable": "Enable"
+      "enable": "Enable",
+      "confirm": "Confirm"
     },
     "signIn": {
       "heading": "SIGN IN",

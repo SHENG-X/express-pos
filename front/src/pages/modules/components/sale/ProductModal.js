@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import {
   Typography,
-  TextField,
   FormControl,
   InputLabel,
   Select,
@@ -15,12 +14,15 @@ import {
   Add,
   Remove
 } from '@material-ui/icons';
+import { useTranslation } from 'react-i18next';
 
 import ModalBase from '../ModalBase';
 
 const ProductModal = ({ selectedProduct, handleOpen, handleConfirm }) => {
   const prices = selectedProduct.prices.map(p => p.value);
   const [product, setProduct] = useState({...selectedProduct, count: 1, price: Math.max(...prices)});
+  const { t } = useTranslation();
+
   const addRemoveProduct = (action) => {
     let base = 1;
     if (action === 'remove') {
@@ -41,7 +43,7 @@ const ProductModal = ({ selectedProduct, handleOpen, handleConfirm }) => {
           <div className="count row">
             <div className="label">
             <Typography variant="subtitle1">
-              Quantity
+              { t('sale.quantity') }
             </Typography>
             </div>
             <div className="action">
@@ -69,18 +71,18 @@ const ProductModal = ({ selectedProduct, handleOpen, handleConfirm }) => {
           <div className="price row">
             <div className="label">
               <Typography variant="subtitle1">
-                Price
+                { t('sale.price') }
               </Typography>
             </div>
             <div className="action">
               <FormControl variant="outlined" >
-                <InputLabel id="demo-simple-select-outlined-label">Price</InputLabel>
+                <InputLabel id="demo-simple-select-outlined-label">{ t('sale.price') }</InputLabel>
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
                   value={product.price}
                   onChange={(e) => setProduct({...product, price: e.target.value})}
-                  label="Price"
+                  label={ t('sale.price') }
                 >
                   {
                     product.prices.map(p => (<MenuItem value={p.value} key={p.value}>{`${p.name} - ${p.value}`}</MenuItem>))
@@ -96,12 +98,12 @@ const ProductModal = ({ selectedProduct, handleOpen, handleConfirm }) => {
           <Button 
             onClick={() => handleOpen(false)}
           >
-            Cancel
+            { t('common.cancel') }
           </Button>
           <Button
             onClick={() => handleConfirm(product)}
           >
-            Confirm
+            { t('common.confirm') }
           </Button>
         </React.Fragment>
       }
