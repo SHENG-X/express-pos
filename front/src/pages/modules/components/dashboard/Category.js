@@ -8,7 +8,12 @@ import {
   Button,
   Input,
   InputAdornment,
-  IconButton
+  IconButton,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
 } from '@material-ui/core';
 import {
   Search,
@@ -72,35 +77,19 @@ const Category = () => {
               />
             </div>
           </div>
-          <div className="content">
-            <div className="row heading">
-              <div className="col-img">
-                <Typography variant="subtitle1">
-                  { t('common.img') }
-                </Typography>
-              </div>
-              <div className="col-name">
-                <Typography variant="subtitle1">
-                  { t('common.name') }
-                </Typography>
-              </div>
-              <div className="col-count">
-                <Typography variant="subtitle1">
-                  { t('product.productCount') }
-                </Typography>
-              </div>
-              <div className="col-actions">
-                <Typography variant="subtitle1">
-                  { t('common.actions') }
-                </Typography>
-              </div>
-            </div>
-            <div className="list">
-              {
-                computeList()
-              }
-            </div>
-          </div>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>{ t('common.img') }</TableCell>
+                <TableCell>{ t('common.name') }</TableCell>
+                <TableCell>{ t('product.productCount') }</TableCell>
+                <TableCell>{ t('common.actions') }</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+                { computeList() }
+            </TableBody>
+          </Table>
         </div>
       </Paper>
       {
@@ -126,28 +115,28 @@ const CategoryRow = ({ category, handleEdit }) => {
   }
 
   return (
-    <div className="row">
-      <div className="col-img">
+    <TableRow>
+      <TableCell>
         <div
-          className=""
+          className="thumbnail"
           title={category.name}
           style={{"backgroundImage": `url(/static/media/no-product-image.b51a7162.png)`}}
         />
-      </div>
-      <div className="col-name">
+      </TableCell>
+      <TableCell>
         { category.name }
-      </div>
-      <div className="col-count">
+      </TableCell>
+      <TableCell>
         { productCount() }
-      </div>
-      <div className="col-actions">
+      </TableCell>
+      <TableCell>
         <IconButton
-          color="primary"
-          size="small"
-          onClick={() => handleEdit(category)}
-        >
-          <Edit />
-        </IconButton>
+            color="primary"
+            size="small"
+            onClick={() => handleEdit(category)}
+          >
+            <Edit />
+          </IconButton>
         <IconButton
           color="primary"
           size="small"
@@ -155,8 +144,8 @@ const CategoryRow = ({ category, handleEdit }) => {
         >
           <Delete />
         </IconButton>
-      </div>
-    </div>
+      </TableCell>
+    </TableRow>
   );
 }
 
