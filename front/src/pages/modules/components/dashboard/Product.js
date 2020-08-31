@@ -16,6 +16,8 @@ import {
   Visibility,
   VisibilityOff,
 } from '@material-ui/icons';
+import { useTranslation } from 'react-i18next';
+
 import Paper from '../Paper';
 import Button from '../Button';
 import { Context } from '../../../../context/storeContext';
@@ -25,6 +27,7 @@ const Product = ({ handleOpen }) => {
   const { state } = useContext(Context);
   const [open, setOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
+  const { t } = useTranslation();
 
   const handleAddProduct = () => {
     setCurrentProduct(null);
@@ -42,18 +45,18 @@ const Product = ({ handleOpen }) => {
 
         <div className="heading">
           <Typography variant="subtitle1">
-            Products
+            { t('product.heading') }
           </Typography>
         </div>
         <div className="actions">
           <Button
             onClick={handleAddProduct}
           >
-            Add new product
+            { t('product.addNew') }
           </Button>
           <div className="search">
             <Input
-              placeholder="Search for a product"
+              placeholder={ t('product.search') }
               startAdornment={
                 <InputAdornment position="start">
                   <Search />
@@ -66,37 +69,37 @@ const Product = ({ handleOpen }) => {
           <div className="row heading">
             <div className="col-img">
               <Typography variant="subtitle1">
-                IMG
+                { t('common.img') }
               </Typography>
             </div>
             <div className="col-name">
               <Typography variant="subtitle1">
-                Name
+                { t('common.name') }
               </Typography>
             </div>
             <div className="col-count">
               <Typography variant="subtitle1">
-                Count
+                { t('common.count') }
               </Typography>
             </div>
             <div className="col-category">
               <Typography variant="subtitle1">
-                Category
+                { t('category.heading') }
               </Typography>
             </div>
             <div className="col-prices">
               <Typography variant="subtitle1">
-                Prices
+                { t('sale.prices') }
               </Typography>
             </div>
             <div className="col-cost">
               <Typography variant="subtitle1">
-                Cost
+                { t('product.cost') }
               </Typography>
             </div>
             <div className="col-actions">
               <Typography variant="subtitle1">
-                Actions
+                { t('common.actions') }
               </Typography>
             </div>
           </div>

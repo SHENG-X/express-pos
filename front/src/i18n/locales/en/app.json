@@ -13,7 +13,8 @@
       "img": "IMG",
       "name": "Name",
       "actions": "Actions",
-      "thumbnail": "Thumbnail"
+      "thumbnail": "Thumbnail",
+      "count": "Count"
     },
     "signIn": {
       "heading": "SIGN IN",
@@ -33,6 +34,7 @@
       "quantity": "Quantity",
       "product": "Product",
       "price": "Price",
+      "prices": "Prices",
       "amount": "Amount",
       "del": "Del",
       "subtotal": "Subtotal",
@@ -46,7 +48,10 @@
     },
     "product": {
       "heading": "Product",
-      "productName": "Product name"
+      "productName": "Product name",
+      "addNew": "Add new product",
+      "search": "Search for a product",
+      "cost": "Cost"
     },
     "category": {
       "heading": "Category",
