@@ -18,11 +18,13 @@
       flex-basis: 200px;
       width: unset;
       margin: unset;
+      position: fixed;
     }
     .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-9 {
       height: 100%;
       max-width: unset;
       flex-basis: unset;
+      margin-left: 240px;
     }
   }
   .tabs {
@@ -38,9 +40,11 @@
   }
   .tab-panel {
     padding: 0 4rem;
+    padding-bottom: 3rem;
   }
 
   @import 'product.scss';
   @import 'category.scss';
   @import 'tax.scss';
+  @import 'sale.scss';
 }
