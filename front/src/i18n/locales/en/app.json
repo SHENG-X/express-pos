@@ -50,7 +50,6 @@
     },
     "category": {
       "heading": "Category",
-      "productCategory": "Product category",
       "addNew": "Add new category",
       "search": "Search for a category",
       "productCount": "Product count"

@@ -42,7 +42,7 @@ const Category = ({ handleOpen }) => {
         <div className="category-tab">
           <div className="heading">
             <Typography variant="subtitle1">
-              { t('category.productCategory') }
+              { t('category.heading') }
             </Typography>
           </div>
           <div className="actions">
