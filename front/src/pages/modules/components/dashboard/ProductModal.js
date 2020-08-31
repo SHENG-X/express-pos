@@ -124,7 +124,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
           <div className="row">
             <div className="label">
               <Typography variant="subtitle2">
-                { t('common.Count') }
+                { t('common.count') }
               </Typography>
             </div>
             <div className="input">
