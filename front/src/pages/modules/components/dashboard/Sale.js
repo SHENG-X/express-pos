@@ -6,6 +6,11 @@ import {
   Typography,
   IconButton,
   Button,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
 } from '@material-ui/core';
 import {
   Edit,
@@ -40,6 +45,23 @@ const SaleReport = () => {
       });
     });
     return (calcRevenue() - totalCost).toFixed(2);
+  }
+
+  const computeOrderList = () => {
+    // sort orders by created time,the latest order is
+    // displayed at the top row of the table
+    let orders = state.store.orders.sort((o1, o2) => {
+      const d1 = new Date(o1.createdAt);
+      const d2 = new Date(o2.createdAt);
+      if (d1 > d2) {
+        return -1;
+      }
+      if (d1 < d2) {
+        return  1;
+      }
+      return 0;
+    });
+    return orders.map(order => <OrderRow order={order} key={order._id}/>);
   }
 
   return (
@@ -86,28 +108,30 @@ const SaleReport = () => {
       </Paper>
 
       <Paper elevation={3} >
-        <div className="order-history">
-          <div className="row heading">
-            <div className="oid">
-            <Typography variant="subtitle1">
-              { t('report.orderId') }
-            </Typography>
-            </div>
-            <div className="timestamp">
-            <Typography variant="subtitle1">
-              { t('report.placedTime') }
-            </Typography>
-            </div>
-            <div className="actions">
-            <Typography variant="subtitle1">
-              { t('common.actions') }
-            </Typography>
-            </div>
-          </div>
-          {
-            state.store.orders.map(order => <OrderRow order={order} key={order._id}/>)
-          }
-        </div>
+        <Table className="table">
+          <TableHead className="header">
+            <TableRow>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  { t('report.orderId') }
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  { t('report.placedTime') }
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">
+                  { t('common.actions') }
+                </Typography>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            { computeOrderList() }
+          </TableBody>
+        </Table>
       </Paper>
     </div>
   );
@@ -116,44 +140,42 @@ const SaleReport = () => {
 const OrderRow = ({ order }) => {
 
   return (
-    <div className="row">
-      <div className="oid">
-        {
-          order._id
-        }
-      </div>
-      <div className="timestamp">
-        {
-          new Date(order.createdAt).toLocaleString()
-        }
-      </div>
-      <div className="actions">
-        <div>
-          <IconButton
-            color="primary"
-            size="small"
-          >
-            <AmpStories />
-          </IconButton>
+    <TableRow>
+      <TableCell>
+        { order._id }
+      </TableCell>
+      <TableCell>
+        { new Date(order.createdAt).toLocaleString() }
+      </TableCell>
+      <TableCell>
+        <div className="actions">
+          <div>
+            <IconButton
+              color="primary"
+              size="small"
+            >
+              <AmpStories />
+            </IconButton>
+          </div>
+          <div>
+            <IconButton
+              color="primary"
+              size="small"
+            >
+              <Edit />
+            </IconButton>
+          </div>
+          <div>
+            <IconButton
+              color="primary"
+              size="small"
+            >
+              <Delete />
+            </IconButton>
+          </div>
         </div>
-        <div>
-          <IconButton
-            color="primary"
-            size="small"
-          >
-            <Edit />
-          </IconButton>
-        </div>
-        <div>
-          <IconButton
-            color="primary"
-            size="small"
-          >
-            <Delete />
-          </IconButton>
-        </div>
-      </div>
-    </div>
+      </TableCell>
+    </TableRow>
   );
 }
 
