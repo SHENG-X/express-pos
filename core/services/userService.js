@@ -24,7 +24,12 @@ const populateStore = (res, user) => {
         if (error) {
           return res.status(500).json(error);
         }
-        return res.status(200).json({ ...user._doc, password: null, token: jwt.sign({ uid: user._doc._id }, process.env.JWT_SECRET, { expiresIn: '8h' })});
+        return user.populate('store.orders').execPopulate((error, user) => {
+          if (error) {
+            return res.status(500).json(error);
+          }
+          return res.status(200).json({ ...user._doc, password: null, token: jwt.sign({ uid: user._doc._id }, process.env.JWT_SECRET, { expiresIn: '8h' })});
+        })
       });
     });
   });
