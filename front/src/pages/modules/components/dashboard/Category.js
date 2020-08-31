@@ -77,19 +77,21 @@ const Category = () => {
               />
             </div>
           </div>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>{ t('common.img') }</TableCell>
-                <TableCell>{ t('common.name') }</TableCell>
-                <TableCell>{ t('product.productCount') }</TableCell>
-                <TableCell>{ t('common.actions') }</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-                { computeList() }
-            </TableBody>
-          </Table>
+          <div className="table-container">
+            <Table stickyHeader>
+              <TableHead>
+                <TableRow>
+                  <TableCell>{ t('common.img') }</TableCell>
+                  <TableCell>{ t('common.name') }</TableCell>
+                  <TableCell>{ t('product.productCount') }</TableCell>
+                  <TableCell>{ t('common.actions') }</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                  { computeList() }
+              </TableBody>
+            </Table>
+          </div>
         </div>
       </Paper>
       {

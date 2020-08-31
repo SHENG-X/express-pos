@@ -1,3 +1,19 @@
+.tab-panel.category-tab {
+  height: 100%;
+  .content {
+    height: 100%;
+    & > div {
+      height: 100%;
+      .category-tab {
+        height: 100%;
+        .table-container {
+          height: calc(100% - 131px);
+          overflow: overlay;
+        }
+      }
+    }
+  }
+}
 .category-tab {
   min-width: 600px;
   & > .heading {

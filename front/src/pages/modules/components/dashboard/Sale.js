@@ -108,7 +108,7 @@ const SaleReport = () => {
       </Paper>
 
       <Paper elevation={3} >
-        <Table className="table">
+        <Table stickyHeader className="table">
           <TableHead className="header">
             <TableRow>
               <TableCell>

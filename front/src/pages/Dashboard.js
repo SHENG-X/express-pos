@@ -61,19 +61,19 @@ const Dashboard = () => {
             </Tabs>
           </Grid>
           <Grid item xs={9}>
-            <TabPanel value={value} index={2}>
+            <TabPanel value={value} index={2} className="product-tab">
               <Product/>
             </TabPanel>
-            <TabPanel value={value} index={3}>
+            <TabPanel value={value} index={3} className="category-tab">
               <Category/>
             </TabPanel>
-            <TabPanel value={value} index={4}>
+            <TabPanel value={value} index={4} className="tax-tab">
               <Tax/>
             </TabPanel>
-            <TabPanel value={value} index={6}>
+            <TabPanel value={value} index={6} className="sale-report-tab">
               <SaleReport/>
             </TabPanel>
-            <TabPanel value={value} index={7}>
+            <TabPanel value={value} index={7} className="inventory-report-tab">
               <InventoryReport/>
             </TabPanel>
           </Grid>
@@ -83,15 +83,15 @@ const Dashboard = () => {
   );
 }
 
-const TabPanel = ({ children, index, value }) => {
+const TabPanel = ({ children, index, value, className }) => {
   return (
     <div
       role="tabpanel"
       hidden={value !== index}
-      className="tab-panel"
+      className={`tab-panel ${className}`}
     >
       {value === index && (
-        <div>
+        <div className="content">
           {children}
         </div>
       )}

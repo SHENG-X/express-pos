@@ -4,6 +4,9 @@
       width: 400px;
       margin-bottom: 2rem;
     }
+    &:nth-of-type(2) {
+      min-width: 620px;
+    }
   }
   .revenue-pan {
     .heading {
@@ -41,6 +44,25 @@
           background-color: rgba(0, 0, 0, 0.04);
         }
       } 
+    }
+  }
+}
+.sale-report-tab {
+  height: 100%;
+  padding-bottom: 0;
+  & > div {
+    height: 100%;
+    .sale-tab { 
+      height: 100%;
+      & > div {
+        &:nth-of-type(2) {
+          height: calc(100% - 180px);
+          overflow: overlay;
+        }
+      }
+      .MuiTableCell-stickyHeader {
+        background-color: $primary-dark;
+      }
     }
   }
 }

@@ -81,22 +81,24 @@ const Product = () => {
             />
           </div>
         </div>
-        <Table className="table">
-          <TableHead>
-            <TableRow>
-              <TableCell>{ t('common.img') }</TableCell>
-              <TableCell>{ t('common.name') }</TableCell>
-              <TableCell>{ t('common.count') }</TableCell>
-              <TableCell>{ t('category.heading') }</TableCell>
-              <TableCell>{ t('sale.prices') }</TableCell>
-              <TableCell>{ t('product.cost') }</TableCell>
-              <TableCell>{ t('common.actions') }</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            { computeList() }
-          </TableBody>
-        </Table>
+        <div className="table-container">
+          <Table stickyHeader className="table">
+            <TableHead>
+              <TableRow>
+                <TableCell>{ t('common.img') }</TableCell>
+                <TableCell>{ t('common.name') }</TableCell>
+                <TableCell>{ t('common.count') }</TableCell>
+                <TableCell>{ t('category.heading') }</TableCell>
+                <TableCell>{ t('sale.prices') }</TableCell>
+                <TableCell>{ t('product.cost') }</TableCell>
+                <TableCell>{ t('common.actions') }</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              { computeList() }
+            </TableBody>
+          </Table>
+        </div>
       </Paper>
       {
         open ?

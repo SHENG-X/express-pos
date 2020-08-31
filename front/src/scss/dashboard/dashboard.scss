@@ -22,14 +22,14 @@
       height: 100%;
       top: 70px;
       background: white;
-      z-index: 1;
+      z-index: 9;
       box-shadow: 1px 0 12px 0px #bebebe;
     }
     .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-9 {
       height: 100%;
       max-width: unset;
       flex-basis: unset;
-      margin-left: 240px;
+      margin-left: 186px;
     }
   }
   .tabs {
@@ -45,7 +45,6 @@
   }
   .tab-panel {
     padding: 0 4rem;
-    padding-bottom: 3rem;
   }
 
   @import 'product.scss';
