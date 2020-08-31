@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import Paper from '../Paper';
 import Typography from '../Typography';
 import { Context } from '../../../../context/storeContext';
+import { formatAsCurrency } from '../../../../utils';
 
 const Receipt = ({ order, setOrder }) => {
   const { state, createOrder } = useContext(Context);
@@ -163,7 +164,7 @@ const Receipt = ({ order, setOrder }) => {
                 </div>
                 <div className="col-amount">
                   <Typography variant="body1">
-                    { calcTotal() }
+                    { formatAsCurrency(calcTotal()) }
                   </Typography>
                 </div>
               </div>

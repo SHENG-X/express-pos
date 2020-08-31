@@ -22,6 +22,7 @@ import Paper from '../Paper';
 import Button from '../Button';
 import { Context } from '../../../../context/storeContext';
 import ProductModal from './ProductModal';
+import { formatAsCurrency } from '../../../../utils';
 
 const Product = ({ handleOpen }) => {
   const { state } = useContext(Context);
@@ -157,14 +158,16 @@ const ProductRow = ({ product, editProduct }) => {
       <div className="col-prices">
         { 
           product.prices.map(price => (
-            <div>
-              <span>{ price.name }</span> - <span>{price.value}</span>
+            <div className="price-item">
+              <div className="name">{ price.name }</div>
+              <div className="separator">-</div>
+              <div className="value">{ formatAsCurrency(price.value) }</div>
             </div>
           ))
         }
       </div>
       <div className="col-cost">
-        { product.cost }
+        { formatAsCurrency(product.cost) }
       </div>
       <div className="col-actions">
         <div>

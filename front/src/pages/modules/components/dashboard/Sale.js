@@ -15,6 +15,7 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import { Context } from '../../../../context/storeContext';
+import { formatAsCurrency } from '../../../../utils';
 
 const SaleReport = () => {
   const { state } = useContext(Context);
@@ -68,14 +69,14 @@ const SaleReport = () => {
               <div className="value">
                 <Typography variant="subtitle1">  
                   {
-                    calcRevenue()
+                    formatAsCurrency(calcRevenue())
                   }
                 </Typography>
               </div>
               <div className="value">
                 <Typography variant="subtitle1">
                   {
-                    calcNetIncome()
+                    formatAsCurrency(calcNetIncome())
                   }
                 </Typography>
               </div>
