@@ -69,10 +69,20 @@
       "heading": "Store Management"
     },
     "report": {
-      "heading": "Report"
+      "heading": "Report",
+      "revenue": "Revenue",
+      "netIncome": "Net Income",
+      "orderId": "Order ID",
+      "placedTime": "Placed Timestamp"
     },
     "inventory": {
       "heading": "Inventory"
+    },
+    "date": {
+      "today": "Today",
+      "thisWeek": "This Week",
+      "thisMonth": "This Month",
+      "thisYear": "This Year"
     }
   }
 }

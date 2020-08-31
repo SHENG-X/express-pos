@@ -12,11 +12,13 @@ import {
   Delete,
   AmpStories,
 } from '@material-ui/icons';
+import { useTranslation } from 'react-i18next';
 
 import { Context } from '../../../../context/storeContext';
 
 const SaleReport = () => {
   const { state } = useContext(Context);
+  const { t } = useTranslation();
 
   const calcRevenue = () => {
     let totalRevenue = 0;
@@ -44,22 +46,21 @@ const SaleReport = () => {
       <Paper elevation={3} >
         <div className="revenue-pan">
           <div className="heading">
-            {/* <div className="title"/> */}
-            <Button>All</Button>
-            <Button>Today</Button>
-            <Button>This Week</Button>
-            <Button>This Month</Button>
+            <Button>{ t('date.today') }</Button>
+            <Button>{ t('date.thisWeek') }</Button>
+            <Button>{ t('date.thisMonth') }</Button>
+            <Button>{ t('date.thisYear') }</Button>
           </div>
           <div className="content">
             <div className="col">
               <div className="label">
                 <Typography variant="subtitle1">
-                  Revenue
+                  { t('report.revenue') }
                 </Typography>
               </div>
               <div className="label">
                 <Typography variant="subtitle1">
-                  Net Income
+                  { t('report.netIncome') }
                 </Typography>
               </div>
             </div>
@@ -88,17 +89,17 @@ const SaleReport = () => {
           <div className="row heading">
             <div className="oid">
             <Typography variant="subtitle1">
-              Order ID
+              { t('report.orderId') }
             </Typography>
             </div>
             <div className="timestamp">
             <Typography variant="subtitle1">
-              Placed Timestamp
+              { t('report.placedTime') }
             </Typography>
             </div>
             <div className="actions">
             <Typography variant="subtitle1">
-              Actions
+              { t('common.actions') }
             </Typography>
             </div>
           </div>
