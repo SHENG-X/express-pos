@@ -16,17 +16,18 @@
     }
   }
   .content {
-    padding: 0 2rem 2rem 2rem;
+    padding-bottom: 1rem;
     .heading {
       background: #aaa;
       color: white;
       padding: 0 1rem;
+      margin: 0 !important;
     }
     .row {
       display: grid;
       grid-template-columns: 60px 160px 120px minmax(160px, 1fr); 
       gap: 1rem;
-      padding: 0 1rem;
+      padding: 0 2rem;
       margin: 1rem 0;
       div {
         display: flex;
@@ -44,9 +45,11 @@
         padding: 0 4rem;
       }
     }
+    .list {
+      padding-top: 1rem;
+    }
   }
 }
-
 .category-modal {
   & > div {
     width: 360px;

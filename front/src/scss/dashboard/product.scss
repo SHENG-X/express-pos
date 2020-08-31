@@ -16,7 +16,7 @@
     }
   }
   .content {
-    padding: 0 2rem 2rem 2rem;
+    padding-bottom: 1rem;
     .heading {
       background: #aaa;
       color: white;
@@ -29,7 +29,7 @@
       display: grid;
       grid-template-columns: 60px 120px 60px 120px 120px 80px 1fr;
       gap: 1rem;
-      padding: 0 1rem;
+      padding: 0 2rem;
       margin: 1rem 0;
       & > div {
         display: flex;
