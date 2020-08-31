@@ -80,7 +80,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
                 required
                 value={category.name}
                 onChange={e => setCategory({...category, name: e.target.value})}
-                placeholder={ t('product.productName') }
+                placeholder={ t('category.categoryName') }
               />
             </div>
           </div>

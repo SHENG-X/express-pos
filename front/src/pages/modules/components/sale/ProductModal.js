@@ -36,7 +36,7 @@ const ProductModal = ({ selectedProduct, handleOpen, handleConfirm }) => {
 
   return (
     <ModalBase
-      title="Add a product"
+      title={ t('product.title') }
       className="product-modal"
       content={
         <React.Fragment>

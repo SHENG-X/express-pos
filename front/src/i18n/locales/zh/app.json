@@ -1,15 +1,92 @@
 {
   "translation": {
     "common": {
-      "required": "Required"
+      "required": "必填",
+      "email": "邮箱",
+      "invalidEmail": "邮箱不正确",
+      "password": "密码",
+      "inProgress": "验证中...",
+      "save": "保存",
+      "cancel": "取消",
+      "enable": "使用",
+      "confirm": "确定",
+      "img": "图片",
+      "name": "名称",
+      "actions": "操作",
+      "thumbnail": "图片",
+      "count": "数量",
+      "none": "无",
+      "sysReady": "系统就绪"
     },
     "signIn": {
-      "heading": "SIGN IN",
-      "subtitle": "Not a member yet?",
-      "subtitleAction": "Sign Up here",
-      "email": "Email",
-      "password": "Password",
-      "forgotPassword": "Forgot password?"
+      "heading": "登录",
+      "subtitle": "还没有账号？",
+      "subtitleAction": "点击这里注册",
+      "forgotPassword": "忘记密码?",
+      "invalid": "邮箱或者密码不正确"
+    },
+    "signUp": {
+      "heading": "注册",
+      "subtitle": "已经有账号了?",
+      "business": "公司名称",
+      "invalid": "邮箱已经被注册"
+    },
+    "sale": {
+      "heading": "销售",
+      "quantity": "数量",
+      "product": "产品",
+      "price": "价格",
+      "prices": "价格表",
+      "amount": "金额",
+      "del": "删除",
+      "subtotal": "小计",
+      "tax": "消费税",
+      "total": "总额"
+    },
+    "tax": {
+      "heading": "税",
+      "rate": "税率",
+      "taxRate": "税率"
+    },
+    "product": {
+      "heading": "产品",
+      "title": "添加产品",
+      "update": "更新产品",
+      "productName": "产品名称",
+      "addNew": "添加产品",
+      "search": "搜索产品",
+      "cost": "成本",
+      "productCount": "产品数量",
+      "priceName": "价格名字",
+      "priceValue": "价格",
+      "productCost": "产品成本"
+    },
+    "category": {
+      "heading": "类别",
+      "title": "添加类别",
+      "update": "更新类别",
+      "addNew": "添加类别",
+      "search": "搜索类别",
+      "categoryName": "类别名称"
+    },
+    "store": {
+      "heading": "店面管理"
+    },
+    "report": {
+      "heading": "报表",
+      "revenue": "销售额",
+      "netIncome": "净利润",
+      "orderId": "单号",
+      "placedTime": "下单时间"
+    },
+    "inventory": {
+      "heading": "库存"
+    },
+    "date": {
+      "today": "今天",
+      "thisWeek": "本周",
+      "thisMonth": "本月",
+      "thisYear": "本年"
     }
   }
 }
