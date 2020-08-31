@@ -7,7 +7,12 @@ import {
   InputAdornment,
   Typography,
   IconButton,
-  Paper
+  Paper,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
 } from '@material-ui/core';
 import {
   Search,
@@ -76,50 +81,22 @@ const Product = () => {
             />
           </div>
         </div>
-        <div className="content">
-          <div className="row heading">
-            <div className="col-img">
-              <Typography variant="subtitle1">
-                { t('common.img') }
-              </Typography>
-            </div>
-            <div className="col-name">
-              <Typography variant="subtitle1">
-                { t('common.name') }
-              </Typography>
-            </div>
-            <div className="col-count">
-              <Typography variant="subtitle1">
-                { t('common.count') }
-              </Typography>
-            </div>
-            <div className="col-category">
-              <Typography variant="subtitle1">
-                { t('category.heading') }
-              </Typography>
-            </div>
-            <div className="col-prices">
-              <Typography variant="subtitle1">
-                { t('sale.prices') }
-              </Typography>
-            </div>
-            <div className="col-cost">
-              <Typography variant="subtitle1">
-                { t('product.cost') }
-              </Typography>
-            </div>
-            <div className="col-actions">
-              <Typography variant="subtitle1">
-                { t('common.actions') }
-              </Typography>
-            </div>
-          </div>
-          <div className="list">
-            {
-              computeList()
-            }
-          </div>
-        </div>
+        <Table className="table">
+          <TableHead>
+            <TableRow>
+              <TableCell>{ t('common.img') }</TableCell>
+              <TableCell>{ t('common.name') }</TableCell>
+              <TableCell>{ t('common.count') }</TableCell>
+              <TableCell>{ t('category.heading') }</TableCell>
+              <TableCell>{ t('sale.prices') }</TableCell>
+              <TableCell>{ t('product.cost') }</TableCell>
+              <TableCell>{ t('common.actions') }</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            { computeList() }
+          </TableBody>
+        </Table>
       </Paper>
       {
         open ?
@@ -146,27 +123,25 @@ const ProductRow = ({ product, editProduct }) => {
   }
 
   return (
-    <div className="row">
-      <div className="col-img">
+    <TableRow>
+      <TableCell>
         <div
-          className=""
+          className="thumbnail"
           title={product.name}
           style={{"backgroundImage": `url(/static/media/no-product-image.b51a7162.png)`}}
         />
-      </div>
-      <div className="col-name">
+      </TableCell>
+      <TableCell>
         { product.name }
-      </div>
-      <div className="col-count">
+      </TableCell>
+      <TableCell>
         { product.count }
-      </div>
-      <div className="col-category">
-        { 
-          computeCategoryName()
-        }
-      </div>
-      <div className="col-prices">
-        { 
+      </TableCell>
+      <TableCell>
+        { computeCategoryName() }
+      </TableCell>
+      <TableCell>
+        {
           product.prices.map(price => (
             <div className="price-item" key={`${price.name}-${price.value}`}>
               <div className="name">{ price.name }</div>
@@ -175,61 +150,63 @@ const ProductRow = ({ product, editProduct }) => {
             </div>
           ))
         }
-      </div>
-      <div className="col-cost">
+      </TableCell>
+      <TableCell>
         { formatAsCurrency(product.cost) }
-      </div>
-      <div className="col-actions">
-        <div>
-          <IconButton
-            color="primary"
-            size="small"
-            onClick={() => editProduct(product)}
-          >
-            <Edit />
-          </IconButton>
-        </div>
-        <div>
-          <IconButton
-            color="primary"
-            size="small"
-          >
-            <Storage />
-          </IconButton>
-        </div>
-        {
-          product.enable ?
+      </TableCell>
+      <TableCell>
+        <div className="actions">
           <div>
             <IconButton
               color="primary"
               size="small"
-              onClick={() => updateProduct({...product, enable: false})}
+              onClick={() => editProduct(product)}
             >
-              <Visibility />
+              <Edit />
             </IconButton>
           </div>
-          :
           <div>
             <IconButton
               color="primary"
               size="small"
-              onClick={() => updateProduct({...product, enable: true})}
             >
-              <VisibilityOff />
+              <Storage />
             </IconButton>
           </div>
-        }
-        <div>
-          <IconButton
-            color="primary"
-            size="small"
-            onClick={() => deleteProduct({ _id: product._id, store: state.store._id })}
-          >
-            <Delete />
-          </IconButton>
+          {
+            product.enable ?
+            <div>
+              <IconButton
+                color="primary"
+                size="small"
+                onClick={() => updateProduct({...product, enable: false})}
+              >
+                <Visibility />
+              </IconButton>
+            </div>
+            :
+            <div>
+              <IconButton
+                color="primary"
+                size="small"
+                onClick={() => updateProduct({...product, enable: true})}
+              >
+                <VisibilityOff />
+              </IconButton>
+            </div>
+          }
+          <div>
+            <IconButton
+              color="primary"
+              size="small"
+              onClick={() => deleteProduct({ _id: product._id, store: state.store._id })}
+            >
+              <Delete />
+            </IconButton>
+          </div>
         </div>
-      </div>
-    </div>
+      </TableCell>
+    </TableRow>
   );
 }
 
