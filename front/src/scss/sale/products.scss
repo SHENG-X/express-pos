@@ -7,7 +7,7 @@
   }
   .list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 200px));
     gap: 1rem;
     padding: 2rem 0;
     .card-button {
