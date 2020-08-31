@@ -20,11 +20,12 @@ import { useTranslation } from 'react-i18next';
 import CategoryModal from './CategoryModal';
 import { Context } from '../../../../context/storeContext';
 
-const Category = ({ handleOpen }) => {
+const Category = () => {
   const { state } = useContext(Context);
   const [open, setOpen] = useState(false);
   const [currentCategory, setCurrentCategory] = useState(null);
   const { t } = useTranslation();
+  const [searchText, setSearchText] = useState('');
 
   const handleAdd = () => {
     setCurrentCategory(null);
@@ -34,6 +35,14 @@ const Category = ({ handleOpen }) => {
   const handleEdit = (category) => {
     setCurrentCategory(category);
     setOpen(true);
+  }
+
+  const computeList = () => {
+    let categories = state.store.categories;
+    if (searchText !== '') {
+      categories = categories.filter(category => category.name.toLowerCase().includes(searchText.toLowerCase()));
+    }
+    return categories.map(category => <CategoryRow category={category} handleEdit={handleEdit} key={category._id} />);
   }
 
   return (
@@ -59,6 +68,7 @@ const Category = ({ handleOpen }) => {
                     <Search />
                   </InputAdornment>
                 }
+                onChange={e => setSearchText(e.target.value)}
               />
             </div>
           </div>
@@ -87,7 +97,7 @@ const Category = ({ handleOpen }) => {
             </div>
             <div className="list">
               {
-                state.store.categories.map(category => <CategoryRow category={category} handleEdit={handleEdit} key={category._id} />)
+                computeList()
               }
             </div>
           </div>
