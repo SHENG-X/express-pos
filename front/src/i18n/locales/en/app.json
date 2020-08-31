@@ -15,7 +15,8 @@
       "actions": "Actions",
       "thumbnail": "Thumbnail",
       "count": "Count",
-      "none": "None"
+      "none": "None",
+      "sysReady": "System Ready"
     },
     "signIn": {
       "heading": "SIGN IN",

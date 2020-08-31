@@ -184,7 +184,7 @@ const Receipt = ({ order, setOrder }) => {
           :
           <div className="no-product">
             <Typography variant="subtitle1">
-              Waiting for entries.
+              { t('common.sysReady') }
             </Typography>
           </div>
         }
