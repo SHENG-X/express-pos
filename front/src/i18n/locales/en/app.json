@@ -52,12 +52,12 @@
       "addNew": "Add new product",
       "search": "Search for a product",
       "cost": "Cost"
+      "productCount": "Product count",
     },
     "category": {
       "heading": "Category",
       "addNew": "Add new category",
       "search": "Search for a category",
-      "productCount": "Product count"
     },
     "store": {
       "heading": "Store Management"

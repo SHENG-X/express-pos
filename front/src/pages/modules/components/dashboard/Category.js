@@ -76,7 +76,7 @@ const Category = ({ handleOpen }) => {
               </div>
               <div class="col-count">
                 <Typography variant="subtitle1">
-                  { t('category.productCount') }
+                  { t('product.productCount') }
                 </Typography>
               </div>
               <div class="col-actions">
