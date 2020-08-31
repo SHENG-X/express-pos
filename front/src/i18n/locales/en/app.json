@@ -24,6 +24,7 @@
       "invalid": "Email was already used"
     },
     "sale": {
+      "heading": "Sale",
       "quantity": "Quantity",
       "product": "Product",
       "price": "Price",
@@ -37,6 +38,22 @@
       "heading": "Tax",
       "rate": "Rate",
       "taxRate": "Tax rate"
+    },
+    "product": {
+      "heading": "Product"
+
+    },
+    "category": {
+      "heading": "Category"
+    },
+    "store": {
+      "heading": "Store Management"
+    },
+    "report": {
+      "heading": "Report"
+    },
+    "inventory": {
+      "heading": "Inventory"
     }
   }
 }

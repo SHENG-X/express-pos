@@ -10,6 +10,8 @@ import {
 import {
   useHistory
 } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 import AppAppBar from './modules/views/AppAppBar';
 import withRoot from './modules/withRoot';
 import Product from './modules/components/dashboard/Product';
@@ -21,6 +23,7 @@ import InventoryReport from './modules/components/dashboard/Inventory';
 const Dashboard = () => {
   const [value, setValue] = useState(2);
   const history = useHistory();
+  const { t } = useTranslation();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -39,22 +42,22 @@ const Dashboard = () => {
               onChange={handleChange}
               className="tabs"
             >
-              <Tab label="Sale" onClick={() => history.push('/sale')}/>
+              <Tab label={ t('sale.heading') } onClick={() => history.push('/sale')}/>
               <div className="heading">
                 <Typography variant="subtitle1">
-                  Store Management
+                  { t('store.heading') }
                 </Typography>
               </div>
-              <Tab label="Product" className="sub-item"/>
-              <Tab label="Category" className="sub-item"/>
-              <Tab label="Tax" className="sub-item"/>
+              <Tab label={ t('product.heading') } className="sub-item"/>
+              <Tab label={ t('category.heading') } className="sub-item"/>
+              <Tab label={ t('tax.heading') } className="sub-item"/>
               <div className="heading">
                 <Typography variant="subtitle1">
-                  Report
+                  { t('report.heading') }
                 </Typography>
               </div>
-              <Tab label="Sale" className="sub-item"/>
-              <Tab label="Inventory" className="sub-item"/>
+              <Tab label={ t('sale.heading') } className="sub-item"/>
+              <Tab label={ t('inventory.heading') } className="sub-item"/>
             </Tabs>
           </Grid>
           <Grid item xs={9}>
