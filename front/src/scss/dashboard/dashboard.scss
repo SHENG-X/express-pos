@@ -19,6 +19,11 @@
       width: unset;
       margin: unset;
       position: fixed;
+      height: 100%;
+      top: 70px;
+      background: white;
+      z-index: 1;
+      box-shadow: 1px 0 12px 0px #bebebe;
     }
     .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-9 {
       height: 100%;
