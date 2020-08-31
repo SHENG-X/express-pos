@@ -24,11 +24,12 @@ import { Context } from '../../../../context/storeContext';
 import ProductModal from './ProductModal';
 import { formatAsCurrency } from '../../../../utils';
 
-const Product = ({ handleOpen }) => {
+const Product = () => {
   const { state } = useContext(Context);
   const [open, setOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
   const { t } = useTranslation();
+  const [searchText, setSearchText] = useState('');
 
   const handleAddProduct = () => {
     setCurrentProduct(null);
@@ -38,6 +39,14 @@ const Product = ({ handleOpen }) => {
   const editProduct = (product) => {
     setCurrentProduct(product);
     setOpen(true);
+  }
+
+  const computeList = () => {
+    let products = state.store.products;
+    if (searchText !== '') {
+      products = products.filter(prod => prod.name.toLowerCase().includes(searchText.toLowerCase()));
+    }
+    return products.map(prod => <ProductRow product={prod} editProduct={editProduct} key={prod._id}/>);
   }
 
   return (
@@ -63,6 +72,7 @@ const Product = ({ handleOpen }) => {
                   <Search />
                 </InputAdornment>
               }
+              onChange={e => setSearchText(e.target.value)}
             />
           </div>
         </div>
@@ -105,9 +115,9 @@ const Product = ({ handleOpen }) => {
             </div>
           </div>
           <div className="list">
-              {
-                state.store.products.map(prod => <ProductRow product={prod} editProduct={editProduct} key={prod._id}/>)
-              }
+            {
+              computeList()
+            }
           </div>
         </div>
       </Paper>
