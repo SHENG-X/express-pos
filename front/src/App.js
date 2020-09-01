@@ -1,6 +1,7 @@
 import React, {
   useContext,
   useEffect,
+  useState,
 } from 'react';
 import {
   BrowserRouter as Router,
@@ -16,15 +17,29 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Home from './pages/Home';
 import Sale from './pages/Sale';
+import Loading from './pages/Loading';
 import Dashboard from './pages/Dashboard';
 import { Context } from './context/storeContext';
 
 const App = () => {
   const { state, tokenAuth } = useContext(Context);
-
+  const [fetchToken, setFetchToken] = useState(false);
+  
   useEffect(() => {
-    tokenAuth();
-  });
+    tokenAuth(() => {
+      setFetchToken(true);
+    });
+  }, []);
+
+  if (localStorage.getItem('EXPRESS-POS/token') 
+      && (window.location.href.includes('sale') 
+        || window.location.href.includes('dashboard'))) {
+    if (!fetchToken) {
+      return (
+        <Loading/>
+      );
+    }
+  }
 
   return (
     <Router>

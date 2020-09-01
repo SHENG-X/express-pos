@@ -105,10 +105,10 @@ const tokenAuth = (dispatch) => {
       const response = await tokenAuthenticate(token);
       if (response.status === 200) {
         dispatch({type: ACTIONS.SIGN_IN, payload: response.data});
-        if (callback) {
-          callback();
-        }
       }
+    }
+    if (callback) {
+      callback();
     }
   }
 }
