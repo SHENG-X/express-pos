@@ -8,6 +8,11 @@ const orderSchema = new Schema(
       ref: 'Store',
       required: true,
     },
+    paymentType: {
+      type: String,
+      enum: ['Cash', 'Card', 'None'],
+      default: 'None'
+    },
     products: {
       type: [
         {
