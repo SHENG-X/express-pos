@@ -6,7 +6,7 @@ import Typography from '../components/Typography';
 import ProductHeroLayout from './ProductHeroLayout';
 
 const backgroundImage =
-  'https://images.unsplash.com/photo-1534854638093-bada1813ca19?auto=format&fit=crop&w=1400&q=80';
+  'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80';
 
 const styles = (theme) => ({
   background: {
@@ -41,7 +41,7 @@ function ProductHero(props) {
         alt="increase priority"
       />
       <Typography color="inherit" align="center" variant="h2" marked="center">
-        Upgrade your Sundays
+        Upgrade your Business
       </Typography>
       <Typography
         color="inherit"
@@ -49,7 +49,7 @@ function ProductHero(props) {
         variant="h5"
         className={classes.h5}
       >
-        Enjoy secret offers up to -70% off the best luxury hotels every Sunday.
+        Manage your business record in a safe, efficient, and effective way.
       </Typography>
       <Button
         color="secondary"
