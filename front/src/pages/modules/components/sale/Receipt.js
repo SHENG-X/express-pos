@@ -166,8 +166,8 @@ const Receipt = ({ order, setOrder }) => {
                 }
                 <React.Fragment>
                   <TableRow>
-                    <TableCell rowSpan={2}/>
-                    <TableCell rowSpan={2}/>
+                    <TableCell rowSpan={1}/>
+                    <TableCell rowSpan={1}/>
                     <TableCell colSpan={2}>
                       <Typography variant="subtitle2">
                         { t('sale.total') }
@@ -193,6 +193,20 @@ const Receipt = ({ order, setOrder }) => {
                         onClick={placeOrder}
                       >
                         { t('common.save') }
+                      </Button>
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        // onClick={placeOrder}
+                      >
+                        Card
+                      </Button>
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        // onClick={placeOrder}
+                      >
+                        Cash
                       </Button>
                     </TableCell>
                   </TableRow>
