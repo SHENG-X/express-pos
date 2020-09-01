@@ -65,7 +65,7 @@ const SignIn = () => {
       if (response.status === 401) {
         setInvalid(true);
       } else if (response.status === 200) {
-        history.push('/dashboard');
+        history.push('/sale');
       }
     });
     setSent(false);

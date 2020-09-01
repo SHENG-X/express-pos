@@ -66,7 +66,7 @@ const SignUp = () => {
       if (response.status === 226) {
         setInvalid(true);
       } else if (response.status === 201) {
-        history.push('/dashboard');
+        history.push('/sale');
       }
     });
     setSent(false);
