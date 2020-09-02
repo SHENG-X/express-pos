@@ -278,6 +278,17 @@ const ReceiptItem = ({ product, addRemoveProduct, deleteProduct }) => {
         </IconButton>
       </TableCell>
     </TableRow>
+
+const EmptyCart = () => {
+  return (
+    <div className="empty-cart">
+      <img
+        src={require('../../../../static/supermarket.svg')}
+      />
+      <Typography variant="body1">
+        Your shopping cart is empty.
+      </Typography>
+    </div>
   );
 }
 
