@@ -13,6 +13,10 @@ const orderSchema = new Schema(
       enum: ['Cash', 'Card', 'None'],
       default: 'None'
     },
+    amountPaid: {
+      type: Number,
+      default: 0,
+    },
     products: {
       type: [
         {
