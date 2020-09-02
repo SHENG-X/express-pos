@@ -147,7 +147,7 @@ const Receipt = ({ order, setOrder }) => {
       </div>
       {
         open ? 
-        <PaymentModal order={order} total={calcTotal()} handlePay={() => {}} handleOpen={(val) => setOpen(val)}/>
+        <PaymentModal order={order} total={calcTotal()} paySuccess={cancelOrder} handleOpen={(val) => setOpen(val)}/>
         :
         null
       }
