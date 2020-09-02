@@ -131,11 +131,15 @@ const Receipt = ({ order, setOrder }) => {
         </div>
         <div className="controller">
           <Button
+            variant="contained"
             onClick={cancelOrder}
           >
             Cancel
           </Button>
-          <Button onClick={proceedPay}>
+          <Button
+            color="primary"
+            variant="contained"
+          >
             Pay
           </Button>
         </div>

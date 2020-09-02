@@ -61,6 +61,8 @@ const Category = () => {
           </div>
           <div className="actions">
             <Button
+              color="primary"
+              variant="contained"
               onClick={handleAdd}
             >
               { t('category.addNew') }

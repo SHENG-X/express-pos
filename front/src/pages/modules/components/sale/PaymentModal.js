@@ -193,17 +193,21 @@ const PaymentModal = ({ order, total, handlePay, handleOpen }) => {
         <React.Fragment>
           <div className="whitespace"/>
           <div className="btns">
-            <Button 
+            <Button
+              variant="contained"
               onClick={handleCancel}
             >
               { t('common.cancel') }
             </Button>
             <Button
+              variant="contained"
               disabled={!valid}
             >
               Print Receipt
             </Button>
             <Button
+              color="primary"
+              variant="contained"
               disabled={!valid}
             >
               { t('common.confirm') }

@@ -235,12 +235,15 @@ const ProductModal = ({ handleOpen, initProduct }) => {
       }
       actions={
         <React.Fragment>
-          <Button 
+          <Button
+            variant="contained"
             onClick={handleCancel}
           >
             { t('common.cancel') }
           </Button>
           <Button
+            color="primary"
+            variant="contained"
             onClick={handleConfirm}
           >
             { t('common.confirm') }

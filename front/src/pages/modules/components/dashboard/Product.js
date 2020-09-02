@@ -65,6 +65,8 @@ const Product = () => {
         </div>
         <div className="actions">
           <Button
+            color="primary"
+            variant="contained"
             onClick={handleAddProduct}
           >
             { t('product.addNew') }
