@@ -15,6 +15,13 @@
     color: #ffffff;
     padding: 1rem;
   }
+  & > div {
+    & > .actions {
+      & > button {
+        margin-left: 1rem;
+      }
+    }
+  }
 }
 #menu- {
   z-index: 10000 !important;

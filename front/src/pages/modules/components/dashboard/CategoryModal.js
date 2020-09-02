@@ -87,7 +87,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
         </div>
       }
       actions={
-        <div>
+        <React.Fragment>
           <Button 
             onClick={handleCancel}
           >
@@ -98,7 +98,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
           >
             { t('common.confirm') }
           </Button>
-        </div>
+        </React.Fragment>
       }
     />
   );

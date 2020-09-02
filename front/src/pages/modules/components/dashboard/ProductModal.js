@@ -234,7 +234,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
         </div>
       }
       actions={
-        <div>
+        <React.Fragment>
           <Button 
             onClick={handleCancel}
           >
@@ -245,7 +245,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
           >
             { t('common.confirm') }
           </Button>
-        </div>
+        </React.Fragment>
       }
     />
   );
