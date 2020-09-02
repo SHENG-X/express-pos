@@ -37,7 +37,7 @@ const Sale = () => {
   }
 
   return (
-    <div className="sale2" >
+    <div className="sale" >
       <React.Fragment>
         <AppAppBar />
         <div className="container">
