@@ -1,22 +1,25 @@
 import React, {
-  useContext
+  useContext,
+  useState,
 } from 'react';
 import {
   IconButton,
   Button,
+  Typography,
 } from '@material-ui/core';
 import {
   Delete
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 
-import Typography from '../Typography';
+import PaymentModal from './PaymentModal';
 import { Context } from '../../../../context/storeContext';
 import { formatAsCurrency } from '../../../../utils';
 
 const Receipt = ({ order, setOrder }) => {
   const { state, createOrder } = useContext(Context);
   const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
 
   const deleteProduct = (product) => {
     const newProducts = order.filter(prod => {
@@ -63,73 +66,87 @@ const Receipt = ({ order, setOrder }) => {
     });
   }
 
+  const proceedPay = () => {
+    if (order.length) {
+      setOpen(true);
+    }
+  }
+
   return (
-    <div className="container">
-      <div className="list">
-        <React.Fragment>
-          { order.map(prod => <ReceiptItem product={prod} deleteProduct={deleteProduct} key={prod._id}/>) }
-        </React.Fragment>
-        <React.Fragment>
-          {
-            order.length ? 
-            <div className="summary">
-              <div className="separator"/>
-              {
-                state.store.tax.enable ?
-                <React.Fragment>
-                  <div className="subtitle">
-                    <div className="label">
-                      <Typography variant="body1">
-                        { t('sale.subtotal') }
-                      </Typography>
+    <React.Fragment>
+      <div className="container">
+        <div className="list">
+          <React.Fragment>
+            { order.map(prod => <ReceiptItem product={prod} deleteProduct={deleteProduct} key={prod._id}/>) }
+          </React.Fragment>
+          <React.Fragment>
+            {
+              order.length ? 
+              <div className="summary">
+                <div className="separator"/>
+                {
+                  state.store.tax.enable ?
+                  <React.Fragment>
+                    <div className="subtitle">
+                      <div className="label">
+                        <Typography variant="body1">
+                          { t('sale.subtotal') }
+                        </Typography>
+                      </div>
+                      <div className="amount">
+                        { formatAsCurrency(calcSubtotal()) }
+                      </div>
                     </div>
-                    <div className="amount">
-                      { formatAsCurrency(calcSubtotal()) }
+                    <div className="tax">
+                      <div className="label">
+                        <Typography variant="body1">
+                          { t('tax.taxRate') } { `${state.store.tax.rate * 100}%` }
+                        </Typography>
+                      </div>
+                      <div className="amount">
+                        { formatAsCurrency(calcTax()) }
+                      </div>
                     </div>
+                  </React.Fragment>
+                  :
+                  null
+                }
+                <div className="total">
+                  <div className="label">
+                    <Typography variant="h6">
+                      { t('sale.total') }
+                    </Typography>
                   </div>
-                  <div className="tax">
-                    <div className="label">
-                      <Typography variant="body1">
-                        { t('tax.taxRate') } { `${state.store.tax.rate * 100}%` }
-                      </Typography>
-                    </div>
-                    <div className="amount">
-                      { formatAsCurrency(calcTax()) }
-                    </div>
+                  <div className="amount">
+                    <Typography variant="h6">
+                      { formatAsCurrency(calcTotal()) }
+                    </Typography>
                   </div>
-                </React.Fragment>
-                :
-                null
-              }
-              <div className="total">
-                <div className="label">
-                  <Typography variant="h6">
-                    { t('sale.total') }
-                  </Typography>
-                </div>
-                <div className="amount">
-                  <Typography variant="h6">
-                    { formatAsCurrency(calcTotal()) }
-                  </Typography>
                 </div>
               </div>
-            </div>
-            :
-            <EmptyCart/>
-          }
-        </React.Fragment>
+              :
+              <EmptyCart/>
+            }
+          </React.Fragment>
+        </div>
+        <div className="controller">
+          <Button
+            onClick={cancelOrder}
+          >
+            Cancel
+          </Button>
+          <Button onClick={proceedPay}>
+            Pay
+          </Button>
+        </div>
       </div>
-      <div className="controller">
-        <Button
-          onClick={cancelOrder}
-        >
-          Cancel
-        </Button>
-        <Button>
-          Pay
-        </Button>
-      </div>
-    </div>
+      {
+        open ? 
+        <PaymentModal order={order} total={calcTotal()} handlePay={() => {}} handleOpen={(val) => setOpen(val)}/>
+        :
+        null
+      }
+    </React.Fragment>
   );
 }
 

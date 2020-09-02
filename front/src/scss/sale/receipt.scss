@@ -2,7 +2,7 @@
   height: 100%;
   flex-basis: 400px;
   box-shadow: 0 0 20px 1px rgba(0,0,0,0.4);
-  .container {
+  & > .container {
     height: 100%;
     --controller-h: 100px;
     display: flex;
@@ -88,5 +88,89 @@
       font-size: 20px;
       color: rgba(120,120,120, 0.5);
     }
+  }
+}
+
+.payment-modal {
+  --left-w: 120px;
+  .content {
+    width: 564px;
+    min-height: 240px;
+  }
+  .container {
+    display: flex;
+    min-height: 260px;
+    .left {
+      width: var(--left-w);
+      padding: 1rem;
+      button {
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+    }
+    .right {
+      flex: 1;
+      width: calc(100% - var(--left-w));
+      & > .due {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem 1rem;
+        .value {
+          font-size: 54px;
+          font-weight: 600;
+          line-height: 1;
+        }
+      }
+      .payments {
+        padding: 1rem;
+        .row {
+          display: grid;
+          grid-template-columns: 1fr 1.8fr 1fr 1fr;
+          gap: 1rem;
+          align-items: flex-end;
+          div, h6 {
+            font-size: 1.1rem;
+          }
+        }
+        .amount-own-row {
+          padding-top: 1rem;
+          h6 {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 0 10px 1px rgba(200,200,200,0.8);
+            border-radius: 5px;
+            font-size: 1.2rem;
+          }
+        }
+      }
+      .quick-payments {
+        padding: 0 0.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        button {
+          margin: 0.5rem;
+        }
+      }
+    }
+  }
+  .actions {
+    height: 112px;
+    display: flex;
+    .whitespace {
+      width: var(--left-w);
+    }
+    button {
+      height: 100%;
+    }
+    .btns {
+      display: flex;
+      justify-content: space-between;
+      width: calc(100% - var(--left-w));
+      padding: 1rem;
+    }
+  }
+  .left, .whitespace {
+    border-right: 1px solid grey;
   }
 }
