@@ -1,32 +1,9 @@
-.sale {
+.sale2 {
   height: 100%;
-  flex-grow: 1;
-  padding: 2rem;
-  .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-3 {
-    height: calc(100% - 2rem);
-    .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-4 {
-      max-width: unset;
-      flex-basis: 524px;
-    }
-    .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-8 {
-      height: 100%;
-      max-width: unset;
-      flex-basis: unset;
-      flex: 1;
-      .products {
-        height: 100%;
-        .list-container {
-          height: calc(100% - 2rem);
-          overflow: auto;
-          &::-webkit-scrollbar {
-            display: none;
-          }
-        }
-      }
-    }
+  & > .container {
+    display: flex;
+    height: calc(100% - 70px);
   }
-
   @import 'products.scss';
   @import 'receipt.scss';
-
 }

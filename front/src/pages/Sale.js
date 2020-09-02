@@ -1,9 +1,6 @@
 import React, {
   useState,
 } from 'react';
-import {
-  Grid,
-} from '@material-ui/core';
 
 import withRoot from './modules/withRoot';
 import AppAppBar from './modules/views/AppAppBar';
@@ -40,17 +37,17 @@ const Sale = () => {
   }
 
   return (
-    <div className="sale" >
+    <div className="sale2" >
       <React.Fragment>
         <AppAppBar />
-        <Grid container spacing={3}>
-          <Grid item xs={4}>
+        <div className="container">
+          <div className="receipt">
             <Receipt order={order} setOrder={setOrder} />
-          </Grid>
-          <Grid item xs={8}>
+          </div>
+          <div className="products">
             <Products handleOpen={handleOpen} />
-          </Grid>
-        </Grid>
+          </div>
+        </div>
         {
           open ? 
           <ProductModal

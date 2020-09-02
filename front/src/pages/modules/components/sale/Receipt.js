@@ -4,16 +4,8 @@ import React, {
 import {
   IconButton,
   Button,
-  Paper,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
 } from '@material-ui/core';
 import {
-  Add,
-  Remove,
   Delete
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
@@ -37,24 +29,6 @@ const Receipt = ({ order, setOrder }) => {
     setOrder(newProducts.filter(prod => prod !== null));
   }
 
-  const addRemoveProduct = (action, product) => {
-    let base = 1;
-    if (action === 'remove') {
-      base = -1;
-    }
-    const newProducts = order.map(prod => {
-      if (prod._id === product._id && prod.price === product.price ) {
-        if (prod.count + base < 1) {
-          return prod;
-        }
-        prod.count += base;
-        return prod;
-      }
-      return prod;
-    });
-    setOrder(newProducts);
-  }
-
   const calcSubtotal = () => {
     return order.reduce((res, prod) => res += prod.count * prod.price, 0).toFixed(2);
   }
@@ -64,7 +38,10 @@ const Receipt = ({ order, setOrder }) => {
   }
 
   const calcTotal = () => {
-    return (Number(calcSubtotal()) + Number(calcTax())).toFixed(2);
+    if (state.store.tax.enable) {
+      return (Number(calcSubtotal()) + Number(calcTax())).toFixed(2);
+    }
+    return Number(calcSubtotal()).toFixed(2);
   }
 
   const cancelOrder = () => {
@@ -87,197 +64,111 @@ const Receipt = ({ order, setOrder }) => {
   }
 
   return (
-    <Paper
-      elevation={3}
-    >
-      <Table className="receipt table">
-        <TableHead className="header">
-          <TableRow>
-            <TableCell>
-              <Typography variant="subtitle1">
-                { t('sale.quantity') }
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography variant="subtitle1">
-                { t('sale.product') }
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography variant="subtitle1">
-                { t('sale.price') }
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography variant="subtitle1">
-                { t('sale.amount') }
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography variant="subtitle1">
-                { t('sale.del') }
-              </Typography>
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <React.Fragment>
-            { order.map(prod => <ReceiptItem product={prod} addRemoveProduct={addRemoveProduct} deleteProduct={deleteProduct} key={prod._id} />) }
-          </React.Fragment>
-          <React.Fragment>
-            {
-              order.length ? 
-              <React.Fragment>
-                {
-                  state.store.tax.enable ?
-                  <React.Fragment>
-                    <TableRow>
-                      <TableCell rowSpan={2} className="span-2"/>
-                      <TableCell rowSpan={2} className="span-2"/>
-                      <TableCell colSpan={2}>
-                        <Typography variant="subtitle2">
-                          { t('sale.subtotal') }
-                        </Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography variant="body2">
-                          { calcSubtotal() }
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell colSpan={2}>
-                        <Typography variant="subtitle2">
-                          <span style={{'paddingRight': '0.2rem'}}>
-                            { t('sale.tax') }
-                          </span> 
-                          { state.store.tax.rate * 100 }%
-                        </Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography variant="body2">
-                          { calcTax() }
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  </React.Fragment>
-                  :
-                  null
-                }
+    <div className="container">
+      <div className="list">
+        <React.Fragment>
+          { order.map(prod => <ReceiptItem product={prod} deleteProduct={deleteProduct} key={prod._id}/>) }
+        </React.Fragment>
+        <React.Fragment>
+          {
+            order.length ? 
+            <div className="summary">
+              <div className="separator"/>
+              {
+                state.store.tax.enable ?
                 <React.Fragment>
-                  <TableRow>
-                    <TableCell rowSpan={1}/>
-                    <TableCell rowSpan={1}/>
-                    <TableCell colSpan={2}>
-                      <Typography variant="subtitle2">
-                        { t('sale.total') }
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
+                  <div className="subtitle">
+                    <div className="label">
                       <Typography variant="body1">
-                        { formatAsCurrency(calcTotal()) }
+                        { t('sale.subtotal') }
                       </Typography>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell/>
-                    <TableCell>
-                      <Button
-                        onClick={cancelOrder}
-                      >
-                        { t('common.cancel') }
-                      </Button>
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        onClick={placeOrder}
-                      >
-                        { t('common.save') }
-                      </Button>
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        // onClick={placeOrder}
-                      >
-                        Card
-                      </Button>
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        // onClick={placeOrder}
-                      >
-                        Cash
-                      </Button>
-                    </TableCell>
-                  </TableRow>
+                    </div>
+                    <div className="amount">
+                      { formatAsCurrency(calcSubtotal()) }
+                    </div>
+                  </div>
+                  <div className="tax">
+                    <div className="label">
+                      <Typography variant="body1">
+                        { t('tax.taxRate') } { `${state.store.tax.rate * 100}%` }
+                      </Typography>
+                    </div>
+                    <div className="amount">
+                      { formatAsCurrency(calcTax()) }
+                    </div>
+                  </div>
                 </React.Fragment>
-              </React.Fragment>
-              :
-              <div className="no-product">
-                <Typography variant="subtitle1">
-                  { t('common.sysReady') }
-                </Typography>
+                :
+                null
+              }
+              <div className="total">
+                <div className="label">
+                  <Typography variant="h6">
+                    { t('sale.total') }
+                  </Typography>
+                </div>
+                <div className="amount">
+                  <Typography variant="h6">
+                    { formatAsCurrency(calcTotal()) }
+                  </Typography>
+                </div>
               </div>
-            }
-          </React.Fragment>
-        </TableBody>
-      </Table>
-    </Paper>
+            </div>
+            :
+            <EmptyCart/>
+          }
+        </React.Fragment>
+      </div>
+      <div className="controller">
+        <Button
+          onClick={cancelOrder}
+        >
+          Cancel
+        </Button>
+        <Button>
+          Pay
+        </Button>
+      </div>
+    </div>
   );
 }
 
-const ReceiptItem = ({ product, addRemoveProduct, deleteProduct }) => {
+const ReceiptItem = ({ product, deleteProduct }) => {
+
   return (
-    <TableRow>
-      <TableCell>
-        <div className="receipt-count">
-          <IconButton
-            color="primary"
-            size="small"
-            aria-label="add one"
-            onClick={() => addRemoveProduct('add', product)}
-          >
-            <Add />
-          </IconButton>
-          <Typography variant="subtitle2" align="center" className="count">
-            { product.count }
+    <div className="receipt-row">
+      <div className="title">
+        <div className="left">
+          <Typography variant="subtitle2">
+            { product.name }
           </Typography>
-          <IconButton
-            color="primary"
-            size="small"
-            aria-label="remove one"
-            onClick={() => addRemoveProduct('remove', product)}
-          >
-            <Remove />
-          </IconButton>
         </div>
-      </TableCell>
-      <TableCell>
-        <Typography variant="body1">
-          { product.name }
+        <div className="right">
+          <div className="amt">
+            <Typography variant="subtitle2">
+              { formatAsCurrency(product.count * product.price) }
+            </Typography>
+          </div>
+          <div className="del">
+            <IconButton
+              color="primary"
+              size="small"
+              aria-label="delete"
+              onClick={() => deleteProduct(product) }
+            >
+              <Delete />
+            </IconButton>
+          </div>
+        </div>
+      </div>
+      <div className="subtitle">
+        <Typography variant="caption">
+          { product.count } x { formatAsCurrency(product.price) }
         </Typography>
-      </TableCell>
-      <TableCell>
-        <Typography variant="body1">
-          { product.price.toFixed(2) }
-        </Typography>
-      </TableCell>
-      <TableCell>
-        <Typography variant="body1">
-          { (product.count * product.price).toFixed(2) }
-        </Typography>
-      </TableCell>
-      <TableCell>
-        <IconButton
-          color="primary"
-          size="small"
-          aria-label="delete"
-          onClick={() => deleteProduct(product) }
-        >
-          <Delete />
-        </IconButton>
-      </TableCell>
-    </TableRow>
+      </div>
+    </div>
+  );
+}
 
 const EmptyCart = () => {
   return (

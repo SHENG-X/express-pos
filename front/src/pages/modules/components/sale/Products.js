@@ -6,9 +6,9 @@ import {
   Input,
   InputAdornment,
   Card,
-  CardHeader,
   CardMedia,
-  ButtonBase
+  ButtonBase,
+  Typography,
 } from '@material-ui/core';
 import {
   Search,
@@ -28,7 +28,7 @@ const Products = ({ handleOpen }) => {
   }
 
   return (
-    <div className="products">
+    <div className="container">
       <div className="search">
         <Input
           placeholder="Search for a product"
@@ -63,9 +63,9 @@ const ProductItem = ({ product, handleOpen }) => {
           image={require('../../../../static/no-product-image.png')}
           title={product.name}
         />
-        <CardHeader
-          title={product.name}
-        />
+        <Typography variant="subtitle2">
+          { product.name }
+        </Typography>
       </Card>
     </ButtonBase>
   );

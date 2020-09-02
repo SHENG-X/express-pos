@@ -1,25 +1,83 @@
 .receipt {
-  .receipt-count {
+  height: 100%;
+  flex-basis: 400px;
+  box-shadow: 0 0 20px 1px rgba(0,0,0,0.4);
+  .container {
+    height: 100%;
+    --controller-h: 100px;
     display: flex;
-    align-items: center;
-  }
-  .no-product {
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .MuiTableCell-root {
-    padding: 12px;
-  }
-}
-.table {
-  .header {
-    background-color: $primary-dark;
-    h3 {
-      color: $on-primary-dark;
-      font-weight: 550;
+    flex-direction: column;
+    .list {
+      width: 100%;
+      height: calc(100% - var(--controller-h));
+      overflow: overlay;
+      padding: 1rem 0;
+      .receipt-row {
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 0.5rem;
+        .title {
+          display: flex;
+          justify-content: space-between;
+          padding:0 1rem;
+          align-items: center;
+          h6 {
+            font-size: 1rem;
+          }
+          .right {
+            display: flex;
+            justify-items: center;
+            .amt {
+              display: flex;
+              align-items: center;
+            }
+            .del {
+              margin-left: 0.5rem;
+            }
+          }
+        }
+        .subtitle {
+          padding: 0 2rem;
+          margin-top: -8px;
+          span {
+            font-size: 1rem;
+          }
+        }
+      }
+      .summary {
+        padding: 0 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        & > div {
+          display: flex;
+        }
+        .label {
+          text-align: right;
+          padding-right: 3rem;
+        }
+        .separator {
+          width: 50%;
+          height: 2px;
+          border-radius: 100px;
+          background-color: $primary-dark;
+          margin-bottom: 0.5rem;
+        }
+      }
     }
+    .controller {
+      height: var(--controller-h);
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      padding: 0.5rem 1rem;
+      border-top: 1px solid rgba(120,120,120, 0.5);
+      button {
+        height: 100%;
+        width: 100px;
+      }
+    }
+  }
   .empty-cart {
     padding: 4rem 0;
     display: flex;
@@ -30,7 +88,5 @@
       font-size: 20px;
       color: rgba(120,120,120, 0.5);
     }
-  .span-2 {
-    border: none;
   }
 }

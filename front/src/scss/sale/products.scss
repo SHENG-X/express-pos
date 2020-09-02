@@ -1,24 +1,38 @@
 .products {
-  padding-left: 1rem;
-  .search {
-    & > div {
-      width: 300px;
-    }
-  }
-  .list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 200px));
-    gap: 1rem;
-    padding: 2rem 0;
-    .card-button {
+  height: 100%;
+  flex: 1;
+  padding: 2rem 4rem;
+  .container {
+    height: 100%;
+    --search-h: 42px;
+    .search {
+      height: var(--search-h);
+      display: flex;
       & > div {
-        width: 100%;
-        height: 100%;
+        width: 300px;
       }
-      .card {
-        .media {
-          width: 100%;
-          height: 160px;
+    }
+    .list-container {
+      height: calc(100% - var(--search-h));
+      .list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 165px);
+        gap: 1rem;
+        padding: 2rem 0;
+        .card-button {
+          & > div {
+            width: 100%;
+            height: 100%;
+          }
+          .card {
+            .media {
+              width: 100%;
+              height: 135px;
+            }
+            h6 {
+              padding: 0.5rem 0;
+            }
+          }
         }
       }
     }
