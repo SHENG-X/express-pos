@@ -85,7 +85,12 @@ const ProductModal = ({ selectedProduct, handleOpen, handleConfirm }) => {
                   label={ t('sale.price') }
                 >
                   {
-                    product.prices.map(p => (<MenuItem value={p.value} key={p.value}>{`${p.name} - ${p.value}`}</MenuItem>))
+                    product.prices.map(p => (<MenuItem value={p.value} key={p.value}>{
+                        p.name ? 
+                        `${p.name} - ${p.value}`
+                        :
+                        p.value
+                    }</MenuItem>))
                   }
                 </Select>
               </FormControl>
