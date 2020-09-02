@@ -13,6 +13,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Button,
 } from '@material-ui/core';
 import {
   Search,
@@ -24,7 +25,6 @@ import {
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 
-import Button from '../Button';
 import { Context } from '../../../../context/storeContext';
 import ProductModal from './ProductModal';
 import { formatAsCurrency } from '../../../../utils';
