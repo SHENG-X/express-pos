@@ -139,6 +139,7 @@ const Receipt = ({ order, setOrder }) => {
           <Button
             color="primary"
             variant="contained"
+            onClick={proceedPay}
           >
             Pay
           </Button>
