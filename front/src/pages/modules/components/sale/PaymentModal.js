@@ -1,6 +1,7 @@
 import React, {
   useState,
   useEffect,
+  useContext,
 } from 'react';
 import {
   Typography,
@@ -16,9 +17,11 @@ import { useTranslation } from 'react-i18next';
 
 import ModalBase from '../ModalBase';
 import { formatAsCurrency } from '../../../../utils';
+import { Context } from '../../../../context/storeContext';
 
-const PaymentModal = ({ order, total, handlePay, handleOpen }) => {
+const PaymentModal = ({ order, total, paySuccess, handleOpen }) => {
   const { t } = useTranslation();
+  const { state, createOrder } = useContext(Context);
   const paymentOptions = [
     total,
     5,
@@ -69,6 +72,15 @@ const PaymentModal = ({ order, total, handlePay, handleOpen }) => {
   const computeChange = () => {
     const change = total - payment;
     return change >= 0 ? '' : change; 
+  }
+
+  const confirmPay = () => {
+    const products = order.map(odr => ({ product: odr._id, price: odr.price, amount: odr.count }));
+    order = { store: state.store._id, paymentType: method,amountPaid: payment, products };
+    createOrder(order, () => {
+      paySuccess();
+      handleCancel();
+    });
   }
 
   return (
@@ -209,6 +221,7 @@ const PaymentModal = ({ order, total, handlePay, handleOpen }) => {
               color="primary"
               variant="contained"
               disabled={!valid}
+              onClick={confirmPay}
             >
               { t('common.confirm') }
             </Button>
