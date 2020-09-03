@@ -172,10 +172,13 @@ const deleteCategory = (dispatch) => {
 }
 
 const updateTax = (dispatch) => {
-  return async (tax) => {
+  return async (tax, callback) => {
     const response = await updateStoreTax(tax);
     if (response.status === 200) {
       dispatch({type: ACTIONS.UPDATE_TAX, payload: response.data});
+      if (callback) {
+        callback();
+      }
     }
   }
 }

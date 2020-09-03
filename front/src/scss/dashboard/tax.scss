@@ -9,9 +9,19 @@
   }
   .row {
     padding: 1rem 2rem;
+    &:nth-of-type(2) {
+      padding-top: 0;
+    }
     display: flex;
     .label {
       width: 80px;
+    }
+  }
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    button {
+      margin-left: 1rem;
     }
   }
 }
