@@ -95,7 +95,7 @@ const updateOrder = (req, res) => {
 }
 
 const deleteOrder = (req, res) => {
-  const { store, _id } = req.body;
+  const { store, _id } = req.query;
   return orderModel.deleteOne({ _id }, (error) => {
     if (error) {
       return res.status(500).json(error);

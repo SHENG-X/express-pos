@@ -50,7 +50,7 @@ const SaleReport = () => {
 
   useEffect(() => {
     setFilteredList(filterDate(filter));
-  }, [filter, startDate, endDate]);
+  }, [filter, startDate, endDate, state.store.orders]);
 
   const calcRevenue = () => {
     let totalRevenue = 0;
@@ -281,6 +281,11 @@ const SaleReport = () => {
 }
 
 const OrderRow = ({ order, handleViewOrder }) => {
+  const { state, deleteOrder } = useContext(Context);
+
+  const handleDelete = () => {
+    deleteOrder({store: state.store._id, _id: order._id});
+  }
 
   return (
     <TableRow>
@@ -305,6 +310,7 @@ const OrderRow = ({ order, handleViewOrder }) => {
             <IconButton
               color="primary"
               size="small"
+              onClick={handleDelete}
             >
               <Delete />
             </IconButton>

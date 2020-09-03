@@ -99,3 +99,11 @@ export const consumeProduct = async (product) => {
     return error.response;
   }
 }
+
+export const deleteStoreOrder = async (order) => {
+  try {
+    return await instance.delete('/api/order', { params: {...order} });
+  } catch (error) {
+    return error.response;
+  }
+}
