@@ -290,14 +290,6 @@ const OrderRow = ({ order }) => {
               color="primary"
               size="small"
             >
-              <Edit />
-            </IconButton>
-          </div>
-          <div>
-            <IconButton
-              color="primary"
-              size="small"
-            >
               <Delete />
             </IconButton>
           </div>
