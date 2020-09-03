@@ -86,3 +86,62 @@
     }
   }
 }
+
+.order-view-modal {
+  --modal-w: 420px;
+  
+  .content {
+    width: var(--modal-w);
+    min-height: 320px;
+    max-height: 50vh;
+    overflow: overlay;
+    .summary {
+      padding: 1rem 0;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 10px 1px rgba(100,100,100, 0.8);
+      position: fixed;
+      width: var(--modal-w);
+      background-color: #fff;
+      .row {
+        padding: 0 1.5rem;
+        display: flex;
+        align-items: center;
+        .label {
+          width: 160px;
+        }
+      }
+    }
+    .items {
+      padding-top: 130px;
+    }
+    .odr-row {
+      display: flex;
+      flex-direction: column;
+      padding: 0 1.5rem;
+      padding-bottom: 0.5rem;
+      .title {
+        display: flex;
+        justify-content: space-between;
+        h6 {
+          font-size: 1rem;
+        }
+      }
+      .subtitle {
+        padding: 0 1rem;
+        margin-top: -6px;
+        span {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+  .actions {
+    display: flex;
+    justify-content: center;
+    height: 86px;
+    padding: 1rem;
+    button {
+      height: 100%;
+    }
+  }
+}

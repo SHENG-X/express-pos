@@ -26,6 +26,7 @@ import MomentUtils from '@date-io/moment';
 
 import { Context } from '../../../../context/storeContext';
 import { formatAsCurrency } from '../../../../utils';
+import OrderModal from './OrderModal';
 
 const SaleReport = () => {
   const { state } = useContext(Context);
@@ -44,6 +45,8 @@ const SaleReport = () => {
   const [ filteredList, setFilteredList] = useState([]);
   const [startDate, setStartDate] = useState(dateToday);
   const [endDate, setEndDate] = useState(new Date());
+  const [curOrder, setCurOrder] = useState(null);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setFilteredList(filterDate(filter));
@@ -84,7 +87,7 @@ const SaleReport = () => {
       }
       return 0;
     });
-    return orders.map(order => <OrderRow order={order} key={order._id}/>);
+    return orders.map(order => <OrderRow order={order} handleViewOrder={handleViewOrder} key={order._id}/>);
   }
 
   const filterDate = (type) => {
@@ -127,6 +130,11 @@ const SaleReport = () => {
         return state.store.orders.filter(d => (d.createdAt >= start.toISOString() && d.createdAt <= end.toISOString()));
     }
     return state.store.orders.filter(d => d.createdAt > start.toISOString());
+  }
+
+  const handleViewOrder = (order) => {
+    setCurOrder(order);
+    setOpen(true);
   }
 
   return (
@@ -261,11 +269,18 @@ const SaleReport = () => {
         </Paper>
 
       </div>
+
+      {
+        open ?
+        <OrderModal order={curOrder} closeModal={() => setOpen(false)}/>
+        :
+        null
+      }
     </div>
   );
 }
 
-const OrderRow = ({ order }) => {
+const OrderRow = ({ order, handleViewOrder }) => {
 
   return (
     <TableRow>
@@ -281,6 +296,7 @@ const OrderRow = ({ order }) => {
             <IconButton
               color="primary"
               size="small"
+              onClick={() => handleViewOrder(order)}
             >
               <AmpStories />
             </IconButton>
