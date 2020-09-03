@@ -58,7 +58,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
       className="category-modal"
       content={
         <div>
-          <div className="row">
+          {/* <div className="row">
             <div className="label">
               <Typography variant="subtitle2">
                 { t('common.thumbnail') }
@@ -67,7 +67,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
             <div className="input">
 
             </div>
-          </div>
+          </div> */}
 
           <div className="row">
             <div className="label">

@@ -94,7 +94,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
       className="product-modal"
       content={
         <div>
-          <div className="row">
+          {/* <div className="row">
             <div className="label">
               <Typography variant="subtitle2">
                 { t('common.thumbnail') }
@@ -103,7 +103,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
             <div className="input">
 
             </div>
-          </div>
+          </div> */}
 
           <div className="row">
             <div className="label">
