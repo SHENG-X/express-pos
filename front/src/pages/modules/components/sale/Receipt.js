@@ -119,14 +119,14 @@ const Receipt = ({ order, setOrder }) => {
             variant="contained"
             onClick={cancelOrder}
           >
-            Cancel
+            { t('common.cancel') }
           </Button>
           <Button
             color="primary"
             variant="contained"
             onClick={proceedPay}
           >
-            Pay
+            { t('pay.title') }
           </Button>
         </div>
       </div>
@@ -178,14 +178,16 @@ const ReceiptItem = ({ product, deleteProduct }) => {
 }
 
 const EmptyCart = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="empty-cart">
       <img
         src={require('../../../../static/supermarket.svg')}
-        alt="empty shopping cart"
+        alt={ t('sale.cartEmpty') }
       />
       <Typography variant="body1">
-        Your shopping cart is empty.
+        { t('sale.cartEmpty') }
       </Typography>
     </div>
   );

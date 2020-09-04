@@ -16,7 +16,8 @@
       "thumbnail": "Thumbnail",
       "count": "Count",
       "none": "None",
-      "sysReady": "System Ready"
+      "sysReady": "System Ready",
+      "close": "Close"
     },
     "signIn": {
       "heading": "SIGN IN",
@@ -41,7 +42,8 @@
       "del": "Del",
       "subtotal": "Subtotal",
       "tax": "Sales Tax",
-      "total": "Total Amount"
+      "total": "Total Amount",
+      "cartEmpty": "Your shopping cart is empty"
     },
     "tax": {
       "heading": "Tax",
@@ -87,6 +89,24 @@
       "thisWeek": "This Week",
       "thisMonth": "This Month",
       "thisYear": "This Year"
+    },
+    "order": {
+      "date": "Date placed",
+      "method": "Payment method",
+      "total": "Order total",
+      "amount": "Payment amount"
+    },
+    "pay": {
+      "title": "Pay",
+      "payment": "Payment",
+      "cash": "Cash",
+      "card": "Card",
+      "paymentDue": "Payment due",
+      "due": "Due",
+      "paid": "Paid",
+      "change": "Change",
+      "method": "Method",
+      "printReceipt": "Print Receipt"
     }
   }
 }

@@ -5,12 +5,15 @@ import {
   Button,
   Typography,
 } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import ModalBase from '../ModalBase';
 import { formatAsCurrency } from '../../../../utils';
 import { Context } from '../../../../context/storeContext';
 
 const OrderModal = ({ order, closeModal }) => {
+  const { t } = useTranslation();
+
   const computeOrderTotal = () => {
     return order.products.reduce((acc, prod) => acc + prod.count * prod.price, 0);
   }
@@ -25,7 +28,7 @@ const OrderModal = ({ order, closeModal }) => {
             <div className="row">
               <div className="label">
                 <Typography variant="subtitle2">
-                  Date placed
+                  { t('order.date') }
                 </Typography>
               </div>
               <div className="value">{ new Date(order.createdAt).toLocaleString() }</div>
@@ -33,7 +36,7 @@ const OrderModal = ({ order, closeModal }) => {
             <div className="row">
               <div className="label">
                 <Typography variant="subtitle2">
-                  Payment method
+                  { t('order.method') }
                 </Typography>
               </div>
               <div className="value">{ order.paymentType }</div>
@@ -41,7 +44,7 @@ const OrderModal = ({ order, closeModal }) => {
             <div className="row">
               <div className="label">
                 <Typography variant="subtitle2">
-                  Order total
+                  { t('order.total') }
                 </Typography>
               </div>
               <div className="value">{ formatAsCurrency(computeOrderTotal()) }</div>
@@ -49,7 +52,7 @@ const OrderModal = ({ order, closeModal }) => {
             <div className="row">
               <div className="label">
                 <Typography variant="subtitle2">
-                  Payment amount
+                  { t('order.amount') }
                 </Typography>
               </div>
               <div className="value">{ formatAsCurrency(order.amountPaid) }</div>
@@ -68,7 +71,7 @@ const OrderModal = ({ order, closeModal }) => {
           variant="contained"
           onClick={closeModal}
         >
-          Close
+          { t('common.close') }
         </Button>
       }
     />

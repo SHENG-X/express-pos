@@ -87,14 +87,14 @@ const Tax = () => {
                   variant="contained"
                   onClick={handleCancel}
                 >
-                  Cancel
+                  { t('common.cancel') }
                 </Button>
                 <Button
                   color="primary"
                   variant="contained"
                   onClick={handleConfirm}
                 >
-                  Confirm
+                  { t('common.confirm') }
                 </Button>
               </div>
               :

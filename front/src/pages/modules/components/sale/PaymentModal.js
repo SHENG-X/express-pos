@@ -85,7 +85,7 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen }) => {
 
   return (
     <ModalBase
-      title="Payment"
+      title={ t('pay.payment') }
       className="payment-modal"
       content={
         <div className="container">
@@ -95,21 +95,21 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen }) => {
               variant={method === METHODS.CASH ? 'contained' : ''}
               onClick={() => handlePayment(METHODS.CASH)}
             >
-              Cash
+              { t('pay.card') }
             </Button>
             <Button
               color={method === METHODS.CARD ? 'primary' : ''}
               variant={method === METHODS.CARD ? 'contained' : ''}
               onClick={() => handlePayment(METHODS.CARD)}
             >
-              Card
+              { t('pay.card') }
             </Button>
           </div>
           <div className="right">
             {
               payment === null ?
               <div className="due">
-                <div className="label">Payment Due</div>
+                <div className="label">{ t('pay.paymentDue') }</div>
                 <div className="value">+{ formatAsCurrency(total) }</div>
               </div>
               :
@@ -117,22 +117,22 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen }) => {
                 <div className="header row">
                   <div className="due">
                     <Typography variant="subtitle2">
-                      Due
+                      { t('pay.due') }
                     </Typography>
                   </div>
                   <div className="paid">
                     <Typography variant="subtitle2">
-                      Paid
+                      { t('pay.paid') }
                     </Typography>
                   </div>
                   <div className="change">
                     <Typography variant="subtitle2">
-                      Change
+                      { t('pay.change') }
                     </Typography>
                   </div>
                   <div className="method">
                     <Typography variant="subtitle2">
-                      Method
+                      { t('pay.method') }
                     </Typography>
                   </div>
                 </div>
@@ -215,7 +215,7 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen }) => {
               variant="contained"
               disabled={!valid}
             >
-              Print Receipt
+              { t('pay.printReceipt') }
             </Button>
             <Button
               color="primary"
