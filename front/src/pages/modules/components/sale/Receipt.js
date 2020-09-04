@@ -182,6 +182,7 @@ const EmptyCart = () => {
     <div className="empty-cart">
       <img
         src={require('../../../../static/supermarket.svg')}
+        alt="empty shopping cart"
       />
       <Typography variant="body1">
         Your shopping cart is empty.
