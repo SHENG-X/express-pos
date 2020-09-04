@@ -16,7 +16,6 @@ import {
 } from '@material-ui/core';
 import { DatePicker } from "@material-ui/pickers";
 import {
-  Edit,
   Delete,
   AmpStories,
 } from '@material-ui/icons';
