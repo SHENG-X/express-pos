@@ -17,7 +17,7 @@ import { Context } from '../../../../context/storeContext';
 import { formatAsCurrency } from '../../../../utils';
 
 const Receipt = ({ order, setOrder }) => {
-  const { state, createOrder } = useContext(Context);
+  const { state } = useContext(Context);
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
@@ -49,21 +49,6 @@ const Receipt = ({ order, setOrder }) => {
 
   const cancelOrder = () => {
     setOrder([]);
-  }
-
-  const placeOrder = () => {
-    const products = order.map(prod => ({
-      product: prod._id,
-      price: prod.price,
-      count: prod.count
-    }));
-    const orderData = {
-      store: state.store._id,
-      products: products,
-    };
-    createOrder(orderData, () => {
-      setOrder([]);
-    });
   }
 
   const proceedPay = () => {
