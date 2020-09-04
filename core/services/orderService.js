@@ -43,7 +43,7 @@ const getOrder = (req, res) => {
 }
 
 const createOrder = (req, res) => {
-  const { store, products, paymentType, amountPaid } = req.body;
+  const { store, products, paymentType, amountPaid, taxRate } = req.body;
   return storeModel.findById(store, (error, storeData) => {
     if (error) {
       return res.status(500).json(error);
@@ -53,7 +53,7 @@ const createOrder = (req, res) => {
       return res.status(404).json(storeData);
     }
 
-    const order = new orderModel({ store, products, paymentType, amountPaid });
+    const order = new orderModel({ store, products, paymentType, amountPaid, taxRate });
     return order.save((error, orderData) => {
       if (error) {
         return res.status(500).json(error);
