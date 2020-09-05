@@ -141,35 +141,35 @@ const SaleReport = () => {
       <Paper elevation={3} className="filters">
         <div>
           <Button
-            color={filter === DATE_OPTIONS.TODAY ? 'primary': ''}
+            color={filter === DATE_OPTIONS.TODAY ? 'primary': 'default'}
             variant="contained"
             onClick={() => setFilter(DATE_OPTIONS.TODAY)}
           >
             { t('date.today') }
           </Button>
           <Button
-            color={filter === DATE_OPTIONS.WEEK ? 'primary': ''}
+            color={filter === DATE_OPTIONS.WEEK ? 'primary': 'default'}
             variant="contained"
             onClick={() => setFilter(DATE_OPTIONS.WEEK)}
           >
             { t('date.thisWeek') }
           </Button>
           <Button
-            color={filter === DATE_OPTIONS.MONTH ? 'primary': ''}
+            color={filter === DATE_OPTIONS.MONTH ? 'primary': 'default'}
             variant="contained"
             onClick={() => setFilter(DATE_OPTIONS.MONTH)}
           >
             { t('date.thisMonth') }
           </Button>
           <Button
-            color={filter === DATE_OPTIONS.YEAR ? 'primary': ''}
+            color={filter === DATE_OPTIONS.YEAR ? 'primary': 'default'}
             variant="contained"
             onClick={() => setFilter(DATE_OPTIONS.YEAR)}
           >
             { t('date.thisYear') }
           </Button>
           <Button
-            color={filter === DATE_OPTIONS.CUSTOM ? 'primary': ''}
+            color={filter === DATE_OPTIONS.CUSTOM ? 'primary': 'default'}
             variant="contained"
             onClick={() => setFilter(DATE_OPTIONS.CUSTOM)}
           >

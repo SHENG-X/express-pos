@@ -121,14 +121,14 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen, setOrderId }) => {
             <div className="container">
               <div className="left">
                 <Button
-                  color={method === METHODS.CASH ? 'primary' : ''}
+                  color={method === METHODS.CASH ? 'primary' : 'default'}
                   variant={method === METHODS.CASH ? 'contained' : ''}
                   onClick={() => handlePayment(METHODS.CASH)}
                 >
                   { t('pay.card') }
                 </Button>
                 <Button
-                  color={method === METHODS.CARD ? 'primary' : ''}
+                  color={method === METHODS.CARD ? 'primary' : 'default'}
                   variant={method === METHODS.CARD ? 'contained' : ''}
                   onClick={() => handlePayment(METHODS.CARD)}
                 >
