@@ -1,24 +1,27 @@
 .products {
   height: 100%;
   flex: 1;
-  padding: 2rem 4rem;
   .container {
     height: 100%;
-    --search-h: 42px;
+    --search-h: 74px;
     .search {
       height: var(--search-h);
       display: flex;
+      padding: 1rem 1.5rem;
       & > div {
         width: 300px;
+        height: fit-content;
       }
     }
     .list-container {
       height: calc(100% - var(--search-h));
+      overflow: overlay;
+      padding: 0 1.5rem;
       .list {
         display: grid;
         grid-template-columns: repeat(auto-fill, 165px);
         gap: 1rem;
-        padding: 2rem 0;
+        padding-bottom: 1rem;
         .card-button {
           & > div {
             width: 100%;
