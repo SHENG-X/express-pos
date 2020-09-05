@@ -17,7 +17,9 @@
       "count": "Count",
       "none": "None",
       "sysReady": "System Ready",
-      "close": "Close"
+      "close": "Close",
+      "done": "Done",
+      "thankYou": "Thank you"
     },
     "signIn": {
       "heading": "SIGN IN",
@@ -42,8 +44,10 @@
       "del": "Del",
       "subtotal": "Subtotal",
       "tax": "Sales Tax",
-      "total": "Total Amount",
-      "cartEmpty": "Your shopping cart is empty"
+      "total": "Total",
+      "totalAmount": "Total Amount",
+      "cartEmpty": "Your shopping cart is empty",
+      "type": "Type"
     },
     "tax": {
       "heading": "Tax",

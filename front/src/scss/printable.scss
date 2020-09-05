@@ -1,0 +1,85 @@
+.print {
+  position: absolute;
+  top: 0;
+  * {
+    visibility: hidden;
+  }
+  width: 218px;
+  .header {
+    padding: 1rem;
+    text-transform: uppercase;
+    .name {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .type {
+      font-size: 12px;
+    }
+  }
+  .main {
+    text-transform: uppercase;
+    padding: 0 1rem;
+    .item {
+      padding-bottom: 0.2rem;
+      .title {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 600;
+      }
+      .subtitle {
+        display: flex;
+        padding: 0 0.5rem;
+        font-size: 0.7rem;
+        line-height: 1;
+      }
+    }
+    .summary {
+      padding-top: 0.5rem;
+      .row {
+        display: flex;
+        justify-content: space-between;
+      }
+      .subtotal, .total {
+        font-weight: 600;
+      }
+      .tax {
+        font-size: 0.8rem;
+      }
+    }
+  }
+  .footer {
+    padding: 0.8rem 1rem 1rem 1rem;
+    font-size: 16px;
+  }
+}
+
+@page {
+  margin: 0;
+  padding: 0;
+}
+@media print {
+  html,
+  body,
+  body * {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    visibility: hidden;
+    page-break-after: avoid;
+    page-break-before: avoid;
+    height: 0;
+  }
+  .print {
+    width: 100%;
+    height: fit-content;
+    * {
+      height: fit-content;
+    }
+    .receipt-copy {
+      width: 218px;
+      * {
+        visibility: visible;
+        page-break-inside: avoid;
+      }
+    }
+  }
+}
