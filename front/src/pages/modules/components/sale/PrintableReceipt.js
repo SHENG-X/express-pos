@@ -78,7 +78,7 @@ const PrintableReceiptItem = ({ prod }) => {
     <div className="item">
       <div className="title">
         <div>{ productName }</div>
-        <div>{ prod.count * prod.price }</div>
+        <div>{ (prod.count * prod.price).toFixed(2) }</div>
       </div>
       <div className="subtitle">
         { prod.count } x { prod.price}
