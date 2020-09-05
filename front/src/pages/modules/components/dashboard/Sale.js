@@ -55,7 +55,7 @@ const SaleReport = () => {
     let totalRevenue = 0;
     filteredList.forEach(order => {
       order.products.forEach(product => {
-        totalRevenue += product.price;
+        totalRevenue += product.price * product.count;
       });
     });
     return totalRevenue.toFixed(2);
@@ -66,7 +66,7 @@ const SaleReport = () => {
     filteredList.forEach(order => {
       order.products.forEach(product => {
         const productCost = state.store.products.find(prod => prod._id === product.product).cost;
-        totalCost += productCost;
+        totalCost += productCost * product.count;
       });
     });
     return (calcRevenue() - totalCost).toFixed(2);

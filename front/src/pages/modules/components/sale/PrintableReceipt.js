@@ -9,7 +9,7 @@ const PrintableReceipt = ({ orderId }) => {
   const { t } = useTranslation();
   const { state } = useContext(Context);
   const detail = state.store.orders.find(ord => ord._id === orderId);
-  const subtotal = detail.products.reduce((acc, prod) => acc + prod.price, 0);
+  const subtotal = detail.products.reduce((acc, prod) => acc + prod.price * prod.count, 0);
   const tax = (detail.taxRate === 0 ? 0 : subtotal * detail.taxRate);
   const total = subtotal + tax;
 
