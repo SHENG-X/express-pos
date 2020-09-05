@@ -13,6 +13,7 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import PaymentModal from './PaymentModal';
+import PrintableReceipt from './PrintableReceipt';
 import { Context } from '../../../../context/storeContext';
 import { formatAsCurrency } from '../../../../utils';
 
@@ -20,6 +21,7 @@ const Receipt = ({ order, setOrder }) => {
   const { state } = useContext(Context);
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [orderId, setOrderId] = useState(null);
 
   const deleteProduct = (product) => {
     const newProducts = order.filter(prod => {
@@ -49,6 +51,7 @@ const Receipt = ({ order, setOrder }) => {
 
   const cancelOrder = () => {
     setOrder([]);
+    setOrderId(null);
   }
 
   const proceedPay = () => {
@@ -99,7 +102,7 @@ const Receipt = ({ order, setOrder }) => {
                 <div className="total">
                   <div className="label">
                     <Typography variant="h6">
-                      { t('sale.total') }
+                      { t('sale.totalAmount') }
                     </Typography>
                   </div>
                   <div className="amount">
@@ -132,7 +135,13 @@ const Receipt = ({ order, setOrder }) => {
       </div>
       {
         open ? 
-        <PaymentModal order={order} total={calcTotal()} paySuccess={cancelOrder} handleOpen={(val) => setOpen(val)}/>
+        <PaymentModal order={order} total={calcTotal()} paySuccess={cancelOrder} handleOpen={(val) => setOpen(val)} setOrderId={setOrderId}/>
+        :
+        null
+      }
+      {
+        orderId ?
+        <PrintableReceipt order={order} orderId={orderId}/>
         :
         null
       }
