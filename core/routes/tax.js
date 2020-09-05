@@ -1,10 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getTax, updateTax } = require('../services/taxService');
-const { update } = require('../model/userModel');
-
-router.get('/', getTax);
+const { updateTax } = require('../services/taxService');
 
 router.put('/', updateTax);
 
