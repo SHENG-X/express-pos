@@ -65,7 +65,7 @@ const Receipt = ({ order, setOrder }) => {
       <div className="container">
         <div className="list">
           <React.Fragment>
-            { order.map(prod => <ReceiptItem product={prod} deleteProduct={deleteProduct} key={prod._id}/>) }
+            { order.map(prod => <ReceiptItem product={prod} deleteProduct={deleteProduct} key={`${prod._id}-${prod.price}`}/>) }
           </React.Fragment>
           <React.Fragment>
             {
