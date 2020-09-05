@@ -144,13 +144,17 @@ const deleteProduct = (dispatch) => {
 }
 
 const addCategory = (dispatch) => {
-  return async (category, callback) => {
+  return async (category, success, fail) => {
     const response = await createCategory(category);
     if (response.status === 201) {
       dispatch({type: ACTIONS.ADD_CATEGORY, payload: response.data});
-    }
-    if (callback) {
-      callback(response);
+      if (success) {
+        success();
+      }
+    } else {
+      if (fail) {
+        fail();
+      }
     }
   }
 }

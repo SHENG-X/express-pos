@@ -42,13 +42,13 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
         });
       }
     } else {
-      addCategory({...category, store: state.store._id}, (response) => {
-        if (response.status === 201) {
-          handleCancel();
-        } else {
-          console.log(response);
+      addCategory(
+        category,
+        () => { handleCancel(); },
+        () => {
+          // TODO: handle failed to create a category
         }
-      });
+      );
     }
   }
 
