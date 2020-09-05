@@ -9,98 +9,106 @@ const saltRounds = 10;
 const userExist = async (email) => {
   return await userModel.findOne({ email });
 }
-const populateStore = (res, user) => {
-  return user.populate('store').execPopulate((error, user) => {
-    if (error) {
-      return res.status(500).json(error);
-    }
-    // populate categories
-    return user.populate('store.categories').execPopulate((error, user) => {
-      // populate products
-      if (error) {
-        return res.status(500).json(error);
-      }
-      return user.populate('store.products').execPopulate((error, user) => {
-        if (error) {
-          return res.status(500).json(error);
-        }
-        return user.populate('store.orders').execPopulate((error, user) => {
-          if (error) {
-            return res.status(500).json(error);
-          }
-          return res.status(200).json({ ...user._doc, password: null, token: jwt.sign({ uid: user._doc._id }, process.env.JWT_SECRET, { expiresIn: '8h' })});
-        })
-      });
-    });
-  });
+
+const signToken = (user) => {
+  return jwt.sign({ store: user.store.id, user: user.id }, process.env.JWT_SECRET, { expiresIn: '8h' });
 }
 
-const tokenAuth = async (req, res) => {
-  const token = req.query.token;
-  if (!token) {
-    return res.status(401).json(token);
-  }
-  try {
-    var decoded = jwt.verify(token, process.env.JWT_SECRET);
-    return userModel.findById(decoded.uid, (error, user) => {
-      if (error) {
-        return res.status(500).json(error);
-      }
-      return populateStore(res, user);
-    });
-  } catch(err) {
-    return res.status(401).json(token);
-  }
+const populateUser = async (user) => {
+  user = await user.populate('store').execPopulate();
+  user.store = await populateStore(user.store);
+  return user;
+}
+
+const populateStore = async (store) => {
+  // populate categories
+  store = await store.populate('categories').execPopulate();
+  // populate products
+  store = await store.populate('products').execPopulate();
+  // populate orders
+  store = await store.populate('orders').execPopulate();
+
+  return store;
 }
 
 const signInUser = async (req, res) => {
+  // get authorization token in the header
+  const authToken = req.headers.authorization.split(' ')[1];
+
+  // authorization by token
+  if (authToken) {
+    try {
+      // authorization token was set, verify token
+      const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
+      const user = await userModel.findById(decoded.user);
+      if (user) {
+        // check if user is in the database
+        const populatedUser = await populateUser(user);
+        const userDoc = { ...populatedUser._doc, password: null };
+        return res.status(200).json({ ...userDoc, token: signToken(user) });
+      }
+      return res.status(401).json('Unauthorized');
+    } catch (error) {
+      return res.status(401).json('Unauthorized');
+    }
+  }
+
+  // authorization by email and password
   const { email, password } = req.body;
+
+  // check if the email exist
   const user = await userExist(email);
 
   if (!user) {
-    return res.status(401).json(email);
+    return res.status(401).json('Invalid email address');
   }
 
+  // validate password
   const authenticated = await bcrypt.compareSync(password, user.password);
+
   if (!authenticated) {
-    return res.status(401).json(email);
+    return res.status(401).json('Invalid password');
   }
 
-  return populateStore(res, user);
+  try {
+    const populatedUser = await populateUser(user);
+    const userDoc = { ...populatedUser._doc, password: null };
+    return res.status(200).json({ ...userDoc, token: signToken(user) })
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 }
 
 const signUpUser = async (req, res) =>{
   const { name, email, password } = req.body;
 
+  // check if email was used
   if (await userExist(email)) {
-    return res.status(226).json(email);
+    return res.status(226).json('Email was used');
   }
 
+  // hash password before saving it to the database
   const hashedPassword = await bcrypt.hashSync(password, saltRounds);
+  
+  // create a user
   const user = new userModel({ email, password: hashedPassword });
+
+  // create a default store by store name and user id
   const store = new storeModel({ name, user: user._id });
+
+  // update user store to according store id
   user.store = store._id;
 
-  return user.save((error, user) => {
-
-    if (error) {
-      return res.status(500).json(error);
-    }
-
-    return store.save((error, store) => {
-      if (error) {
-        return res.status(500).json(error);
-      }
-
-      return user.populate('store').execPopulate((error, user) => {
-        if (error) {
-          return res.status(500).json(error);
-        }
-
-        return populateStore(res, user);
-      });
-    });
-  });
+  // save user and store to database
+  try {
+    const savedUser = await user.save();
+    const savedStore = await store.save();
+    const populatedUser = await populateUser(savedUser);
+    const userDoc = { ...populatedUser._doc, password: null };
+    return res.status(201).json({ ...userDoc, token: signToken(user) });
+  } catch(error) {
+    return res.status(500).json(error);
+  }
 }
 
 const updateUser = (req, res) => {
@@ -108,7 +116,6 @@ const updateUser = (req, res) => {
 }
 
 module.exports= {
-  tokenAuth,
   signInUser,
   signUpUser,
   updateUser,

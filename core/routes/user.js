@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { signInUser, signUpUser, updateUser, tokenAuth } = require('../services/userService');
-
-router.get('/', tokenAuth);
+const { signInUser, signUpUser, updateUser } = require('../services/userService');
 
 router.post('/', signInUser);
 
