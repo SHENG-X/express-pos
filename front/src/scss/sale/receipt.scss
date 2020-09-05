@@ -166,12 +166,25 @@
     }
     .btns {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       width: calc(100% - var(--left-w));
       padding: 1rem;
+      button {
+        margin-left: 1rem;
+      }
     }
   }
   .left, .whitespace {
     border-right: 1px solid grey;
+  }
+  .paid-btns {
+    display: flex;
+    justify-content: center;
+    height: 240px;
+    padding-top: 112px;
+    button {
+      margin: 0 0.5rem;
+      width: 112px;
+    }
   }
 }
