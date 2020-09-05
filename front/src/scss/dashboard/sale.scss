@@ -92,7 +92,7 @@
   
   .content {
     width: var(--modal-w);
-    min-height: 320px;
+    min-height: 380px;
     max-height: 50vh;
     overflow: overlay;
     .summary {
@@ -110,9 +110,6 @@
           width: 160px;
         }
       }
-    }
-    .items {
-      padding-top: 130px;
     }
     .odr-row {
       display: flex;

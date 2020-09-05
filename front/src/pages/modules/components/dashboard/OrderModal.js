@@ -14,8 +14,14 @@ import { Context } from '../../../../context/storeContext';
 const OrderModal = ({ order, closeModal }) => {
   const { t } = useTranslation();
 
-  const computeOrderTotal = () => {
+  const computeSubtotal = () => {
     return order.products.reduce((acc, prod) => acc + prod.count * prod.price, 0);
+  }
+  const computeTax = () => {
+    return computeSubtotal() * order.taxRate;
+  }
+  const computeOrderTotal = () => {
+    return computeSubtotal() + computeTax();
   }
 
   return (
@@ -41,6 +47,29 @@ const OrderModal = ({ order, closeModal }) => {
               </div>
               <div className="value">{ order.paymentType }</div>
             </div>
+            {
+              order.taxRate === 0 ?
+              null
+              :
+              <React.Fragment>
+                <div className="row">
+                  <div className="label">
+                    <Typography variant="subtitle2">
+                      { t('sale.subtotal') }
+                    </Typography>
+                  </div>
+                  <div className="value">{ formatAsCurrency(computeSubtotal()) }</div>
+                </div>
+                <div className="row">
+                  <div className="label">
+                    <Typography variant="subtitle2">
+                      { t('tax.heading') }
+                    </Typography>
+                  </div>
+                  <div className="value">{ formatAsCurrency(computeTax()) }</div>
+                </div>
+              </React.Fragment>
+            }
             <div className="row">
               <div className="label">
                 <Typography variant="subtitle2">
@@ -58,7 +87,7 @@ const OrderModal = ({ order, closeModal }) => {
               <div className="value">{ formatAsCurrency(order.amountPaid) }</div>
             </div>
           </div>
-          <div className="items">
+          <div className="items" style={{paddingTop: `${order.taxRate === 0 ? '130px': '170px'}`}}>
             {
               order.products.map(odr => <ProductItem order={odr} key={odr._id}/>)
             }
