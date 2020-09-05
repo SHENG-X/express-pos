@@ -43,7 +43,7 @@ export const createCategory = async (category) => {
 
 export const updateStoreTax = async (tax) => {
   try {
-    return await instance.put('/api/tax', { ...tax });
+    return await instance.put('/api/tax', { tax });
   } catch (error) {
     return error.response;
   }

@@ -34,7 +34,7 @@ const Tax = () => {
   }
 
   const handleConfirm = () => {
-    updateTax({ store: state.store._id, tax }, () => {
+    updateTax(tax, () => {
       setAllowUpdate(false);
     });
   }
