@@ -1,6 +1,11 @@
 import axios from 'axios';
 
+const token = localStorage.getItem('EXPRESS-POS/token');
+
 const instance = axios.create({
+  headers: {
+    Authorization: 'Bearer ' + (token ? token : '') 
+  },
   baseURL: 'http://localhost:3000',
 });
 
@@ -15,14 +20,6 @@ export const register = async (name, email, password) => {
 export const authenticate = async (email, password) => {
   try {
     return await instance.post('/api/user', { email, password });
-  } catch (error) {
-    return error.response;
-  }
-}
-
-export const tokenAuthenticate = async (token) => {
-  try {
-    return await instance.get('/api/user', { params: { token } });
   } catch (error) {
     return error.response;
   }
