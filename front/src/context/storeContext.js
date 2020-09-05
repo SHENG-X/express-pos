@@ -103,10 +103,11 @@ const signIn = (dispatch) => {
       if (success) {
         success();
       }
-    }
-    // check if there is a fail handler
-    if (fail) {
-      fail();
+    } else {
+      // check if there is a fail handler
+      if (fail) {
+        fail();
+      }
     }
   };
 }
