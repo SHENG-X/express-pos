@@ -32,7 +32,7 @@ const PrintableReceipt = ({ orderId }) => {
         </div>
         <div className="main">
           {
-            detail.products.map(prod => <PrintableReceiptItem prod={prod} kye={prod.product}/>)
+            detail.products.map(prod => <PrintableReceiptItem prod={prod} key={prod.product}/>)
           }
           <div className="summary">
             {
