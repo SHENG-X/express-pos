@@ -9,6 +9,8 @@ const userRouter = require('./routes/user');
 const taxRouter = require('./routes/tax');
 const orderRouter = require('./routes/order');
 
+const strict = require('./middleware/strict');
+
 // application port
 const PORT = 3000;
 // mongodb connection options
@@ -26,7 +28,7 @@ app.use(bodyParser.json());
 app.use('/api/product', productRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/user', userRouter);
-app.use('/api/tax', taxRouter);
+app.use('/api/tax', strict.authenticate, taxRouter);
 app.use('/api/order', orderRouter);
 
 mongoose.connect(process.env.MONGODB_URI, options).then(() => {
