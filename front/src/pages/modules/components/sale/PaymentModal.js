@@ -79,7 +79,7 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen, setOrderId }) => {
 
   const confirmPay = () => {
     const taxRate = state.store.tax.enable ? state.store.tax.rate : 0;
-    const products = order.map(odr => ({ product: odr._id, price: odr.price, amount: odr.count }));
+    const products = order.map(odr => ({ product: odr._id, price: odr.price, count: odr.count }));
     order = { store: state.store._id, paymentType: method,amountPaid: payment, products, taxRate };
     createOrder(order, (oid) => {
       setOrderId(oid);
