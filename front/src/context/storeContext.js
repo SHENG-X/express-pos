@@ -90,7 +90,10 @@ const signUp = (dispatch) => {
 const signIn = (dispatch) => {
   return async ({ email, password }, success, fail) => {
     const response = await authenticate(email, password);
-
+    if (!response) {
+      // if no response found then do nothing
+      return;
+    }
     if (response.status === 200) {
       dispatch({type: ACTIONS.SIGN_IN, payload: response.data});
       // save jtw token to local storage
