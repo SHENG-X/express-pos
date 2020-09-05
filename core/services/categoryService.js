@@ -41,38 +41,26 @@ const getCategory = (req, res) => {
 
 }
 
-const createCategory = (req, res) => {
-  const { thumbnail, name, store } = req.body;
-  // check if it is a valid store
-  return storeModel.findById(store, (error, storeData) => {
-    if (error) {
-      return res.status(500).json(error);
-    }
-    if (!storeData) {
-      // store is invalid
-      return res.status(400).json(storeData);
-    }
-    // TODO: do not allow duplicated category
-    // validate by store and name
-    const category = new categoryModel({ thumbnail, name, store});
-    return category.save((error, categoryData) => {
-      if (error) {
-        return res.status(500).json(error);
-      }
+const createCategory = async (req, res) => {
+  const storeId = req.decoded.store;
+  const { thumbnail, name } = req.body;
 
-      // add category to the store categories
-      storeData.categories.push(categoryData._id);
+  const category = new categoryModel({ thumbnail, name, store: storeId });
+  const storeObj = await storeModel.findById(storeId);
+  
+  try {
+    // save category
+    const savedCategory = await category.save();
+    // append the saved category to the store
+    storeObj.categories.push(savedCategory._id);
+    // update store
+    await storeObj.save();
 
-      return storeData.save((error) => {
-        if (error) {
-          return res.status(500).json(error);
-        }
-
-        return res.status(201).json(categoryData._doc);
-      });
-
-    });
-  });
+    const savedCategoryDoc = savedCategory._doc;
+    return res.status(201).json(savedCategoryDoc);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 }
 
 const updateCategory = (req, res) => {
