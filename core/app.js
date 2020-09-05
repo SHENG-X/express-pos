@@ -16,8 +16,7 @@ const PORT = 3000;
 // mongodb connection options
 const options = {
   useNewUrlParser: true,
-  reconnectTries: Number.MAX_VALUE,
-  reconnectInterval: 500,
+  useUnifiedTopology: true,
   connectTimeoutMS: 10000,
 };
 
@@ -36,3 +35,4 @@ mongoose.connect(process.env.MONGODB_URI, options).then(() => {
     console.log(`Listen to port ${PORT}`);
   });  
 });
+mongoose.set('useCreateIndex', true);
