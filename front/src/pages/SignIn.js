@@ -61,13 +61,17 @@ const SignIn = () => {
   const handleSubmit = async (values) => {
     setSent(true);
     setInvalid(false);
-    await signIn({ email: values.email, password: values.password }, (response) =>{
-      if (response.status === 401) {
-        setInvalid(true);
-      } else if (response.status === 200) {
-        history.push('/sale');
+    await signIn(
+      { email: values.email, password: values.password },
+      () => {
+        // on success redirect to sale page
+        history.push('/sale')
+      }, 
+      () => {
+        // on fail set invalid to true
+        setInvalid(true)
       }
-    });
+    );
     setSent(false);
   };
 

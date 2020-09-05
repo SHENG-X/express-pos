@@ -22,13 +22,15 @@ import Dashboard from './pages/Dashboard';
 import { Context } from './context/storeContext';
 
 const App = () => {
-  const { state, tokenAuth } = useContext(Context);
+  const { state, signIn } = useContext(Context);
   const [fetchToken, setFetchToken] = useState(false);
   
   useEffect(() => {
-    tokenAuth(() => {
-      setFetchToken(true);
-    });
+    signIn(
+      { email: null, password: null },
+      () => { setFetchToken(true); },
+      () => { setFetchToken(true); }
+    );
   }, []);
 
   if (localStorage.getItem('EXPRESS-POS/token') 

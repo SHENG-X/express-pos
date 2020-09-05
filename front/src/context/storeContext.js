@@ -3,7 +3,6 @@ import createDataContext from './createDataContext';
 import { 
   register,
   authenticate,
-  tokenAuthenticate,
   createCategory,
   createProduct,
   updateStoreTax,
@@ -89,32 +88,24 @@ const signUp = (dispatch) => {
 }
 
 const signIn = (dispatch) => {
-  return async ({ email, password }, callback) => {
+  return async ({ email, password }, success, fail) => {
     const response = await authenticate(email, password);
+
     if (response.status === 200) {
       dispatch({type: ACTIONS.SIGN_IN, payload: response.data});
       // save jtw token to local storage
       localStorage.setItem('EXPRESS-POS/token', response.data.token);
-    }
-    if (callback) {
-      callback(response);
-    }
-  };
-}
 
-const tokenAuth = (dispatch) => {
-  return async (callback) => {
-    const token = localStorage.getItem('EXPRESS-POS/token');
-    if (token) {
-      const response = await tokenAuthenticate(token);
-      if (response.status === 200) {
-        dispatch({type: ACTIONS.SIGN_IN, payload: response.data});
+      // check if there is a success handler
+      if (success) {
+        success();
       }
     }
-    if (callback) {
-      callback();
+    // check if there is a fail handler
+    if (fail) {
+      fail();
     }
-  }
+  };
 }
 
 const signOut = (dispatch) => {
@@ -253,7 +244,6 @@ export const { Context, Provider } = createDataContext(
     updateTax,
     updateProduct,
     updateCategory,
-    tokenAuth,
     createOrder,
     deleteOrder,
   },
