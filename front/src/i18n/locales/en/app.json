@@ -83,7 +83,10 @@
       "revenue": "Revenue",
       "netIncome": "Net Income",
       "orderId": "Order ID",
-      "placedTime": "Placed Timestamp"
+      "placedTime": "Placed Timestamp",
+      "custom": "Custom",
+      "startDate": "Start date",
+      "endDate": "End date"
     },
     "inventory": {
       "heading": "Inventory"

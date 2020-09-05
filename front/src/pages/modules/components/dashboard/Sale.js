@@ -173,7 +173,7 @@ const SaleReport = () => {
             variant="contained"
             onClick={() => setFilter(DATE_OPTIONS.CUSTOM)}
           >
-            Custom
+            { t('report.custom') }
           </Button>
         </div>
         {
@@ -181,7 +181,7 @@ const SaleReport = () => {
           <div className="custom-date">
             <MuiPickersUtilsProvider utils={MomentUtils}>
               <DatePicker
-                label="Start date"
+                label={ t('report.startDate') }
                 className="start-date"
                 value={startDate}
                 onChange={setStartDate}
@@ -189,7 +189,7 @@ const SaleReport = () => {
                 maxDate={new Date()}
               />
               <DatePicker
-                label="End date"
+                label={ t('report.endDate') }
                 className="end-date"
                 value={endDate}
                 onChange={setEndDate}
