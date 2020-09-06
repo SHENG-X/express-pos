@@ -63,7 +63,7 @@ const PrintableReceipt = ({ orderId }) => {
           </div>
         </div>
         <div className="footer">
-          { t('common.thankYou') }
+          {/* { t('common.thankYou') } */}
         </div>
       </div>
     </div>
