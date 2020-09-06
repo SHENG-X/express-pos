@@ -65,8 +65,7 @@ const SaleReport = () => {
     let totalCost = 0;
     filteredList.forEach(order => {
       order.products.forEach(product => {
-        const productCost = state.store.products.find(prod => prod._id === product.product).cost;
-        totalCost += productCost * product.count;
+        totalCost += product.cost * product.count;
       });
     });
     return (calcRevenue() - totalCost).toFixed(2);
@@ -284,7 +283,7 @@ const OrderRow = ({ order, handleViewOrder }) => {
 
   const handleDelete = () => {
     deleteOrder(
-      {store: state.store._id, _id: order._id},
+      { _id: order._id },
       () => {
         // TODO: handle success
       },
