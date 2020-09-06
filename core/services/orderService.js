@@ -45,28 +45,6 @@ const createOrder = async (req, res) => {
   }
 }
 
-const updateOrder = async (req, res) => {
-  const { _id, products } = req.body;
-  return orderModel.findById(_id, (error, order) => {
-    if (error) {
-      return res.status(500).json(error);
-    }
-
-    if (!order) {
-      return res.status(400).json(order);
-    }
-
-    order.products = products;
-    return order.save((error, order) => {
-      if (error) {
-        return res.status(500).json(error);
-      }
-
-      return res.status(200).json(order);
-    });
-  });
-}
-
 const deleteOrder = async (req, res) => {
   const storeId = req.decoded.store;
   const { _id } = req.query;
@@ -91,6 +69,5 @@ const deleteOrder = async (req, res) => {
 module.exports = {
   getOrder,
   createOrder,
-  updateOrder,
   deleteOrder,
 }
