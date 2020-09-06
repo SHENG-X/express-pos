@@ -2,198 +2,111 @@ const productModel = require('../model/productModel');
 const storeModel = require('../model/storeModel');
 const categoryModel = require('../model/categoryModel');
 
-const getProduct = (req, res) => {
-  const store = req.query.store;
+const getProduct = async (req, res) => {
+  const storeId = req.decoded.store;
   const productId = req.query.id;
-  
-  if (!store || !productId) {
-    return res.status(400).json({ store, productId });
+
+  try {
+    if (!productId) {
+      // if no product id was set then return 
+      // all products belong to the store
+      const storeObj = await storeModel.findById(storeId);
+      const populatedStore = await storeObj.populate('products').execPopulate();
+      const productsDoc = populatedStore._doc.products;
+      return res.status(200).json(productsDoc);
+    }
+
+    // product id was set, return the product
+    const product = await productModel.findById(productId);
+    const productDoc = product._doc;
+    return res.status(200).json(productDoc);
+  } catch (error) {
+    return res.status(500).json(error);
   }
-
-  return storeModel.findById(store, (error, storeData) => {
-    if (error) {
-      return res.status(500).json(error);
-    }
-
-    if (!storeData) {
-      return res.status(400).json(storeData);
-    }
-
-    if (productId) {
-      // if product id is set, get the product
-      return productModel.findById(productId, (error, product) => {
-        if (error) {
-          return res.status(500).json(error);
-        }
-        
-        if (!product) {
-          return res.status(400).json(product);
-        }
-
-        return res.status(200).json(product);
-      });
-    }
-  
-    // return all products 
-    return productModel.find({ store }, (error, products) => {
-      if (error) {
-        return res.status(500).json(error);
-      }
-        return res.status(200).json(products);
-    });
-  });
-
-  
 }
 
-const createProduct = (req, res) => {
-  const { thumbnail, name, prices, cost, count, category, store } = req.body;
-
-  if (!store) {
-    return res.status(400).json(store);
+const createProduct = async (req, res) => {
+  const storeId = req.decoded.store;
+  const { thumbnail, name, prices, cost, count, category } = req.body;
+  
+  try {
+    const product = new productModel({ thumbnail, name, prices, cost, count, category, store: storeId });
+    // save product to database
+    const savedProduct = await product.save();
+    // append new product id to store products and save
+    const storeObj = await storeModel.findById(storeId);
+    storeObj.products.push(savedProduct._id);
+    await storeObj.save();
+    const savedProductDoc = savedProduct._doc;
+    return res.status(201).json(savedProductDoc);
+  } catch (error) {
+    return res.status(500).json(error);
   }
-
-  return storeModel.findById(store, (error, storeData) => {
-    if (error) {
-      return res.status(500).json(error);
-    }
-
-    if (!storeData) {
-      return res.status(400).json(storeData);
-    }
-
-    if (category) {
-      // if category is entered, check if category exist
-      return categoryModel.findById(category, (error, categoryData) => {
-        if (error) {
-          return res.status(500).json(error);
-        }
-
-        if (!categoryData) {
-          return res.status(400).json(categoryData);
-        }
-
-        const product = new productModel({ thumbnail, name, prices, cost, count, category, store });
-        return product.save((error, productData) => {
-          if (error) {
-            return res.status(500).json(error);
-          }
-          
-          if (!productData) {
-            return res.status(400).json(productData);
-          }
-
-          // add new product to store products
-          storeData.products.push(productData._id);
-          return storeData.save((error) => {
-            if (error) {
-              return res.status(500).json(error);
-            }
-
-            return res.status(201).json(productData._doc);
-          });
-        });
-      });
-    }
-    const product = new productModel({ thumbnail, name, prices, cost, count, category, store });
-    return product.save((error, productData) => {
-      if (error) {
-        return res.status(500).json(error);
-      }
-      
-      if (!productData) {
-        return res.status(400).json(productData);
-      }
-
-      // add new product to store products
-      storeData.products.push(productData._id);
-      return storeData.save((error) => {
-        if (error) {
-          return res.status(500).json(error);
-        }
-
-        return res.status(201).json(productData._doc);
-      });
-    });
-  });
-
 }
 
-const updateProduct = (req, res) => {
+const updateProduct = async (req, res) => {
   const { _id, thumbnail = '', enable, name, prices, cost, count, category } = req.body;
-  
+
   if (!_id) {
-    return res.status(400).json(_id);
+    return res.status(400).json('Product ID is required');
   }
 
-  return productModel.findById(_id, (error, productData) => {
-    if (error) {
-      return res.status(500).json(error);
-    }
+  try {
+    const updatedProduct = await productModel.findByIdAndUpdate(_id, {
+      thumbnail,
+      enable,
+      name,
+      prices,
+      cost,
+      count,
+      category
+    }, { new: true });
 
-    if (!productData) {
-      return res.status(400).json(productData);
-    }
-
-    // update product detail
-    productData.thumbnail = thumbnail;
-    productData.enable = enable;
-    productData.name = name;
-    productData.prices = prices;
-    productData.cost = cost;
-    productData.count = count;
-    productData.category = category;
-
-    return productData.save((error, productData) => {
-      if (error) {
-        return res.status(500).json(error);
-      }
-      return res.status(200).json(productData._doc);
-    });
-  });
+    const updatedProductDoc = updatedProduct._doc;
+    return res.status(200).json(updatedProductDoc);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 }
 
-const deleteProduct = (req, res) => {
-  const { store, _id } = req.query;
-  return productModel.deleteOne({ _id }, (error) => {
-    if (error) {
-      return res.status(500).json(error);
-    }
-    return storeModel.findById(store, (error, storeData)  => {
-      if (error) {
-        return res.status(500).json(error);
-      }
+const deleteProduct = async (req, res) => {
+  const storeId = req.decoded.store;
+  const { _id } = req.query;
 
-      storeData.products = storeData.products.filter(product => product.toString() !==  _id);
-      return storeData.save((error) => {
-        if (error) {
-          return res.status(500).json(error);
-        }
+  if (!_id) {
+    return res.status(400).json('Product ID is required');
+  }
 
-        return res.status(204).json(_id);
-      });
-    });
-  });
+  try {
+    // delete the product from the product table
+    await productModel.findByIdAndDelete(_id);
+    const storeObj = await storeModel.findById(storeId);
+    // remove the product from the store products
+    storeObj.products = storeObj.products.filter(pid => pid.toString() !== _id);
+    await storeObj.save();
+    return res.status(204).json(_id);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 }
 
-const consumeProduct = (req, res) => {
+const consumeProduct = async (req, res) => {
   const { _id, count } = req.body;
-  if (!_id) {
-    return res.status(400).json(_id);
-  }
-  return productModel.findById(_id, (error, product) => {
-    if (error) {
-      return res.status(500).json(error);
-    }
 
-    product.count -= count;
-    return product.save((error, prod) => {
-      if (error) {
-        return res.status(500).json(error);
-      }
-      return res.status(200).json(prod._doc);
-    });
-  });
+  if (!_id) {
+    return res.status(400).json('Product ID is required');
+  }
+
+  try {
+    // find product object and update product count
+    const productObj = await productModel.findById(_id);
+    productObj.count -= count;
+    const savedProduct = await productObj.save();
+    const saveProductDoc = savedProduct._doc;
+    return res.status(200).json(saveProductDoc);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 }
 
 module.exports = {
