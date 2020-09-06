@@ -89,12 +89,17 @@ const SaleReport = () => {
   }
 
   const filterDate = (type) => {
+
+    const beforeOneWeek = new Date(new Date().getTime() - 60 * 60 * 24 * 7 * 1000)
+    , day = beforeOneWeek.getDay()
+    , diffToMonday = beforeOneWeek.getDate() - day + (day === 0 ? -6 : 1)
+    , lastMonday = new Date(beforeOneWeek.setDate(diffToMonday))
+    , lastSunday = new Date(beforeOneWeek.setDate(diffToMonday + 6));
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const prevMonday = new Date();
-    prevMonday.setHours(0, 0, 0, 0);
-    prevMonday.setDate(prevMonday.getDate() - prevMonday.getDay() + 1);
+    lastMonday.setHours(0, 0, 0, 0);
 
     const curMonthStart = new Date();
     curMonthStart.setHours(0, 0, 0, 0);
@@ -111,7 +116,7 @@ const SaleReport = () => {
       case DATE_OPTIONS.TODAY:
         break;
       case DATE_OPTIONS.WEEK:
-        start = new Date(prevMonday);
+        start = new Date(lastMonday);
         break;
       case DATE_OPTIONS.MONTH:
         start = new Date(curMonthStart);
