@@ -35,8 +35,11 @@ const signInUser = async (req, res) => {
   // get authorization token in the header
   const authToken = req.headers.authorization.split(' ')[1];
 
+  // authorization by email and password
+  const { email, password } = req.body;
+
   // authorization by token
-  if (authToken) {
+  if (authToken && !email && !password) {
     try {
       // authorization token was set, verify token
       const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
@@ -53,8 +56,7 @@ const signInUser = async (req, res) => {
     }
   }
 
-  // authorization by email and password
-  const { email, password } = req.body;
+  
 
   // check if the email exist
   const user = await userExist(email);
