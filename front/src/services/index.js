@@ -35,7 +35,7 @@ export const createProduct = async (product) => {
 
 export const createCategory = async (category) => {
   try {
-    return await instance.post('/api/category', { category });
+    return await instance.post('/api/category', { ...category });
   } catch (error) {
     return error.response;
   }
