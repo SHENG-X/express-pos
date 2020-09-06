@@ -37,9 +37,15 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
       if (JSON.stringify(categoryOriginal) === JSON.stringify(category)) {
         handleCancel();
       } else {
-        updateCategory(category, () => {
-          handleCancel();
-        });
+        updateCategory(
+          category,
+          () => {
+            handleCancel();
+          },
+          () => {
+            // TODO: handle update failed
+          }
+        );
       }
     } else {
       addCategory(

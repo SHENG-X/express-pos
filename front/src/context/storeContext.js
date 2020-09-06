@@ -195,12 +195,16 @@ const updateProduct = (dispatch) => {
 }
 
 const updateCategory = (dispatch) => {
-  return async (category, callback) => {
+  return async (category, success, fail) => {
     const response = await updateStoreCategory(category);
     if (response.status === 200) {
       dispatch({type: ACTIONS.UPDATE_CATEGORY, payload: response.data});
-      if (callback) {
-        callback();
+      if (success) {
+        success();
+      }
+    } else {
+      if (fail) {
+        fail();
       }
     }
   }
