@@ -74,27 +74,21 @@ const updateCategory = async (req, res) => {
   }
 }
 
-const deleteCategory = (req, res) => {
-  const { store, _id } = req.query;
-  return categoryModel.deleteOne({ _id }, (error) => {
-    if (error) {
-      return res.status(500).json(error);
-    }
+const deleteCategory = async (req, res) => {
+  const storeId = req.decoded.store;
+  const { _id } = req.query;
 
-    return storeModel.findById(store, (error, storeData) => {
-      if (error) {
-        return res.status(500).json(error);
-      }
-
-      storeData.categories = storeData.categories.filter(category => category.toString() !== _id);
-      return storeData.save((error) => {
-        if (error) {
-          return res.status(500).json(error);
-        }
-        return res.status(204).json(_id);
-      });
-    });
-  });
+  try {
+    // delete from category table
+    await categoryModel.findByIdAndDelete(_id);
+    // remove the ref key from store categories
+    const store = await storeModel.findById(storeId);
+    store.categories = store.categories.filter(cid => cid.toString() !== _id);
+    await store.save();
+    return res.status(204).json(_id);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 }
 
 module.exports = {
