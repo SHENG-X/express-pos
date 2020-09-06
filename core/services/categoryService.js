@@ -18,7 +18,8 @@ const getCategory = async (req, res) => {
 
     // category id is set, return the category
     const category = await categoryModel.findById(categoryId);
-    return res.status(200).json(category); 
+    const categoryDoc = category._doc;
+    return res.status(200).json(categoryDoc); 
   } catch (error) {
     return res.status(500).json(error);
   }
