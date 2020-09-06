@@ -27,11 +27,13 @@ import { useTranslation } from 'react-i18next';
 
 import { Context } from '../../../../context/storeContext';
 import ProductModal from './ProductModal';
+import RestockModal from './RestockModal';
 import { formatAsCurrency } from '../../../../utils';
 
 const Product = () => {
   const { state } = useContext(Context);
   const [open, setOpen] = useState(false);
+  const [restockOpen, setRestockOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
   const { t } = useTranslation();
   const [searchText, setSearchText] = useState('');
@@ -46,12 +48,24 @@ const Product = () => {
     setOpen(true);
   }
 
+  const restockProduct = (product) => {
+    setCurrentProduct(product);
+    setRestockOpen(true);
+  }
+
   const computeList = () => {
     let products = state.store.products;
     if (searchText !== '') {
       products = products.filter(prod => prod.name.toLowerCase().includes(searchText.toLowerCase()));
     }
-    return products.map(prod => <ProductRow product={prod} editProduct={editProduct} key={prod._id}/>);
+    return products.map(prod =>
+      <ProductRow 
+        product={prod}
+        editProduct={editProduct}
+        restockProduct={restockProduct}
+        key={prod._id}
+      />
+    );
   }
 
   return (
@@ -111,11 +125,20 @@ const Product = () => {
         :
         null
       }
+      {
+        restockOpen ?
+        <RestockModal
+          handleOpen={val => setRestockOpen(val)}
+          product={currentProduct}
+        />
+        :
+        null
+      }
     </React.Fragment>
   );
 }
 
-const ProductRow = ({ product, editProduct }) => {
+const ProductRow = ({ product, editProduct, restockProduct }) => {
   const { state, deleteProduct, updateProduct } = useContext(Context);
 
   const computeCategoryName = () => {
@@ -173,6 +196,7 @@ const ProductRow = ({ product, editProduct }) => {
             <IconButton
               color="primary"
               size="small"
+              onClick={() => restockProduct(product)}
             >
               <Storage />
             </IconButton>

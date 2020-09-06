@@ -109,10 +109,29 @@ const consumeProduct = async (req, res) => {
   }
 }
 
+const restockProduct = async (req, res) => {
+  const { _id, count } = req.body;
+
+  if (!_id) {
+    return res.status(400).json('Product ID is required');
+  }
+
+  try {
+    const productObj = await productModel.findById(_id);
+    productObj.count += count;
+    const savedProduct = await productObj.save();
+    const productDoc = savedProduct._doc;
+    return res.status(200).json(productDoc);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
 module.exports = {
   getProduct,
   createProduct,
   updateProduct,
   deleteProduct,
   consumeProduct,
+  restockProduct,
 }

@@ -13,6 +13,7 @@ import {
   createStoreOrder,
   consumeProduct,
   deleteStoreOrder,
+  restockStoreProduct,
 } from '../services';
 
 const ACTIONS = {
@@ -281,6 +282,21 @@ const deleteOrder = (dispatch) => {
   }
 }
 
+const restockProduct = (dispatch) => {
+  return async (product, success, fail) => {
+    const response = await restockStoreProduct(product);
+    if (response.status === 200) {
+      dispatch({type: ACTIONS.UPDATE_PRODUCT, payload: response.data});
+      if (success) {
+        success();
+      }
+    } else {
+      if (fail) {
+        fail();
+      }
+    }
+  }
+}
 export const { Context, Provider } = createDataContext(
   userReducer,
   {
@@ -296,6 +312,7 @@ export const { Context, Provider } = createDataContext(
     updateCategory,
     createOrder,
     deleteOrder,
+    restockProduct,
   },
   {}
 );

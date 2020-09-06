@@ -78,3 +78,57 @@
     padding: 1rem;
   }
 }
+
+.restock-modal {
+  .content {
+    min-width: 420px;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    .top {
+      display: flex;
+      & > div {
+        flex: 1;
+        min-width: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem 1rem;
+        .value {
+          font-size: 5rem;
+        }
+      }
+      svg {
+        font-size: 3.5rem;
+        margin-top: 1.5rem;
+      }
+      .icon {
+        flex: unset;
+      }
+      .right {
+        .value {
+          color: rgba(0,0,0,0.5);
+        }
+      }
+    }
+    .bottom {
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      & > div {
+        width: 64px;
+        margin: 0 1rem;
+        input {
+          font-size: 2rem;
+        }
+      }
+    }
+  }
+  .actions {
+    padding: 2rem 1rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+}

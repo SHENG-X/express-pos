@@ -104,3 +104,11 @@ export const deleteStoreOrder = async (order) => {
     return error.response;
   }
 }
+
+export const restockStoreProduct = async (product) => {
+  try {
+    return await instance.put('/api/product/restock', {...product});
+  } catch (error) {
+    return error.response;
+  }
+}

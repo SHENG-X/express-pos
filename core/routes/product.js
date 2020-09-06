@@ -10,6 +10,8 @@ router.put('/', productService.updateProduct);
 
 router.put('/consume', productService.consumeProduct);
 
+router.put('/restock', productService.restockProduct);
+
 router.delete('/', productService.deleteProduct);
 
 module.exports = router;
