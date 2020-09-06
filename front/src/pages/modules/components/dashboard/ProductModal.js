@@ -85,7 +85,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
       }
     } else {
       addProduct(
-        {...product, store: state.store._id},
+        product,
         () => {
           handleCancel();
         },

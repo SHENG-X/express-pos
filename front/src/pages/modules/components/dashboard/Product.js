@@ -220,7 +220,7 @@ const ProductRow = ({ product, editProduct }) => {
               color="primary"
               size="small"
               onClick={() => deleteProduct(
-                { _id: product._id, store: state.store._id },
+                { _id: product._id },
                 () => {
                   // TODO: handle delete product success
                 },
