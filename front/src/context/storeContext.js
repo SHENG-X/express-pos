@@ -77,7 +77,7 @@ const userReducer = (state, { type, payload }) => {
 const signUp = (dispatch) => {
   return async ({ name, email, password }, success, fail) => {
     const response = await register(name, email, password);
-    if (response.status === 200) {
+    if (response.status === 201) {
       dispatch({type: ACTIONS.SIGN_UP, payload: response.data});
       // save jtw token to local storage
       localStorage.setItem('EXPRESS-POS/token', response.data.token);
