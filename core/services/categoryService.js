@@ -1,44 +1,27 @@
 const categoryModel = require('../model/categoryModel');
 const storeModel = require('../model/storeModel');
 
-const getCategory = (req, res) => {
-  const store = req.query.store;
+const getCategory = async (req, res) => {
+  const storeId = req.decoded.store; 
+  // const store = req.query.store;
   const categoryId = req.query.id;
-  if (!store || !categoryId) {
-    return res.status(400).json({ store, categoryId });
-  }
-  return storeModel.findById(store, (error, storeData) => {
-    if (error) {
-      return res.status(500).json(error);
-    }
-    if (!storeData) {
-      return res.status(400).json(storeData);
-    }
 
-    if (categoryId) {
-      // category id was set, then fetch single category by id
-      return categoryModel.findById(categoryId, (error, category) => {
-        if (error) {
-          return res.status(500).json(error);
-        }
-  
-        if (!category) {
-          return res.status(400).json(category);
-        }
-        return res.status(200).json(category); 
-  
-      });
-    }
-  
-    return categoryModel.find({ store }, (error, categories) => {
-      if (error) {
-        return res.status(500).json(error);
-      }
-      // send all categories as response
+  try {
+    if (!categoryId) {
+      // no category id then return all categories belong to the store
+      const storeObj = await storeModel.findById(storeId);
+      const populatedStore = await storeObj.populate('categories').execPopulate();
+      const categories = populatedStore._doc.categories;
+      // send all categories back to the client
       return res.status(200).json(categories);
-    });
-  });
+    }
 
+    // category id is set, return the category
+    const category = await categoryModel.findById(categoryId);
+    return res.status(200).json(category); 
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 }
 
 const createCategory = async (req, res) => {
