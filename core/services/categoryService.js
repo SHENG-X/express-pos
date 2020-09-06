@@ -63,28 +63,15 @@ const createCategory = async (req, res) => {
   }
 }
 
-const updateCategory = (req, res) => {
+const updateCategory = async (req, res) => {
   const { _id, thumbnail = '', name } = req.body;
-  return categoryModel.findById(_id, (error, categoryData) => {
-    if (error) {
-      return res.status(500).json(error);
-    }
-    
-    if (!categoryData) {
-      // requested category not found
-      return res.status(400).json(categoryData);
-    }
-
-    categoryData.thumbnail = thumbnail;
-    categoryData.name = name;
-
-    return categoryData.save((error, categoryData) => {
-      if (error) {
-        return res.status(500).json(error);
-      }
-      return res.status(200).json(categoryData._doc);
-    });
-  });
+  try {
+    const updatedCategory = await categoryModel.findByIdAndUpdate(_id, {thumbnail, name}, {new: true});
+    const updateCategoryDoc = updatedCategory._doc;
+    return res.status(200).json(updateCategoryDoc);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 }
 
 const deleteCategory = (req, res) => {
