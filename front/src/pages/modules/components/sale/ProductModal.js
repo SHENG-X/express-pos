@@ -8,7 +8,8 @@ import {
   Select,
   MenuItem,
   Button,
-  IconButton
+  IconButton,
+  TextField,
 } from '@material-ui/core';
 import {
   Add,
@@ -55,9 +56,11 @@ const ProductModal = ({ selectedProduct, handleOpen, handleConfirm }) => {
               >
                 <Add />
               </IconButton>
-              <Typography variant="subtitle2" align="center" className="count">
-                { product.count }
-              </Typography>
+              <TextField
+                type="number"
+                value={Number(product.count)}
+                onChange={e => setProduct({...product, count: Number(e.target.value)})}
+              />
               <IconButton
                 color="primary"
                 size="small"

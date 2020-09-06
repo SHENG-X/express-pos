@@ -62,8 +62,9 @@
       .action {
         display: flex;
         align-items: center;
-        h6 {
-          padding: 0 0.5rem;
+        .MuiFormControl-root {
+          min-width: 46px;
+          width: 46px;
         }
       }
     }
