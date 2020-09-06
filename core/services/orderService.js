@@ -1,78 +1,51 @@
 const storeModel = require('../model/storeModel');
 const orderModel = require('../model/orderModel');
+const { populate } = require('../model/storeModel');
 
-const getOrder = (req, res) => {
+const getOrder = async (req, res) => {
+  const storeId = req.decoded.store;
+
   const store = req.query.store;
   const orderId = req.query.id;
 
-  if (!store || !orderId) {
-    return res.status(400).json({ store, orderId });
+  try {
+    if (!orderId) {
+      // no order id is set, return all orders belong to the store
+      const storeObj = await storeModel.findById(storeId);
+      const populatedStore = await storeObj.populate('orders').execPopulate();
+      const populatedOrdersDoc = populatedStore._doc.orders;
+      return res.status(200).json(populatedOrdersDoc); 
+    }
+
+    // order id is set, return the order
+    const orderObj = await orderModel.findById(orderId);
+    const orderObjDoc = orderObj._doc;
+    return res.status(200).json(orderObjDoc);
+  } catch (error) {
+    return res.status(500).json(error);
   }
-
-  return storeModel.findById(store, (error, storeData) => {
-    if (error) {
-      return res.status(500).json(error);
-    }
-
-    if (!storeData) {
-      return res.status(400).json(storeData);
-    }
-
-    if (orderId) {
-      return orderModel.findById(orderId, (error, orderData) => {
-        if (error) {
-          return res.status(500).json(error);
-        }
-
-        if (!orderData) {
-          return res.status(404).json(orderData);
-        }
-        
-        return res.status(200).json(orderData);
-      })
-    }
-
-    return orderModel.find({ store }, (error, orders) => {
-      if (error) {
-        return res.status(500).json(error);
-      }
-      return res.status(200).json(orders);
-    });
-  });
-
 }
 
-const createOrder = (req, res) => {
-  const { store, products, paymentType, amountPaid, taxRate } = req.body;
-  return storeModel.findById(store, (error, storeData) => {
-    if (error) {
-      return res.status(500).json(error);
-    }
+const createOrder = async (req, res) => {
+  const storeId = req.decoded.store;
+  const { products, paymentType, amountPaid, taxRate } = req.body;
 
-    if (!storeData) {
-      return res.status(404).json(storeData);
-    }
-
-    const order = new orderModel({ store, products, paymentType, amountPaid, taxRate });
-    return order.save((error, orderData) => {
-      if (error) {
-        return res.status(500).json(error);
-      }
-
-      // add order to store orders
-      storeData.orders = [...storeData.orders, orderData._id];
-
-      return storeData.save((error) => {
-        if (error) {
-          return res.status(500).json(error);
-        }
-        return res.status(201).json(orderData);
-      });
-    });
-  });
+  try {
+    // create a order object and save it to the database
+    const orderObj = new orderModel({ products, paymentType, amountPaid, taxRate, store: storeId });
+    const storeObj = await storeModel.findById(storeId);
+    const savedOrder = await orderObj.save();
+    // add the order to the store orders
+    storeObj.orders.push(savedOrder._id);
+    await storeObj.save();
+    const savedOrderDoc = savedOrder._doc;
+    return res.status(201).json(savedOrderDoc);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 }
 
-const updateOrder = (req, res) => {
+const updateOrder = async (req, res) => {
   const { _id, products } = req.body;
   return orderModel.findById(_id, (error, order) => {
     if (error) {
@@ -94,26 +67,25 @@ const updateOrder = (req, res) => {
   });
 }
 
-const deleteOrder = (req, res) => {
-  const { store, _id } = req.query;
-  return orderModel.deleteOne({ _id }, (error) => {
-    if (error) {
-      return res.status(500).json(error);
-    }
-    return storeModel.findById(store, (error, storeData) => {
-      if (error) {
-        return res.status(500).json(error);
-      }
-      // update store data orders
-      storeData.orders = storeData.orders.filter(order => order.toString() !== _id);
-      return storeData.save((error) => {
-        if (error) {
-          return res.status(500).json(error);
-        }
-        return res.status(204).json(_id);
-      });
-    });
-  });
+const deleteOrder = async (req, res) => {
+  const storeId = req.decoded.store;
+  const { _id } = req.query;
+
+  if (!_id) {
+    return res.status(400).json('Order ID is required');
+  }
+
+  try {
+    // delete order from order table
+    await orderModel.findByIdAndDelete(_id);
+    // remove the order ref from the store orders
+    const storeObj = await storeObj.findById(storeId);
+    storeObj.orders = storeObj.orders.filter(odr => odr.toString() !== _id);
+    await storeObj.save();
+    return res.status(204).json(_id);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 }
 
 module.exports = {
