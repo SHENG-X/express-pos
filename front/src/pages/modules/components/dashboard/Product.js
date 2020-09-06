@@ -183,7 +183,15 @@ const ProductRow = ({ product, editProduct }) => {
               <IconButton
                 color="primary"
                 size="small"
-                onClick={() => updateProduct({...product, enable: false})}
+                onClick={() => updateProduct(
+                  {...product, enable: false},
+                  () => {
+                    // TODO: handle success
+                  },
+                  () => {
+                    // TODO: handle failed
+                  }
+                )}
               >
                 <Visibility />
               </IconButton>
@@ -193,7 +201,15 @@ const ProductRow = ({ product, editProduct }) => {
               <IconButton
                 color="primary"
                 size="small"
-                onClick={() => updateProduct({...product, enable: true})}
+                onClick={() => updateProduct(
+                  {...product, enable: true},
+                  () => {
+                    // TODO: handle success
+                  },
+                  () => {
+                    // TODO: handle failed
+                  }
+                )}
               >
                 <VisibilityOff />
               </IconButton>
@@ -203,7 +219,15 @@ const ProductRow = ({ product, editProduct }) => {
             <IconButton
               color="primary"
               size="small"
-              onClick={() => deleteProduct({ _id: product._id, store: state.store._id })}
+              onClick={() => deleteProduct(
+                { _id: product._id, store: state.store._id },
+                () => {
+                  // TODO: handle delete product success
+                },
+                () => {
+                  // TODO: handle delete product failed
+                }
+              )}
             >
               <Delete />
             </IconButton>

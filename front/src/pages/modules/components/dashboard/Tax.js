@@ -34,9 +34,15 @@ const Tax = () => {
   }
 
   const handleConfirm = () => {
-    updateTax(tax, () => {
-      setAllowUpdate(false);
-    });
+    updateTax(
+      tax,
+      () => {
+        setAllowUpdate(false);
+      },
+      () => {
+        // TODO: handle update failed
+      }
+    );
   }
 
   return (

@@ -62,13 +62,17 @@ const SignUp = () => {
   const handleSubmit = async (values) => {
     setInvalid(false);
     setSent(true);
-    await signUp({ name: values.name, password: values.password, email: values.email }, (response) => {
-      if (response.status === 226) {
-        setInvalid(true);
-      } else if (response.status === 201) {
+    await signUp(
+      { name: values.name, password: values.password, email: values.email },
+      () => {
+        // on success redirect to sale page
         history.push('/sale');
+      },
+      () => {
+        // on fail set invalid to true
+        setInvalid(true);
       }
-    });
+    );
     setSent(false);
   };
 

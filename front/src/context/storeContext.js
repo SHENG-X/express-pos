@@ -74,15 +74,19 @@ const userReducer = (state, { type, payload }) => {
 }
 
 const signUp = (dispatch) => {
-  return async ({ name, email, password }, callback) => {
+  return async ({ name, email, password }, success, fail) => {
     const response = await register(name, email, password);
     if (response.status === 200) {
       dispatch({type: ACTIONS.SIGN_UP, payload: response.data});
       // save jtw token to local storage
       localStorage.setItem('EXPRESS-POS/token', response.data.token);
-    }
-    if (callback) {
-      callback(response);
+      if (success) {
+        success();
+      }
+    } else {
+      if (fail) {
+        fail();
+      }
     }
   };
 }
@@ -123,22 +127,33 @@ const signOut = (dispatch) => {
 }
 
 const addProduct = (dispatch) => {
-  return async (product, callback) => {
+  return async (product, success, fail) => {
     const response = await createProduct(product);
     if (response.status === 201) {
       dispatch({type: ACTIONS.ADD_PRODUCT, payload: product});
-    }
-    if (callback) {
-      callback(response);
+      if (success) {
+        success();
+      }
+    } else {
+      if (fail) {
+        fail();
+      }
     }
   }
 }
 
 const deleteProduct = (dispatch) => {
-  return async (product) => {
+  return async (product, success, fail) => {
     const response = await deleteStoreProduct(product);
     if (response.status === 204) {
       dispatch({type: ACTIONS.DELETE_PRODUCT, payload: product._id});
+      if (success) {
+        success();
+      }
+    } else {
+      if (fail) {
+        fail();
+      }
     }
   }
 }
@@ -160,38 +175,53 @@ const addCategory = (dispatch) => {
 }
 
 const deleteCategory = (dispatch) => {
-  return async (category) => {
+  return async (category, success, fail) => {
     // TODO: check if category is used
     // if category is used then do not delete the category
     const response = await deleteStoreCategory(category);
     if (response.status === 204) {
       dispatch({type: ACTIONS.DELETE_CATEGORY, payload: category._id});
+      if (success) {
+        success();
+      }
+    } else {
+      if (fail) {
+        fail();
+      }
     }
   }
 }
 
 const updateTax = (dispatch) => {
-  return async (tax, callback) => {
+  return async (tax, success, fail) => {
     const response = await updateStoreTax(tax);
     if (response.status === 200) {
       dispatch({type: ACTIONS.UPDATE_TAX, payload: response.data});
-      if (callback) {
-        callback();
+      if (success) {
+        success();
+      }
+    } else {
+      if (fail) {
+        fail();
       }
     }
   }
 }
 
 const updateProduct = (dispatch) => {
-  return async (product, callback) => {
+  return async (product, success, fail) => {
     const response = await updateStoreProduct(product);
     if (response.status === 200) {
       dispatch({type: ACTIONS.UPDATE_PRODUCT, payload: response.data});
-      if (callback) {
-        callback();
+      if (success) {
+        success();
+      }
+    } else {
+      if (fail) {
+        fail();
       }
     }
-  }
+  } 
 }
 
 const updateCategory = (dispatch) => {
@@ -211,7 +241,7 @@ const updateCategory = (dispatch) => {
 }
 
 const createOrder = (dispatch) => {
-  return async (order, callback) => {
+  return async (order, success, fail) => {
     const response = await createStoreOrder(order);
     if (response.status === 201) {
       dispatch({type: ACTIONS.CREATE_ORDER, payload: response.data});
@@ -224,21 +254,29 @@ const createOrder = (dispatch) => {
         }
       });
 
-      if (callback) {
-        callback(response.data._id);
+      if (success) {
+        success(response.data._id);
+      }
+    } else {
+      if (fail) {
+        fail();
       }
     }
   }
 }
 
 const deleteOrder = (dispatch) => {
-  return async (order, callback) => {
+  return async (order, success, fail) => {
     const response = await deleteStoreOrder(order);
     if (response.status === 204) {
       dispatch({type: ACTIONS.DELETE_ORDER, payload: order._id});
-    }
-    if (callback) {
-      callback();
+      if (success) {
+        success();
+      }
+    } else {
+      if (fail) {
+        fail();
+      }
     }
   }
 }

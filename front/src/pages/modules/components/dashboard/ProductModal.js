@@ -73,18 +73,26 @@ const ProductModal = ({ handleOpen, initProduct }) => {
       if (JSON.stringify(productOriginal) === JSON.stringify(product)) {
         handleCancel();
       } else {
-        updateProduct(product, () => {
-          handleCancel();
-        });
+        updateProduct(
+          product,
+          () => {
+            handleCancel();
+          },
+          () => {
+            // TODO: handle update product failed
+          }
+        );
       }
     } else {
-      addProduct({...product, store: state.store._id}, (response) => {
-        if (response.status === 201) {
+      addProduct(
+        {...product, store: state.store._id},
+        () => {
           handleCancel();
-        } else {
-          console.log(response);
+        },
+        () => {
+          // TODO: handle add product failed
         }
-      });
+      );
     }
   }
 

@@ -283,7 +283,15 @@ const OrderRow = ({ order, handleViewOrder }) => {
   const { state, deleteOrder } = useContext(Context);
 
   const handleDelete = () => {
-    deleteOrder({store: state.store._id, _id: order._id});
+    deleteOrder(
+      {store: state.store._id, _id: order._id},
+      () => {
+        // TODO: handle success
+      },
+      () => {
+        // TODO: handle failed
+      }
+    );
   }
 
   return (

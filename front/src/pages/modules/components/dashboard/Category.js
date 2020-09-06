@@ -144,7 +144,15 @@ const CategoryRow = ({ category, handleEdit }) => {
         <IconButton
           color="primary"
           size="small"
-          onClick={() => deleteCategory({ _id: category._id, store: state.store._id })}
+          onClick={() => deleteCategory(
+            { _id: category._id },
+            () => {
+              // TODO: handle success
+            },
+            () => {
+              // TODO: handle failed
+            }
+          )}
         >
           <Delete />
         </IconButton>
