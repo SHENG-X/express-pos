@@ -9,11 +9,15 @@
     padding: 1rem;
     text-transform: uppercase;
     .name {
-      font-size: 16px;
+      font-size: 1rem;
       font-weight: 600;
     }
     .type {
-      font-size: 12px;
+      font-size: 0.7rem;
+      display: flex;
+      span {
+        padding-right: 0.5rem;
+      }
     }
   }
   .main {
@@ -25,6 +29,7 @@
         display: flex;
         justify-content: space-between;
         font-weight: 600;
+        font-size: 0.8rem;
       }
       .subtitle {
         display: flex;
@@ -40,10 +45,17 @@
         justify-content: space-between;
       }
       .subtotal, .total {
+        font-size: 0.8rem;
         font-weight: 600;
       }
       .tax {
         font-size: 0.8rem;
+        padding-bottom: 0.2rem;
+      }
+      .total {
+        font-size: 0.9rem;
+        padding-top: 0.2rem;
+        border-top: 1px dashed;
       }
     }
   }
@@ -75,7 +87,8 @@
       height: fit-content;
     }
     .receipt-copy {
-      width: 218px;
+      width: 100%;
+      max-width: 280px;
       * {
         visibility: visible;
         page-break-inside: avoid;
