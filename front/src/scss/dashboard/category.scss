@@ -2,14 +2,11 @@
   height: 100%;
   .content {
     height: 100%;
-    & > div {
+    .category-tab {
       height: 100%;
-      .category-tab {
-        height: 100%;
-        .table-container {
-          height: calc(100% - 131px);
-          overflow: overlay;
-        }
+      .table-container {
+        max-height: calc(100vh - 260px);
+        overflow: overlay;
       }
     }
   }
