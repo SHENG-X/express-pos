@@ -25,11 +25,11 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-app.use('/api/product', productRouter);
+app.use('/api/product', strict.authenticate, productRouter);
 app.use('/api/category', strict.authenticate, categoryRouter);
 app.use('/api/user', userRouter);
 app.use('/api/tax', strict.authenticate, taxRouter);
-app.use('/api/order', orderRouter);
+app.use('/api/order', strict.authenticate, orderRouter);
 
 mongoose.connect(process.env.MONGODB_URI, options).then(() => {
   app.listen(PORT, () => {
