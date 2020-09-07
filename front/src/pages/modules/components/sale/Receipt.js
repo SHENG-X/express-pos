@@ -68,53 +68,44 @@ const Receipt = ({ order, setOrder }) => {
             { order.map(prod => <ReceiptItem product={prod} deleteProduct={deleteProduct} key={`${prod._id}-${prod.price}`}/>) }
           </React.Fragment>
           <React.Fragment>
-            {
-              order.length ? 
-              <div className="summary">
-                <div className="separator"/>
-                {
-                  state.store.tax.enable ?
-                  <React.Fragment>
-                    <div className="subtitle">
-                      <div className="label">
-                        <Typography variant="body1">
-                          { t('sale.subtotal') }
-                        </Typography>
-                      </div>
-                      <div className="amount">
-                        { formatAsCurrency(calcSubtotal()) }
-                      </div>
+            <div className="summary">
+              <div className={`separator ${order.length ? '' : 'hidden'}`}/>
+                <React.Fragment>
+                  <div className={`subtitle ${order.length ? '' : 'hidden'}`}>
+                    <div className="label">
+                      <Typography variant="body1">
+                        { t('sale.subtotal') }
+                      </Typography>
                     </div>
-                    <div className="tax">
-                      <div className="label">
-                        <Typography variant="body1">
-                          { t('tax.taxRate') } { `${state.store.tax.rate * 100}%` }
-                        </Typography>
-                      </div>
-                      <div className="amount">
-                        { formatAsCurrency(calcTax()) }
-                      </div>
+                    <div className="amount">
+                      { formatAsCurrency(calcSubtotal()) }
                     </div>
-                  </React.Fragment>
-                  :
-                  null
-                }
-                <div className="total">
-                  <div className="label">
-                    <Typography variant="h6">
-                      { t('sale.totalAmount') }
-                    </Typography>
                   </div>
-                  <div className="amount">
-                    <Typography variant="h6">
-                      { formatAsCurrency(calcTotal()) }
-                    </Typography>
+                  <div className={`tax ${order.length ? '' : 'hidden'}`}>
+                    <div className="label">
+                      <Typography variant="body1">
+                        { t('tax.taxRate') } { `${state.store.tax.rate * 100}%` }
+                      </Typography>
+                    </div>
+                    <div className="amount">
+                      { formatAsCurrency(calcTax()) }
+                    </div>
                   </div>
+                </React.Fragment>
+              <div className={`total ${order.length ? '' : 'hidden'}`}>
+                <div className="label">
+                  <Typography variant="h6">
+                    { t('sale.totalAmount') }
+                  </Typography>
+                </div>
+                <div className="amount">
+                  <Typography variant="h6">
+                    { formatAsCurrency(calcTotal()) }
+                  </Typography>
                 </div>
               </div>
-              :
-              <EmptyCart/>
-            }
+            </div>
+            <EmptyCart className={`${order.length ? 'hidden' : ''}`}/>
           </React.Fragment>
         </div>
         <div className="controller">
@@ -186,11 +177,11 @@ const ReceiptItem = ({ product, deleteProduct }) => {
   );
 }
 
-const EmptyCart = () => {
+const EmptyCart = ({ className }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="empty-cart">
+    <div className={`empty-cart ${className}`}>
       <img
         src={require('../../../../static/supermarket.svg')}
         alt={ t('sale.cartEmpty') }
