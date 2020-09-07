@@ -5,11 +5,15 @@ import resources from './locales';
 
 const languages = [
   {
-    code: 'en',
+    code: 'en-US',
     name: 'English (US)',
   },
   {
-    code: 'zh',
+    code: 'fr-FR',
+    name: 'Français',
+  },
+  {
+    code: 'zh-Hans',
     name: '简体中文',
   },
 ];
@@ -18,8 +22,8 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'en',
-    fallbackLng: 'en',
+    lng: 'en-US',
+    fallbackLng: 'en-US',
   });
 
 export { languages };
