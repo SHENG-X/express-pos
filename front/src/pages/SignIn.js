@@ -159,7 +159,7 @@ const SignIn = () => {
         <Typography align="center">
           <Link
             underline="always"
-            href="/forgot-password/"
+            href="/#/forgot-password/"
           >
             { t('signIn.forgotPassword') }
           </Link>
