@@ -181,7 +181,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
               <div className="price-row">
                {
                  product.prices.map((price, idx) => (
-                  <div key={`${price.value}-${idx}`}>
+                  <div>
                     <TextField
                       required
                       value={price.name}
