@@ -81,7 +81,7 @@ function ProductHowItWorks(props) {
                   className={classes.image}
                 />
                 <Typography variant="h5" align="center">
-                  Appointment every Wednesday 9am.
+                  Start by registering an account. You will have access to all the features.
                 </Typography>
               </div>
             </Grid>
@@ -94,8 +94,7 @@ function ProductHowItWorks(props) {
                   className={classes.image}
                 />
                 <Typography variant="h5" align="center">
-                  First come, first served. Our offers are in limited
-                  quantities, so be quick.
+                  Sign in your account. Add you products and categories. Setup your tax.
                 </Typography>
               </div>
             </Grid>
@@ -108,8 +107,7 @@ function ProductHowItWorks(props) {
                   className={classes.image}
                 />
                 <Typography variant="h5" align="center">
-                  {'New offers every week. New experiences, new surprises. '}
-                  {'Your Sundays will no longer be alike.'}
+                  You are all set and ready to run your store.
                 </Typography>
               </div>
             </Grid>
