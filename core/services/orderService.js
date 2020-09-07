@@ -57,7 +57,7 @@ const deleteOrder = async (req, res) => {
     // delete order from order table
     await orderModel.findByIdAndDelete(_id);
     // remove the order ref from the store orders
-    const storeObj = await storeObj.findById(storeId);
+    const storeObj = await storeModel.findById(storeId);
     storeObj.orders = storeObj.orders.filter(odr => odr.toString() !== _id);
     await storeObj.save();
     return res.status(204).json(_id);
