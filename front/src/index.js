@@ -6,12 +6,15 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './i18n';
 import { Provider } from './context/storeContext';
+import { ToastProvider } from 'react-toast-notifications';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider>
-      <App />
-    </Provider>
+    <ToastProvider autoDismiss>
+      <Provider>
+        <App />
+      </Provider>
+    </ToastProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
