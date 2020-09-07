@@ -27,7 +27,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
     enable: true,
     name: '',
     count: undefined,
-    category: '',
+    category: null,
     prices: [
       { name:'', value: undefined }
     ],
