@@ -3,10 +3,11 @@ import {
   Typography,
   Paper
 } from '@material-ui/core'
+import { classNames } from '../../../utils';
 
-const ModalBase = ({ content, actions, title, className }) => {
+const ModalBase = ({ content, actions, title, className = '' }) => {
   return (
-    <div className={`carpet ${className}`}>
+    <div className={classNames(['carpet', className])}>
       <Paper elevation={3}>
         <div className="heading">
           <Typography variant="h5">

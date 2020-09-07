@@ -19,6 +19,7 @@ import Tax from './modules/components/dashboard/Tax';
 import Category from './modules/components/dashboard/Category';
 import SaleReport from './modules/components/dashboard/Sale';
 import InventoryReport from './modules/components/dashboard/Inventory';
+import { classNames } from '../utils';
 
 const Dashboard = () => {
   const [value, setValue] = useState(2);
@@ -83,12 +84,12 @@ const Dashboard = () => {
   );
 }
 
-const TabPanel = ({ children, index, value, className }) => {
+const TabPanel = ({ children, index, value, className = '' }) => {
   return (
     <div
       role="tabpanel"
       hidden={value !== index}
-      className={`tab-panel ${className}`}
+      className={classNames(['tab-panel', className])}
     >
       {value === index && (
         <div className="content">

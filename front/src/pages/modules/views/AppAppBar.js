@@ -13,6 +13,7 @@ import { useHistory } from 'react-router-dom';
 import AppBar from '../components/AppBar';
 import Toolbar, { styles as toolbarStyles } from '../components/Toolbar';
 import { Context } from '../../../context/storeContext';
+import { classNames } from '../../../utils';
 
 const styles = (theme) => ({
   title: {
@@ -61,7 +62,7 @@ function AppAppBar(props) {
               variant="h6"
               underline="none"
               color="inherit"
-              className={`${classes.title} app-bar-action`}
+              className={classNames([classes.title, 'app-bar-action'])}
               onClick={() => history.push('/')}
             >
               <span>
@@ -89,7 +90,7 @@ function AppAppBar(props) {
                 <MDCLink
                   variant="h6"
                   underline="none"
-                  className={`${clsx(classes.rightLink)} app-bar-action`}
+                  className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
                   onClick={() => history.push('/dashboard')}
                 >
                   { `Dashboard` }
@@ -97,7 +98,7 @@ function AppAppBar(props) {
                 <MDCLink
                   variant="h6"
                   underline="none"
-                  className={`${clsx(classes.rightLink)} app-bar-action`}
+                  className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
                   onClick={() => history.push('/sale')}
                 >
                   { `Sale` }
@@ -105,7 +106,7 @@ function AppAppBar(props) {
                 <MDCLink
                   variant="h6"
                   underline="none"
-                  className={`${clsx(classes.rightLink)} app-bar-action`}
+                  className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
                   onClick={() => { signOut(()=>{history.push('/')});}}
                 >
                   { `SIGN OUT` }
@@ -117,7 +118,7 @@ function AppAppBar(props) {
                   color="inherit"
                   variant="h6"
                   underline="none"
-                  className={`${classes.rightLink} app-bar-action`}
+                  className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
                   onClick={() => history.push('/sign-in')}
                 >
                   { t('signIn.heading') }
@@ -125,7 +126,7 @@ function AppAppBar(props) {
                 <MDCLink
                   variant="h6"
                   underline="none"
-                  className={`${clsx(classes.rightLink, classes.linkSecondary)} app-bar-action`}
+                  className={classNames([clsx(classes.rightLink, classes.linkSecondary), 'app-bar-action'])}
                   onClick={() => history.push('/sign-up')}
                 >
                   { t('signUp.heading') }

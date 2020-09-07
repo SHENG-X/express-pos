@@ -28,7 +28,7 @@ import { useTranslation } from 'react-i18next';
 import { Context } from '../../../../context/storeContext';
 import ProductModal from './ProductModal';
 import RestockModal from './RestockModal';
-import { formatAsCurrency } from '../../../../utils';
+import { formatAsCurrency, classNames } from '../../../../utils';
 
 const Product = () => {
   const { state } = useContext(Context);
@@ -171,8 +171,8 @@ const ProductRow = ({ product, editProduct, restockProduct }) => {
         {
           product.prices.map(price => (
             <div className="price-item" key={`${price.name}-${price.value}`}>
-              <div className={`name ${price.name ? '' : 'hidden' }`}>{ price.name }</div>
-              <div className={`separator ${price.name ? '' : 'hidden' }`}>-</div>
+              <div className={classNames(['name', price.name ? '' : 'hidden'])}>{ price.name }</div>
+              <div className={classNames(['separator', price.name ? '' : 'hidden'])}>-</div>
               <div className="value">{ formatAsCurrency(price.value) }</div>
             </div>
           ))

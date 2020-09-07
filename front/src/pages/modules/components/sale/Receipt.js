@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import PaymentModal from './PaymentModal';
 import PrintableReceipt from './PrintableReceipt';
 import { Context } from '../../../../context/storeContext';
-import { formatAsCurrency } from '../../../../utils';
+import { formatAsCurrency, classNames } from '../../../../utils';
 
 const Receipt = ({ order, setOrder }) => {
   const { state } = useContext(Context);
@@ -69,9 +69,9 @@ const Receipt = ({ order, setOrder }) => {
           </React.Fragment>
           <React.Fragment>
             <div className="summary">
-              <div className={`separator ${order.length ? '' : 'hidden'}`}/>
+              <div className={classNames(['separator', order.length ? '' : 'hidden'])}/>
                 <React.Fragment>
-                  <div className={`subtitle ${order.length && state.store.tax.enable ? '' : 'hidden'}`}>
+                  <div className={classNames(['subtitle', order.length && state.store.tax.enable ? '' : 'hidden'])}>
                     <div className="label">
                       <Typography variant="body1">
                         { t('sale.subtotal') }
@@ -81,7 +81,7 @@ const Receipt = ({ order, setOrder }) => {
                       { formatAsCurrency(calcSubtotal()) }
                     </div>
                   </div>
-                  <div className={`tax ${order.length && state.store.tax.enable ? '' : 'hidden'}`}>
+                  <div className={classNames(['tax', order.length && state.store.tax.enable ? '' : 'hidden'])}>
                     <div className="label">
                       <Typography variant="body1">
                         { t('tax.taxRate') } { `${state.store.tax.rate * 100}%` }
@@ -92,7 +92,7 @@ const Receipt = ({ order, setOrder }) => {
                     </div>
                   </div>
                 </React.Fragment>
-              <div className={`total ${order.length ? '' : 'hidden'}`}>
+              <div className={classNames(['total', order.length ? '' : 'hidden'])}>
                 <div className="label">
                   <Typography variant="h6">
                     { t('sale.totalAmount') }
@@ -181,7 +181,7 @@ const EmptyCart = ({ className }) => {
   const { t } = useTranslation();
 
   return (
-    <div className={`empty-cart ${className}`}>
+    <div className={classNames(['empty-cart', className])}>
       <img
         src={require('../../../../static/supermarket.svg')}
         alt={ t('sale.cartEmpty') }
