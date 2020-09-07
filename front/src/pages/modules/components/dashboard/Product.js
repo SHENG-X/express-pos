@@ -171,8 +171,8 @@ const ProductRow = ({ product, editProduct, restockProduct }) => {
         {
           product.prices.map(price => (
             <div className="price-item" key={`${price.name}-${price.value}`}>
-              <div className="name">{ price.name }</div>
-              <div className="separator">-</div>
+              <div className={`name ${price.name ? '' : 'hidden' }`}>{ price.name }</div>
+              <div className={`separator ${price.name ? '' : 'hidden' }`}>-</div>
               <div className="value">{ formatAsCurrency(price.value) }</div>
             </div>
           ))
