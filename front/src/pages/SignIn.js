@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import { useHistory } from "react-router-dom";
+import { useToasts } from 'react-toast-notifications';
 
 import Typography from './modules/components/Typography';
 import AppFooter from './modules/views/AppFooter';
@@ -38,11 +39,10 @@ const useStyles = makeStyles((theme) => ({
 const SignIn = () => {
   const classes = useStyles();
   const [sent, setSent] = useState(false);
-  const [invalid, setInvalid] = useState(false);
   const { t } = useTranslation();
   const history = useHistory();
-
   const { signIn } = useContext(Context);
+  const { addToast } = useToasts();
 
   const validate = (values) => {
 
@@ -60,7 +60,6 @@ const SignIn = () => {
 
   const handleSubmit = async (values) => {
     setSent(true);
-    setInvalid(false);
     await signIn(
       { email: values.email, password: values.password },
       () => {
@@ -68,8 +67,8 @@ const SignIn = () => {
         history.push('/sale')
       }, 
       () => {
-        // on fail set invalid to true
-        setInvalid(true)
+        // on fail show error message
+        addToast(t('signIn.invalid'), { appearance: 'error' })
       }
     );
     setSent(false);
@@ -101,16 +100,6 @@ const SignIn = () => {
         >
           {({ handleSubmit: handleSubmit2, submitting }) => (
             <form onSubmit={handleSubmit2} className={classes.form} noValidate>
-              {
-                invalid ?
-                <React.Fragment>
-                  <Typography variant="body2" align="center" className={classes.error} >
-                    { t('signIn.invalid') }
-                  </Typography>
-                </React.Fragment>
-                :
-                null
-              }
               <Field
                 autoComplete="email"
                 autoFocus

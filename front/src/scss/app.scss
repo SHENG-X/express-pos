@@ -80,6 +80,9 @@
     display: none;
   }
 }
+.react-toast-notifications__container {
+  top: 76px !important;
+}
 
 @import 'modal.scss';
 @import 'colors.scss';
