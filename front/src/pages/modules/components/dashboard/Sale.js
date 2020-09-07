@@ -41,19 +41,14 @@ const SaleReport = () => {
   dateToday.setHours(0, 0, 0, 0);
 
   const [ filter, setFilter ] = useState(DATE_OPTIONS.TODAY);
-  const [ filteredList, setFilteredList] = useState([]);
   const [startDate, setStartDate] = useState(dateToday);
   const [endDate, setEndDate] = useState(new Date());
   const [curOrder, setCurOrder] = useState(null);
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    setFilteredList(filterDate(filter));
-  }, [filter, startDate, endDate, state.store.orders]);
-
   const calcRevenue = () => {
     let totalRevenue = 0;
-    filteredList.forEach(order => {
+    filterDate(filter, state.store.orders).forEach(order => {
       order.products.forEach(product => {
         totalRevenue += product.price * product.count;
       });
@@ -63,7 +58,7 @@ const SaleReport = () => {
 
   const calcNetIncome = () => {
     let totalCost = 0;
-    filteredList.forEach(order => {
+    filterDate(filter, state.store.orders).forEach(order => {
       order.products.forEach(product => {
         totalCost += product.cost * product.count;
       });
@@ -74,7 +69,7 @@ const SaleReport = () => {
   const computeOrderList = () => {
     // sort orders by created time,the latest order is
     // displayed at the top row of the table
-    let orders = filteredList.sort((o1, o2) => {
+    let orders = filterDate(filter, state.store.orders).sort((o1, o2) => {
       const d1 = new Date(o1.createdAt);
       const d2 = new Date(o2.createdAt);
       if (d1 > d2) {
@@ -88,7 +83,7 @@ const SaleReport = () => {
     return orders.map(order => <OrderRow order={order} handleViewOrder={handleViewOrder} key={order._id}/>);
   }
 
-  const filterDate = (type) => {
+  const filterDate = (type, orders) => {
 
     const beforeOneWeek = new Date(new Date().getTime() - 60 * 60 * 24 * 7 * 1000)
     , day = beforeOneWeek.getDay()
@@ -130,9 +125,9 @@ const SaleReport = () => {
         // end date set hour to the last second of the day
         end.setHours(23, 59, 59, 999);
         // only return date ISOString within the start and end range
-        return state.store.orders.filter(d => (d.createdAt >= start.toISOString() && d.createdAt <= end.toISOString()));
+        return orders.filter(d => (d.createdAt >= start.toISOString() && d.createdAt <= end.toISOString()));
     }
-    return state.store.orders.filter(d => d.createdAt > start.toISOString());
+    return orders.filter(d => d.createdAt > start.toISOString());
   }
 
   const handleViewOrder = (order) => {
