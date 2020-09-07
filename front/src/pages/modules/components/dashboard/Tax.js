@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
   Button,
+  InputAdornment,
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
@@ -17,11 +18,11 @@ import { Context } from '../../../../context/storeContext';
 const Tax = () => {
   const { state, updateTax } = useContext(Context);
   const { t } = useTranslation();
-  const [tax, setTax] = useState(JSON.parse(JSON.stringify(state.store.tax)));
+  const [tax, setTax] = useState({ ...state.store.tax, rate: Number((state.store.tax.rate * 100).toFixed(2))});
   const [allowUpdate, setAllowUpdate] = useState(false);
 
   useEffect(() => {
-    if (tax.enable !== state.store.tax.enable || tax.rate !== state.store.tax.rate) {
+    if (tax.enable !== state.store.tax.enable || tax.rate !== Number((state.store.tax.rate * 100).toFixed(2))) {
       setAllowUpdate(true);
     } else {
       setAllowUpdate(false);
@@ -30,12 +31,12 @@ const Tax = () => {
 
   const handleCancel = () => {
     setAllowUpdate(false);
-    setTax(JSON.parse(JSON.stringify(state.store.tax)));
+    setTax({ ...state.store.tax, rate: Number((state.store.tax.rate * 100).toFixed(2))});
   }
 
   const handleConfirm = () => {
     updateTax(
-      tax,
+      { ...tax, rate: tax.rate / 100 },
       () => {
         setAllowUpdate(false);
       },
@@ -82,7 +83,14 @@ const Tax = () => {
                   placeholder={ t('tax.taxRate') }
                   value={tax.rate}
                   onChange={e => setTax({...tax, rate: Number(e.target.value)})}
-                  inputProps={{step: 0.01}}
+                  inputProps={{step: 1}}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        %
+                      </InputAdornment>
+                    )
+                  }}
                 />
               </div>
             </div>

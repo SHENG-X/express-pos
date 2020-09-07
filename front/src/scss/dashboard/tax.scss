@@ -7,6 +7,12 @@
       font-weight: 550;
     }
   }
+  .content {
+    min-width: 300px;
+    .input {
+      max-width: 64px;
+    }
+  }
   .row {
     padding: 1rem 2rem;
     &:nth-of-type(2) {
