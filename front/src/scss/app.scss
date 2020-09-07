@@ -84,6 +84,20 @@
   top: 76px !important;
 }
 
+footer {
+  .MuiContainer-maxWidthLg {
+    flex-direction: column;
+    .icons {
+      .social-media {
+        svg {
+          font-size: 2rem;
+          fill: var(--on-primary);
+        }
+      }
+    }
+  }
+}
+
 @import 'modal.scss';
 @import 'colors.scss';
 @import 'printable.scss';

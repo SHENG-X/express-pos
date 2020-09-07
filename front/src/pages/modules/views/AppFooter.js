@@ -3,15 +3,22 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container';
+import { useTranslation } from 'react-i18next';
+
 import Typography from '../components/Typography';
 import TextField from '../components/TextField';
+
+import {
+  LinkedIn,
+  GitHub
+} from '@material-ui/icons';
 
 function Copyright() {
   return (
     <React.Fragment>
       {'© '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="/">
+        Express POS
       </Link>{' '}
       {new Date().getFullYear()}
     </React.Fragment>
@@ -70,107 +77,93 @@ const LANGUAGES = [
     code: 'fr-FR',
     name: 'Français',
   },
+  {
+    code: 'zh-Hans',
+    name: '中文',
+  },
 ];
 
 export default function AppFooter() {
   const classes = useStyles();
+  const { i18n }= useTranslation();
 
   return (
-    <Typography component="footer" className={classes.root}>
-      <Container className={classes.container}>
-        <Grid container spacing={5}>
-          <Grid item xs={6} sm={4} md={3}>
-            <Grid
-              container
-              direction="column"
-              className={classes.iconsWrapper}
-              spacing={2}
-            >
-              <Grid item className={classes.icons}>
-                <a href="https://material-ui.com/" className={classes.icon}>
-                  <img
-                    src={require('../../../static/appFooterFacebook.png')}
-                    alt="Facebook"
-                  />
-                </a>
-                <a
-                  href="https://twitter.com/MaterialUI"
-                  className={classes.icon}
-                >
-                  <img
-                    src={require('../../../static/appFooterTwitter.png')}
-                    alt="Twitter"
-                  />
-                </a>
-              </Grid>
-              <Grid item>
-                <Copyright />
+    <React.Fragment>
+      <Typography component="footer" className={classes.root}>
+        <Container className={classes.container}>
+          <Grid container spacing={5}>
+            <Grid item xs={6} sm={4} md={3}>
+              <Grid
+                container
+                direction="column"
+                className={[classes.iconsWrapper, 'icons']}
+                spacing={2}
+              >
+                <Grid item className={[classes.icons, 'social-media']}>
+                  <a href="https://www.linkedin.com/in/sheng-x/" className={classes.icon}>
+                    <LinkedIn/>
+                  </a>
+                  <a
+                    href="https://github.com/SHENG-X"
+                    className={classes.icon}
+                  >
+                    <GitHub/>
+                  </a>
+                </Grid>
+                <Grid item>
+                  <Copyright />
+                </Grid>
               </Grid>
             </Grid>
+            <Grid item xs={6} sm={4} md={2}>
+              <Typography variant="h6" marked="left" gutterBottom>
+                Legal
+              </Typography>
+              <ul className={classes.list}>
+                <li className={classes.listItem}>
+                  <Link href="/#/terms/">Terms</Link>
+                </li>
+                <li className={classes.listItem}>
+                  <Link href="/#/privacy/">Privacy</Link>
+                </li>
+              </ul>
+            </Grid>
+            <Grid item xs={6} sm={8} md={4}>
+              <Typography variant="h6" marked="left" gutterBottom>
+                Language
+              </Typography>
+              <TextField
+                size="medium"
+                select
+                SelectProps={{
+                  native: true,
+                }}
+                className={classes.language}
+                onChange={e => {i18n.changeLanguage(e.target.value)}}
+              >
+                {LANGUAGES.map((language) => (
+                  <option value={language.code} key={language.code}>
+                    {language.name}
+                  </option>
+                ))}
+              </TextField>
+            </Grid>
           </Grid>
-          <Grid item xs={6} sm={4} md={2}>
-            <Typography variant="h6" marked="left" gutterBottom>
-              Legal
-            </Typography>
-            <ul className={classes.list}>
-              <li className={classes.listItem}>
-                <Link href="/#/terms/">Terms</Link>
-              </li>
-              <li className={classes.listItem}>
-                <Link href="/#/privacy/">Privacy</Link>
-              </li>
-            </ul>
-          </Grid>
-          <Grid item xs={6} sm={8} md={4}>
-            <Typography variant="h6" marked="left" gutterBottom>
-              Language
-            </Typography>
-            <TextField
-              size="medium"
-              select
-              SelectProps={{
-                native: true,
-              }}
-              className={classes.language}
-            >
-              {LANGUAGES.map((language) => (
-                <option value={language.code} key={language.code}>
-                  {language.name}
-                </option>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item>
-            <Typography variant="caption">
-              {'Icons made by '}
+          <Grid container>
+            <Typography variant="caption" className="caption">
+              Made with <i className="icon ion-heart"></i> By
               <Link
-                href="https://www.freepik.com"
+                href="https://github.com/SHENG-X"
                 rel="sponsored"
-                title="Freepik"
+                title="SHENG.X"
               >
-                Freepik
-              </Link>
-              {' from '}
-              <Link
-                href="https://www.flaticon.com"
-                rel="sponsored"
-                title="Flaticon"
-              >
-                www.flaticon.com
-              </Link>
-              {' is licensed by '}
-              <Link
-                href="https://creativecommons.org/licenses/by/3.0/"
-                title="Creative Commons BY 3.0"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                CC 3.0 BY
+                { ` SHENG.X ` }
               </Link>
             </Typography>
           </Grid>
-        </Grid>
-      </Container>
-    </Typography>
+        </Container>
+      </Typography>
+      
+    </React.Fragment>
   );
 }
