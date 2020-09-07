@@ -8,6 +8,7 @@ import {
   Switch,
   Route,
   Redirect,
+  HashRouter,
 } from "react-router-dom";
 
 import SignIn from './pages/SignIn';
@@ -44,7 +45,7 @@ const App = () => {
   }
 
   return (
-    <Router>
+    <HashRouter>
       <div>
         <Switch>
           <Route path="/sign-in">
@@ -83,7 +84,7 @@ const App = () => {
           </Route>
         </Switch>
       </div>
-    </Router>
+    </HashRouter>
   );
 }
 
