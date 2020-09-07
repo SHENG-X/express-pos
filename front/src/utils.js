@@ -5,3 +5,7 @@ export const formatAsCurrency = (amount) => {
   });
   return formatter.format(amount);
 }
+
+export const classNames = (classes) => {
+  return classes.join(' ');
+}
