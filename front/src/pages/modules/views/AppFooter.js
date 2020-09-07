@@ -114,10 +114,10 @@ export default function AppFooter() {
             </Typography>
             <ul className={classes.list}>
               <li className={classes.listItem}>
-                <Link href="/terms/">Terms</Link>
+                <Link href="/#/terms/">Terms</Link>
               </li>
               <li className={classes.listItem}>
-                <Link href="/privacy/">Privacy</Link>
+                <Link href="/#/privacy/">Privacy</Link>
               </li>
             </ul>
           </Grid>

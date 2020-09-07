@@ -85,7 +85,7 @@ const SignUp = () => {
             { t('signUp.heading') }
           </Typography>
           <Typography variant="body2" align="center">
-            <Link href="/sign-in/" underline="always">
+            <Link href="/#/sign-in/" underline="always">
               { t('signUp.subtitle') }
             </Link>
           </Typography>

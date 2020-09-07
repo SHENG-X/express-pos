@@ -86,7 +86,7 @@ const SignIn = () => {
           <Typography variant="body2" align="center">
             { t('signIn.subtitle') }
             <Link
-              href="/sign-up/"
+              href="/#/sign-up/"
               align="center"
               underline="always"
             >
