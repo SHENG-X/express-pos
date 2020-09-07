@@ -71,7 +71,7 @@ const Receipt = ({ order, setOrder }) => {
             <div className="summary">
               <div className={`separator ${order.length ? '' : 'hidden'}`}/>
                 <React.Fragment>
-                  <div className={`subtitle ${order.length ? '' : 'hidden'}`}>
+                  <div className={`subtitle ${order.length && state.store.tax.enable ? '' : 'hidden'}`}>
                     <div className="label">
                       <Typography variant="body1">
                         { t('sale.subtotal') }
@@ -81,7 +81,7 @@ const Receipt = ({ order, setOrder }) => {
                       { formatAsCurrency(calcSubtotal()) }
                     </div>
                   </div>
-                  <div className={`tax ${order.length ? '' : 'hidden'}`}>
+                  <div className={`tax ${order.length && state.store.tax.enable ? '' : 'hidden'}`}>
                     <div className="label">
                       <Typography variant="body1">
                         { t('tax.taxRate') } { `${state.store.tax.rate * 100}%` }
