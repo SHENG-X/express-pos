@@ -49,7 +49,7 @@ function ProductHero(props) {
         variant="h5"
         className={classes.h5}
       >
-        Manage your business record in a safe, efficient, and effective way.
+        Manage your business records in a safe, efficient, and effective way.
       </Typography>
       <Button
         color="secondary"
