@@ -131,7 +131,7 @@ const addProduct = (dispatch) => {
   return async (product, success, fail) => {
     const response = await createProduct(product);
     if (response.status === 201) {
-      dispatch({type: ACTIONS.ADD_PRODUCT, payload: product});
+      dispatch({type: ACTIONS.ADD_PRODUCT, payload: response.data});
       if (success) {
         success();
       }
