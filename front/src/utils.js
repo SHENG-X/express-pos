@@ -9,3 +9,8 @@ export const formatAsCurrency = (amount) => {
 export const classNames = (classes) => {
   return classes.join(' ');
 }
+
+export const imagePath = (itemId) => {
+  const host = "http://localhost:3000";
+  return `${host}/static/${itemId}.jpg`;
+}
