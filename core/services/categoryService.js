@@ -55,9 +55,9 @@ const createCategory = async (req, res) => {
 }
 
 const updateCategory = async (req, res) => {
-  const { _id, thumbnail, name } = req.body;
+  const { _id, thumbnail, thumbnailFlag, name } = req.body;
   try {
-    const updatedCategory = await categoryModel.findByIdAndUpdate(_id, { name, thumbnailFlag: (thumbnail ? true: false ) }, {new: true});
+    const updatedCategory = await categoryModel.findByIdAndUpdate(_id, { name, thumbnailFlag: (thumbnail || thumbnailFlag ? true: false ) }, {new: true});
     if (thumbnail) {
       writeImageFile(thumbnail, updatedCategory._id);
     }

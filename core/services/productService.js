@@ -51,7 +51,7 @@ const createProduct = async (req, res) => {
 }
 
 const updateProduct = async (req, res) => {
-  const { _id, thumbnail, enable, name, prices, cost, count, category } = req.body;
+  const { _id, thumbnail, thumbnailFlag, enable, name, prices, cost, count, category } = req.body;
 
   if (!_id) {
     return res.status(400).json('Product ID is required');
@@ -59,7 +59,7 @@ const updateProduct = async (req, res) => {
 
   try {
     const updatedProduct = await productModel.findByIdAndUpdate(_id, {
-      thumbnailFlag: (thumbnail ? true: false ),
+      thumbnailFlag: (thumbnailFlag || thumbnail ? true: false ),
       enable,
       name,
       prices,
