@@ -52,7 +52,7 @@ const userReducer = (state, { type, payload }) => {
     case ACTIONS.UPDATE_PRODUCT:
       const newProducts = state.store.products.map(prod => {
         if (prod._id === payload._id) {
-          return payload;
+          return { ...payload, key: Date.now() };
         }
         return prod;
       });
@@ -60,7 +60,7 @@ const userReducer = (state, { type, payload }) => {
     case ACTIONS.UPDATE_CATEGORY:
       const newCategories = state.store.categories.map(category => {
         if (category._id === payload._id) {
-          return payload;
+          return { ...payload, key: Date.now()};
         }
         return category;
       });

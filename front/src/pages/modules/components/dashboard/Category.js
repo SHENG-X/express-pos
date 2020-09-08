@@ -24,6 +24,7 @@ import { useTranslation } from 'react-i18next';
 
 import CategoryModal from './CategoryModal';
 import { Context } from '../../../../context/storeContext';
+import { imagePath } from '../../../../utils';
 
 const Category = () => {
   const { state } = useContext(Context);
@@ -120,12 +121,21 @@ const CategoryRow = ({ category, handleEdit }) => {
 
   return (
     <TableRow>
-      <TableCell>
-        <div
-          className="thumbnail"
-          title={category.name}
-          style={{"backgroundImage": `url(/static/media/no-product-image.b51a7162.png)`}}
-        />
+      <TableCell key={category.key}>
+        {
+          category.thumbnailFlag ?
+          <div
+            className="thumbnail"
+            title={category.name}
+            style={{"backgroundImage": `url(${imagePath(category._id)})`}}
+          />
+          :
+          <div
+            className="thumbnail"
+            title={category.name}
+            style={{"backgroundImage": `url(/static/media/no-product-image.b51a7162.png)`}}
+          />
+        }
       </TableCell>
       <TableCell>
         { category.name }
