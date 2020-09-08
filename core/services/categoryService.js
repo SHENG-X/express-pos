@@ -59,7 +59,7 @@ const updateCategory = async (req, res) => {
   try {
     const updatedCategory = await categoryModel.findByIdAndUpdate(_id, { name, thumbnailFlag: (thumbnail ? true: false ) }, {new: true});
     if (thumbnail) {
-      writeImageFile(thumbnail, category._id);
+      writeImageFile(thumbnail, updatedCategory._id);
     }
     const updateCategoryDoc = updatedCategory._doc;
     return res.status(200).json(updateCategoryDoc);
