@@ -1,6 +1,6 @@
+const { writeImageFile, removeImageFile } = require('../utils');
 const productModel = require('../model/productModel');
 const storeModel = require('../model/storeModel');
-const categoryModel = require('../model/categoryModel');
 
 const getProduct = async (req, res) => {
   const storeId = req.decoded.store;
@@ -30,7 +30,13 @@ const createProduct = async (req, res) => {
   const { thumbnail, name, prices, cost, count, category } = req.body;
   
   try {
-    const product = new productModel({ thumbnail, name, prices, cost, count, category, store: storeId });
+    const product = new productModel({ name, prices, cost, count, category, store: storeId });
+
+    if (thumbnail) {
+      writeImageFile(thumbnail, product._id);
+      product.thumbnailFlag = true;
+    }
+
     // save product to database
     const savedProduct = await product.save();
     // append new product id to store products and save
@@ -53,7 +59,7 @@ const updateProduct = async (req, res) => {
 
   try {
     const updatedProduct = await productModel.findByIdAndUpdate(_id, {
-      thumbnail,
+      thumbnailFlag: (thumbnail ? true: false ),
       enable,
       name,
       prices,
@@ -61,6 +67,10 @@ const updateProduct = async (req, res) => {
       count,
       category
     }, { new: true });
+
+    if (thumbnail) {
+      writeImageFile(thumbnail, updatedProduct._id);
+    }
 
     const updatedProductDoc = updatedProduct._doc;
     return res.status(200).json(updatedProductDoc);
@@ -84,6 +94,7 @@ const deleteProduct = async (req, res) => {
     // remove the product from the store products
     storeObj.products = storeObj.products.filter(pid => pid.toString() !== _id);
     await storeObj.save();
+    removeImageFile(_id);
     return res.status(204).json(_id);
   } catch (error) {
     return res.status(500).json(error);
