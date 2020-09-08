@@ -11,16 +11,16 @@ import {
   Delete,
 } from '@material-ui/icons';
 import './index.scss';
-import { classNames } from '../../../../utils'; 
+import { classNames, imagePath } from '../../../../utils'; 
 
-const ImageUpload = ({ handleImageUpload }) => {
+const ImageUpload = ({ handleImageUpload, obj }) => {
   const [images, setImages] = useState([]);
   const maxImageSize = 1048576; // max size to 1MB
 
-  const onChange = (imageList, addUpdateIndex) => {
+  const onChange = (imageList) => {
     setImages(imageList);
     // call back with image base 64 string format
-    handleImageUpload(imageList[0].data_url)
+    handleImageUpload(imageList[0]?.data_url)
   };
 
   return (
@@ -41,7 +41,7 @@ const ImageUpload = ({ handleImageUpload }) => {
           errors,
         }) => (
           <React.Fragment>
-            <div className="upload__image-wrapper">
+            <div className="upload__image-wrapper" style={{backgroundImage: `url(${obj.thumbnailFlag ? imagePath(obj._id) : ''})`}}>
               <ButtonBase
                 className="upload-button"
                 onClick={onImageUpload}
