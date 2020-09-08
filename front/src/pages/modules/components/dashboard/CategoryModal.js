@@ -76,7 +76,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
               </Typography>
             </div>
             <div className="input">
-              <ImageUpload handleImageUpload={handleImageUpload}/>
+              <ImageUpload handleImageUpload={handleImageUpload} obj={category} />
             </div>
           </div>
 
