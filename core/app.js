@@ -1,4 +1,5 @@
-const app = require('express')();
+const express = require('express');
+const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -30,6 +31,9 @@ app.use('/api/category', strict.authenticate, categoryRouter);
 app.use('/api/user', userRouter);
 app.use('/api/tax', strict.authenticate, taxRouter);
 app.use('/api/order', strict.authenticate, orderRouter);
+
+// serve all images in the static folder
+app.use('/static', express.static('static'))
 
 mongoose.connect(process.env.MONGODB_URI, options).then(() => {
   app.listen(PORT, () => {
