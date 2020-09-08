@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 
 import ModalBase from '../ModalBase';
 import { Context } from '../../../../context/storeContext';
+import ImageUpload from '../upload/ImageUpload';
 
 const CategoryModal = ({ handleOpen, initCategory }) => {
   let defaultCategory = {
@@ -48,6 +49,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
         );
       }
     } else {
+      console.log('Before submit', category);
       addCategory(
         category,
         () => { handleCancel(); },
@@ -57,6 +59,9 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
       );
     }
   }
+  const handleImageUpload = (image) => {
+    setCategory({ ...category, thumbnail: image });
+  }
 
   return (
     <ModalBase
@@ -64,16 +69,16 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
       className="category-modal"
       content={
         <div>
-          {/* <div className="row">
+          <div className="row">
             <div className="label">
               <Typography variant="subtitle2">
                 { t('common.thumbnail') }
               </Typography>
             </div>
             <div className="input">
-
+              <ImageUpload handleImageUpload={handleImageUpload}/>
             </div>
-          </div> */}
+          </div>
 
           <div className="row">
             <div className="label">
