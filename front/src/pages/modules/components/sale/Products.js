@@ -14,6 +14,7 @@ import {
   Search,
 } from '@material-ui/icons';
 import { Context } from '../../../../context/storeContext';
+import { imagePath } from '../../../../utils';
 
 const Products = ({ handleOpen }) => {
   const { state } = useContext(Context);
@@ -60,7 +61,7 @@ const ProductItem = ({ product, handleOpen }) => {
       <Card className="card">
         <CardMedia
           className="media"
-          image={require('../../../../static/no-product-image.png')}
+          image={ product.thumbnailFlag ? imagePath(product._id) : require('../../../../static/no-product-image.png')}
           title={product.name}
         />
         <Typography variant="subtitle2">

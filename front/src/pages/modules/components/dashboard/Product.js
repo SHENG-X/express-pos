@@ -28,7 +28,7 @@ import { useTranslation } from 'react-i18next';
 import { Context } from '../../../../context/storeContext';
 import ProductModal from './ProductModal';
 import RestockModal from './RestockModal';
-import { formatAsCurrency, classNames } from '../../../../utils';
+import { formatAsCurrency, classNames, imagePath } from '../../../../utils';
 
 const Product = () => {
   const { state } = useContext(Context);
@@ -151,12 +151,21 @@ const ProductRow = ({ product, editProduct, restockProduct }) => {
 
   return (
     <TableRow>
-      <TableCell>
-        <div
-          className="thumbnail"
-          title={product.name}
-          style={{"backgroundImage": `url(/static/media/no-product-image.b51a7162.png)`}}
-        />
+      <TableCell key={product.key}>
+        {
+          product.thumbnailFlag ?
+          <div
+            className="thumbnail"
+            title={product.name}
+            style={{"backgroundImage": `url(${imagePath(product._id)})`}}
+          />
+          :
+          <div
+            className="thumbnail"
+            title={product.name}
+            style={{"backgroundImage": `url(/static/media/no-product-image.b51a7162.png)`}}
+          />
+        }
       </TableCell>
       <TableCell>
         { product.name }

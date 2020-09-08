@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 
 import ModalBase from '../ModalBase';
 import { Context } from '../../../../context/storeContext';
+import ImageUpload from '../upload/ImageUpload';
 
 const ProductModal = ({ handleOpen, initProduct }) => {
   let defaultProduct = {
@@ -96,22 +97,26 @@ const ProductModal = ({ handleOpen, initProduct }) => {
     }
   }
 
+  const handleImageUpload = (image) => {
+    setProduct({ ...product, thumbnail: image });
+  }
+
   return (
     <ModalBase
       title={ initProduct ? t('product.update') : t('product.title') }
       className="product-modal"
       content={
         <div>
-          {/* <div className="row">
+          <div className="row">
             <div className="label">
               <Typography variant="subtitle2">
                 { t('common.thumbnail') }
               </Typography>
             </div>
             <div className="input">
-
+              <ImageUpload handleImageUpload={handleImageUpload} obj={product} />
             </div>
-          </div> */}
+          </div>
 
           <div className="row">
             <div className="label">
