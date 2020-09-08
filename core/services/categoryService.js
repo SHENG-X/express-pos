@@ -1,3 +1,4 @@
+const { writeImageFile, removeImageFile } = require('../utils');
 const categoryModel = require('../model/categoryModel');
 const storeModel = require('../model/storeModel');
 
@@ -29,7 +30,12 @@ const createCategory = async (req, res) => {
   const storeId = req.decoded.store;
   const { thumbnail, name } = req.body;
 
-  const category = new categoryModel({ thumbnail, name, store: storeId });
+  const category = new categoryModel({ name, store: storeId });
+
+  if (thumbnail) {
+    writeImageFile(thumbnail, category._id);
+  }
+
   const storeObj = await storeModel.findById(storeId);
   
   try {
@@ -48,9 +54,12 @@ const createCategory = async (req, res) => {
 }
 
 const updateCategory = async (req, res) => {
-  const { _id, thumbnail = '', name } = req.body;
+  const { _id, thumbnail, name } = req.body;
   try {
-    const updatedCategory = await categoryModel.findByIdAndUpdate(_id, {thumbnail, name}, {new: true});
+    const updatedCategory = await categoryModel.findByIdAndUpdate(_id, { name }, {new: true});
+    if (thumbnail) {
+      writeImageFile(thumbnail, category._id);
+    }
     const updateCategoryDoc = updatedCategory._doc;
     return res.status(200).json(updateCategoryDoc);
   } catch (error) {
@@ -69,6 +78,7 @@ const deleteCategory = async (req, res) => {
     const store = await storeModel.findById(storeId);
     store.categories = store.categories.filter(cid => cid.toString() !== _id);
     await store.save();
+    removeImageFile(_id);
     return res.status(204).json(_id);
   } catch (error) {
     return res.status(500).json(error);
