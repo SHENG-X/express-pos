@@ -8,6 +8,8 @@
     height: var(--size);
     top: 0;
     left: 0;
+    background-size: cover;
+    opacity: 0.8;
     & > div {
       position: absolute;
       height: 100%;

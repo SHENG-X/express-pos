@@ -30,10 +30,10 @@
     }
   }
   .thumbnail {
-    --size: 36px;
+    --size: 46px;
     width: var(--size);
     height: var(--size);
-    background-size: contain;
+    background-size: cover;
   }
 }
 .category-modal {
