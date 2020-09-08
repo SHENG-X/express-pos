@@ -3,10 +3,6 @@ const Schema = mongoose.Schema;
 
 const productSchema = new Schema(
   {
-    thumbnail: {
-      type: String,
-      default: '',
-    },
     enable: {
       type: Boolean,
       default: true,

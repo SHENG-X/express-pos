@@ -3,10 +3,6 @@ const Schema = mongoose.Schema;
 
 const categorySchema = new Schema(
   {
-    thumbnail: {
-      type: String,
-      default: '',
-    },
     name: {
       type: String,
       required: true,
