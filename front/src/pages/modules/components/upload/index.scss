@@ -1,0 +1,48 @@
+.image-upload {
+  width: 100%;
+  .upload__image-wrapper{
+    position: relative;
+    --size: 68px;
+    background: rgba(0,0,0,0.3);
+    width: var(--size);
+    height: var(--size);
+    top: 0;
+    left: 0;
+    & > div {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+    }
+    .upload-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      font-size: 3rem;
+      font-weight: 100;
+      color: white;
+    }
+    .image-item {
+      background-size: cover;
+      background-repeat: no-repeat;
+      .image-item__btn-wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        button {
+          background: rgba(255,255,255,0.7);
+        }
+      }
+    }
+  }
+  .error {
+    height: 18px;
+    color: rgb(191, 38, 0);
+  }
+}
