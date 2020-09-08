@@ -11,6 +11,10 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
+    thumbnailFlag: {
+      type: Boolean,
+      default: false,
+    },
     prices: {
       type: [{
         name: {

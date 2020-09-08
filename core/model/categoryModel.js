@@ -7,6 +7,10 @@ const categorySchema = new Schema(
       type: String,
       required: true,
     },
+    thumbnailFlag: {
+      type: Boolean,
+      default: false,
+    },
     store: {
       type: Schema.Types.ObjectId,
       ref: 'Store',
