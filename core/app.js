@@ -22,8 +22,8 @@ const options = {
 };
 
 app.use(cors());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false, limit: '2mb' }));
+app.use(bodyParser.json({ limit: '2mb' }));
 
 app.use('/api/product', strict.authenticate, productRouter);
 app.use('/api/category', strict.authenticate, categoryRouter);
