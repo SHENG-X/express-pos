@@ -1,79 +1,11 @@
 #root {
   height: 100vh;
-  & > div {
-    height: 100%;
-  }
   .dash-separator {
     padding: 0 0.5rem;
   }
   .app-bar-action {
     &:hover {
       cursor: pointer !important;
-    }
-  }
-  .loading {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background: #333;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    .main {
-      width: 100%;
-      max-width: 450px;
-      height: 120px;
-      background: rgba(0,0,0,0.2);
-      border-radius: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.4);
-      padding: 1rem 0;
-      .inner {
-        text-align: center;
-        h2{
-          text-transform: uppercase;
-          color: #fff;
-          font-family: sans-serif;
-        }
-        .bar{
-          width: 100%;
-          max-width: 380px;
-          height: 20px;
-          padding: 4px;
-          border: 2px solid #fff;
-          border-radius: 20px;
-          transform: translateX(8%);
-          overflow: hidden;
-        }
-        .main-bar{
-          width: 100%;
-          max-width: 0;
-          height: 20px;
-          background: #fff;
-          border-radius: 10px;
-          animation: animate 5s infinite;
-        }
-      }
-    }
-    @keyframes animate{
-      0%{
-        max-width: 0%;
-      }
-    
-      20%{
-        max-width: 20%;
-      }
-    
-      90%{
-        max-width: 50%;
-      }
-    
-      93%{
-        max-width: 80%;
-      }
-    
-      100%{
-        max-width: 100%;
-      }
     }
   }
   .hidden {
@@ -99,6 +31,7 @@ footer {
 }
 
 @import 'modal.scss';
+@import 'loading.scss';
 @import 'colors.scss';
 @import 'printable.scss';
 @import './sale/sale.scss';
