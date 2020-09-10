@@ -17,6 +17,7 @@ import {
   Delete
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
+import { useToasts } from 'react-toast-notifications';
 
 import ModalBase from '../ModalBase';
 import { Context } from '../../../../context/storeContext';
@@ -44,6 +45,8 @@ const ProductModal = ({ handleOpen, initProduct }) => {
   const [product, setProduct] = useState(JSON.parse(JSON.stringify(defaultProduct)));
 
   const { t } = useTranslation();
+
+  const { addToast } = useToasts();
 
   const setProductPrices = (idx, fieldName, val) => {
     const newPrices = [...product.prices];
@@ -78,9 +81,10 @@ const ProductModal = ({ handleOpen, initProduct }) => {
           product,
           () => {
             handleCancel();
+            addToast('Update success', { appearance: 'success' });
           },
           () => {
-            // TODO: handle update product failed
+            addToast('Unable to update the product, please try again later', { appearance: 'error' });
           }
         );
       }
@@ -89,9 +93,10 @@ const ProductModal = ({ handleOpen, initProduct }) => {
         product,
         () => {
           handleCancel();
+          addToast('Create product success', { appearance: 'success' });
         },
         () => {
-          // TODO: handle add product failed
+          addToast('Unable to create the product, please try again later', { appearance: 'error' });
         }
       );
     }

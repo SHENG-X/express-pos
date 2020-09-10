@@ -22,6 +22,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
+import { useToasts } from 'react-toast-notifications';
 
 import { Context } from '../../../../context/storeContext';
 import { formatAsCurrency } from '../../../../utils';
@@ -279,16 +280,17 @@ const SaleReport = () => {
 }
 
 const OrderRow = ({ order, handleViewOrder }) => {
-  const { state, deleteOrder } = useContext(Context);
+  const { deleteOrder } = useContext(Context);
+  const { addToast } = useToasts();
 
   const handleDelete = () => {
     deleteOrder(
       { _id: order._id },
       () => {
-        // TODO: handle success
+        addToast('Order deleted success', { appearance: 'success' });
       },
       () => {
-        // TODO: handle failed
+        addToast('Unable to delete the order, please try again later', { appearance: 'error' });
       }
     );
   }

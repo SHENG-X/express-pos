@@ -14,6 +14,7 @@ import {
   Clear
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
+import { useToasts } from 'react-toast-notifications';
 
 import ModalBase from '../ModalBase';
 import { formatAsCurrency } from '../../../../utils';
@@ -40,6 +41,7 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen, setOrderId }) => {
   const [payment, setPayment] = useState(null);
   const [valid, setValid] = useState(false);
   const [paid, setPaid] = useState(false);
+  const { addToast } = useToasts();
 
   useEffect(() => {
     // watch payment set payment valid to true,
@@ -86,9 +88,10 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen, setOrderId }) => {
       (oid) => {
         setOrderId(oid);
         setPaid(true);
+        addToast('Order saved success', { appearance: 'success' });
       },
       () => {
-        // TODO: handle create order failed
+        addToast('Unable to save the order, please try again later', { appearance: 'error' });
       }
     );
   }

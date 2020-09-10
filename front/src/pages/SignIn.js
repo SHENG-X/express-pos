@@ -68,7 +68,7 @@ const SignIn = () => {
       }, 
       () => {
         // on fail show error message
-        addToast(t('signIn.invalid'), { appearance: 'error' })
+        addToast(t('signIn.invalid'), { appearance: 'error' });
       }
     );
     setSent(false);

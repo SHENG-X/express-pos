@@ -21,6 +21,7 @@ import {
   Delete
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
+import { useToasts } from 'react-toast-notifications';
 
 import CategoryModal from './CategoryModal';
 import { Context } from '../../../../context/storeContext';
@@ -109,6 +110,7 @@ const Category = () => {
 
 const CategoryRow = ({ category, handleEdit }) => {
   const { state, deleteCategory } = useContext(Context);
+  const { addToast } = useToasts();
 
   const productCount = () => {
     return state.store.products.reduce((acc, cur) => {
@@ -157,10 +159,10 @@ const CategoryRow = ({ category, handleEdit }) => {
           onClick={() => deleteCategory(
             { _id: category._id },
             () => {
-              // TODO: handle success
+              addToast('Category deleted', { appearance: 'success' });
             },
             () => {
-              // TODO: handle failed
+              addToast('Error on deleting the category, please try again later', { appearance: 'error' });
             }
           )}
         >

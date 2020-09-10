@@ -14,6 +14,7 @@ import {
   ArrowForward,
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
+import { useToasts } from 'react-toast-notifications';
 
 import ModalBase from '../ModalBase';
 import { Context } from '../../../../context/storeContext';
@@ -22,6 +23,7 @@ const RestockModal = ({ product, handleOpen }) => {
   const { t } = useTranslation();
   const [amount, setAmount] = useState(0);
   const  { restockProduct } = useContext(Context);
+  const { addToast } = useToasts();
 
   const handleCancel = () => {
     handleOpen(false);
@@ -32,9 +34,10 @@ const RestockModal = ({ product, handleOpen }) => {
       { _id: product._id, count: amount },
       () => {
         handleOpen(false);
+        addToast('Restock success', { appearance: 'success' });
       },
       () => {
-        // TODO: handle restock failed
+        addToast('Unable to restock the product, please try again later', { appearance: 'error' });
       }
     )
   }

@@ -24,6 +24,7 @@ import {
   VisibilityOff,
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
+import { useToasts } from 'react-toast-notifications';
 
 import { Context } from '../../../../context/storeContext';
 import ProductModal from './ProductModal';
@@ -140,6 +141,7 @@ const Product = () => {
 
 const ProductRow = ({ product, editProduct, restockProduct }) => {
   const { state, deleteProduct, updateProduct } = useContext(Context);
+  const { addToast } = useToasts();
 
   const computeCategoryName = () => {
     const category = state.store.categories.find(category => category._id === product.category);
@@ -196,7 +198,7 @@ const ProductRow = ({ product, editProduct, restockProduct }) => {
             <IconButton
               color="primary"
               size="small"
-              onClick={() => editProduct(product)}
+              onClick={() => editProduct( product )}
             >
               <Edit />
             </IconButton>
@@ -205,7 +207,7 @@ const ProductRow = ({ product, editProduct, restockProduct }) => {
             <IconButton
               color="primary"
               size="small"
-              onClick={() => restockProduct(product)}
+              onClick={() => restockProduct( product )}
             >
               <Storage />
             </IconButton>
@@ -219,10 +221,10 @@ const ProductRow = ({ product, editProduct, restockProduct }) => {
                 onClick={() => updateProduct(
                   {...product, enable: false},
                   () => {
-                    // TODO: handle success
+                    addToast(`Disable product success`, { appearance: 'success' });
                   },
                   () => {
-                    // TODO: handle failed
+                    addToast('Unable to disable the product, please try again later', { appearance: 'error' });
                   }
                 )}
               >
@@ -237,10 +239,10 @@ const ProductRow = ({ product, editProduct, restockProduct }) => {
                 onClick={() => updateProduct(
                   {...product, enable: true},
                   () => {
-                    // TODO: handle success
+                    addToast(`Enable product success`, { appearance: 'success' });
                   },
                   () => {
-                    // TODO: handle failed
+                    addToast('Unable to enable the product, please try again later', { appearance: 'error' });
                   }
                 )}
               >
@@ -255,10 +257,10 @@ const ProductRow = ({ product, editProduct, restockProduct }) => {
               onClick={() => deleteProduct(
                 { _id: product._id },
                 () => {
-                  // TODO: handle delete product success
+                  addToast(`Delete product success`, { appearance: 'success' });
                 },
                 () => {
-                  // TODO: handle delete product failed
+                  addToast('Unable to delete the product, please try again later', { appearance: 'error' });
                 }
               )}
             >

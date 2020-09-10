@@ -8,6 +8,7 @@ import {
   Button,
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import { useToasts } from 'react-toast-notifications';
 
 import ModalBase from '../ModalBase';
 import { Context } from '../../../../context/storeContext';
@@ -26,6 +27,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
   const [category, setCategory] = useState({...defaultCategory});
   const { state, addCategory, updateCategory } = useContext(Context);
   const { t } = useTranslation();
+  const { addToast } = useToasts();
 
   const handleCancel = () => {
     setCategory({...defaultCategory});
@@ -42,19 +44,22 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
           category,
           () => {
             handleCancel();
+            addToast('Update the category success', { appearance: 'success' });
           },
           () => {
-            // TODO: handle update failed
+            addToast('Unable to update the category, please try again later', { appearance: 'error' });
           }
         );
       }
     } else {
-      console.log('Before submit', category);
       addCategory(
         category,
-        () => { handleCancel(); },
+        () => { 
+          handleCancel();
+          addToast('Add a category success', { appearance: 'success' });
+        },
         () => {
-          // TODO: handle failed to create a category
+          addToast('Unable to create a category, please try again later', { appearance: 'error' });
         }
       );
     }

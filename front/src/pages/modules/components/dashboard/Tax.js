@@ -12,6 +12,7 @@ import {
   InputAdornment,
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import { useToasts } from 'react-toast-notifications';
 
 import { Context } from '../../../../context/storeContext';
 
@@ -20,6 +21,7 @@ const Tax = () => {
   const { t } = useTranslation();
   const [tax, setTax] = useState({ ...state.store.tax, rate: Number((state.store.tax.rate * 100).toFixed(2))});
   const [allowUpdate, setAllowUpdate] = useState(false);
+  const { addToast } = useToasts();
 
   useEffect(() => {
     if (tax.enable !== state.store.tax.enable || tax.rate !== Number((state.store.tax.rate * 100).toFixed(2))) {
@@ -39,9 +41,10 @@ const Tax = () => {
       { ...tax, rate: tax.rate / 100 },
       () => {
         setAllowUpdate(false);
+        addToast('Tax setting updated', {appearance: 'success'});
       },
       () => {
-        // TODO: handle update failed
+        addToast('Unable to update tax setting, please try again later', { appearance: 'error' });
       }
     );
   }
