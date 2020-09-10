@@ -1,35 +1,31 @@
 .dashboard {
   height: 100%;
   flex-grow: 1;
-  padding: 2rem 0;
-  .MuiTab-wrapper {
-    flex-direction: row;
-    justify-content: flex-start;
-  }
-  .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-3 {
-    height: calc(100% - 4rem);
-    width: unset;
-    margin: unset;
-    .MuiGrid-item {
-      padding: 0;
-    }
-    .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-3 {
-      max-width: unset;
-      flex-basis: 200px;
-      width: unset;
-      margin: unset;
+  .container {
+    height: calc(100% - 70px);
+    position: relative;
+    .left {
       position: fixed;
       height: 100%;
-      top: 70px;
-      background: white;
-      z-index: 9;
+      z-index: 3;
       box-shadow: 1px 0 12px 0px #bebebe;
+      overflow: overlay;
+      background-color: #fff;
+      button {
+        .MuiTab-wrapper {
+          flex-direction: row;
+          justify-content: flex-start;
+        }
+      }
     }
-    .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-9 {
+    .right {
+      position: absolute;
       height: 100%;
-      max-width: unset;
-      flex-basis: unset;
-      margin-left: 186px;
+      padding-left: 200px;
+      .tab-panel {
+        height: 100%;
+        padding: 2rem 4rem;
+      }
     }
   }
   .tabs {

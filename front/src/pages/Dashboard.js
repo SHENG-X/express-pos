@@ -34,8 +34,8 @@ const Dashboard = () => {
     <div className="dashboard">
       <React.Fragment>
         <AppAppBar />
-        <Grid container spacing={3} >
-          <Grid item xs={3}>
+        <div className="container">
+          <div className="left">
             <Tabs
               orientation="vertical"
               variant="scrollable"
@@ -60,8 +60,8 @@ const Dashboard = () => {
               <Tab label={ t('sale.heading') } className="sub-item"/>
               <Tab label={ t('inventory.heading') } className="sub-item"/>
             </Tabs>
-          </Grid>
-          <Grid item xs={9}>
+          </div>
+          <div className="right">
             <TabPanel value={value} index={2} className="product-tab">
               <Product/>
             </TabPanel>
@@ -77,8 +77,8 @@ const Dashboard = () => {
             <TabPanel value={value} index={7} className="inventory-report-tab">
               <InventoryReport/>
             </TabPanel>
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </React.Fragment>
     </div>
   );
