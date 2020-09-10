@@ -46,44 +46,42 @@ const App = () => {
 
   return (
     <HashRouter>
-      <div>
-        <Switch>
-          <Route path="/sign-in">
-            <SignIn />
-          </Route>
-          <Route path="/sign-up">
-            <SignUp />
-          </Route>
-          <Route path="/forgot-password">
-            <ForgotPassword />
-          </Route>
-          <Route path="/terms">
-            <Terms />
-          </Route>
-          <Route path="/privacy">
-            <Privacy />
-          </Route>
-          <Route path="/sale">
-           {
-             state.authenticated ?
-            <Sale />
-            :
-            <Redirect to="/" />
-           }
-          </Route>
-          <Route path="/dashboard">
+      <Switch>
+        <Route path="/sign-in">
+          <SignIn />
+        </Route>
+        <Route path="/sign-up">
+          <SignUp />
+        </Route>
+        <Route path="/forgot-password">
+          <ForgotPassword />
+        </Route>
+        <Route path="/terms">
+          <Terms />
+        </Route>
+        <Route path="/privacy">
+          <Privacy />
+        </Route>
+        <Route path="/sale">
           {
-             state.authenticated ?
-             <Dashboard />
-            :
-            <Redirect to="/" />
-           }
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </div>
+            state.authenticated ?
+          <Sale />
+          :
+          <Redirect to="/" />
+          }
+        </Route>
+        <Route path="/dashboard">
+        {
+            state.authenticated ?
+            <Dashboard />
+          :
+          <Redirect to="/" />
+          }
+        </Route>
+        <Route path="/">
+          <Home />
+        </Route>
+      </Switch>
     </HashRouter>
   );
 }
