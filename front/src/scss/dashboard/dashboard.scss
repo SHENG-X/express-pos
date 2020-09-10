@@ -4,7 +4,7 @@
   .container {
     height: calc(100% - 70px);
     position: relative;
-    .left {
+    & > .left {
       position: fixed;
       height: 100%;
       z-index: 3;
@@ -18,7 +18,7 @@
         }
       }
     }
-    .right {
+    & > .right {
       position: absolute;
       height: 100%;
       padding-left: 200px;
