@@ -62,19 +62,19 @@ const Dashboard = () => {
             </Tabs>
           </div>
           <div className="right">
-            <TabPanel value={value} index={2} className="product-tab">
+            <TabPanel value={value} index={2} className="tab-panel-product">
               <Product/>
             </TabPanel>
-            <TabPanel value={value} index={3} className="category-tab">
+            <TabPanel value={value} index={3} className="tab-panel-category">
               <Category/>
             </TabPanel>
-            <TabPanel value={value} index={4} className="tax-tab">
+            <TabPanel value={value} index={4} className="tab-panel-tax">
               <Tax/>
             </TabPanel>
-            <TabPanel value={value} index={6} className="sale-report-tab">
+            <TabPanel value={value} index={6} className="tab-panel-report--sale">
               <SaleReport/>
             </TabPanel>
-            <TabPanel value={value} index={7} className="inventory-report-tab">
+            <TabPanel value={value} index={7} className="tab-panel-report--inventory">
               <InventoryReport/>
             </TabPanel>
           </div>
