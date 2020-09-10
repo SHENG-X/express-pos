@@ -3,15 +3,18 @@ import React, {
 } from 'react';
 import {
   Typography,
-  Paper,
 } from '@material-ui/core';
 import { Context } from '../../../../context/storeContext';
-import { formatAsCurrency } from '../../../../utils';
+import { formatAsCurrency, imagePath } from '../../../../utils';
+import CardBase from '../cardbase/CardBase';
 
 const InventoryReport = () => {
   return (
     <div className="sale-tab">
-      <InventorySummary/>
+      <div className="row">
+        <InventorySummary/>
+        <TopSelling/>
+      </div>
     </div>
   );
 }
@@ -36,18 +39,11 @@ const InventorySummary = () => {
   }
 
   return (
-    <Paper
-      elevation={3}
+    <CardBase
+      title={'Inventory Summary'}
       className="inventory-summary"
-    > 
-      <div className="heading">
-        <Typography variant="subtitle1">
-          Inventory Summary
-        </Typography>
-      </div>
-
-      <div className="content">
-        <div className="row">
+    >
+      <div className="row">
           <div className="label">
             <Typography variant="body2">
               All Products
@@ -89,7 +85,7 @@ const InventorySummary = () => {
         <div className="row">
           <div className="label">
             <Typography variant="body2">
-              Total Asset (Market)
+              Total Asset (Gross)
             </Typography>
           </div>
           <div className="value">
@@ -111,9 +107,70 @@ const InventorySummary = () => {
             </Typography>
           </div>
         </div>
+    </CardBase>
+  );
+}
 
+const TopSelling = () => {
+  const { state } = useContext(Context);
+
+  const computeTopSelling = (count = 3) => {
+    const productMap = {};
+    state.store.orders.forEach(order => {
+      order.products.forEach(prod => {
+        if (productMap[prod.product]) {
+          productMap[prod.product] += prod.count;
+        } else {
+          productMap[prod.product] = 1;
+        }
+      });
+    });
+    let products = [];
+    for (const prod in productMap) {
+      products.push([prod, productMap[prod]])
+    }
+    products = products.sort((p1, p2) => p2[1] - p1[1]);
+
+    return products.slice(0, count);
+  }
+
+  return (
+    <CardBase
+      title={'Top Selling Products'}
+      className="top-selling"
+    >
+      { 
+        computeTopSelling().map(topSelling => 
+          <TopSellingCard topSelling={topSelling} key={topSelling[0]}/>
+        )
+      }
+    </CardBase>
+  );
+}
+
+const TopSellingCard = ({ topSelling }) => {
+  const { state } = useContext(Context);
+
+  const computedProduct = () => {
+    return state.store.products.find(product => product._id === topSelling[0]);
+  }
+
+  return (
+    <div className="card">
+      <div 
+        className="media"
+        title={computedProduct()?.name}
+        style={{"backgroundImage": `url(${computedProduct()?.thumbnailFlag ? imagePath(topSelling[0]): '/static/media/no-product-image.b51a7162.png'})`}}
+      />
+      <div className="name">
+        <Typography variant="subtitle2">
+          { computedProduct(topSelling[0])?.name }
+        </Typography>
       </div>
-    </Paper>
+      <div className="count">
+        { topSelling[1] } Sold
+      </div>
+    </div>
   );
 }
 

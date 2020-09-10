@@ -1,3 +1,12 @@
+.sale-tab {
+  .row { 
+    display: flex;
+    .top-selling {
+      margin-left: 2rem;
+    }
+  }
+}
+
 .inventory-summary {
   .heading {
     padding: 0.5rem 1.5rem;
@@ -16,5 +25,29 @@
         width: 240px;
       }
     }
+  }
+}
+
+.top-selling {
+  .content {
+    display: flex;
+    .card {
+      padding: 0.5rem 1rem;
+      min-width: 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .media {
+        width: 120px;
+        height: 120px;
+        background-size: cover;
+        background-position: center;
+      }
+      .name {
+        padding-top: 0.5rem;
+      }
+    }
+
   }
 }
