@@ -137,7 +137,7 @@ const SaleReport = () => {
   }
 
   return (
-    <div className="sale-tab">
+    <div className="report-sale-tab">
       <Paper elevation={3} className="filters">
         <div>
           <Button
@@ -204,7 +204,7 @@ const SaleReport = () => {
         }
       </Paper>
 
-      <div className="content" style={{height: `${filter === DATE_OPTIONS.CUSTOM ? 'calc(100% - 90px)': 'calc(100% - 24px)'}`}}>
+      <div className="content" style={{height: `${filter === DATE_OPTIONS.CUSTOM ? 'calc(100% - 124px)': 'calc(100% - 48px)'}`}}>
         <Paper elevation={3} className="orders">
           <Table stickyHeader className="table">
             <TableHead className="header">

@@ -1,87 +1,79 @@
-.sale-tab {
-  .filters {
-    width: fit-content;
-    .custom-date {
-      padding: 1rem;
-      & > div {
-        margin-right: 2rem;
-      }
-    }
-  }
-  & > .content {
-    display: flex;
-    padding: 2rem 0;
-    .orders {
-      min-width: 527px;
-      overflow: overlay;
-      margin-right: 2rem;
-      height: fit-content;
-      max-height: 100%;
-    }
-    .status {
-      height: fit-content;
-    }
-  }
-  .revenue-pan {
-    min-width: 280px;
-    .heading {
-      padding: 0.5rem 1rem;
-    }
-    .content {
-      display: flex;
-      .col {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        .label {
-          width: 160px;
-          padding: 0.5rem 1rem;
-        }
-        .value {
-          padding: 0.5rem 1rem;
-        }
-        &:nth-of-type(2) {
-          h6 {
-            text-align: right;
+.tab-panel-report--sale {
+  height: 100%;
+  .content {
+    height: 100%;
+    .report-sale-tab {
+      height: 100%;
+      .filters {
+        width: fit-content;
+        height: fit-content;
+        .custom-date {
+          padding: 1rem;
+          & > div {
+            margin-right: 2rem;
           }
         }
       }
-    }
-  }
-  .table {
-    .header {
-      background-color: $primary-dark;
-      h6 {
-        color: $on-primary-dark;
-        font-weight: 550;
-      }
-    }
-    .actions {
-      display: flex;
-    }
-    tbody {
-      tr {
-        &:nth-of-type(odd) {
-          background-color: rgba(0, 0, 0, 0.04);
-        }
-      } 
-    }
-  }
-}
-.sale-report-tab {
-  height: 100%;
-  padding-bottom: 0;
-  & > div {
-    height: 100%;
-    .sale-tab { 
-      height: 100%;
-      & > div {
-        &:nth-of-type(2) {
+      & > .content {
+        display: flex;
+        padding-top: 2rem;
+        .orders {
+          min-width: 527px;
           overflow: overlay;
+          margin-right: 2rem;
+          height: fit-content;
+          max-height: 100%;
+        }
+        .status {
+          height: fit-content;
         }
       }
-      .MuiTableCell-stickyHeader {
-        background-color: $primary-dark;
+      .revenue-pan {
+        min-width: 280px;
+        .heading {
+          padding: 0.5rem 1rem;
+        }
+        .content {
+          display: flex;
+          .col {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            .label {
+              width: 160px;
+              padding: 0.5rem 1rem;
+            }
+            .value {
+              padding: 0.5rem 1rem;
+            }
+            &:nth-of-type(2) {
+              h6 {
+                text-align: right;
+              }
+            }
+          }
+        }
+      }
+      .table {
+        .header {
+          h6 {
+            color: $on-primary-dark;
+            font-weight: 550;
+          }
+          .MuiTableCell-stickyHeader {
+            background: $primary-dark;
+          }
+        }
+        .actions {
+          display: flex;
+        }
+        tbody {
+          tr {
+            &:nth-of-type(odd) {
+              background-color: rgba(0, 0, 0, 0.04);
+            }
+          } 
+        }
       }
     }
   }

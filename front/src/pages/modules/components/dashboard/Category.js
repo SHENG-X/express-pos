@@ -54,48 +54,46 @@ const Category = () => {
 
   return (
     <React.Fragment>
-      <Paper>
-        <div className="category-tab">
-          <div className="heading">
-            <Typography variant="subtitle1">
-              { t('category.heading') }
-            </Typography>
+      <Paper className="category-tab">
+        <div className="heading">
+          <Typography variant="subtitle1">
+            { t('category.heading') }
+          </Typography>
+        </div>
+        <div className="actions">
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={handleAdd}
+          >
+            { t('category.addNew') }
+          </Button>
+          <div className="search">
+            <Input
+              placeholder={ t('category.search') }
+              startAdornment={
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              }
+              onChange={e => setSearchText(e.target.value)}
+            />
           </div>
-          <div className="actions">
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={handleAdd}
-            >
-              { t('category.addNew') }
-            </Button>
-            <div className="search">
-              <Input
-                placeholder={ t('category.search') }
-                startAdornment={
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                }
-                onChange={e => setSearchText(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="table-container">
-            <Table stickyHeader>
-              <TableHead>
-                <TableRow>
-                  <TableCell>{ t('common.img') }</TableCell>
-                  <TableCell>{ t('common.name') }</TableCell>
-                  <TableCell>{ t('product.productCount') }</TableCell>
-                  <TableCell>{ t('common.actions') }</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                  { computeList() }
-              </TableBody>
-            </Table>
-          </div>
+        </div>
+        <div className="table-container">
+          <Table stickyHeader>
+            <TableHead>
+              <TableRow>
+                <TableCell>{ t('common.img') }</TableCell>
+                <TableCell>{ t('common.name') }</TableCell>
+                <TableCell>{ t('product.productCount') }</TableCell>
+                <TableCell>{ t('common.actions') }</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+                { computeList() }
+            </TableBody>
+          </Table>
         </div>
       </Paper>
       {
