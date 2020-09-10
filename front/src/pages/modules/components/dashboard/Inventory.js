@@ -6,6 +6,7 @@ import {
   Paper,
 } from '@material-ui/core';
 import { Context } from '../../../../context/storeContext';
+import { formatAsCurrency } from '../../../../utils';
 
 const InventoryReport = () => {
   return (
@@ -28,6 +29,10 @@ const InventorySummary = () => {
 
   const computeCategories = () => {
     return state.store.categories.length;
+  }
+
+  const computeTotalAsset = () => {
+    return state.store.products.reduce((acc, prod) => [acc[0] + Math.max(...prod.prices.map(price => price.value)) * prod.count, acc[1] + prod.cost * prod.count], [0, 0]);
   }
 
   return (
@@ -80,6 +85,33 @@ const InventorySummary = () => {
             </Typography>
           </div>
         </div>
+
+        <div className="row">
+          <div className="label">
+            <Typography variant="body2">
+              Total Asset (Market)
+            </Typography>
+          </div>
+          <div className="value">
+            <Typography variant="subtitle2">
+              { formatAsCurrency(computeTotalAsset()[0]) }
+            </Typography>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="label">
+            <Typography variant="body2">
+              Total Asset (Net)
+            </Typography>
+          </div>
+          <div className="value">
+            <Typography variant="subtitle2">
+              { formatAsCurrency(computeTotalAsset()[1]) }
+            </Typography>
+          </div>
+        </div>
+
       </div>
     </Paper>
   );
