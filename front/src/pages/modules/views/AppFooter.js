@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 import Typography from '../components/Typography';
 import TextField from '../components/TextField';
+import { classNames } from '../../../utils';
 
 import {
   LinkedIn,
@@ -96,10 +97,10 @@ export default function AppFooter() {
               <Grid
                 container
                 direction="column"
-                className={[classes.iconsWrapper, 'icons']}
+                className={classNames([classes.iconsWrapper, 'icons'])}
                 spacing={2}
               >
-                <Grid item className={[classes.icons, 'social-media']}>
+                <Grid item className={classNames([classes.icons, 'social-media'])}>
                   <a href="https://www.linkedin.com/in/sheng-x/" className={classes.icon}>
                     <LinkedIn/>
                   </a>

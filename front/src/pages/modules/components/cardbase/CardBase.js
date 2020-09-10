@@ -9,7 +9,7 @@ const CardBase = ({ title, children, className }) => {
   return (
     <Paper
       elevation={3}
-      className={["card-base", className]}
+      className={classNames(["card-base", className])}
     >
       <div className="header">
         <Typography variant="subtitle1">
