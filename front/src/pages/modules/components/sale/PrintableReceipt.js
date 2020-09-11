@@ -13,6 +13,16 @@ const PrintableReceipt = ({ orderId }) => {
   const tax = (detail.taxRate === 0 ? 0 : subtotal * detail.taxRate);
   const total = subtotal + tax;
 
+  const calcDiscount = () => {
+    if (!detail.discount) {
+      return;
+    }
+    if (detail.discount.type === 'Amount') {
+      return detail.discount.value * -1;
+    }
+    return subtotal * detail.discount.value * -1;
+  }
+
   return (
     <div className="print">
       <div className="receipt-copy">
@@ -36,25 +46,33 @@ const PrintableReceipt = ({ orderId }) => {
           }
           <div className="summary">
             {
-              tax !== 0 ? 
-              <React.Fragment>
-                <div className="subtotal row">
-                  <div>{ t('sale.subtotal') }</div>
-                  <div>
-                    { subtotal.toFixed(2) }
-                  </div>
+              tax !== 0 && 
+              <div className="subtotal row">
+                <div>{ t('sale.subtotal') }</div>
+                <div>
+                  { subtotal.toFixed(2) }
                 </div>
-                <div className="tax row">
-                  <div>
-                    { t('tax.heading') } { detail.taxRate * 100 }%
-                  </div>
-                  <div>
-                    { tax.toFixed(2) }
-                  </div>
+              </div>
+            }
+            {
+              detail.discount &&
+              <div className="discount row">
+                <div>Discount</div>
+                <div>
+                  { calcDiscount().toFixed(2) }
                 </div>
-              </React.Fragment>
-              :
-              null
+              </div>
+            }
+            {
+              tax !== 0 && 
+              <div className="tax row">
+                <div>
+                  { t('tax.heading') } { detail.taxRate * 100 }%
+                </div>
+                <div>
+                  { tax.toFixed(2) }
+                </div>
+              </div>
             }
             <div className="total row">
               <div>{ t('sale.total') }</div>
