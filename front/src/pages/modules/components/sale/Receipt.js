@@ -13,6 +13,7 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import PaymentModal from './PaymentModal';
+import DiscountModal from './DiscountModal';
 import PrintableReceipt from './PrintableReceipt';
 import { Context } from '../../../../context/storeContext';
 import { formatAsCurrency, classNames } from '../../../../utils';
@@ -22,6 +23,8 @@ const Receipt = ({ order, setOrder }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [orderId, setOrderId] = useState(null);
+  const [discountOpen, setDiscountOpen] = useState(false);
+  const [discount, setDiscount] = useState(null);
 
   const deleteProduct = (product) => {
     const newProducts = order.filter(prod => {
@@ -35,7 +38,27 @@ const Receipt = ({ order, setOrder }) => {
   }
 
   const calcSubtotal = () => {
-    return order.reduce((res, prod) => res += prod.count * prod.price, 0).toFixed(2);
+    let subtotal = order.reduce((res, prod) => res += prod.count * prod.price, 0);
+    if (discount) {
+      if (discount.type === 'Amount') {
+        subtotal -= discount.value;
+      } else {
+        // discount type Percent
+        subtotal *= (1 - discount.value);
+      }
+    }
+    return subtotal.toFixed(2);
+  }
+
+  const calcDiscount = () => {
+    if (!discount) {
+      return;
+    }
+    if (discount.type === 'Amount') {
+      return discount.value * -1;
+    }
+    const subtotal = order.reduce((res, prod) => res += prod.count * prod.price, 0);
+    return subtotal * discount.value * -1;
   }
 
   const calcTax = () => {
@@ -52,12 +75,18 @@ const Receipt = ({ order, setOrder }) => {
   const cancelOrder = () => {
     setOrder([]);
     setOrderId(null);
+    setDiscount(null);
   }
 
   const proceedPay = () => {
     if (order.length) {
       setOpen(true);
     }
+  }
+
+  const handleAddDiscount = (discount) => {
+    setDiscount(discount);
+    setDiscountOpen(false);
   }
 
   return (
@@ -71,7 +100,7 @@ const Receipt = ({ order, setOrder }) => {
             <div className="summary">
               <div className={classNames(['separator', order.length ? '' : 'hidden'])}/>
                 <React.Fragment>
-                  <div className={classNames(['subtitle', order.length && state.store.tax.enable ? '' : 'hidden'])}>
+                  <div className={classNames(['subtotal', order.length && state.store.tax.enable ? '' : 'hidden'])}>
                     <div className="label">
                       <Typography variant="body1">
                         { t('sale.subtotal') }
@@ -79,6 +108,16 @@ const Receipt = ({ order, setOrder }) => {
                     </div>
                     <div className="amount">
                       { formatAsCurrency(calcSubtotal()) }
+                    </div>
+                  </div>
+                  <div className={classNames(['discount', discount && discount.value > 0 ? '' : 'hidden'])}>
+                    <div className="label">
+                      <Typography variant="body1">
+                        Discount { discount && discount.type === 'Percent' ? `${discount.value * 100}%` : '' }
+                      </Typography>
+                    </div>
+                    <div className="amount">
+                      { formatAsCurrency(calcDiscount()) }
                     </div>
                   </div>
                   <div className={classNames(['tax', order.length && state.store.tax.enable ? '' : 'hidden'])}>
@@ -116,6 +155,12 @@ const Receipt = ({ order, setOrder }) => {
             { t('common.cancel') }
           </Button>
           <Button
+            variant="contained"
+            onClick={() => setDiscountOpen(order.length ? true : false)}
+          >
+            Discount
+          </Button>
+          <Button
             color="primary"
             variant="contained"
             onClick={proceedPay}
@@ -124,18 +169,9 @@ const Receipt = ({ order, setOrder }) => {
           </Button>
         </div>
       </div>
-      {
-        open ? 
-        <PaymentModal order={order} total={calcTotal()} paySuccess={cancelOrder} handleOpen={(val) => setOpen(val)} setOrderId={setOrderId}/>
-        :
-        null
-      }
-      {
-        orderId ?
-        <PrintableReceipt order={order} orderId={orderId}/>
-        :
-        null
-      }
+      { open && <PaymentModal order={order} discount={discount} total={calcTotal()} paySuccess={cancelOrder} handleOpen={(val) => setOpen(val)} setOrderId={setOrderId}/> }
+      { orderId && <PrintableReceipt order={order} orderId={orderId}/> }
+      { !!order.length && discountOpen && <DiscountModal discountProp={discount} handleOpen={val => setDiscountOpen(val)} handleConfirm={(discount) => {handleAddDiscount(discount)}} /> }
     </React.Fragment>
   );
 }
