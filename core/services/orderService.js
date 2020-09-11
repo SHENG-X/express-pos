@@ -28,11 +28,11 @@ const getOrder = async (req, res) => {
 
 const createOrder = async (req, res) => {
   const storeId = req.decoded.store;
-  const { products, paymentType, amountPaid, taxRate } = req.body;
+  const { products, paymentType, amountPaid, taxRate, discount } = req.body;
 
   try {
     // create a order object and save it to the database
-    const orderObj = new orderModel({ products, paymentType, amountPaid, taxRate, store: storeId });
+    const orderObj = new orderModel({ products, paymentType, amountPaid, taxRate, discount, store: storeId });
     const storeObj = await storeModel.findById(storeId);
     const savedOrder = await orderObj.save();
     // add the order to the store orders
