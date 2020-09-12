@@ -76,7 +76,7 @@ const PrintableReceipt = ({ orderId }) => {
             }
             <div className="total row">
               <div>{ t('sale.total') }</div>
-              <div>{ total.toFixed(2) }</div>
+              <div>{ (total + calcDiscount()).toFixed(2) }</div>
             </div>
           </div>
         </div>
