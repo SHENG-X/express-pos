@@ -31,6 +31,7 @@
 .top-selling {
   .content {
     display: flex;
+    min-width: 420px;
     .card {
       padding: 0.5rem 1rem;
       min-width: 140px;
