@@ -90,11 +90,12 @@
     min-height: 380px;
     max-height: 50vh;
     overflow: overlay;
+    display: flex;
+    flex-direction: column;
     .summary {
       padding: 1rem 0;
       margin-bottom: 1rem;
       box-shadow: 0 1px 10px 1px rgba(100,100,100, 0.8);
-      position: fixed;
       width: var(--modal-w);
       background-color: #fff;
       .row {
@@ -106,23 +107,29 @@
         }
       }
     }
-    .odr-row {
+    .items {
       display: flex;
+      overflow: auto;
       flex-direction: column;
-      padding: 0 1.5rem;
-      padding-bottom: 0.5rem;
-      .title {
+      .odr-row {
+        flex: 1;
         display: flex;
-        justify-content: space-between;
-        h6 {
-          font-size: 1rem;
+        flex-direction: column;
+        padding: 0 1.5rem;
+        padding-bottom: 0.5rem;
+        .title {
+          display: flex;
+          justify-content: space-between;
+          h6 {
+            font-size: 1rem;
+          }
         }
-      }
-      .subtitle {
-        padding: 0 1rem;
-        margin-top: -6px;
-        span {
-          font-size: 0.9rem;
+        .subtitle {
+          padding: 0 0.5rem;
+          margin-top: -6px;
+          span {
+            font-size: 0.8rem;
+          }
         }
       }
     }

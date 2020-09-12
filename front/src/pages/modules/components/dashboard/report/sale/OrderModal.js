@@ -20,8 +20,17 @@ const OrderModal = ({ order, closeModal }) => {
   const computeTax = () => {
     return computeSubtotal() * order.taxRate;
   }
+  const computeDiscount = () => {
+    if (order.discount) {
+      if (order.discount.method === 'Percent') {
+        return computeSubtotal() * order.discount.value * -1;
+      } else {
+        return order.discount.value * -1;
+      }
+    }
+  }
   const computeOrderTotal = () => {
-    return computeSubtotal() + computeTax();
+    return computeSubtotal() + computeTax() + computeDiscount();
   }
 
   return (
@@ -48,11 +57,8 @@ const OrderModal = ({ order, closeModal }) => {
               <div className="value">{ order.paymentType }</div>
             </div>
             {
-              order.taxRate === 0 ?
-              null
-              :
-              <React.Fragment>
-                <div className="row">
+              order.taxRate !== 0 &&
+              <div className="row">
                   <div className="label">
                     <Typography variant="subtitle2">
                       { t('sale.subtotal') }
@@ -60,15 +66,28 @@ const OrderModal = ({ order, closeModal }) => {
                   </div>
                   <div className="value">{ formatAsCurrency(computeSubtotal()) }</div>
                 </div>
-                <div className="row">
-                  <div className="label">
-                    <Typography variant="subtitle2">
-                      { t('tax.heading') }
-                    </Typography>
-                  </div>
-                  <div className="value">{ formatAsCurrency(computeTax()) }</div>
+            }
+            {
+              order.discount &&
+              <div className="row">
+                <div className="label">
+                  <Typography variant="subtitle2">
+                    Discount { order.discount.method === 'Percent' ? `${order.discount.value * 100}%` : '' }
+                  </Typography>
                 </div>
-              </React.Fragment>
+                <div className="value">{ formatAsCurrency(computeDiscount()) }</div>
+              </div>
+            }
+            {
+              order.taxRate !== 0 &&
+              <div className="row">
+                <div className="label">
+                  <Typography variant="subtitle2">
+                    { t('tax.heading') }
+                  </Typography>
+                </div>
+                <div className="value">{ formatAsCurrency(computeTax()) }</div>
+              </div>
             }
             <div className="row">
               <div className="label">
@@ -87,7 +106,7 @@ const OrderModal = ({ order, closeModal }) => {
               <div className="value">{ formatAsCurrency(order.amountPaid) }</div>
             </div>
           </div>
-          <div className="items" style={{paddingTop: `${order.taxRate === 0 ? '130px': '170px'}`}}>
+          <div className="items">
             {
               order.products.map(odr => <ProductItem order={odr} key={odr._id}/>)
             }
@@ -115,13 +134,13 @@ const ProductItem = ({ order }) => {
     <div className="odr-row">
       <div className="title">
         <div className="left">
-          <Typography variant="subtitle2">
+          <Typography variant="body2">
             { product.name }
           </Typography>
         </div>
         <div className="right">
           <div className="amt">
-            <Typography variant="subtitle2">
+            <Typography variant="body2">
               { formatAsCurrency(order.count * order.price) }
             </Typography>
           </div>
