@@ -15,7 +15,7 @@ const PrintableReceipt = ({ orderId }) => {
 
   const calcDiscount = () => {
     if (!detail.discount) {
-      return;
+      return 0 ;
     }
     if (detail.discount.method === 'Amount') {
       return detail.discount.value * -1;
