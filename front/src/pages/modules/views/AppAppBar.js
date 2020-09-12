@@ -65,7 +65,13 @@ function AppAppBar(props) {
               underline="none"
               color="inherit"
               className={classNames([classes.title, 'app-bar-action'])}
-              onClick={() => history.push('/')}
+              onClick={() => {
+                if (props.beforeRouteChange) {
+                  props.beforeRouteChange(() => history.push('/'));
+                } else {
+                  history.push('/')
+                }
+              }}
             >
               <span>
                 {'Express POS'}
@@ -91,31 +97,49 @@ function AppAppBar(props) {
               <React.Fragment>
                 {
                   history.location.pathname !== '/dashboard' &&
-                <MDCLink
-                  variant="h6"
-                  underline="none"
-                  className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
-                  onClick={() => history.push('/dashboard')}
-                >
-                  { `Dashboard` }
-                </MDCLink>
+                  <MDCLink
+                    variant="h6"
+                    underline="none"
+                    className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
+                    onClick={() => {
+                      if (props.beforeRouteChange) {
+                        props.beforeRouteChange(() => history.push('/dashboard'));
+                      } else {
+                        history.push('/dashboard');
+                      }
+                    }}
+                  >
+                    { `Dashboard` }
+                  </MDCLink>
                 }
                 {
                   history.location.pathname !== '/sale' &&
-                <MDCLink
-                  variant="h6"
-                  underline="none"
-                  className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
-                  onClick={() => history.push('/sale')}
-                >
-                  { `Sale` }
-                </MDCLink>
+                  <MDCLink
+                    variant="h6"
+                    underline="none"
+                    className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
+                    onClick={() => {
+                      if (props.beforeRouteChange) {
+                        props.beforeRouteChange(() => history.push('/sale'));
+                      } else {
+                        history.push('/sale')
+                      }
+                    }}
+                  >
+                    { `Sale` }
+                  </MDCLink>
                 }
                 <MDCLink
                   variant="h6"
                   underline="none"
                   className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
-                  onClick={() => { signOut(()=>{history.push('/')});}}
+                  onClick={() => {
+                    if (props.beforeRouteChange) {
+                      props.beforeRouteChange(() => signOut(()=>{history.push('/')}));
+                    } else {
+                      signOut(()=>{history.push('/')});
+                    }
+                  }}
                 >
                   { `SIGN OUT` }
                 </MDCLink>
