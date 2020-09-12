@@ -89,6 +89,8 @@ function AppAppBar(props) {
             {
               userState.authenticated === true ?
               <React.Fragment>
+                {
+                  history.location.pathname !== '/dashboard' &&
                 <MDCLink
                   variant="h6"
                   underline="none"
@@ -97,6 +99,9 @@ function AppAppBar(props) {
                 >
                   { `Dashboard` }
                 </MDCLink>
+                }
+                {
+                  history.location.pathname !== '/sale' &&
                 <MDCLink
                   variant="h6"
                   underline="none"
@@ -105,6 +110,7 @@ function AppAppBar(props) {
                 >
                   { `Sale` }
                 </MDCLink>
+                }
                 <MDCLink
                   variant="h6"
                   underline="none"
