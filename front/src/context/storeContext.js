@@ -1,25 +1,22 @@
 
 import createDataContext from './createDataContext';
-import { 
-  register,
-  authenticate,
-  createCategory,
-  createProduct,
-  updateStoreTax,
-  deleteStoreProduct,
-  deleteStoreCategory,
-  updateStoreProduct,
-  updateStoreCategory,
-  createStoreOrder,
+import {
+  loadStoreAsync,
+  createCategoryAsync,
+  createProductAsync,
+  updateTaxAsync,
+  deleteProductAsync,
+  deleteCategoryAsync,
+  updateProductAsync,
+  updateCategoryAsync,
+  createOrderAsync,
   consumeProduct,
-  deleteStoreOrder,
-  restockStoreProduct,
-} from '../services';
+  deleteOrderAsync,
+  restockProductAsync,
+} from '../services/storeService';
 
 const ACTIONS = {
-  SIGN_IN: 'SIGN_IN',
-  SIGN_UP: 'SIGN_UP',
-  SIGN_OUT: 'SIGN_OUT',
+  LOAD_STORE: 'LOAD_STORE',
   ADD_PRODUCT: 'ADD_PRODUCT',
   ADD_CATEGORY: 'ADD_CATEGORY',
   DELETE_PRODUCT: 'DELETE_PRODUCT',
@@ -31,105 +28,66 @@ const ACTIONS = {
   DELETE_ORDER: 'DELETE_ORDER',
 };
 
-const userReducer = (state, { type, payload }) => {
+const storeReducer = (state, { type, payload }) => {
   switch (type) {
-    case ACTIONS.SIGN_IN:
-      return {...payload, authenticated: true};
-    case ACTIONS.SIGN_UP:
-      return {...payload, authenticated: true};
-    case ACTIONS.SIGN_OUT:
-        return {};
+    case ACTIONS.LOAD_STORE:
+      return { ...payload };
     case ACTIONS.ADD_PRODUCT:
-      return {...state, store: {...state.store, products: [...state.store.products, payload]}};
+      return {...state, products: [...state.products, payload]};
     case ACTIONS.ADD_CATEGORY:
-      return {...state, store: {...state.store, categories: [...state.store.categories, payload]}};
+      return {...state, categories: [...state.categories, payload]};
     case ACTIONS.DELETE_PRODUCT:
-      return {...state, store: {...state.store, products: state.store.products.filter(product => product._id !== payload)}};
+      return {...state, products: state.products.filter(product => product._id !== payload)};
     case ACTIONS.DELETE_CATEGORY:
-      return {...state, store: {...state.store, categories: state.store.categories.filter(category => category._id !== payload)}};
+      return {...state, categories: state.categories.filter(category => category._id !== payload)};
     case ACTIONS.UPDATE_TAX:
-      return {...state, store: {...state.store, tax: payload}};
+      return {...state, tax: payload};
     case ACTIONS.UPDATE_PRODUCT:
-      const newProducts = state.store.products.map(prod => {
+      const newProducts = state.products.map(prod => {
         if (prod._id === payload._id) {
           return { ...payload, key: Date.now() };
         }
         return prod;
       });
-      return {...state, store: {...state.store, products: newProducts}};
+      return {...state, products: newProducts};
     case ACTIONS.UPDATE_CATEGORY:
-      const newCategories = state.store.categories.map(category => {
+      const newCategories = state.categories.map(category => {
         if (category._id === payload._id) {
           return { ...payload, key: Date.now()};
         }
         return category;
       });
-      return {...state, store: {...state.store, categories: newCategories}};
+      return {...state, categories: newCategories};
     case ACTIONS.CREATE_ORDER:
-      return {...state, store: {...state.store, orders: [...state.store.orders, payload]}};
+      return {...state, orders: [...state.orders, payload]};
     case ACTIONS.DELETE_ORDER:
-      return {...state, store: {...state.store, orders: state.store.orders.filter(order => order._id !== payload)}};
+      return {...state, orders: state.orders.filter(order => order._id !== payload)};
     default:
       return state;
   }
 }
 
-const signUp = (dispatch) => {
-  return async ({ name, email, password }, success, fail) => {
-    const response = await register(name, email, password);
-    if (response.status === 201) {
-      dispatch({type: ACTIONS.SIGN_UP, payload: response.data});
-      // save jtw token to local storage
-      localStorage.setItem('EXPRESS-POS/token', response.data.token);
-      if (success) {
-        success();
-      }
-    } else {
-      if (fail) {
-        fail();
-      }
-    }
-  };
-}
-
-const signIn = (dispatch) => {
-  return async ({ email, password }, success, fail) => {
-    const response = await authenticate(email, password);
-    if (!response) {
-      // if no response found then do nothing
-      return;
-    }
+const loadStore = (dispatch) => {
+  return async (success, fail) => {
+    debugger
+    const response = await loadStoreAsync();
+    debugger
     if (response.status === 200) {
-      dispatch({type: ACTIONS.SIGN_IN, payload: response.data});
-      // save jtw token to local storage
-      localStorage.setItem('EXPRESS-POS/token', response.data.token);
-
-      // check if there is a success handler
+      dispatch({type: ACTIONS.LOAD_STORE, payload: response.data});
       if (success) {
         success();
       }
     } else {
-      // check if there is a fail handler
       if (fail) {
         fail();
       }
-    }
-  };
-}
-
-const signOut = (dispatch) => {
-  return (callback) => {
-    localStorage.removeItem('EXPRESS-POS/token');
-    dispatch({type: ACTIONS.SIGN_OUT});
-    if (callback) {
-      callback();
     }
   }
 }
 
-const addProduct = (dispatch) => {
+const createProduct = (dispatch) => {
   return async (product, success, fail) => {
-    const response = await createProduct(product);
+    const response = await createProductAsync(product);
     if (response.status === 201) {
       dispatch({type: ACTIONS.ADD_PRODUCT, payload: response.data});
       if (success) {
@@ -145,7 +103,7 @@ const addProduct = (dispatch) => {
 
 const deleteProduct = (dispatch) => {
   return async (product, success, fail) => {
-    const response = await deleteStoreProduct(product);
+    const response = await deleteProductAsync(product);
     if (response.status === 204) {
       dispatch({type: ACTIONS.DELETE_PRODUCT, payload: product._id});
       if (success) {
@@ -159,9 +117,9 @@ const deleteProduct = (dispatch) => {
   }
 }
 
-const addCategory = (dispatch) => {
+const createCategory = (dispatch) => {
   return async (category, success, fail) => {
-    const response = await createCategory(category);
+    const response = await createCategoryAsync(category);
     if (response.status === 201) {
       dispatch({type: ACTIONS.ADD_CATEGORY, payload: response.data});
       if (success) {
@@ -179,7 +137,7 @@ const deleteCategory = (dispatch) => {
   return async (category, success, fail) => {
     // TODO: check if category is used
     // if category is used then do not delete the category
-    const response = await deleteStoreCategory(category);
+    const response = await deleteCategoryAsync(category);
     if (response.status === 204) {
       dispatch({type: ACTIONS.DELETE_CATEGORY, payload: category._id});
       if (success) {
@@ -195,7 +153,7 @@ const deleteCategory = (dispatch) => {
 
 const updateTax = (dispatch) => {
   return async (tax, success, fail) => {
-    const response = await updateStoreTax(tax);
+    const response = await updateTaxAsync(tax);
     if (response.status === 200) {
       dispatch({type: ACTIONS.UPDATE_TAX, payload: response.data});
       if (success) {
@@ -211,7 +169,7 @@ const updateTax = (dispatch) => {
 
 const updateProduct = (dispatch) => {
   return async (product, success, fail) => {
-    const response = await updateStoreProduct(product);
+    const response = await updateProductAsync(product);
     if (response.status === 200) {
       dispatch({type: ACTIONS.UPDATE_PRODUCT, payload: response.data});
       if (success) {
@@ -227,7 +185,7 @@ const updateProduct = (dispatch) => {
 
 const updateCategory = (dispatch) => {
   return async (category, success, fail) => {
-    const response = await updateStoreCategory(category);
+    const response = await updateCategoryAsync(category);
     if (response.status === 200) {
       dispatch({type: ACTIONS.UPDATE_CATEGORY, payload: response.data});
       if (success) {
@@ -243,7 +201,7 @@ const updateCategory = (dispatch) => {
 
 const createOrder = (dispatch) => {
   return async (order, success, fail) => {
-    const response = await createStoreOrder(order);
+    const response = await createOrderAsync(order);
     if (response.status === 201) {
       dispatch({type: ACTIONS.CREATE_ORDER, payload: response.data});
       
@@ -268,7 +226,7 @@ const createOrder = (dispatch) => {
 
 const deleteOrder = (dispatch) => {
   return async (order, success, fail) => {
-    const response = await deleteStoreOrder(order);
+    const response = await deleteOrderAsync(order);
     if (response.status === 204) {
       dispatch({type: ACTIONS.DELETE_ORDER, payload: order._id});
       if (success) {
@@ -284,7 +242,7 @@ const deleteOrder = (dispatch) => {
 
 const restockProduct = (dispatch) => {
   return async (product, success, fail) => {
-    const response = await restockStoreProduct(product);
+    const response = await restockProductAsync(product);
     if (response.status === 200) {
       dispatch({type: ACTIONS.UPDATE_PRODUCT, payload: response.data});
       if (success) {
@@ -298,14 +256,12 @@ const restockProduct = (dispatch) => {
   }
 }
 export const { Context, Provider } = createDataContext(
-  userReducer,
+  storeReducer,
   {
-    signIn,
-    signUp,
-    signOut,
-    addProduct,
+    loadStore,
+    createProduct,
     deleteProduct,
-    addCategory,
+    createCategory,
     deleteCategory,
     updateTax,
     updateProduct,
@@ -314,5 +270,6 @@ export const { Context, Provider } = createDataContext(
     deleteOrder,
     restockProduct,
   },
-  {}
+  {},
+  'storeState'
 );

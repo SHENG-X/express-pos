@@ -3,7 +3,7 @@ import React, {
   createContext
 } from 'react';
 
-export default (reducer, actions, initialState) => {
+export default (reducer, actions, initialState, stateAlias) => {
   const Context = createContext(initialState);
 
   const Provider = ({ children }) => {
@@ -13,12 +13,18 @@ export default (reducer, actions, initialState) => {
     for (let key in actions) {
       boundActions[key] = actions[key](dispatch);
     }
+
+    let providerValue = { ...boundActions };
+    if (stateAlias) {
+      providerValue[stateAlias] = state;
+    } else {
+      providerValue = { state, ...boundActions };
+    }
+
     return(
-        <Context.Provider value={{ state, ...boundActions }}>
-          {
-              children
-          }
-        </Context.Provider>
+      <Context.Provider value={providerValue}>
+        { children }
+      </Context.Provider>
     )
   }
 
