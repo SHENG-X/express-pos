@@ -24,7 +24,7 @@
       padding-left: 200px;
       .tab-panel {
         height: 100%;
-        padding: 2rem 4rem;
+        padding: 2rem;
       }
     }
   }
@@ -38,9 +38,6 @@
     .sub-item {
       padding: 0 36px;
     }
-  }
-  .tab-panel {
-    padding: 0 4rem;
   }
 
   @import 'product.scss';
