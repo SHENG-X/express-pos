@@ -14,7 +14,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useToasts } from 'react-toast-notifications';
 
-import { Context } from '../../../../context/storeContext';
+import { Context } from '../../../../../context/storeContext';
 
 const Tax = () => {
   const { state, updateTax } = useContext(Context);
