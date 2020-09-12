@@ -12,7 +12,7 @@ const Sale = () => {
   const [open, setOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState({});
   const [order, setOrder] = useState([]);
-  
+
   const handleOpen = (product) => {
     setSelectedProduct({...product, price: Math.max(...product.prices)});
     setOpen(true);
@@ -36,10 +36,20 @@ const Sale = () => {
     setOpen(false);
   }
 
+  const beforeRouteChange = (callback) => {
+    if (order.length) {
+      if (window.confirm("You have unplaced order. If you navigate away, you will lose you changes.")) {
+        callback();
+      }
+    } else {
+      callback();
+    }
+  }
+
   return (
     <div className="sale" >
       <React.Fragment>
-        <AppAppBar />
+        <AppAppBar beforeRouteChange={beforeRouteChange}/>
         <div className="container">
           <div className="receipt">
             <Receipt order={order} setOrder={setOrder} />
@@ -49,13 +59,12 @@ const Sale = () => {
           </div>
         </div>
         {
-          open ? 
+          open &&
           <ProductModal
             selectedProduct={selectedProduct}
             handleOpen={val => setOpen(val)}
             handleConfirm={handleConfirm}
           />
-          : null
         }
       </React.Fragment>
     </div>
