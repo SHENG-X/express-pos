@@ -16,12 +16,17 @@ import {
 import { Context } from '../../../../context/storeContext';
 import { imagePath } from '../../../../utils';
 
-const Products = ({ handleOpen }) => {
+const Products = ({ handleOpen, selectedCID }) => {
   const { storeState } = useContext(Context);
   const [searchText, setSearchText] = useState('');
 
   const computeProductList = () => {
     let products = storeState.products;
+
+    if (selectedCID !== '') {
+      // if filter by category is selected then filter by category first
+      products = products.filter(prod => prod.category === selectedCID);
+    }
     if (searchText !== '') {
       products = products.filter(prod => prod.name.toLowerCase().includes(searchText.toLowerCase()));
     }

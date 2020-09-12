@@ -6,12 +6,14 @@ import withRoot from './modules/withRoot';
 import AppAppBar from './modules/views/AppAppBar';
 import Receipt from './modules/components/sale/Receipt';
 import Products from './modules/components/sale/Products';
+import Categories from './modules/components/sale/Categories';
 import ProductModal from './modules/components/sale/ProductModal';
 
 const Sale = () => {
   const [open, setOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState({});
   const [order, setOrder] = useState([]);
+  const [selectedCID, setSelectedCID] = useState('');
 
   const handleOpen = (product) => {
     setSelectedProduct({...product, price: Math.max(...product.prices)});
@@ -46,6 +48,14 @@ const Sale = () => {
     }
   }
 
+  const handleSelectChange = (cid) => {
+    if (cid === selectedCID) {
+      setSelectedCID('');
+    } else {
+      setSelectedCID(cid);
+    }
+  }
+
   return (
     <div className="sale" >
       <React.Fragment>
@@ -55,8 +65,9 @@ const Sale = () => {
             <Receipt order={order} setOrder={setOrder} />
           </div>
           <div className="products">
-            <Products handleOpen={handleOpen} />
+            <Products handleOpen={handleOpen} selectedCID={selectedCID} />
           </div>
+          <Categories selectedCID={selectedCID} handleSelectChange={handleSelectChange} />
         </div>
         {
           open &&
