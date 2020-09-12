@@ -16,8 +16,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useToasts } from 'react-toast-notifications';
 
-import ModalBase from '../ModalBase';
-import { Context } from '../../../../context/storeContext';
+import ModalBase from '../../ModalBase';
+import { Context } from '../../../../../context/storeContext';
 
 const RestockModal = ({ product, handleOpen }) => {
   const { t } = useTranslation();

@@ -14,11 +14,11 @@ import { useTranslation } from 'react-i18next';
 
 import AppAppBar from './modules/views/AppAppBar';
 import withRoot from './modules/withRoot';
-import Product from './modules/components/dashboard/Product';
-import Tax from './modules/components/dashboard/Tax';
-import Category from './modules/components/dashboard/Category';
-import SaleReport from './modules/components/dashboard/Sale';
-import InventoryReport from './modules/components/dashboard/Inventory';
+import Product from './modules/components/dashboard/product/Product';
+import Tax from './modules/components/dashboard/tax/Tax';
+import Category from './modules/components/dashboard/category/Category';
+import SaleReport from './modules/components/dashboard/report/sale/Sale';
+import InventoryReport from './modules/components/dashboard/report/inventory/Inventory';
 import { classNames } from '../utils';
 
 const Dashboard = () => {

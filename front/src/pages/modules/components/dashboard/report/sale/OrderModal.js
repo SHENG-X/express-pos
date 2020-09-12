@@ -7,9 +7,9 @@ import {
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
-import ModalBase from '../ModalBase';
-import { formatAsCurrency } from '../../../../utils';
-import { Context } from '../../../../context/storeContext';
+import ModalBase from '../../../ModalBase';
+import { formatAsCurrency } from '../../../../../../utils';
+import { Context } from '../../../../../../context/storeContext';
 
 const OrderModal = ({ order, closeModal }) => {
   const { t } = useTranslation();

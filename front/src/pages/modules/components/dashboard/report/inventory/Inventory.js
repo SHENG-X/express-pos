@@ -4,9 +4,9 @@ import React, {
 import {
   Typography,
 } from '@material-ui/core';
-import { Context } from '../../../../context/storeContext';
-import { formatAsCurrency, imagePath } from '../../../../utils';
-import CardBase from '../cardbase/CardBase';
+import { Context } from '../../../../../../context/storeContext';
+import { formatAsCurrency, imagePath } from '../../../../../../utils';
+import CardBase from '../../../cardbase/CardBase';
 
 const InventoryReport = () => {
   return (

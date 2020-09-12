@@ -26,10 +26,10 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useToasts } from 'react-toast-notifications';
 
-import { Context } from '../../../../context/storeContext';
+import { Context } from '../../../../../context/storeContext';
 import ProductModal from './ProductModal';
 import RestockModal from './RestockModal';
-import { formatAsCurrency, classNames, imagePath } from '../../../../utils';
+import { formatAsCurrency, classNames, imagePath } from '../../../../../utils';
 
 const Product = () => {
   const { state } = useContext(Context);

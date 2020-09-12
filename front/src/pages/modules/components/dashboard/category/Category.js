@@ -24,8 +24,8 @@ import { useTranslation } from 'react-i18next';
 import { useToasts } from 'react-toast-notifications';
 
 import CategoryModal from './CategoryModal';
-import { Context } from '../../../../context/storeContext';
-import { imagePath } from '../../../../utils';
+import { Context } from '../../../../../context/storeContext';
+import { imagePath } from '../../../../../utils';
 
 const Category = () => {
   const { state } = useContext(Context);
