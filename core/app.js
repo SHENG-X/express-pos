@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const productRouter = require('./routes/product');
 const categoryRouter = require('./routes/category');
 const userRouter = require('./routes/user');
+const storeRouter = require('./routes/store');
 const taxRouter = require('./routes/tax');
 const orderRouter = require('./routes/order');
 
@@ -29,6 +30,7 @@ app.use(bodyParser.json({ limit: '2mb' }));
 app.use('/api/product', strict.authenticate, productRouter);
 app.use('/api/category', strict.authenticate, categoryRouter);
 app.use('/api/user', userRouter);
+app.use('/api/store', strict.authenticate, storeRouter);
 app.use('/api/tax', strict.authenticate, taxRouter);
 app.use('/api/order', strict.authenticate, orderRouter);
 
