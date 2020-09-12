@@ -26,6 +26,7 @@ import { useToasts } from 'react-toast-notifications';
 import CategoryModal from './CategoryModal';
 import { Context } from '../../../../../context/storeContext';
 import { imagePath } from '../../../../../utils';
+import CardBase from '../../cardbase/CardBase';
 
 const Category = () => {
   const { state } = useContext(Context);
@@ -54,12 +55,10 @@ const Category = () => {
 
   return (
     <React.Fragment>
-      <Paper className="category-tab">
-        <div className="heading">
-          <Typography variant="subtitle1">
-            { t('category.heading') }
-          </Typography>
-        </div>
+      <CardBase
+        title={t('category.heading')}
+        className="category-tab"
+      >
         <div className="actions">
           <Button
             color="primary"
@@ -95,12 +94,10 @@ const Category = () => {
             </TableBody>
           </Table>
         </div>
-      </Paper>
+      </CardBase>
       {
-        open ?
+        open &&
         <CategoryModal handleOpen={val => setOpen(val)} initCategory={currentCategory}/>
-        :
-        null
       }
     </React.Fragment>
   );
