@@ -7,8 +7,8 @@ import { Context } from '../../../../context/storeContext';
 
 const PrintableReceipt = ({ orderId }) => {
   const { t } = useTranslation();
-  const { state } = useContext(Context);
-  const detail = state.store.orders.find(ord => ord._id === orderId);
+  const { storeState } = useContext(Context);
+  const detail = storeState.orders.find(ord => ord._id === orderId);
   const subtotal = detail.products.reduce((acc, prod) => acc + prod.price * prod.count, 0);
   const tax = (detail.taxRate === 0 ? 0 : subtotal * detail.taxRate);
   const total = subtotal + tax;
@@ -28,7 +28,7 @@ const PrintableReceipt = ({ orderId }) => {
       <div className="receipt-copy">
         <div className="header">
           <div className="name">
-            { state.store.name }
+            { storeState.name }
           </div>
           <div className="type">
             <span>{ t('sale.type') }:</span>
@@ -89,8 +89,8 @@ const PrintableReceipt = ({ orderId }) => {
 }
 
 const PrintableReceiptItem = ({ prod }) => {
-  const { state } = useContext(Context);
-  const productName = state.store.products.find(product => product._id === prod.product).name;
+  const { storeState } = useContext(Context);
+  const productName = storeState.products.find(product => product._id === prod.product).name;
 
   return (
     <div className="item">

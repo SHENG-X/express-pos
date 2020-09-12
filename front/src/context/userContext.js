@@ -12,7 +12,6 @@ const ACTIONS = {
 };
 
 const userReducer = (state, { type, payload }) => {
-  debugger;
   switch (type) {
     case ACTIONS.SIGN_IN:
       return {...payload, authenticated: true};
@@ -45,7 +44,6 @@ const signUp = (dispatch) => {
 
 const signIn = (dispatch) => {
   return async ({ email, password }, success, fail) => {
-    debugger;
     const response = await authenticate(email, password);
     if (!response) {
       // if no response found then do nothing

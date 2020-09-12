@@ -29,7 +29,7 @@ import { imagePath } from '../../../../../utils';
 import CardBase from '../../cardbase/CardBase';
 
 const Category = () => {
-  const { state } = useContext(Context);
+  const { storeState } = useContext(Context);
   const [open, setOpen] = useState(false);
   const [currentCategory, setCurrentCategory] = useState(null);
   const { t } = useTranslation();
@@ -46,7 +46,7 @@ const Category = () => {
   }
 
   const computeList = () => {
-    let categories = state.store.categories;
+    let categories = storeState.categories;
     if (searchText !== '') {
       categories = categories.filter(category => category.name.toLowerCase().includes(searchText.toLowerCase()));
     }
@@ -104,11 +104,11 @@ const Category = () => {
 }
 
 const CategoryRow = ({ category, handleEdit }) => {
-  const { state, deleteCategory } = useContext(Context);
+  const { storeState, deleteCategory } = useContext(Context);
   const { addToast } = useToasts();
 
   const productCount = () => {
-    return state.store.products.reduce((acc, cur) => {
+    return storeState.products.reduce((acc, cur) => {
       if (cur.category === category._id) {
         return acc + 1;
       }

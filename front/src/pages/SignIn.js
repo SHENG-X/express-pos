@@ -18,7 +18,8 @@ import RFTextField from './modules/form/RFTextField';
 import FormButton from './modules/form/FormButton';
 import FormFeedback from './modules/form/FormFeedback';
 import withRoot from './modules/withRoot';
-import { Context } from '../context/storeContext';
+import { Context as StoreContext } from '../context/storeContext';
+import { Context as UserContext } from '../context/userContext';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -41,7 +42,8 @@ const SignIn = () => {
   const [sent, setSent] = useState(false);
   const { t } = useTranslation();
   const history = useHistory();
-  const { signIn } = useContext(Context);
+  const { signIn } = useContext(UserContext);
+  const { loadStore } = useContext(StoreContext);
   const { addToast } = useToasts();
 
   const validate = (values) => {
@@ -62,9 +64,16 @@ const SignIn = () => {
     setSent(true);
     await signIn(
       { email: values.email, password: values.password },
-      () => {
+      async () => {
         // on success redirect to sale page
-        history.push('/sale')
+        await loadStore(
+          () => {
+            history.push('/sale');
+          },
+          () => {
+            addToast('Unable to load store', { appearance: 'error' });
+          }
+        )
       }, 
       () => {
         // on fail show error message

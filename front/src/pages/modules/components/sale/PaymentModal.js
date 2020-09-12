@@ -22,7 +22,7 @@ import { Context } from '../../../../context/storeContext';
 
 const PaymentModal = ({ order, total, paySuccess, handleOpen, setOrderId, discount }) => {
   const { t } = useTranslation();
-  const { state, createOrder } = useContext(Context);
+  const { storeState, createOrder } = useContext(Context);
   const paymentOptions = [
     total,
     1,
@@ -80,7 +80,7 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen, setOrderId, discou
   }
 
   const confirmPay = () => {
-    const taxRate = state.store.tax.enable ? state.store.tax.rate : 0;
+    const taxRate = storeState.tax.enable ? storeState.tax.rate : 0;
     const products = order.map(odr => ({ product: odr._id, price: odr.price, count: odr.count , cost: odr.cost}));
     order = { paymentType: method,amountPaid: payment, products, taxRate, discount };
     createOrder(

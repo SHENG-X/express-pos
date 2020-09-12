@@ -20,22 +20,22 @@ const InventoryReport = () => {
 }
 
 const InventorySummary = () => {
-  const { state } = useContext(Context);
+  const { storeState } = useContext(Context);
 
   const computeProducts = () => {
-    return state.store.products.reduce((acc, prod) => acc + prod.count, 0);
+    return storeState.products.reduce((acc, prod) => acc + prod.count, 0);
   }
 
   const computeDisabledProducts = () => {
-    return state.store.products.reduce((acc, prod) => acc + (prod.enable ? 0 : 1), 0);
+    return storeState.products.reduce((acc, prod) => acc + (prod.enable ? 0 : 1), 0);
   }
 
   const computeCategories = () => {
-    return state.store.categories.length;
+    return storeState.categories.length;
   }
 
   const computeTotalAsset = () => {
-    return state.store.products.reduce((acc, prod) => [acc[0] + Math.max(...prod.prices.map(price => price.value)) * prod.count, acc[1] + prod.cost * prod.count], [0, 0]);
+    return storeState.products.reduce((acc, prod) => [acc[0] + Math.max(...prod.prices.map(price => price.value)) * prod.count, acc[1] + prod.cost * prod.count], [0, 0]);
   }
 
   return (
@@ -112,11 +112,11 @@ const InventorySummary = () => {
 }
 
 const TopSelling = () => {
-  const { state } = useContext(Context);
+  const { storeState } = useContext(Context);
 
   const computeTopSelling = (count = 3) => {
     const productMap = {};
-    state.store.orders.forEach(order => {
+    storeState.orders.forEach(order => {
       order.products.forEach(prod => {
         if (productMap[prod.product]) {
           productMap[prod.product] += prod.count;
@@ -149,10 +149,10 @@ const TopSelling = () => {
 }
 
 const TopSellingCard = ({ topSelling }) => {
-  const { state } = useContext(Context);
+  const { storeState } = useContext(Context);
 
   const computedProduct = () => {
-    return state.store.products.find(product => product._id === topSelling[0]);
+    return storeState.products.find(product => product._id === topSelling[0]);
   }
 
   return (

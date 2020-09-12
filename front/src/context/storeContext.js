@@ -69,9 +69,7 @@ const storeReducer = (state, { type, payload }) => {
 
 const loadStore = (dispatch) => {
   return async (success, fail) => {
-    debugger
     const response = await loadStoreAsync();
-    debugger
     if (response.status === 200) {
       dispatch({type: ACTIONS.LOAD_STORE, payload: response.data});
       if (success) {

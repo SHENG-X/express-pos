@@ -18,7 +18,8 @@ import RFTextField from './modules/form/RFTextField';
 import FormButton from './modules/form/FormButton';
 import FormFeedback from './modules/form/FormFeedback';
 import withRoot from './modules/withRoot';
-import { Context } from '../context/storeContext';
+import { Context as StoreContext } from '../context/storeContext';
+import { Context as UserContext } from '../context/userContext';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -33,6 +34,17 @@ const useStyles = makeStyles((theme) => ({
   },
   error: {
     color: '#f44336',
+  },
+  nameRow: {
+    display: 'flex',
+    marginTop: '1rem',
+    marginBottom: '0.5rem',
+  },
+  fname: {
+    marginRight: '0.5rem',
+  },
+  lname: {
+    marginLeft: '0.5rem',
   }
 }));
 
@@ -40,7 +52,8 @@ const SignUp = () => {
   const classes = useStyles();
   const [sent, setSent] = useState(false);
   const { t } = useTranslation();
-  const { signUp } = useContext(Context);
+  const { signUp } = useContext(UserContext);
+  const { loadStore } = useContext(StoreContext);
   const history = useHistory();
   const { addToast } = useToasts();
 
@@ -63,14 +76,21 @@ const SignUp = () => {
   const handleSubmit = async (values) => {
     setSent(true);
     await signUp(
-      { name: values.name, password: values.password, email: values.email },
-      () => {
+      { name: values.name, fname: values.fname, lname: values.lname, password: values.password, email: values.email },
+      async () => {
         // on success redirect to sale page
-        history.push('/sale');
+        await loadStore(
+          () => {
+            history.push('/sale');
+          },
+          () => {
+            addToast('Failed to load store', { appearance: 'error' });
+          }
+        );
       },
       () => {
         // on fail show error message
-        addToast(t('signUp.invalid'), { appearance: 'error' })
+        addToast(t('signUp.invalid'), { appearance: 'error' });
       }
     );
     setSent(false);
@@ -106,6 +126,28 @@ const SignUp = () => {
                 name="name"
                 required
               />
+              <div className={classes.nameRow}>
+                <Field
+                  autoFocus
+                  component={RFTextField}
+                  disabled={submitting || sent}
+                  className={classes.fname}
+                  fullWidth
+                  label={ `First name` }
+                  name="fname"
+                  required
+                />
+                <Field
+                  autoFocus
+                  component={RFTextField}
+                  disabled={submitting || sent}
+                  className={classes.lname}
+                  fullWidth
+                  label={ `Last name` }
+                  name="lname"
+                  required
+                />
+              </div>
               <Field
                 autoComplete="email"
                 component={RFTextField}

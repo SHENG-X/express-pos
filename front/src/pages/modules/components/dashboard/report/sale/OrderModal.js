@@ -127,8 +127,8 @@ const OrderModal = ({ order, closeModal }) => {
 }
 
 const ProductItem = ({ order }) => {
-  const { state } = useContext(Context);
-  const product = state.store.products.find(prod => prod._id === order.product);
+  const { storeState } = useContext(Context);
+  const product = storeState.products.find(prod => prod._id === order.product);
 
   return (
     <div className="odr-row">

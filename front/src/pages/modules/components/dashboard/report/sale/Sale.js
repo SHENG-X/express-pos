@@ -30,7 +30,7 @@ import OrderModal from './OrderModal';
 import SaleSummary from './SaleSummary';
 
 const SaleReport = () => {
-  const { state } = useContext(Context);
+  const { storeState } = useContext(Context);
   const { t } = useTranslation();
   const DATE_OPTIONS = {
     TODAY: 'TODAY',
@@ -50,8 +50,8 @@ const SaleReport = () => {
   const [requestOrders, setRequestedOrders] = useState([]);
 
   useEffect(() => {
-    setRequestedOrders(filterDate(filter, state.store.orders));
-  }, [filter, state.store.orders]);
+    setRequestedOrders(filterDate(filter, storeState.orders));
+  }, [filter, storeState.orders]);
 
   const sortOrderListByDate = () => {
     return requestOrders.sort((o1, o2) => {

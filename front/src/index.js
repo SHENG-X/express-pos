@@ -5,15 +5,18 @@ import './scss/app.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './i18n';
-import { Provider } from './context/storeContext';
+import { Provider as StoreProvider } from './context/storeContext';
+import { Provider as UserProvider } from './context/userContext';
 import { ToastProvider } from 'react-toast-notifications';
 
 ReactDOM.render(
   <React.StrictMode>
     <ToastProvider autoDismiss>
-      <Provider>
-        <App />
-      </Provider>
+      <UserProvider>
+        <StoreProvider>
+          <App />
+        </StoreProvider>
+      </UserProvider>
     </ToastProvider>
   </React.StrictMode>,
   document.getElementById('root')

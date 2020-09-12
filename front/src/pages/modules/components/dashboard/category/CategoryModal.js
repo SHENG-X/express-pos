@@ -25,7 +25,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
   }
 
   const [category, setCategory] = useState({...defaultCategory});
-  const { state, addCategory, updateCategory } = useContext(Context);
+  const { storeState, createCategory, updateCategory } = useContext(Context);
   const { t } = useTranslation();
   const { addToast } = useToasts();
 
@@ -36,7 +36,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
 
   const handleConfirm = () => {
     if (initCategory) {
-      const categoryOriginal = state.store.categories.find(ctgry => ctgry._id === category._id);
+      const categoryOriginal = storeState.categories.find(ctgry => ctgry._id === category._id);
       if (JSON.stringify(categoryOriginal) === JSON.stringify(category)) {
         handleCancel();
       } else {
@@ -52,7 +52,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
         );
       }
     } else {
-      addCategory(
+      createCategory(
         category,
         () => { 
           handleCancel();

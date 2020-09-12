@@ -12,7 +12,8 @@ import { useHistory } from 'react-router-dom';
 
 import AppBar from '../components/AppBar';
 import Toolbar, { styles as toolbarStyles } from '../components/Toolbar';
-import { Context } from '../../../context/storeContext';
+import { Context as UserContext } from '../../../context/userContext';
+import { Context as StoreContext } from '../../../context/storeContext';
 import { classNames } from '../../../utils';
 
 const styles = (theme) => ({
@@ -50,7 +51,8 @@ const styles = (theme) => ({
 function AppAppBar(props) {
   const { classes } = props;
   const { t } = useTranslation();
-  const { state, signOut } = useContext(Context);
+  const { userState, signOut } = useContext(UserContext);
+  const { storeState } = useContext(StoreContext);
   const history = useHistory();
 
   return (
@@ -69,13 +71,13 @@ function AppAppBar(props) {
                 {'Express POS'}
               </span>
               {
-                state.authenticated ?
+                userState.authenticated ?
                 <React.Fragment>
                   <span className="dash-separator">
                     -
                   </span>  
                   <span>
-                    { state.store.name }
+                    { storeState.name }
                   </span>
                 </React.Fragment>
                 :
@@ -85,7 +87,7 @@ function AppAppBar(props) {
           </div>
           <div className={classes.right}>
             {
-              state.authenticated === true ?
+              userState.authenticated === true ?
               <React.Fragment>
                 <MDCLink
                   variant="h6"

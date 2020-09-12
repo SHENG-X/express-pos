@@ -33,7 +33,7 @@ import { formatAsCurrency, classNames, imagePath } from '../../../../../utils';
 import CardBase from '../../cardbase/CardBase';
 
 const Product = () => {
-  const { state } = useContext(Context);
+  const { storeState } = useContext(Context);
   const [open, setOpen] = useState(false);
   const [restockOpen, setRestockOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
@@ -56,7 +56,7 @@ const Product = () => {
   }
 
   const computeList = () => {
-    let products = state.store.products;
+    let products = storeState.products;
     if (searchText !== '') {
       products = products.filter(prod => prod.name.toLowerCase().includes(searchText.toLowerCase()));
     }
@@ -134,11 +134,11 @@ const Product = () => {
 }
 
 const ProductRow = ({ product, editProduct, restockProduct }) => {
-  const { state, deleteProduct, updateProduct } = useContext(Context);
+  const { storeState, deleteProduct, updateProduct } = useContext(Context);
   const { addToast } = useToasts();
 
   const computeCategoryName = () => {
-    const category = state.store.categories.find(category => category._id === product.category);
+    const category = storeState.categories.find(category => category._id === product.category);
     if (category) {
       return category.name;
     }

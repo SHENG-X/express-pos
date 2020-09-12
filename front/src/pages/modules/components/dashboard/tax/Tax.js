@@ -18,14 +18,14 @@ import { Context } from '../../../../../context/storeContext';
 import CardBase from '../../cardbase/CardBase';
 
 const Tax = () => {
-  const { state, updateTax } = useContext(Context);
+  const { storeState, updateTax } = useContext(Context);
   const { t } = useTranslation();
-  const [tax, setTax] = useState({ ...state.store.tax, rate: Number((state.store.tax.rate * 100).toFixed(2))});
+  const [tax, setTax] = useState({ ...storeState.tax, rate: Number((storeState.tax.rate * 100).toFixed(2))});
   const [allowUpdate, setAllowUpdate] = useState(false);
   const { addToast } = useToasts();
 
   useEffect(() => {
-    if (tax.enable !== state.store.tax.enable || tax.rate !== Number((state.store.tax.rate * 100).toFixed(2))) {
+    if (tax.enable !== storeState.tax.enable || tax.rate !== Number((storeState.tax.rate * 100).toFixed(2))) {
       setAllowUpdate(true);
     } else {
       setAllowUpdate(false);
@@ -34,7 +34,7 @@ const Tax = () => {
 
   const handleCancel = () => {
     setAllowUpdate(false);
-    setTax({ ...state.store.tax, rate: Number((state.store.tax.rate * 100).toFixed(2))});
+    setTax({ ...storeState.tax, rate: Number((storeState.tax.rate * 100).toFixed(2))});
   }
 
   const handleConfirm = () => {

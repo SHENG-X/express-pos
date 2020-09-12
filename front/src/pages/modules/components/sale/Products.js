@@ -17,11 +17,11 @@ import { Context } from '../../../../context/storeContext';
 import { imagePath } from '../../../../utils';
 
 const Products = ({ handleOpen }) => {
-  const { state } = useContext(Context);
+  const { storeState } = useContext(Context);
   const [searchText, setSearchText] = useState('');
 
   const computeProductList = () => {
-    let products = state.store.products;
+    let products = storeState.products;
     if (searchText !== '') {
       products = products.filter(prod => prod.name.toLowerCase().includes(searchText.toLowerCase()));
     }

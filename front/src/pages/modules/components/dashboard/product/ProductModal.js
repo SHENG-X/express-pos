@@ -40,7 +40,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
     defaultProduct = initProduct;
   }
 
-  const { state, addProduct, updateProduct } = useContext(Context);
+  const { storeState, createProduct, updateProduct } = useContext(Context);
 
   const [product, setProduct] = useState(JSON.parse(JSON.stringify(defaultProduct)));
 
@@ -73,7 +73,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
 
   const handleConfirm = () => {
     if (initProduct) {
-      const productOriginal = state.store.products.find(prod => prod._id === product._id);
+      const productOriginal = storeState.products.find(prod => prod._id === product._id);
       if (JSON.stringify(productOriginal) === JSON.stringify(product)) {
         handleCancel();
       } else {
@@ -89,7 +89,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
         );
       }
     } else {
-      addProduct(
+      createProduct(
         product,
         () => {
           handleCancel();
@@ -174,7 +174,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                   <em>{ t('common.none') }</em>
                 </MenuItem>
                 {
-                  state.store.categories.map(category => <MenuItem value={category._id} key={category._id} >{ category.name }</MenuItem>)
+                  storeState.categories.map(category => <MenuItem value={category._id} key={category._id} >{ category.name }</MenuItem>)
                 }
               </Select>
             </FormControl>

@@ -20,16 +20,29 @@ import Home from './pages/Home';
 import Sale from './pages/Sale';
 import Loading from './pages/Loading';
 import Dashboard from './pages/Dashboard';
-import { Context } from './context/storeContext';
+import { Context as StoreContext } from './context/storeContext';
+import { Context as UserContext } from './context/userContext';
+
 
 const App = () => {
-  const { state, signIn } = useContext(Context);
+  const { userState, signIn } = useContext(UserContext);
+  const { loadStore } = useContext(StoreContext);
+
   const [fetchToken, setFetchToken] = useState(false);
   
   useEffect(() => {
     signIn(
       { email: null, password: null },
-      () => { setFetchToken(true); },
+      () => { 
+        loadStore(
+          () => {
+            setFetchToken(true);
+          },
+          () => {
+            setFetchToken(true);
+          }
+        )
+      },
       () => { setFetchToken(true); }
     );
   }, []);
@@ -64,7 +77,7 @@ const App = () => {
         </Route>
         <Route path="/sale">
           {
-            state.authenticated ?
+            userState.authenticated ?
           <Sale />
           :
           <Redirect to="/" />
@@ -72,11 +85,11 @@ const App = () => {
         </Route>
         <Route path="/dashboard">
         {
-            state.authenticated ?
+            userState.authenticated ?
             <Dashboard />
           :
           <Redirect to="/" />
-          }
+        }
         </Route>
         <Route path="/">
           <Home />

@@ -19,7 +19,7 @@ import { Context } from '../../../../context/storeContext';
 import { formatAsCurrency, classNames } from '../../../../utils';
 
 const Receipt = ({ order, setOrder }) => {
-  const { state } = useContext(Context);
+  const { storeState } = useContext(Context);
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [orderId, setOrderId] = useState(null);
@@ -62,11 +62,11 @@ const Receipt = ({ order, setOrder }) => {
   }
 
   const calcTax = () => {
-    return (state.store.tax.rate * Number(calcSubtotal())).toFixed(2);
+    return (storeState.tax.rate * Number(calcSubtotal())).toFixed(2);
   }
 
   const calcTotal = () => {
-    if (state.store.tax.enable) {
+    if (storeState.tax.enable) {
       return (Number(calcSubtotal()) + Number(calcTax())).toFixed(2);
     }
     return Number(calcSubtotal()).toFixed(2);
@@ -100,7 +100,7 @@ const Receipt = ({ order, setOrder }) => {
             <div className="summary">
               <div className={classNames(['separator', order.length ? '' : 'hidden'])}/>
                 <React.Fragment>
-                  <div className={classNames(['subtotal', order.length && state.store.tax.enable ? '' : 'hidden'])}>
+                  <div className={classNames(['subtotal', order.length && storeState.tax.enable ? '' : 'hidden'])}>
                     <div className="label">
                       <Typography variant="body1">
                         { t('sale.subtotal') }
@@ -120,10 +120,10 @@ const Receipt = ({ order, setOrder }) => {
                       { formatAsCurrency(calcDiscount()) }
                     </div>
                   </div>
-                  <div className={classNames(['tax', order.length && state.store.tax.enable ? '' : 'hidden'])}>
+                  <div className={classNames(['tax', order.length && storeState.tax.enable ? '' : 'hidden'])}>
                     <div className="label">
                       <Typography variant="body1">
-                        { t('tax.taxRate') } { `${state.store.tax.rate * 100}%` }
+                        { t('tax.taxRate') } { `${storeState.tax.rate * 100}%` }
                       </Typography>
                     </div>
                     <div className="amount">
