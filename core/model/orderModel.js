@@ -23,14 +23,17 @@ const orderSchema = new Schema(
     },
     discount: {
       type: {
-        type: String,
-        enum: ['Percent', 'Amount'],
-        required: true
+        method: {
+          type: String,
+          enum: ['Percent', 'Amount'],
+          required: true
+        },
+        value: {
+          type: Number,
+          default: 0,
+        }
       },
-      value: {
-        type: Number,
-        default: 0,
-      }
+      default: null,
     },
     products: {
       type: [

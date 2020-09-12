@@ -24,11 +24,11 @@ const SaleSummary = ({ orders }) => {
     let totalDiscount = 0;
     orders.forEach(order => {
       if (order.discount) {
-        if (order.discount.type === 'Percent') {
+        if (order.discount.method === 'Percent') {
           let orderTotal = order.products.reduce((acc, product) => acc + product.price * product.count, 0);
           totalDiscount += orderTotal * order.discount.value; 
 
-        } else if (order.discount.type === 'Amount') {
+        } else if (order.discount.method === 'Amount') {
           totalDiscount += order.discount.value;
         }
       }

@@ -17,7 +17,7 @@ const PrintableReceipt = ({ orderId }) => {
     if (!detail.discount) {
       return;
     }
-    if (detail.discount.type === 'Amount') {
+    if (detail.discount.method === 'Amount') {
       return detail.discount.value * -1;
     }
     return subtotal * detail.discount.value * -1;

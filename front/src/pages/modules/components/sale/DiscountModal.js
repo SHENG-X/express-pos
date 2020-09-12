@@ -14,13 +14,13 @@ import ModalBase from '../ModalBase';
 const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
   const { t } = useTranslation();
   const [discount, setDiscount] = useState({
-    type: 'Amount',
+    method: 'Amount',
     value: 0
   });
 
   useEffect(() => {
     if (discountProp) {
-      setDiscount({...discountProp, value: discountProp.type === 'Percent' ? discountProp.value * 100 : discountProp.value });
+      setDiscount({...discountProp, value: discountProp.method === 'Percent' ? discountProp.value * 100 : discountProp.value });
     }
   }, []);
 
@@ -34,22 +34,22 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
             <div className="flex flex-col left">
               <Button
                 variant="contained"
-                color={discount.type === 'Amount' ? 'primary' : 'default'}
-                onClick={() => setDiscount({ ...discount, type: 'Amount', value: 0 })}
+                color={discount.method === 'Amount' ? 'primary' : 'default'}
+                onClick={() => setDiscount({ ...discount, method: 'Amount', value: 0 })}
               >
                 Cash
               </Button>
               <Button
                 variant="contained"
-                color={discount.type === 'Percent' ? 'primary' : 'default'}
-                onClick={() => setDiscount({ ...discount, type: 'Percent', value: 0 })}
+                color={discount.method === 'Percent' ? 'primary' : 'default'}
+                onClick={() => setDiscount({ ...discount, method: 'Percent', value: 0 })}
               >
                 Percent
               </Button>
             </div>
             <div className="right">
             {
-              discount.type === 'Amount' &&
+              discount.method === 'Amount' &&
               <TextField
                 type="number"
                 value={discount.value}
@@ -62,7 +62,7 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
               />
             }
             {
-              discount.type === 'Percent' &&
+              discount.method === 'Percent' &&
               <TextField
                 type="number"
                 value={discount.value}
@@ -91,7 +91,7 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
           <Button
             color="primary"
             variant="contained"
-            onClick={() => handleConfirm({ ...discount, value: discount.type === 'Percent' ? discount.value / 100 : discount.value })}
+            onClick={() => handleConfirm({ ...discount, value: discount.method === 'Percent' ? discount.value / 100 : discount.value })}
           >
             { t('common.confirm') }
           </Button>

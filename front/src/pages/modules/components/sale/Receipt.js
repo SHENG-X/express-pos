@@ -40,7 +40,7 @@ const Receipt = ({ order, setOrder }) => {
   const calcSubtotal = () => {
     let subtotal = order.reduce((res, prod) => res += prod.count * prod.price, 0);
     if (discount) {
-      if (discount.type === 'Amount') {
+      if (discount.method === 'Amount') {
         subtotal -= discount.value;
       } else {
         // discount type Percent
@@ -54,7 +54,7 @@ const Receipt = ({ order, setOrder }) => {
     if (!discount) {
       return;
     }
-    if (discount.type === 'Amount') {
+    if (discount.method === 'Amount') {
       return discount.value * -1;
     }
     const subtotal = order.reduce((res, prod) => res += prod.count * prod.price, 0);
@@ -113,7 +113,7 @@ const Receipt = ({ order, setOrder }) => {
                   <div className={classNames(['discount', discount && discount.value > 0 ? '' : 'hidden'])}>
                     <div className="label">
                       <Typography variant="body1">
-                        Discount { discount && discount.type === 'Percent' ? `${discount.value * 100}%` : '' }
+                        Discount { discount && discount.method === 'Percent' ? `${discount.value * 100}%` : '' }
                       </Typography>
                     </div>
                     <div className="amount">
