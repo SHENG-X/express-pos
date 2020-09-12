@@ -11,24 +11,7 @@ const userExist = async (email) => {
 }
 
 const signToken = (user) => {
-  return jwt.sign({ store: user.store.id, user: user.id }, process.env.JWT_SECRET, { expiresIn: '8h' });
-}
-
-const populateUser = async (user) => {
-  user = await user.populate('store').execPopulate();
-  user.store = await populateStore(user.store);
-  return user;
-}
-
-const populateStore = async (store) => {
-  // populate categories
-  store = await store.populate('categories').execPopulate();
-  // populate products
-  store = await store.populate('products').execPopulate();
-  // populate orders
-  store = await store.populate('orders').execPopulate();
-
-  return store;
+  return jwt.sign({ store: user.store, user: user.id }, process.env.JWT_SECRET, { expiresIn: '8h' });
 }
 
 const signInUser = async (req, res) => {
@@ -46,8 +29,7 @@ const signInUser = async (req, res) => {
       const user = await userModel.findById(decoded.user);
       if (user) {
         // check if user is in the database
-        const populatedUser = await populateUser(user);
-        const userDoc = { ...populatedUser._doc, password: null };
+        const userDoc = { ...user._doc, password: null };
         return res.status(200).json({ ...userDoc, token: signToken(user) });
       }
       return res.status(401).json('Unauthorized');
@@ -73,8 +55,7 @@ const signInUser = async (req, res) => {
   }
 
   try {
-    const populatedUser = await populateUser(user);
-    const userDoc = { ...populatedUser._doc, password: null };
+    const userDoc = { ...user._doc, password: null };
     return res.status(200).json({ ...userDoc, token: signToken(user) })
   } catch (error) {
     return res.status(500).json(error);
@@ -82,7 +63,7 @@ const signInUser = async (req, res) => {
 }
 
 const signUpUser = async (req, res) =>{
-  const { name, email, password } = req.body;
+  const { name, email, fname, lname, password } = req.body;
 
   // check if email was used
   if (await userExist(email)) {
@@ -93,7 +74,10 @@ const signUpUser = async (req, res) =>{
   const hashedPassword = await bcrypt.hashSync(password, saltRounds);
   
   // create a user
-  const user = new userModel({ email, password: hashedPassword });
+  const user = new userModel({ email, fname, lname, password: hashedPassword });
+
+  // the user sign up the account is the owner role
+  user.role = "Owner";
 
   // create a default store by store name and user id
   const store = new storeModel({ name, user: user._id });
@@ -104,9 +88,8 @@ const signUpUser = async (req, res) =>{
   // save user and store to database
   try {
     const savedUser = await user.save();
-    const savedStore = await store.save();
-    const populatedUser = await populateUser(savedUser);
-    const userDoc = { ...populatedUser._doc, password: null };
+    await store.save();
+    const userDoc = { ...savedUser._doc, password: null };
     return res.status(201).json({ ...userDoc, token: signToken(user) });
   } catch(error) {
     return res.status(500).json(error);
