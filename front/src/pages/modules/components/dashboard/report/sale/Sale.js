@@ -51,7 +51,7 @@ const SaleReport = () => {
 
   useEffect(() => {
     setRequestedOrders(filterDate(filter, state.store.orders));
-  }, [filter]);
+  }, [filter, state.store.orders]);
 
   const sortOrderListByDate = () => {
     return requestOrders.sort((o1, o2) => {
