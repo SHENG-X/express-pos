@@ -20,6 +20,19 @@ const userSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Store',
       required: true,
+    },
+    fname: {
+      type: String,
+      required: true,
+    },
+    lname: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      enum: ['Owner', 'Manager', 'Employee'],
+      required: true,
     }
   },
   {
