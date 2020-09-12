@@ -24,9 +24,10 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import { useToasts } from 'react-toast-notifications';
 
-import { Context } from '../../../../context/storeContext';
-import { formatAsCurrency } from '../../../../utils';
+import { Context } from '../../../../../../context/storeContext';
+import { formatAsCurrency } from '../../../../../../utils';
 import OrderModal from './OrderModal';
+import SaleSummary from './SaleSummary';
 
 const SaleReport = () => {
   const { state } = useContext(Context);
@@ -41,36 +42,19 @@ const SaleReport = () => {
   const dateToday = new Date();
   dateToday.setHours(0, 0, 0, 0);
 
-  const [ filter, setFilter ] = useState(DATE_OPTIONS.TODAY);
+  const [filter, setFilter] = useState(DATE_OPTIONS.TODAY);
   const [startDate, setStartDate] = useState(dateToday);
   const [endDate, setEndDate] = useState(new Date());
   const [curOrder, setCurOrder] = useState(null);
   const [open, setOpen] = useState(false);
+  const [requestOrders, setRequestedOrders] = useState([]);
 
-  const calcRevenue = () => {
-    let totalRevenue = 0;
-    filterDate(filter, state.store.orders).forEach(order => {
-      order.products.forEach(product => {
-        totalRevenue += product.price * product.count;
-      });
-    });
-    return totalRevenue.toFixed(2);
-  }
+  useEffect(() => {
+    setRequestedOrders(filterDate(filter, state.store.orders));
+  }, [filter]);
 
-  const calcNetIncome = () => {
-    let totalCost = 0;
-    filterDate(filter, state.store.orders).forEach(order => {
-      order.products.forEach(product => {
-        totalCost += product.cost * product.count;
-      });
-    });
-    return (calcRevenue() - totalCost).toFixed(2);
-  }
-
-  const computeOrderList = () => {
-    // sort orders by created time,the latest order is
-    // displayed at the top row of the table
-    let orders = filterDate(filter, state.store.orders).sort((o1, o2) => {
+  const sortOrderListByDate = () => {
+    return requestOrders.sort((o1, o2) => {
       const d1 = new Date(o1.createdAt);
       const d2 = new Date(o2.createdAt);
       if (d1 > d2) {
@@ -81,7 +65,12 @@ const SaleReport = () => {
       }
       return 0;
     });
-    return orders.map(order => <OrderRow order={order} handleViewOrder={handleViewOrder} key={order._id}/>);
+  }
+
+  const computeOrderList = () => {
+    // sort orders by created time,the latest order is
+    // displayed at the top row of the table
+    return sortOrderListByDate().map(order => <OrderRow order={order} handleViewOrder={handleViewOrder} key={order._id}/>);
   }
 
   const filterDate = (type, orders) => {
@@ -232,48 +221,13 @@ const SaleReport = () => {
           </Table>
         </Paper>
 
-        <Paper elevation={3} className="status">
-          <div className="revenue-pan">
-            <div className="content">
-              <div className="col">
-                <div className="label">
-                  <Typography variant="subtitle1">
-                    { t('report.revenue') }
-                  </Typography>
-                </div>
-                <div className="label">
-                  <Typography variant="subtitle1">
-                    { t('report.netIncome') }
-                  </Typography>
-                </div>
-              </div>
-              <div className="col">
-                <div className="value">
-                  <Typography variant="subtitle1">  
-                    {
-                      formatAsCurrency(calcRevenue())
-                    }
-                  </Typography>
-                </div>
-                <div className="value">
-                  <Typography variant="subtitle1">
-                    {
-                      formatAsCurrency(calcNetIncome())
-                    }
-                  </Typography>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Paper>
+        <SaleSummary orders={requestOrders}/>
 
       </div>
 
       {
-        open ?
+        open &&
         <OrderModal order={curOrder} closeModal={() => setOpen(false)}/>
-        :
-        null
       }
     </div>
   );

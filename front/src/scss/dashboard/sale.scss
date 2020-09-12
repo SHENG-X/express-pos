@@ -28,23 +28,26 @@
           height: fit-content;
         }
       }
-      .revenue-pan {
+      .report-sale-summary {
+        height: fit-content;
         min-width: 280px;
-        .heading {
-          padding: 0.5rem 1rem;
-        }
         .content {
           display: flex;
           .col {
             display: flex;
             flex-direction: column;
             flex: 1;
+            padding-top: 0.5rem;
             .label {
               width: 160px;
-              padding: 0.5rem 1rem;
+              padding: 0 1rem;
+              padding-bottom: 0.5rem;
             }
             .value {
-              padding: 0.5rem 1rem;
+              padding: 0 1rem;
+              display: flex;
+              justify-content: flex-end;
+              padding-bottom: 0.5rem;
             }
             &:nth-of-type(2) {
               h6 {
