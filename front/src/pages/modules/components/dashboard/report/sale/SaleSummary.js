@@ -29,7 +29,7 @@ const SaleSummary = ({ orders }) => {
           totalDiscount += orderTotal * order.discount.value; 
 
         } else if (order.discount.method === 'Amount') {
-          totalDiscount += order.discount.value;
+          totalDiscount += Number(order.discount.value);
         }
       }
     });
