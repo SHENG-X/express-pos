@@ -30,6 +30,7 @@ import { Context } from '../../../../../context/storeContext';
 import ProductModal from './ProductModal';
 import RestockModal from './RestockModal';
 import { formatAsCurrency, classNames, imagePath } from '../../../../../utils';
+import CardBase from '../../cardbase/CardBase';
 
 const Product = () => {
   const { state } = useContext(Context);
@@ -71,13 +72,10 @@ const Product = () => {
 
   return (
     <React.Fragment>
-      <Paper elevation={3} className="product-tab">
-
-        <div className="heading">
-          <Typography variant="subtitle1">
-            { t('product.heading') }
-          </Typography>
-        </div>
+      <CardBase
+        title={t('product.heading')}
+        className="product-tab"
+      >
         <div className="actions">
           <Button
             color="primary"
@@ -116,24 +114,20 @@ const Product = () => {
             </TableBody>
           </Table>
         </div>
-      </Paper>
+      </CardBase>
       {
-        open ?
+        open &&
         <ProductModal
           handleOpen={val => setOpen(val)}
           initProduct={currentProduct}
         />
-        :
-        null
       }
       {
-        restockOpen ?
+        restockOpen &&
         <RestockModal
           handleOpen={val => setRestockOpen(val)}
           product={currentProduct}
         />
-        :
-        null
       }
     </React.Fragment>
   );
