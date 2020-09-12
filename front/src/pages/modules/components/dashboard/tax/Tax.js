@@ -52,7 +52,7 @@ const Tax = () => {
 
   return (
     <CardBase
-      title={'Sale Summary'}
+      title={'Tax'}
       className="tax-tab"
     >
       <div className="row">
