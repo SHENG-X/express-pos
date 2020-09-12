@@ -84,6 +84,6 @@ export const { Context, Provider } = createDataContext(
     signUp,
     signOut,
   },
-  { authenticate: false },
+  { authenticated: false },
   'userState'
 );
