@@ -1,0 +1,15 @@
+.staff {
+  .actions {
+    justify-content: space-between;
+  }
+}
+
+.staff-modal {
+  .row {
+    display: flex;
+    padding: 1rem 1.5rem;
+    .label {
+      width: 150px;
+    }
+  }
+}
