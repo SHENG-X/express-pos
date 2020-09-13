@@ -119,6 +119,21 @@ const addStaff = async (req, res) => {
   }
 }
 
+const getStaff = async (req, res) => {
+  const storeId = req.decoded.store;
+  try {
+    const staff = await userModel.find({ store: storeId });
+    const staffDoc = staff.map(stf => {
+      if (stf._doc.role !== 'Owner') {
+        return { ...stf._doc, password: null };
+      }
+    }).filter(stf => stf);
+    return res.status(200).json(staffDoc);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
 const updateUser = (req, res) => {
   // update a user's information
 }
@@ -128,4 +143,5 @@ module.exports= {
   signUpUser,
   updateUser,
   addStaff,
+  getStaff,
 }

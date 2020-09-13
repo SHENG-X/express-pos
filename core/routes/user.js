@@ -7,7 +7,10 @@ const {
   signUpUser,
   updateUser,
   addStaff,
+  getStaff,
 } = require('../services/userService');
+
+router.get('/', strict.authenticate, getStaff);
 
 router.post('/', signInUser);
 
