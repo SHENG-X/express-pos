@@ -29,6 +29,10 @@
     }
   }
   .tabs {
+    height: 100%;
+    .MuiTabs-scroller {
+      padding-bottom: 4rem;
+    }
     .heading {
       padding: 0 12px;
       .MuiTypography-subtitle1 {
