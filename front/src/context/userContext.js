@@ -25,8 +25,8 @@ const userReducer = (state, { type, payload }) => {
 }
 
 const signUp = (dispatch) => {
-  return async ({ name, email, fname, lname, password }, success, fail) => {
-    const response = await register(name, email, fname, lname, password);
+  return async ({ name, email, fname, lname, password, phone }, success, fail) => {
+    const response = await register(name, email, fname, lname, password, phone);
     if (response.status === 201) {
       dispatch({type: ACTIONS.SIGN_UP, payload: response.data});
       // save jtw token to local storage

@@ -76,7 +76,7 @@ const SignUp = () => {
   const handleSubmit = async (values) => {
     setSent(true);
     await signUp(
-      { name: values.name, fname: values.fname, lname: values.lname, password: values.password, email: values.email },
+      { name: values.name, fname: values.fname, lname: values.lname, password: values.password, email: values.email, phone: values.phone },
       async () => {
         // on success redirect to sale page
         await loadStore(
@@ -148,6 +148,16 @@ const SignUp = () => {
                   required
                 />
               </div>
+              <Field
+                autoComplete="tel"
+                component={RFTextField}
+                disabled={submitting || sent}
+                fullWidth
+                label={ `Phone Number` }
+                margin="normal"
+                name="phone"
+                required
+              />
               <Field
                 autoComplete="email"
                 component={RFTextField}
