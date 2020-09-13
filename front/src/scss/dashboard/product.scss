@@ -8,17 +8,23 @@
     .content {
       height: 100%;
       padding: 0;
+      overflow: overlay;
       & > .actions {
         display: flex;
         justify-content: space-between;
-        padding: 1rem;
+        padding: 0.5rem 1.5rem;
+        height: 5rem;
+        align-items: center;
+        button {
+          height: fit-content;
+        }
         .search {
           display: flex;
+          height: fit-content;
         }
       }
       .table-container {
-        max-height: calc(100vh - 268px);
-        overflow: overlay;
+        max-height: calc(100vh - 280px);
         .table {
           .thumbnail {
             width: 64px;
