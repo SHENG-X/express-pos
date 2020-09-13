@@ -33,6 +33,10 @@ const userSchema = new Schema(
       type: String,
       enum: ['Owner', 'Manager', 'Employee'],
       required: true,
+    },
+    phone: {
+      type: Number,
+      required: true,
     }
   },
   {
