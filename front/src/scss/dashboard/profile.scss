@@ -1,0 +1,28 @@
+.profile {
+  .row {
+    padding: 1rem 1.5rem !important;
+  }
+  .password {
+    display: flex;
+    flex-direction: column;
+    .form {
+      display: flex;
+      flex-direction: column;
+      .inputs {
+        display: flex;
+        flex-direction: column;
+        & > div {
+          margin-bottom: 2rem;
+        }
+      }
+    }
+  }
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 3rem !important;
+    button {
+      margin-left: 1rem;
+    }
+  }
+}

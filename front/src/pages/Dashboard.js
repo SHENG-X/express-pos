@@ -19,6 +19,7 @@ import Tax from './modules/components/dashboard/tax/Tax';
 import Category from './modules/components/dashboard/category/Category';
 import SaleReport from './modules/components/dashboard/report/sale/Sale';
 import InventoryReport from './modules/components/dashboard/report/inventory/Inventory';
+import Profile from './modules/components/dashboard/user/Profile';
 import { classNames } from '../utils';
 
 const Dashboard = () => {
@@ -59,6 +60,12 @@ const Dashboard = () => {
               </div>
               <Tab label={ t('sale.heading') } className="sub-item"/>
               <Tab label={ t('inventory.heading') } className="sub-item"/>
+              <div className="heading">
+                <Typography variant="subtitle1">
+                  { `User` }
+                </Typography>
+              </div>
+              <Tab label={ `Profile` } className="sub-item"/>
             </Tabs>
           </div>
           <div className="right">
@@ -76,6 +83,9 @@ const Dashboard = () => {
             </TabPanel>
             <TabPanel value={value} index={7} className="tab-panel-report--inventory">
               <InventoryReport/>
+            </TabPanel>
+            <TabPanel value={value} index={9} className="tab-panel-user--profile">
+              <Profile/>
             </TabPanel>
           </div>
         </div>
