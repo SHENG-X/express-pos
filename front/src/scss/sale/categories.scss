@@ -21,4 +21,12 @@
       background-color: $secondary-dark;
     }
   }
+  .icon {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0.5rem;
+    svg {
+      font-size: 2rem;
+    }
+  }
 }

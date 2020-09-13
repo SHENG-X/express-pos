@@ -7,6 +7,9 @@ import {
   Paper,
   ButtonBase,
 } from '@material-ui/core';
+import {
+  Category,
+} from '@material-ui/icons';
 
 import { Context } from '../../../../context/storeContext';
 import { classNames } from '../../../../utils';
@@ -46,7 +49,10 @@ const Categories = ({ selectedCID, handleSelectChange }) => {
         <Paper
           elevation={3}
           className="categories-list"
-        >
+        > 
+          <div className="icon">
+            <Category/>
+          </div>
           { activeCategories.map(category => <CategoryItem category={category} selectedCID={selectedCID} selectCategory={selectCategory} key={category._id}/>) }
         </Paper>
       }
