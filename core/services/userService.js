@@ -96,6 +96,29 @@ const signUpUser = async (req, res) =>{
   }
 }
 
+const addStaff = async (req, res) => {
+  const storeId = req.decoded.store;
+  const { role, email, fname, lname, password, phone } = req.body;
+  // check if email was used
+  if (await userExist(email)) {
+    return res.status(226).json('Email was used');
+  }
+
+  // hash password before saving it to the database
+  const hashedPassword = await bcrypt.hashSync(password, saltRounds);
+
+  // create a staff
+  const staff = new userModel({ role, email, fname, lname, phone, password: hashedPassword, store: storeId });
+
+  try {
+    const savedStaff = await staff.save();
+    const staffDoc = { ...savedStaff._doc, password: null };
+    return res.status(201).json(staffDoc);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
 const updateUser = (req, res) => {
   // update a user's information
 }
@@ -104,4 +127,5 @@ module.exports= {
   signInUser,
   signUpUser,
   updateUser,
+  addStaff,
 }
