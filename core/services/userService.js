@@ -63,7 +63,7 @@ const signInUser = async (req, res) => {
 }
 
 const signUpUser = async (req, res) =>{
-  const { name, email, fname, lname, password } = req.body;
+  const { name, email, fname, lname, password, phone } = req.body;
 
   // check if email was used
   if (await userExist(email)) {
@@ -74,7 +74,7 @@ const signUpUser = async (req, res) =>{
   const hashedPassword = await bcrypt.hashSync(password, saltRounds);
   
   // create a user
-  const user = new userModel({ email, fname, lname, password: hashedPassword });
+  const user = new userModel({ email, fname, lname, phone, password: hashedPassword });
 
   // the user sign up the account is the owner role
   user.role = "Owner";
