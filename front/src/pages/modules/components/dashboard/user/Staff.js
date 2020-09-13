@@ -22,12 +22,19 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useToasts } from 'react-toast-notifications';
 
-import { Context } from '../../../../../context/storeContext';
+import { Context } from '../../../../../context/userContext';
 import CardBase from '../../cardbase/CardBase';
 import StaffModal from './StaffModal';
 
 const Staff = () => {
   const [open, setOpen] = useState(false);
+  const { userState, getStaff } = useContext(Context);
+
+  useEffect(() => {
+    if (userState.staff === undefined) {
+      getStaff();
+    }
+  }, []);
 
   return (
     <React.Fragment>

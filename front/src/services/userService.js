@@ -15,3 +15,11 @@ export const authenticate = async (email, password) => {
     return error.response;
   }
 }
+
+export const getStaffAsync = async () => {
+  try {
+    return await instance.get('/api/user');
+  } catch (error) {
+    return error.response;
+  }
+}
