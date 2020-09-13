@@ -61,27 +61,62 @@ const Staff = () => {
               />
             </div>
           </div>
-        <Table
-          className="row"
-        >
-          <TableHead>
-            <TableRow>
-              <TableCell>Enable</TableCell>
-              <TableCell>Role</TableCell>
-              <TableCell>First Name</TableCell>
-              <TableCell>Last Name</TableCell>
-              <TableCell>Phone Number</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-
-          </TableBody>
-        </Table>
+          <div className="table-container">
+            <Table stickyHeader >
+              <TableHead>
+                <TableRow>
+                  <TableCell>Enable</TableCell>
+                  <TableCell>Role</TableCell>
+                  <TableCell>First Name</TableCell>
+                  <TableCell>Last Name</TableCell>
+                  <TableCell>Phone Number</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {
+                  userState?.staff?.map(staff => <StaffRow staff={staff} key={staff._id} />)
+                }
+              </TableBody>
+            </Table>
+          </div>
       </CardBase>
       { open && <StaffModal handleOpen={val => setOpen(val)}/> }
     </React.Fragment>
+  );
+}
+
+const StaffRow = ({ staff }) => {
+  return (
+    <TableRow>
+      <TableCell>
+        { staff.enable.toString() }
+      </TableCell>
+      <TableCell>
+        { staff.role }
+      </TableCell>
+      <TableCell>
+        { staff.fname }
+      </TableCell>
+      <TableCell>
+        { staff.lname }
+      </TableCell>
+      <TableCell>
+        { staff.phone }
+      </TableCell>
+      <TableCell>
+        { staff.email }
+      </TableCell>
+      <TableCell>
+        <Button>
+          Edit
+        </Button>
+        <Button>
+          Delete
+        </Button>
+      </TableCell>
+    </TableRow>
   );
 }
 

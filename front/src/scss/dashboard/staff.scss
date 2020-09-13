@@ -1,8 +1,33 @@
-.staff {
-  .actions {
-    justify-content: space-between;
+.tab-panel-user--users {
+  & > .content {
+    max-height: 100%;
+    .staff {
+      max-height: calc(100vh - 130px);
+      .content {
+        padding: 0;
+        height: 100%;
+        height: calc(100% - 62px);
+        overflow: overlay;
+        position: relative;
+        .actions {
+          position: absolute;
+          width: 100%;
+          justify-content: space-between;
+          height: 5rem;
+          align-items: center;
+          button {
+            height: fit-content;
+          }
+        }
+        .table-container {
+          padding-top: 5rem;
+          width: 940px;
+        }
+      }
+    }
   }
 }
+
 
 .staff-modal {
   .row {
