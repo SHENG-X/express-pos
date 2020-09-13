@@ -3,6 +3,7 @@ import createDataContext from './createDataContext';
 import { 
   register,
   authenticate,
+  addStaffAsync,
   getStaffAsync,
 } from '../services/userService';
 
@@ -11,6 +12,7 @@ const ACTIONS = {
   SIGN_UP: 'SIGN_UP',
   SIGN_OUT: 'SIGN_OUT',
   GET_STAFF: 'GET_STAFF',
+  ADD_STAFF: 'ADD_STAFF',
 };
 
 const userReducer = (state, { type, payload }) => {
@@ -23,6 +25,8 @@ const userReducer = (state, { type, payload }) => {
       return { authenticated: false };
     case ACTIONS.GET_STAFF:
       return {...state, staff: payload };
+    case ACTIONS.ADD_STAFF:
+        return { ...state, staff: [...state.staff, payload] };
     default:
       return state;
   }
@@ -97,6 +101,22 @@ const getStaff = (dispatch) => {
   }
 }
 
+const addStaff = (dispatch) => {
+  return async (staff, success, fail) => {
+    const response = await addStaffAsync(staff);
+    if (response.status === 201) {
+      dispatch({type: ACTIONS.ADD_STAFF, payload: response.data});
+      if (success) {
+        success();
+      } else {
+        if (fail) {
+          fail();
+        }
+      }
+    }
+  }
+}
+
 export const { Context, Provider } = createDataContext(
   userReducer,
   {
@@ -104,6 +124,7 @@ export const { Context, Provider } = createDataContext(
     signUp,
     signOut,
     getStaff,
+    addStaff,
   },
   { authenticated: false },
   'userState'

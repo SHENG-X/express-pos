@@ -6,22 +6,15 @@ import {
   Typography,
   TextField,
   Button,
-  IconButton,
   Select,
   MenuItem,
   FormControl,
   InputLabel,
 } from '@material-ui/core';
-import {
-  Add,
-  Remove,
-  ArrowForward,
-} from '@material-ui/icons';
-import { useTranslation } from 'react-i18next';
 import { useToasts } from 'react-toast-notifications';
 
 import ModalBase from '../../ModalBase';
-import { Context } from '../../../../../context/storeContext';
+import { Context } from '../../../../../context/userContext';
 
 const StaffModal = ({ handleOpen }) => {
   const [staff, setStaff] = useState({
@@ -34,9 +27,21 @@ const StaffModal = ({ handleOpen }) => {
     email: '',
     password: '',
   });
+  const { addStaff } = useContext(Context);
+  const { addToast } = useToasts();
 
   const handleConfirm = () => {
-    console.log(staff);
+    addStaff(
+      staff,
+      () => {
+        addToast('New staff was added', { appearance: 'success' });
+        // close modal window on staff added
+        handleOpen(false);
+      },
+      () => {
+        addToast('Unable to add the staff, please try again later', { appearance: 'error' });
+      }
+    );
   }
 
   return (

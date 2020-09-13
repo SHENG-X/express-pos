@@ -23,3 +23,11 @@ export const getStaffAsync = async () => {
     return error.response;
   }
 }
+
+export const addStaffAsync = async (staff) => {
+  try {
+    return await instance.post('/api/user/staff', { ...staff });
+  } catch (error) {
+    return error.response;
+  }
+}
