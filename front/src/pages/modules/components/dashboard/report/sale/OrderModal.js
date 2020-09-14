@@ -17,9 +17,7 @@ const OrderModal = ({ order, closeModal }) => {
   const computeSubtotal = () => {
     return order.products.reduce((acc, prod) => acc + prod.count * prod.price, 0);
   }
-  const computeTax = () => {
-    return computeSubtotal() * order.taxRate;
-  }
+  
   const computeDiscount = () => {
     if (order.discount) {
       if (order.discount.method === 'Percent') {
@@ -31,8 +29,11 @@ const OrderModal = ({ order, closeModal }) => {
       return 0;
     }
   }
+  const computeTax = () => {
+    return Number(((computeSubtotal() + computeDiscount()) * order.taxRate).toFixed(2));
+  }
   const computeOrderTotal = () => {
-    return computeSubtotal() + computeTax() + computeDiscount();
+    return Number((computeSubtotal() + computeTax() + computeDiscount()).toFixed(2));
   }
 
   return (
