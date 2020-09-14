@@ -121,12 +121,21 @@ const addStaff = async (req, res) => {
 
 const getStaff = async (req, res) => {
   const storeId = req.decoded.store;
+  const userId = req.decoded.user;
   try {
     const staff = await userModel.find({ store: storeId });
-    const staffDoc = staff.map(stf => {
-      if (stf._doc.role !== 'Owner') {
-        return { ...stf._doc, password: null };
+    const staffDoc = staff.filter(stf => {
+      // do not send owner and current user back
+      if (stf.role !== 'Owner' && stf.id !== userId) {
+        return stf;
       }
+    }).map(stf => ({ ...stf._doc, password: null }));
+    return res.status(200).json(staffDoc);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
 const setStaffInfo = async (staff, enable, fname, lname, phone, password) => {
   if (password) {
     // if password is set then hash password
@@ -205,4 +214,5 @@ module.exports= {
   addStaff,
   getStaff,
   updateStaff,
+  deleteStaff,
 }
