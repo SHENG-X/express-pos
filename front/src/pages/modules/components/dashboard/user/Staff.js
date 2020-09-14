@@ -76,6 +76,7 @@ const Staff = () => {
             <Table stickyHeader >
               <TableHead>
                 <TableRow>
+                  <TableCell>Staff No.</TableCell>
                   <TableCell>Enable</TableCell>
                   <TableCell>Role</TableCell>
                   <TableCell>First Name</TableCell>
@@ -107,6 +108,9 @@ const StaffRow = ({ staff, handleUpdate }) => {
 
   return (
     <TableRow>
+      <TableCell>
+        { staff.staffNo.toString().padStart(5, '0') }
+      </TableCell>
       <TableCell>
         { staff.enable.toString() }
       </TableCell>
