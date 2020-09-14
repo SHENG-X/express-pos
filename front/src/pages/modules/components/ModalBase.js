@@ -14,11 +14,13 @@ const ModalBase = ({ content, actions, title, className = '' }) => {
             { title }
           </Typography>
         </div>
-        <div className="content">
-          { content }
-        </div>
-        <div className="actions">
-          { actions }
+        <div className="body">
+          <div className="content">
+            { content }
+          </div>
+          <div className="actions">
+            { actions }
+          </div>
         </div>
       </Paper>
     </div>

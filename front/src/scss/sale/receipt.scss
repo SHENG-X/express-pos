@@ -161,7 +161,7 @@
   .actions {
     height: 112px;
     display: flex;
-    padding: 0;
+    padding: 0 !important;
     .whitespace {
       width: var(--left-w);
     }
