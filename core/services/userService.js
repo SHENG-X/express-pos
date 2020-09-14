@@ -47,6 +47,9 @@ const signInUser = async (req, res) => {
     return res.status(401).json('Invalid email address');
   }
 
+  if (!user.enable) {
+    return res.status(401).json('Your account is suspended');
+  }
   // validate password
   const authenticated = await bcrypt.compareSync(password, user.password);
 
