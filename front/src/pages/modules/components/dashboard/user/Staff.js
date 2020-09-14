@@ -133,12 +133,16 @@ const StaffRow = ({ staff, handleUpdate }) => {
         userState.role !== 'Employee' &&
         <TableCell>
           <IconButton
+            color="primary"
+            size="small"
             onClick={() => handleUpdate(staff)}
             disabled={staff.role === 'Manager' && userState.role === 'Manager'}
           >
             <Edit/>
           </IconButton>
           <IconButton
+            color="primary"
+            size="small"
             onClick={() => deleteStaff(
               staff._id,
               () => {
