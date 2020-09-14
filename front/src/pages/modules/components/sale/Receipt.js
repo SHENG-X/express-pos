@@ -37,39 +37,34 @@ const Receipt = ({ order, setOrder }) => {
     setOrder(newProducts.filter(prod => prod !== null));
   }
 
-  const calcSubtotal = () => {
-    let subtotal = order.reduce((res, prod) => res += prod.count * prod.price, 0);
-    if (discount) {
-      if (discount.method === 'Amount') {
-        subtotal -= discount.value;
-      } else {
-        // discount type Percent
-        subtotal *= (1 - discount.value);
-      }
+  const computeSubtotal = () => {
+    if (!order.length) {
+      return 0;
     }
-    return subtotal.toFixed(2);
+    return order.reduce((acc, prod) => acc + Number((prod.price * prod.count).toFixed(2)), 0);
   }
 
-  const calcDiscount = () => {
+  const computeDiscount = () => {
+    let discountAmount = 0;
     if (!discount) {
-      return;
+      return discountAmount;
     }
     if (discount.method === 'Amount') {
-      return discount.value * -1;
+      return discountAmount - discount.value;
     }
-    const subtotal = order.reduce((res, prod) => res += prod.count * prod.price, 0);
-    return subtotal * discount.value * -1;
+    return discountAmount - Number((computeSubtotal() * discount.value).toFixed(2));
   }
 
-  const calcTax = () => {
-    return (storeState.tax.rate * Number(calcSubtotal())).toFixed(2);
+
+  const computeTax = () => {
+    if (!storeState.tax.enable) {
+      return 0;
+    }
+    return Number((storeState.tax.rate * (computeSubtotal() + computeDiscount())).toFixed(2));
   }
 
-  const calcTotal = () => {
-    if (storeState.tax.enable) {
-      return (Number(calcSubtotal()) + Number(calcTax())).toFixed(2);
-    }
-    return Number(calcSubtotal()).toFixed(2);
+  const computeTotal = () => {
+    return computeSubtotal() + computeDiscount() + computeTax();
   }
 
   const cancelOrder = () => {
@@ -107,7 +102,7 @@ const Receipt = ({ order, setOrder }) => {
                       </Typography>
                     </div>
                     <div className="amount">
-                      { formatAsCurrency(calcSubtotal()) }
+                      { formatAsCurrency(computeSubtotal()) }
                     </div>
                   </div>
                   <div className={classNames(['discount', discount && discount.value > 0 ? '' : 'hidden'])}>
@@ -117,7 +112,7 @@ const Receipt = ({ order, setOrder }) => {
                       </Typography>
                     </div>
                     <div className="amount">
-                      { formatAsCurrency(calcDiscount()) }
+                      { formatAsCurrency(computeDiscount()) }
                     </div>
                   </div>
                   <div className={classNames(['tax', order.length && storeState.tax.enable ? '' : 'hidden'])}>
@@ -127,7 +122,7 @@ const Receipt = ({ order, setOrder }) => {
                       </Typography>
                     </div>
                     <div className="amount">
-                      { formatAsCurrency(calcTax()) }
+                      { formatAsCurrency(computeTax()) }
                     </div>
                   </div>
                 </React.Fragment>
@@ -139,7 +134,7 @@ const Receipt = ({ order, setOrder }) => {
                 </div>
                 <div className="amount">
                   <Typography variant="h6">
-                    { formatAsCurrency(calcTotal()) }
+                    { formatAsCurrency(computeTotal()) }
                   </Typography>
                 </div>
               </div>
@@ -169,7 +164,7 @@ const Receipt = ({ order, setOrder }) => {
           </Button>
         </div>
       </div>
-      { open && <PaymentModal order={order} discount={discount} total={calcTotal()} paySuccess={cancelOrder} handleOpen={(val) => setOpen(val)} setOrderId={setOrderId}/> }
+      { open && <PaymentModal order={order} discount={discount} total={computeTotal()} paySuccess={cancelOrder} handleOpen={(val) => setOpen(val)} setOrderId={setOrderId}/> }
       { orderId && <PrintableReceipt order={order} orderId={orderId}/> }
       { !!order.length && discountOpen && <DiscountModal discountProp={discount} handleOpen={val => setDiscountOpen(val)} handleConfirm={(discount) => {handleAddDiscount(discount)}} /> }
     </React.Fragment>
