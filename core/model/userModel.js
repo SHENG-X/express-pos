@@ -42,7 +42,7 @@ const userSchema = new Schema(
     },
     staffNo: {
       type: Number,
-      required: true,
+      default: 1,
     }
   },
   {
@@ -60,7 +60,6 @@ userSchema.pre('save', async function (next) {
   const store = await storeModel.findById(this.store.toString());
   if (!store) {
     // store does not exist, a brand new store will be created
-    this.staffNo = 1;
     next();
     return;
   }

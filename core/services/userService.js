@@ -74,7 +74,7 @@ const signUpUser = async (req, res) =>{
   const hashedPassword = await bcrypt.hashSync(password, saltRounds);
   
   // create a user
-  const user = new userModel({ email, fname, lname, phone, password: hashedPassword, staffNo: 0 });
+  const user = new userModel({ email, fname, lname, phone, password: hashedPassword });
 
   // the user sign up the account is the owner role
   user.role = "Owner";
@@ -124,7 +124,7 @@ const addStaff = async (req, res) => {
   const hashedPassword = await bcrypt.hashSync(password, saltRounds);
 
   // create a staff
-  const staff = new userModel({ role, email, fname, lname, phone, password: hashedPassword, store: storeId, staffNo: 0 });
+  const staff = new userModel({ role, email, fname, lname, phone, password: hashedPassword, store: storeId });
 
   try {
     const savedStaff = await staff.save();
