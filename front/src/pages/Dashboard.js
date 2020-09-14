@@ -107,9 +107,9 @@ const TabPanel = ({ children, index, value, className = '' }) => {
       className={classNames(['tab-panel', className])}
     >
       {value === index && (
-        <div className="content">
+        <React.Fragment>
           {children}
-        </div>
+        </React.Fragment>
       )}
     </div>
   );
