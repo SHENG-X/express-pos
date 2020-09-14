@@ -145,11 +145,11 @@ const Profile = () => {
                   placeholder={ `New password` }
                   onChange={e => setProfile({...profile, password: e.target.value})}
                 />
-                <TextField
+                {/* <TextField
                   type="password"
                   placeholder={ `Confirm password` }
                   onChange={e => setProfile({...profile, newPassword: e.target.value})}
-                />
+                /> */}
               </div>
               <div className="cancel">
                 <Button
