@@ -16,8 +16,8 @@ import { useToasts } from 'react-toast-notifications';
 import ModalBase from '../../ModalBase';
 import { Context } from '../../../../../context/userContext';
 
-const StaffModal = ({ handleOpen }) => {
-  const [staff, setStaff] = useState({
+const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
+  let defaultStaff = {
     role: 'Employee', // role can only be Employee or Manager
     email: '',
     password: '',
@@ -26,22 +26,47 @@ const StaffModal = ({ handleOpen }) => {
     phone: '',
     email: '',
     password: '',
-  });
-  const { addStaff } = useContext(Context);
+  };
+  if (currentStaff) {
+    // current staff was set, staff modal should be in update mode
+    defaultStaff = { ...currentStaff };
+  }
+  const [staff, setStaff] = useState({ ...defaultStaff });
+  const { addStaff, updateStaff } = useContext(Context);
   const { addToast } = useToasts();
 
   const handleConfirm = () => {
-    addStaff(
-      staff,
-      () => {
-        addToast('New staff was added', { appearance: 'success' });
-        // close modal window on staff added
+    if (currentStaff) {
+      if (JSON.stringify(staff) === JSON.stringify(currentStaff)) {
+        resetCurrentStaff();
         handleOpen(false);
-      },
-      () => {
-        addToast('Unable to add the staff, please try again later', { appearance: 'error' });
+        return;
       }
-    );
+      updateStaff(
+        staff,
+        () => {
+          addToast('Staff updated', { appearance: 'success' });
+          // close modal window on staff added
+          resetCurrentStaff();
+          handleOpen(false);
+        },
+        () => {
+          addToast('Unable to update the staff', { appearance: 'error' });
+        }
+      );
+    } else {
+      addStaff(
+        staff,
+        () => {
+          addToast('New staff was added', { appearance: 'success' });
+          // close modal window on staff added
+          handleOpen(false);
+        },
+        () => {
+          addToast('Unable to add the staff, please try again later', { appearance: 'error' });
+        }
+      );
+    }
   }
 
   return (
@@ -159,7 +184,12 @@ const StaffModal = ({ handleOpen }) => {
         <React.Fragment>
           <Button
             variant="contained"
-            onClick={() => handleOpen(false)}
+            onClick={() => {
+              if (currentStaff) {
+                resetCurrentStaff();
+              }
+              handleOpen(false)
+            }}
           >
             Cancel
           </Button>

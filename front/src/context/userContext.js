@@ -5,6 +5,7 @@ import {
   authenticate,
   addStaffAsync,
   getStaffAsync,
+  updateStaffAsync,
 } from '../services/userService';
 
 const ACTIONS = {
@@ -13,6 +14,7 @@ const ACTIONS = {
   SIGN_OUT: 'SIGN_OUT',
   GET_STAFF: 'GET_STAFF',
   ADD_STAFF: 'ADD_STAFF',
+  UPDATE_STAFF: 'UPDATE_STAFF',
 };
 
 const userReducer = (state, { type, payload }) => {
@@ -26,7 +28,15 @@ const userReducer = (state, { type, payload }) => {
     case ACTIONS.GET_STAFF:
       return {...state, staff: payload };
     case ACTIONS.ADD_STAFF:
-        return { ...state, staff: [...state.staff, payload] };
+      return { ...state, staff: [...state.staff, payload] };
+    case ACTIONS.UPDATE_STAFF:
+      const updatedStaff = state.staff.map(stf => {
+        if (stf._id === payload._id) {
+          return payload;
+        }
+        return stf;
+      });
+      return { ...state, staff: updatedStaff };
     default:
       return state;
   }
@@ -117,6 +127,23 @@ const addStaff = (dispatch) => {
   }
 }
 
+const updateStaff = (dispatch) => {
+  return async (staff, success, fail) => {
+    const response = await updateStaffAsync(staff);
+    if (response.status === 200) {
+      dispatch({type: ACTIONS.UPDATE_STAFF, payload: response.data});
+      if (success) {
+        success();
+      }
+    } else {
+      if (fail) {
+        fail();
+      }
+    }
+  }
+}
+
+}
 export const { Context, Provider } = createDataContext(
   userReducer,
   {
@@ -125,6 +152,7 @@ export const { Context, Provider } = createDataContext(
     signOut,
     getStaff,
     addStaff,
+    updateStaff,
   },
   { authenticated: false },
   'userState'

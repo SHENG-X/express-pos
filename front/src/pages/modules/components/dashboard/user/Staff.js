@@ -32,12 +32,17 @@ import StaffModal from './StaffModal';
 const Staff = () => {
   const [open, setOpen] = useState(false);
   const { userState, getStaff } = useContext(Context);
-
+  const [currentStaff, setCurrentStaff] = useState(null);
   useEffect(() => {
     if (userState.staff === undefined) {
       getStaff();
     }
   }, []);
+
+  const updateCurrentStaff = (staff) => {
+    setCurrentStaff(staff);
+    setOpen(true);
+  }
 
   return (
     <React.Fragment>
@@ -112,7 +117,9 @@ const StaffRow = ({ staff }) => {
         { staff.email }
       </TableCell>
       <TableCell>
-        <IconButton>
+        <IconButton
+          onClick={() => handleUpdate(staff)}
+        >
           <Edit/>
         </IconButton>
         <IconButton

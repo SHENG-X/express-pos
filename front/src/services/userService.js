@@ -31,3 +31,11 @@ export const addStaffAsync = async (staff) => {
     return error.response;
   }
 }
+
+export const updateStaffAsync = async (staff) => {
+  try {
+    return await instance.put('/api/user/staff', { ...staff })
+  } catch (error) {
+    return error.response;
+  }
+}
