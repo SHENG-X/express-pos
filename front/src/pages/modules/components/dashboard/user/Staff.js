@@ -8,6 +8,7 @@ import {
   TextField,
   Typography,
   Button,
+  IconButton,
   Input,
   InputAdornment,
   Table,
@@ -18,6 +19,8 @@ import {
 } from '@material-ui/core';
 import {
   Search,
+  Edit,
+  Delete,
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { useToasts } from 'react-toast-notifications';
@@ -109,12 +112,14 @@ const StaffRow = ({ staff }) => {
         { staff.email }
       </TableCell>
       <TableCell>
-        <Button>
-          Edit
-        </Button>
-        <Button>
+        <IconButton>
+          <Edit/>
+        </IconButton>
+        <IconButton
           Delete
         </Button>
+          <Delete/>
+        </IconButton>
       </TableCell>
     </TableRow>
   );
