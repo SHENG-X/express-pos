@@ -98,7 +98,23 @@ const signUpUser = async (req, res) =>{
 
 const addStaff = async (req, res) => {
   const storeId = req.decoded.store;
+  const userId = req.decoded.user;
+
+  // owner is allowed to add employee and manager
+  // manager is allowed to add employee
+  // staff is not allowed to do anything 
+  const operator = await userModel.findById(userId);
+  if (operator.role === 'Employee') {
+    return res.status(401).json('Unauthorized');
+  }
+
   const { role, email, fname, lname, password, phone } = req.body;
+
+  if (operator.role === 'Manager' && role === 'Manager') {
+    // manager can only add employee
+    return res.status(401).json('Unauthorized');
+  }
+
   // check if email was used
   if (await userExist(email)) {
     return res.status(226).json('Email was used');
