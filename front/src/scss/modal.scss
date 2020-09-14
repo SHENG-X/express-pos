@@ -10,16 +10,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  .heading {
-    background-color: #1e1e1f;
-    color: #ffffff;
-    padding: 1rem;
-    border-radius: 4px 4px 0 0;
-  }
   & > div {
-    & > .content {
-      max-height: 75vh;
-      overflow: overlay;
+    max-height: 75vh;
+    overflow: overlay;
+    .heading {
+      background-color: #1e1e1f;
+      color: #ffffff;
+      padding: 1rem;
+      border-radius: 4px 4px 0 0;
+      position: sticky;
+      top: 0;
+      z-index: 1;
     }
     & > .actions {
       padding: 1rem;
