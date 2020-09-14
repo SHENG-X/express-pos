@@ -130,6 +130,7 @@ const StaffRow = ({ staff, handleUpdate }) => {
         <TableCell>
           <IconButton
             onClick={() => handleUpdate(staff)}
+            disabled={staff.role === 'Manager' && userState.role === 'Manager'}
           >
             <Edit/>
           </IconButton>
@@ -143,6 +144,7 @@ const StaffRow = ({ staff, handleUpdate }) => {
                 addToast('Unable to delete the staff', { appearance: 'error' });
               }
             )}
+            disabled={staff.role === 'Manager' && userState.role === 'Manager'}
           >
             <Delete/>
           </IconButton>
