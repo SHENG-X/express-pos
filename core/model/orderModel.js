@@ -58,6 +58,11 @@ const orderSchema = new Schema(
       ],
       required: true,
     },
+    processedBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
   },
   {
     timestamps: true
