@@ -51,13 +51,16 @@ const Staff = () => {
         className="staff"
       >
         <div className="row actions">
-            <Button
+            {
+              userState.role !== 'Employee' &&
+              <Button
               color="primary"
               variant="contained"
               onClick={() => setOpen(true)}
             >
               Add Staff
             </Button>
+            }
             <div className="search">
               <Input
                 placeholder={ 'Search for a staff' }
@@ -79,7 +82,10 @@ const Staff = () => {
                   <TableCell>Last Name</TableCell>
                   <TableCell>Phone Number</TableCell>
                   <TableCell>Email</TableCell>
-                  <TableCell>Actions</TableCell>
+                  {
+                    userState.role !== 'Employee' &&
+                    <TableCell>Actions</TableCell>
+                  }
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -96,7 +102,7 @@ const Staff = () => {
 }
 
 const StaffRow = ({ staff, handleUpdate }) => {
-  const { deleteStaff } = useContext(Context);
+  const { userState, deleteStaff } = useContext(Context);
   const { addToast } = useToasts();
 
   return (
@@ -119,26 +125,29 @@ const StaffRow = ({ staff, handleUpdate }) => {
       <TableCell>
         { staff.email }
       </TableCell>
-      <TableCell>
-        <IconButton
-          onClick={() => handleUpdate(staff)}
-        >
-          <Edit/>
-        </IconButton>
-        <IconButton
-          onClick={() => deleteStaff(
-            staff._id,
-            () => {
-              addToast('Staff was deleted', { appearance: 'success' });
-            },
-            () => {
-              addToast('Unable to delete the staff', { appearance: 'error' });
-            }
-          )}
-        >
-          <Delete/>
-        </IconButton>
-      </TableCell>
+      {
+        userState.role !== 'Employee' &&
+        <TableCell>
+          <IconButton
+            onClick={() => handleUpdate(staff)}
+          >
+            <Edit/>
+          </IconButton>
+          <IconButton
+            onClick={() => deleteStaff(
+              staff._id,
+              () => {
+                addToast('Staff was deleted', { appearance: 'success' });
+              },
+              () => {
+                addToast('Unable to delete the staff', { appearance: 'error' });
+              }
+            )}
+          >
+            <Delete/>
+          </IconButton>
+        </TableCell>
+      }
     </TableRow>
   );
 }

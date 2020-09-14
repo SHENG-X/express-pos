@@ -1,10 +1,11 @@
 import React, {
-  useState
+  useState,
+  useEffect,
+  useContext,
 } from 'react';
 import {
   Tabs,
   Tab,
-  Grid,
   Typography,
 } from '@material-ui/core';
 import {
@@ -22,12 +23,18 @@ import InventoryReport from './modules/components/dashboard/report/inventory/Inv
 import Staff from './modules/components/dashboard/user/Staff';
 import Profile from './modules/components/dashboard/user/Profile';
 import { classNames } from '../utils';
+import { Context as UserContext } from '../context/userContext';
 
 const Dashboard = () => {
-  const [value, setValue] = useState(2);
   const history = useHistory();
   const { t } = useTranslation();
-
+  const { userState } = useContext(UserContext);
+  let tabIdx = 2;
+  if (userState.role === 'Employee') {
+    tabIdx = 9;
+  }
+  const [value, setValue] = useState(tabIdx);
+  
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -51,23 +58,49 @@ const Dashboard = () => {
                   { t('store.heading') }
                 </Typography>
               </div>
-              <Tab label={ t('product.heading') } className="sub-item"/>
-              <Tab label={ t('category.heading') } className="sub-item"/>
-              <Tab label={ t('tax.heading') } className="sub-item"/>
+              <Tab  
+                label={ t('product.heading') }
+                className="sub-item"
+                disabled={userState.role === 'Employee'}
+              />
+              <Tab
+                label={ t('category.heading') }
+                className="sub-item"
+                disabled={userState.role === 'Employee'}
+              />
+              <Tab 
+                label={ t('tax.heading') }
+                className="sub-item"
+                disabled={userState.role === 'Employee'}
+              />
               <div className="heading">
                 <Typography variant="subtitle1">
                   { t('report.heading') }
                 </Typography>
               </div>
-              <Tab label={ t('sale.heading') } className="sub-item"/>
-              <Tab label={ t('inventory.heading') } className="sub-item"/>
+              <Tab
+                label={ t('sale.heading') }
+                className="sub-item"
+                disabled={userState.role === 'Employee'}
+              />
+              <Tab
+                label={ t('inventory.heading') }
+                className="sub-item"
+                disabled={userState.role === 'Employee'}
+              />
               <div className="heading">
                 <Typography variant="subtitle1">
                   { `User` }
                 </Typography>
               </div>
-              <Tab label={ `Profile` } className="sub-item"/>
-              <Tab label={ `Staff` } className="sub-item"/>
+              <Tab
+                label={ `Profile` }
+                className="sub-item"
+              />
+              <Tab
+                label={ `Staff` }
+                className="sub-item"
+              />
             </Tabs>
           </div>
           <div className="right">
