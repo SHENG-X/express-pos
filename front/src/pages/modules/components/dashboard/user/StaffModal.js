@@ -10,6 +10,7 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  Switch,
 } from '@material-ui/core';
 import { useToasts } from 'react-toast-notifications';
 
@@ -102,6 +103,24 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
               </FormControl>
             </div>
           </div>
+          
+          {
+            currentStaff &&
+            <div className="row">
+              <div className="label">
+                <Typography variant="subtitle2">
+                  Enable
+                </Typography>
+              </div>
+              <div className="input">
+              <Switch
+                checked={staff.enable}
+                onChange={(e, val) => setStaff({...staff, enable: val})}
+                color="primary"
+              />
+              </div>
+            </div>
+          }
 
           <div className="row">
             <div className="label">
