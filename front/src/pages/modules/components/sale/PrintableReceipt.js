@@ -33,7 +33,13 @@ const PrintableReceipt = ({ orderId }) => {
           <div className="type">
             <span>{ t('sale.type') }:</span>
             <span>
-              {detail.paymentType}
+              { detail.paymentType }
+            </span>
+          </div>
+          <div className="type">
+            <span>{ `Cashier No.` }:</span>
+            <span>
+              { detail.processedBy.toString().padStart(5, '0') }
             </span>
           </div>
           <div>
