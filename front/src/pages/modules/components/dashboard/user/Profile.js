@@ -56,6 +56,19 @@ const Profile = () => {
       <div className="row">
         <div className="label">
           <Typography variant="subtitle2">
+            Staff No.
+          </Typography>
+        </div>
+        <div className="value">
+          <Typography variant="body1">
+            { userState.staffNo.toString().padStart(5, '0') }
+          </Typography>
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="label">
+          <Typography variant="subtitle2">
             First Name
           </Typography>
         </div>
