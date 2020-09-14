@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const storeModel = require('./storeModel');
+
 const userSchema = new Schema(
   {
     email: {
@@ -40,8 +42,7 @@ const userSchema = new Schema(
     },
     staffNo: {
       type: Number,
-      unique: true,
-      min: 1,
+      required: true,
     }
   },
   {
@@ -56,21 +57,18 @@ userSchema.pre('save', async function (next) {
     next();
     return;
   }
-  // if a new staff is added
-  const staff = await userModel.find({ store: this.store.toString() });
-  let max = 1;
-  if (staff.length) {
-    // more than one staff
-    staff.forEach(stf => {
-      if (stf.staffNo > max) {
-        max = stf.staffNo;
-      }
-    });
-    // max is the previous maximum employee number
-    // increase max by one for the new employee number
-    max += 1;
+  const store = await storeModel.findById(this.store.toString());
+  if (!store) {
+    // store does not exist, a brand new store will be created
+    this.staffNo = 1;
+    next();
+    return;
   }
-  this.staffNo = max;
+  // if a new staff is added
+  const lastHiredNo = store.hiredNo;
+  this.staffNo = lastHiredNo + 1;
+  store.hiredNo++;
+  await store.save();
   next();
 });
 

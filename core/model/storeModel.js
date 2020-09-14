@@ -41,6 +41,10 @@ const storeSchema = new Schema({
       type: Number,
       default: 0.0
     }
+  },
+  hiredNo: {
+    type: Number,
+    default: 1,
   }
 });
 
