@@ -1,6 +1,7 @@
 .dashboard {
   height: 100%;
   flex-grow: 1;
+  overflow-y: hidden;
   .container {
     height: calc(100% - 70px);
     position: relative;
