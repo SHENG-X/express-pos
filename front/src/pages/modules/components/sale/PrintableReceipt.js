@@ -4,6 +4,7 @@ import React, {
 import { useTranslation } from 'react-i18next';
 
 import { Context } from '../../../../context/storeContext';
+import { fmtStaffNo } from '../../../../utils';
 
 const PrintableReceipt = ({ orderId }) => {
   const { t } = useTranslation();
@@ -39,7 +40,7 @@ const PrintableReceipt = ({ orderId }) => {
           <div className="type">
             <span>{ `Cashier No.` }:</span>
             <span>
-              { detail.processedBy.toString().padStart(5, '0') }
+              { fmtStaffNo(detail.processedBy) }
             </span>
           </div>
           <div>

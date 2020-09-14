@@ -12,6 +12,7 @@ import { useToasts } from 'react-toast-notifications';
 
 import CardBase from '../../cardbase/CardBase';
 import { Context } from '../../../../../context/userContext';
+import { fmtStaffNo } from '../../../../../utils';
 
 const Profile = () => {
   const { userState, updateStaff } = useContext(Context);
@@ -77,7 +78,7 @@ const Profile = () => {
         </div>
         <div className="value">
           <Typography variant="body1">
-            { userState.staffNo.toString().padStart(5, '0') }
+            { fmtStaffNo(userState.staffNo) }
           </Typography>
         </div>
       </div>

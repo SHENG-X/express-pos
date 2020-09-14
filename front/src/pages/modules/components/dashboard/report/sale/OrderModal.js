@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import ModalBase from '../../../ModalBase';
 import { formatAsCurrency } from '../../../../../../utils';
 import { Context } from '../../../../../../context/storeContext';
+import { fmtStaffNo } from '../../../../../../utils';
 
 const OrderModal = ({ order, closeModal }) => {
   const { t } = useTranslation();
@@ -57,7 +58,7 @@ const OrderModal = ({ order, closeModal }) => {
                   { `Cashier` }
                 </Typography>
               </div>
-              <div className="value">{ order.processedBy.toString().padStart(5, '0') }</div>
+              <div className="value">{ fmtStaffNo(order.processedBy) }</div>
             </div>
             <div className="row">
               <div className="label">

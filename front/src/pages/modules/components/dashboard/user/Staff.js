@@ -26,6 +26,7 @@ import { useToasts } from 'react-toast-notifications';
 import { Context } from '../../../../../context/userContext';
 import CardBase from '../../cardbase/CardBase';
 import StaffModal from './StaffModal';
+import { fmtStaffNo } from '../../../../../utils';
 
 const Staff = () => {
   const [open, setOpen] = useState(false);
@@ -108,7 +109,7 @@ const StaffRow = ({ staff, handleUpdate }) => {
     <TableRow>
       <TableCell>
         <Typography variant="body2">
-          { staff.staffNo.toString().padStart(5, '0') }
+          { fmtStaffNo(staff.staffNo) }
         </Typography>
       </TableCell>
       <TableCell

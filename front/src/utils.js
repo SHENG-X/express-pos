@@ -14,3 +14,8 @@ export const imagePath = (itemId) => {
   const host = "http://localhost:3000";
   return `${host}/static/${itemId}.jpg`;
 }
+
+export const fmtStaffNo = (staffNo) => {
+  const staffNoLength = 5;
+  return staffNo.toString().padStart(staffNoLength, '0');
+}
