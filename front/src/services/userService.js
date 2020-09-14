@@ -39,3 +39,12 @@ export const updateStaffAsync = async (staff) => {
     return error.response;
   }
 }
+
+export const deleteStaffAsync = async (staffId) => {
+  try {
+    return await instance.delete('/api/user/staff', { params: { staffId } })
+  } catch (error) {
+    return error.response;
+  }
+}
+

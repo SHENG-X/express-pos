@@ -6,6 +6,7 @@ import {
   addStaffAsync,
   getStaffAsync,
   updateStaffAsync,
+  deleteStaffAsync,
 } from '../services/userService';
 
 const ACTIONS = {
@@ -15,6 +16,7 @@ const ACTIONS = {
   GET_STAFF: 'GET_STAFF',
   ADD_STAFF: 'ADD_STAFF',
   UPDATE_STAFF: 'UPDATE_STAFF',
+  DELETE_STAFF: 'DELETE_STAFF',
 };
 
 const userReducer = (state, { type, payload }) => {
@@ -37,6 +39,9 @@ const userReducer = (state, { type, payload }) => {
         return stf;
       });
       return { ...state, staff: updatedStaff };
+    case ACTIONS.DELETE_STAFF:
+      const newStaff = state.staff.filter(stf => stf._id !== payload);
+      return { ...state, staff: newStaff };
     default:
       return state;
   }
@@ -143,6 +148,20 @@ const updateStaff = (dispatch) => {
   }
 }
 
+const deleteStaff = (dispatch) => {
+  return async (staffId, success, fail) => {
+    const response = await deleteStaffAsync(staffId);
+    if (response.status === 204) {
+      dispatch({type: ACTIONS.DELETE_STAFF, payload: staffId});
+      if (success) {
+        success();
+      }
+    } else {
+      if (fail) {
+        fail();
+      }
+    }
+  }
 }
 export const { Context, Provider } = createDataContext(
   userReducer,
@@ -153,6 +172,7 @@ export const { Context, Provider } = createDataContext(
     getStaff,
     addStaff,
     updateStaff,
+    deleteStaff,
   },
   { authenticated: false },
   'userState'

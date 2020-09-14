@@ -84,18 +84,21 @@ const Staff = () => {
               </TableHead>
               <TableBody>
                 {
-                  userState?.staff?.map(staff => <StaffRow staff={staff} key={staff._id} />)
+                  userState?.staff?.map(staff => <StaffRow staff={staff} handleUpdate={updateCurrentStaff} key={staff._id} />)
                 }
               </TableBody>
             </Table>
           </div>
       </CardBase>
-      { open && <StaffModal handleOpen={val => setOpen(val)}/> }
+      { open && <StaffModal handleOpen={val => setOpen(val)} currentStaff={currentStaff} resetCurrentStaff={() => setCurrentStaff(null)}/> }
     </React.Fragment>
   );
 }
 
-const StaffRow = ({ staff }) => {
+const StaffRow = ({ staff, handleUpdate }) => {
+  const { deleteStaff } = useContext(Context);
+  const { addToast } = useToasts();
+
   return (
     <TableRow>
       <TableCell>
@@ -123,8 +126,16 @@ const StaffRow = ({ staff }) => {
           <Edit/>
         </IconButton>
         <IconButton
-          Delete
-        </Button>
+          onClick={() => deleteStaff(
+            staff._id,
+            () => {
+              addToast('Staff was deleted', { appearance: 'success' });
+            },
+            () => {
+              addToast('Unable to delete the staff', { appearance: 'error' });
+            }
+          )}
+        >
           <Delete/>
         </IconButton>
       </TableCell>
