@@ -8,15 +8,17 @@ import {
   Button,
   Typography,
 } from '@material-ui/core';
+import { useToasts } from 'react-toast-notifications';
 
 import CardBase from '../../cardbase/CardBase';
 import { Context } from '../../../../../context/userContext';
 
 const Profile = () => {
-  const { userState } = useContext(Context);
+  const { userState, updateStaff } = useContext(Context);
   const [profile, setProfile] = useState(JSON.parse(JSON.stringify(userState)));
   const [newPassword, setNewPassword] = useState(false);
   const [allowUpdate, setAllowUpdate] = useState(false);
+  const { addToast } = useToasts();
 
   useEffect(() => {
     if (JSON.stringify(profile) === JSON.stringify(userState)) {
@@ -26,14 +28,28 @@ const Profile = () => {
     }
   }, [profile]);
 
+  useEffect(() => {
+    setProfile(JSON.parse(JSON.stringify(userState)));
+  }, [userState]);
+
   const handleCancel = () => {
     setNewPassword(false);
-    const newProfile = { ...profile };
-    // remove new password property
-    delete newProfile.newPassword;
-    setProfile({ ...newProfile, password: null });
+    setProfile({ ...profile, password: null });
   }
 
+  const handleConfirm = () =>{
+    updateStaff(
+      profile,
+      () => {
+        addToast('Profile updated', { appearance: 'success' });
+        // close modal window on staff added
+        handleCancel(false);
+      },
+      () => {
+        addToast('Unable to update the profile', { appearance: 'error' });
+      }
+    );
+  }
 
   return (
     <CardBase
@@ -104,7 +120,7 @@ const Profile = () => {
           <TextField
             type="tel"
             value={profile.phone}
-            onChange={e => setProfile({...profile, phone: e.target.value})}
+            onChange={e => setProfile({...profile, phone: Number(e.target.value)})}
           />
         </div>
       </div>
@@ -175,6 +191,7 @@ const Profile = () => {
           <Button
             variant="contained"
             color="primary"
+            onClick={handleConfirm}
           >
             Confirm
           </Button>

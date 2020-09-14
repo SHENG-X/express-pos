@@ -173,13 +173,17 @@ const updateStaff = async (req, res) => {
   const { _id, enable, fname, lname, phone, password } = req.body;
   try {
     const operator = await userModel.findById(operatorId);
-    if (operator.role === 'Employee') {
-      return res.status(401).json('Unauthorized');
-    }
     const staff = await userModel.findById(_id);
-    if (operator.role === 'Manager') {
-      if (staff.role === 'Manager' || staff.role === 'Owner') {
+    if (operatorId !== _id) {
+      // operator and staff is not the same person
+      // do the following checks
+      if (operator.role === 'Employee') {
         return res.status(401).json('Unauthorized');
+      }
+      if (operator.role === 'Manager') {
+        if (staff.role === 'Manager' || staff.role === 'Owner') {
+          return res.status(401).json('Unauthorized');
+        }
       }
     }
     // all owner to update a manager or a employee and

@@ -32,6 +32,9 @@ const userReducer = (state, { type, payload }) => {
     case ACTIONS.ADD_STAFF:
       return { ...state, staff: [...state.staff, payload] };
     case ACTIONS.UPDATE_STAFF:
+      if (state._id === payload._id) {
+        return { ...state, fname: payload.fname, lname: payload.lname, phone: payload.phone };
+      }
       const updatedStaff = state.staff.map(stf => {
         if (stf._id === payload._id) {
           return payload;
