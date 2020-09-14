@@ -8,6 +8,7 @@ const {
   updateUser,
   addStaff,
   getStaff,
+  updateStaff,
 } = require('../services/userService');
 
 router.get('/', strict.authenticate, getStaff);
@@ -17,6 +18,8 @@ router.post('/', signInUser);
 router.post('/create', signUpUser);
 
 router.post('/staff', strict.authenticate, addStaff);
+
+router.put('/staff', strict.authenticate, updateStaff);
 
 router.put('/', updateUser);
 

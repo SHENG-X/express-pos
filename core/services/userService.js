@@ -127,8 +127,43 @@ const getStaff = async (req, res) => {
       if (stf._doc.role !== 'Owner') {
         return { ...stf._doc, password: null };
       }
-    }).filter(stf => stf);
+const setStaffInfo = async (staff, enable, fname, lname, phone, password) => {
+  if (password) {
+    // if password is set then hash password
+    const hashedPassword = await bcrypt.hashSync(password, saltRounds);
+    staff.password = hashedPassword;
+  }
+  staff.enable = enable;
+  staff.fname = fname;
+  staff.lname = lname;
+  staff.phone = phone;
+  return staff;
+}
+
+const updateStaff = async (req, res) => {
+  // Owner is allowed to update all staff
+  // Manager is allowed to update employee
+  // Employee is not allow to update anyone
+  const operatorId = req.decoded.user;
+  const { _id, enable, fname, lname, phone, password } = req.body;
+  try {
+    const operator = await userModel.findById(operatorId);
+    if (operator.role === 'Employee') {
+      return res.status(401).json('Unauthorized');
+    }
+    const staff = await userModel.findById(_id);
+    if (operator.role === 'Manager') {
+      if (staff.role === 'Manager' || staff.role === 'Owner') {
+        return res.status(401).json('Unauthorized');
+      }
+    }
+    // all owner to update a manager or a employee and
+    // allow manager to update a staff
+    const updatedStaff = await setStaffInfo(staff, enable, fname, lname, phone, password);
+    const staffObj = await updatedStaff.save();
+    const staffDoc = {...staffObj._doc, password: null};
     return res.status(200).json(staffDoc);
+
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -144,4 +179,5 @@ module.exports= {
   updateUser,
   addStaff,
   getStaff,
+  updateStaff,
 }
