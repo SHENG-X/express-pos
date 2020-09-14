@@ -39,7 +39,7 @@ const Categories = ({ selectedCID, handleSelectChange }) => {
     const activeCategories = activeCategoryIDs.map(cid => {
       return storeState.categories.find(category => category._id === cid);
     });
-    return activeCategories;
+    return activeCategories.filter(category => category);
   }
 
   return (
@@ -53,7 +53,7 @@ const Categories = ({ selectedCID, handleSelectChange }) => {
           <div className="icon">
             <Category/>
           </div>
-          { activeCategories.map(category => <CategoryItem category={category} selectedCID={selectedCID} selectCategory={selectCategory} key={category._id}/>) }
+          { activeCategories.map(category => (category && <CategoryItem category={category} selectedCID={selectedCID} selectCategory={selectCategory} key={category._id}/>)) }
         </Paper>
       }
     </React.Fragment>
