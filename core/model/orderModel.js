@@ -59,8 +59,7 @@ const orderSchema = new Schema(
       required: true,
     },
     processedBy: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
+      type: Number,
       required: true,
     },
   },

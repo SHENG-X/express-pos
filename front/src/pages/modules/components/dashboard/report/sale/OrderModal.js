@@ -53,6 +53,14 @@ const OrderModal = ({ order, closeModal }) => {
             <div className="row">
               <div className="label">
                 <Typography variant="subtitle2">
+                  { `Cashier` }
+                </Typography>
+              </div>
+              <div className="value">{ order.processedBy.toString().padStart(5, '0') }</div>
+            </div>
+            <div className="row">
+              <div className="label">
+                <Typography variant="subtitle2">
                   { t('order.method') }
                 </Typography>
               </div>

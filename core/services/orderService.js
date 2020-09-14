@@ -1,6 +1,7 @@
 const storeModel = require('../model/storeModel');
 const orderModel = require('../model/orderModel');
 const { populate } = require('../model/storeModel');
+const userModel = require('../model/userModel');
 
 const getOrder = async (req, res) => {
   const storeId = req.decoded.store;
@@ -34,7 +35,8 @@ const createOrder = async (req, res) => {
 
   try {
     // create a order object and save it to the database
-    const orderObj = new orderModel({ products, paymentType, amountPaid, taxRate, discount, store: storeId, processedBy: userId });
+    const cashierNo = await userModel.findById(userId);
+    const orderObj = new orderModel({ products, paymentType, amountPaid, taxRate, discount, store: storeId, processedBy: cashierNo.staffNo });
     const storeObj = await storeModel.findById(storeId);
     const savedOrder = await orderObj.save();
     // add the order to the store orders
