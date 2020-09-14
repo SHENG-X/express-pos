@@ -10,9 +10,7 @@ const PrintableReceipt = ({ orderId }) => {
   const { storeState } = useContext(Context);
   const detail = storeState.orders.find(ord => ord._id === orderId);
   const subtotal = detail.products.reduce((acc, prod) => acc + prod.price * prod.count, 0);
-  const tax = (detail.taxRate === 0 ? 0 : subtotal * detail.taxRate);
-  const total = subtotal + tax;
-
+  
   const calcDiscount = () => {
     if (!detail.discount) {
       return 0 ;
@@ -22,6 +20,8 @@ const PrintableReceipt = ({ orderId }) => {
     }
     return subtotal * detail.discount.value * -1;
   }
+  const tax = (detail.taxRate === 0 ? 0 : (subtotal + calcDiscount()) * detail.taxRate);
+  const total = subtotal + tax;
 
   return (
     <div className="print">
