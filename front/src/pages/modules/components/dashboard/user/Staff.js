@@ -4,8 +4,6 @@ import React, {
   useState,
 } from 'react';
 import {
-  Switch,
-  TextField,
   Typography,
   Button,
   IconButton,
@@ -109,25 +107,47 @@ const StaffRow = ({ staff, handleUpdate }) => {
   return (
     <TableRow>
       <TableCell>
-        { staff.staffNo.toString().padStart(5, '0') }
+        <Typography variant="body2">
+          { staff.staffNo.toString().padStart(5, '0') }
+        </Typography>
+      </TableCell>
+      <TableCell
+        className="text-capitalized"
+      >
+        <Typography variant="body2">
+          { staff.enable.toString() }
+        </Typography>
+      </TableCell>
+      <TableCell
+        className="text-capitalized"
+      >
+        <Typography variant="body2">
+          { staff.role }
+        </Typography>
+      </TableCell>
+      <TableCell
+        className="text-capitalized"
+      >
+        <Typography variant="body2">
+          { staff.fname.toLowerCase() }
+        </Typography>
+      </TableCell>
+      <TableCell
+        className="text-capitalized"
+      >
+        <Typography variant="body2">
+          { staff.lname.toLowerCase() }
+        </Typography>
       </TableCell>
       <TableCell>
-        { staff.enable.toString() }
+        <Typography variant="body2">
+          { staff.phone }
+        </Typography>
       </TableCell>
       <TableCell>
-        { staff.role }
-      </TableCell>
-      <TableCell>
-        { staff.fname }
-      </TableCell>
-      <TableCell>
-        { staff.lname }
-      </TableCell>
-      <TableCell>
-        { staff.phone }
-      </TableCell>
-      <TableCell>
-        { staff.email }
+        <Typography variant="body2">
+          { staff.email }
+        </Typography>
       </TableCell>
       {
         userState.role !== 'Employee' &&
