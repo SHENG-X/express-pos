@@ -9,6 +9,7 @@ const {
   addStaff,
   getStaff,
   updateStaff,
+  deleteStaff,
 } = require('../services/userService');
 
 router.get('/', strict.authenticate, getStaff);
@@ -20,6 +21,8 @@ router.post('/create', signUpUser);
 router.post('/staff', strict.authenticate, addStaff);
 
 router.put('/staff', strict.authenticate, updateStaff);
+
+router.delete('/staff', strict.authenticate, deleteStaff);
 
 router.put('/', updateUser);
 

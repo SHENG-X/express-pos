@@ -169,6 +169,31 @@ const updateStaff = async (req, res) => {
   }
 }
 
+const deleteStaff = async (req, res) => {
+  // Owner is allowed to delete anyone
+  // Manager is allowed to delete a employee
+  // Employee is not allowed to delete
+  const operatorId = req.decoded.user;
+  const { staffId } = req.query;
+  try {
+    const operator = await userModel.findById(operatorId);
+    if (operator.role === 'Employee') {
+      return res.status(401).json('Unauthorized');
+    }
+    const staff = await userModel.findById(staffId);
+    if (operator.role === 'Manager') {
+      if (staff.role === 'Manager' || staff.role === 'Owner') {
+        return res.status(401).json('Unauthorized');
+      }
+    }
+    // proceed to delete a staff
+    await userModel.findByIdAndDelete(staffId);
+    return res.status(204).json(staffId);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
 const updateUser = (req, res) => {
   // update a user's information
 }
