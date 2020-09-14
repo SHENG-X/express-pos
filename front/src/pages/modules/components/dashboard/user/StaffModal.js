@@ -32,7 +32,7 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
     defaultStaff = { ...currentStaff };
   }
   const [staff, setStaff] = useState({ ...defaultStaff });
-  const { addStaff, updateStaff } = useContext(Context);
+  const { userState, addStaff, updateStaff } = useContext(Context);
   const { addToast } = useToasts();
 
   const handleConfirm = () => {
@@ -89,9 +89,12 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
                   onChange={e => setStaff({...staff, role: e.target.value})}
                   label={'Role'}
                 >
-                  <MenuItem value={'Manager'}>
-                    Manager
-                  </MenuItem>
+                  {
+                    userState.role === 'Owner' &&
+                    <MenuItem value={'Manager'}>
+                      Manager
+                    </MenuItem>
+                  }
                   <MenuItem value={'Employee'}>
                     Employee
                   </MenuItem>
