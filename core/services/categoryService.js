@@ -37,16 +37,9 @@ const createCategory = async (req, res) => {
     category.thumbnailFlag = true;
   }
 
-  const storeObj = await storeModel.findById(storeId);
-  
   try {
     // save category
     const savedCategory = await category.save();
-    // append the saved category to the store
-    storeObj.categories.push(savedCategory._id);
-    // update store
-    await storeObj.save();
-
     const savedCategoryDoc = savedCategory._doc;
     return res.status(201).json(savedCategoryDoc);
   } catch (error) {
@@ -69,16 +62,13 @@ const updateCategory = async (req, res) => {
 }
 
 const deleteCategory = async (req, res) => {
-  const storeId = req.decoded.store;
   const { _id } = req.query;
 
   try {
-    // delete from category table
-    await categoryModel.findByIdAndDelete(_id);
-    // remove the ref key from store categories
-    const store = await storeModel.findById(storeId);
-    store.categories = store.categories.filter(cid => cid.toString() !== _id);
-    await store.save();
+    // find category by id
+    const category = await categoryModel.findById(_id);
+    // remove the category
+    await category.deleteOne();
     removeImageFile(_id);
     return res.status(204).json(_id);
   } catch (error) {
