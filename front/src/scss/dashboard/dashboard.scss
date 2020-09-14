@@ -6,7 +6,7 @@
     position: relative;
     & > .left {
       position: fixed;
-      height: 100%;
+      height: calc(100vh - 70px);
       z-index: 3;
       box-shadow: 1px 0 12px 0px #bebebe;
       overflow: overlay;
@@ -30,9 +30,6 @@
   }
   .tabs {
     height: 100%;
-    .MuiTabs-scroller {
-      padding-bottom: 4rem;
-    }
     .heading {
       padding: 0 12px;
       .MuiTypography-subtitle1 {

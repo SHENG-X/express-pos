@@ -1,4 +1,10 @@
 .profile {
+  max-height: 100%;
+  overflow: overlay;
+  .header {
+    position: sticky;
+    top: 0;
+  }
   .row {
     padding: 1rem 1.5rem !important;
   }

@@ -1,36 +1,33 @@
 .tab-panel-category {
-  .content {
-    height:  100%;
-    .category-tab {
-      max-height: 100%;
-      min-width: 600px;
-      .content {
-        padding: 0;
-        overflow: overlay;
-        & > .actions {
+  .category-tab {
+    max-height: 100%;
+    min-width: 600px;
+    .content {
+      padding: 0;
+      overflow: overlay;
+      & > .actions {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 1.5rem;
+        height: 5rem;
+        align-items: center;
+        button {
+          height: fit-content
+        }
+        .search {
           display: flex;
-          justify-content: space-between;
-          padding: 0.5rem 1.5rem;
-          height: 5rem;
-          align-items: center;
-          button {
-            height: fit-content
-          }
-          .search {
-            display: flex;
-            height: fit-content
-          }
+          height: fit-content
         }
-        .table-container {
-          max-height: calc(100vh - 280px);
-        }
-        .thumbnail {
-          --size: 46px;
-          width: var(--size);
-          height: var(--size);
-          background-size: cover;
-          background-position: center;
-        }
+      }
+      .table-container {
+        max-height: calc(100vh - 280px);
+      }
+      .thumbnail {
+        --size: 46px;
+        width: var(--size);
+        height: var(--size);
+        background-size: cover;
+        background-position: center;
       }
     }
   }

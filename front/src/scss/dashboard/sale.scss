@@ -1,82 +1,79 @@
 .tab-panel-report--sale {
   height: 100%;
-  .content {
+  .report-sale-tab {
     height: 100%;
-    .report-sale-tab {
-      height: 100%;
-      .filters {
-        width: fit-content;
-        height: fit-content;
-        .custom-date {
-          padding: 1rem;
-          & > div {
-            margin-right: 2rem;
-          }
-        }
-      }
-      & > .content {
-        display: flex;
-        padding-top: 2rem;
-        .orders {
-          min-width: 527px;
-          overflow: overlay;
+    .filters {
+      width: fit-content;
+      height: fit-content;
+      .custom-date {
+        padding: 1rem;
+        & > div {
           margin-right: 2rem;
-          height: fit-content;
-          max-height: 100%;
-        }
-        .status {
-          height: fit-content;
         }
       }
-      .report-sale-summary {
+    }
+    & > .content {
+      display: flex;
+      padding-top: 2rem;
+      .orders {
+        min-width: 527px;
+        overflow: overlay;
+        margin-right: 2rem;
         height: fit-content;
-        min-width: 320px;
-        .content {
+        max-height: 100%;
+      }
+      .status {
+        height: fit-content;
+      }
+    }
+    .report-sale-summary {
+      height: fit-content;
+      min-width: 320px;
+      .content {
+        display: flex;
+        .col {
           display: flex;
-          .col {
+          flex-direction: column;
+          flex: 1;
+          padding-top: 0.5rem;
+          .label {
+            width: 160px;
+            padding: 0 1rem;
+            padding-bottom: 0.5rem;
+          }
+          .value {
+            padding: 0 1rem;
             display: flex;
-            flex-direction: column;
-            flex: 1;
-            padding-top: 0.5rem;
-            .label {
-              width: 160px;
-              padding: 0 1rem;
-              padding-bottom: 0.5rem;
-            }
-            .value {
-              padding: 0 1rem;
-              display: flex;
-              justify-content: flex-end;
-              padding-bottom: 0.5rem;
-            }
-            &:nth-of-type(2) {
-              h6 {
-                text-align: right;
-              }
+            justify-content: flex-end;
+            padding-bottom: 0.5rem;
+          }
+          &:nth-of-type(2) {
+            h6 {
+              text-align: right;
             }
           }
         }
       }
-      .table {
-        .header {
-          h6 {
-            color: $on-primary-dark;
-            font-weight: 550;
+    }
+    .table {
+      .header {
+        h6 {
+          color: $on-primary-dark;
+          font-weight: 550;
+        }
+        .MuiTableCell-stickyHeader {
+          background: $primary-dark;
+        }
+      }
+      .actions {
+        display: flex;
+      }
+      tbody {
+        tr {
+          &:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.04);
           }
-          .MuiTableCell-stickyHeader {
-            background: $primary-dark;
-          }
-        }
-        .actions {
-          display: flex;
-        }
-        tbody {
-          tr {
-            &:nth-of-type(odd) {
-              background-color: rgba(0, 0, 0, 0.04);
-            }
-          } 
-        }
+        } 
       }
     }
   }
