@@ -27,6 +27,8 @@ const OrderModal = ({ order, closeModal }) => {
       } else {
         return order.discount.value * -1;
       }
+    } else {
+      return 0;
     }
   }
   const computeOrderTotal = () => {
