@@ -19,3 +19,27 @@ export const fmtStaffNo = (staffNo) => {
   const staffNoLength = 5;
   return staffNo.toString().padStart(staffNoLength, '0');
 }
+
+export const computePriceSummary = (order) =>{
+  const subtotal = order.products.reduce((acc, prod) => acc + Number((prod.price * prod.count).toFixed(2)), 0);
+  let discount = 0;
+  const discountObj = order.discount;
+  if (discountObj) {
+    if (discountObj.type === 'Amount') {
+      discount -= discountObj.value;
+    } else {
+      discount -= Number((subtotal * discountObj.value).toFixed(2));
+    }
+  }
+  const tax = Number(((subtotal + discount) * order.taxRate).toFixed(2));
+  const cost = order.products.reduce((acc, prod) => acc + Number((prod.cost * prod.count).toFixed(2)), 0);
+  const total = subtotal + discount + tax;
+
+  return {
+    subtotal,
+    discount,
+    tax,
+    cost,
+    total,
+  }
+}

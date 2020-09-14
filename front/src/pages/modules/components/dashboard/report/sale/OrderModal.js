@@ -10,32 +10,12 @@ import { useTranslation } from 'react-i18next';
 import ModalBase from '../../../ModalBase';
 import { formatAsCurrency } from '../../../../../../utils';
 import { Context } from '../../../../../../context/storeContext';
-import { fmtStaffNo } from '../../../../../../utils';
+import { fmtStaffNo, computePriceSummary } from '../../../../../../utils';
 
 const OrderModal = ({ order, closeModal }) => {
   const { t } = useTranslation();
 
-  const computeSubtotal = () => {
-    return order.products.reduce((acc, prod) => acc + prod.count * prod.price, 0);
-  }
-  
-  const computeDiscount = () => {
-    if (order.discount) {
-      if (order.discount.method === 'Percent') {
-        return computeSubtotal() * order.discount.value * -1;
-      } else {
-        return order.discount.value * -1;
-      }
-    } else {
-      return 0;
-    }
-  }
-  const computeTax = () => {
-    return Number(((computeSubtotal() + computeDiscount()) * order.taxRate).toFixed(2));
-  }
-  const computeOrderTotal = () => {
-    return Number((computeSubtotal() + computeTax() + computeDiscount()).toFixed(2));
-  }
+  const { subtotal, discount, tax, total } = computePriceSummary(order);
 
   return (
     <ModalBase
@@ -76,7 +56,7 @@ const OrderModal = ({ order, closeModal }) => {
                       { t('sale.subtotal') }
                     </Typography>
                   </div>
-                  <div className="value">{ formatAsCurrency(computeSubtotal()) }</div>
+                  <div className="value">{ formatAsCurrency(subtotal) }</div>
                 </div>
             }
             {
@@ -87,7 +67,7 @@ const OrderModal = ({ order, closeModal }) => {
                     Discount { order.discount.method === 'Percent' ? `${order.discount.value * 100}%` : '' }
                   </Typography>
                 </div>
-                <div className="value">{ formatAsCurrency(computeDiscount()) }</div>
+                <div className="value">{ formatAsCurrency(discount) }</div>
               </div>
             }
             {
@@ -98,7 +78,7 @@ const OrderModal = ({ order, closeModal }) => {
                     { t('tax.heading') }
                   </Typography>
                 </div>
-                <div className="value">{ formatAsCurrency(computeTax()) }</div>
+                <div className="value">{ formatAsCurrency(tax) }</div>
               </div>
             }
             <div className="row">
@@ -107,7 +87,7 @@ const OrderModal = ({ order, closeModal }) => {
                   { t('order.total') }
                 </Typography>
               </div>
-              <div className="value">{ formatAsCurrency(computeOrderTotal()) }</div>
+              <div className="value">{ formatAsCurrency(total) }</div>
             </div>
             <div className="row">
               <div className="label">

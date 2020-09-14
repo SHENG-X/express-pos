@@ -4,25 +4,14 @@ import React, {
 import { useTranslation } from 'react-i18next';
 
 import { Context } from '../../../../context/storeContext';
-import { fmtStaffNo } from '../../../../utils';
+import { fmtStaffNo, computePriceSummary } from '../../../../utils';
 
 const PrintableReceipt = ({ orderId }) => {
   const { t } = useTranslation();
   const { storeState } = useContext(Context);
-  const detail = storeState.orders.find(ord => ord._id === orderId);
-  const subtotal = detail.products.reduce((acc, prod) => acc + prod.price * prod.count, 0);
-  
-  const calcDiscount = () => {
-    if (!detail.discount) {
-      return 0 ;
-    }
-    if (detail.discount.method === 'Amount') {
-      return detail.discount.value * -1;
-    }
-    return subtotal * detail.discount.value * -1;
-  }
-  const tax = (detail.taxRate === 0 ? 0 : (subtotal + calcDiscount()) * detail.taxRate);
-  const total = subtotal + tax;
+  const order = storeState.orders.find(ord => ord._id === orderId);
+
+  const { subtotal, discount, tax, total } = computePriceSummary(order);
 
   return (
     <div className="print">
@@ -34,22 +23,22 @@ const PrintableReceipt = ({ orderId }) => {
           <div className="type">
             <span>{ t('sale.type') }:</span>
             <span>
-              { detail.paymentType }
+              { order.paymentType }
             </span>
           </div>
           <div className="type">
             <span>{ `Cashier No.` }:</span>
             <span>
-              { fmtStaffNo(detail.processedBy) }
+              { fmtStaffNo(order.processedBy) }
             </span>
           </div>
           <div>
-            { new Date(detail.createdAt).toLocaleString() }
+            { new Date(order.createdAt).toLocaleString() }
           </div>
         </div>
         <div className="main">
           {
-            detail.products.map(prod => <PrintableReceiptItem prod={prod} key={prod.product}/>)
+            order.products.map(prod => <PrintableReceiptItem prod={prod} key={prod.product}/>)
           }
           <div className="summary">
             {
@@ -57,16 +46,16 @@ const PrintableReceipt = ({ orderId }) => {
               <div className="subtotal row">
                 <div>{ t('sale.subtotal') }</div>
                 <div>
-                  { subtotal.toFixed(2) }
+                  { subtotal }
                 </div>
               </div>
             }
             {
-              detail.discount &&
+              order.discount &&
               <div className="discount row">
                 <div>Discount</div>
                 <div>
-                  { calcDiscount().toFixed(2) }
+                  { discount }
                 </div>
               </div>
             }
@@ -74,16 +63,16 @@ const PrintableReceipt = ({ orderId }) => {
               tax !== 0 && 
               <div className="tax row">
                 <div>
-                  { t('tax.heading') } { detail.taxRate * 100 }%
+                  { t('tax.heading') } { order.taxRate * 100 }%
                 </div>
                 <div>
-                  { tax.toFixed(2) }
+                  { tax }
                 </div>
               </div>
             }
             <div className="total row">
               <div>{ t('sale.total') }</div>
-              <div>{ (total + calcDiscount()).toFixed(2) }</div>
+              <div>{ total }</div>
             </div>
           </div>
         </div>
