@@ -31,7 +31,7 @@ const Categories = ({ selectedCID, handleSelectChange }) => {
     // products, if a category is not used then we don't want to display it
     let activeCategoryIDs = new Set();
     storeState.products.forEach(prod => {
-      if (prod.category) {
+      if (prod.category && prod.enable) {
         activeCategoryIDs.add(prod.category);
       }
     });
