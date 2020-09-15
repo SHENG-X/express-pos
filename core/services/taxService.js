@@ -16,7 +16,7 @@ const updateTax = async (req, res) => {
     const updatedStore = await storeModel.findByIdAndUpdate(storeId, { tax }, { new : true });
     const updatedTaxDoc = updatedStore._doc.tax;
 
-    /// emit update tax event to according store so all users in the same store 
+    // emit update tax event to according store so all users in the same store 
     // can react to the event accordingly
     res.io.emit(storeId, { type: 'UPDATE_TAX', payload: storeId, uid: req.decoded.user });
 
