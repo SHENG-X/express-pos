@@ -7,7 +7,7 @@ const getOrder = async (req, res) => {
   const storeId = req.decoded.store;
 
   const store = req.query.store;
-  const orderId = req.query.id;
+  const orderId = req.query.oid;
 
   try {
     if (!orderId) {
@@ -43,6 +43,11 @@ const createOrder = async (req, res) => {
     storeObj.orders.push(savedOrder._id);
     await storeObj.save();
     const savedOrderDoc = savedOrder._doc;
+
+    // emit add order event to according store so all users in the same store 
+    // can react to the event accordingly
+    res.io.emit(storeId, { type: 'ADD_ORDER', payload: savedOrderDoc._id, uid: req.decoded.user });
+
     return res.status(201).json(savedOrderDoc);
   } catch (error) {
     return res.status(500).json(error);
@@ -64,6 +69,11 @@ const deleteOrder = async (req, res) => {
     const storeObj = await storeModel.findById(storeId);
     storeObj.orders = storeObj.orders.filter(odr => odr.toString() !== _id);
     await storeObj.save();
+
+    // emit delete order event to according store so all users in the same store 
+    // can react to the event accordingly
+    res.io.emit(storeId, { type: 'DELETE_ORDER', payload: _id, uid: req.decoded.user });
+
     return res.status(204).json(_id);
   } catch (error) {
     return res.status(500).json(error);
