@@ -46,7 +46,7 @@ const Profile = () => {
 
   const handleConfirm = () => {
     let profileSubmit  = JSON.parse(JSON.stringify(profile));
-    profileSubmit = { ...profileSubmit,  phone: Number(profileSubmit.phone.match(/\d/g).join('')) };
+    profileSubmit = { ...profileSubmit,  phone: Number(`${profileSubmit.phone}`.match(/\d/g).join('')) };
 
     updateStaff(
       profileSubmit,
