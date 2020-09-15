@@ -40,7 +40,7 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
 
   const handleConfirm = () => {
     let staffSubmit  = JSON.parse(JSON.stringify(staff));
-    staffSubmit = { ...staffSubmit,  phone: Number(staffSubmit.phone.match(/\d/g).join('')) };
+    staffSubmit = { ...staffSubmit,  phone: Number(`${staffSubmit.phone}`.match(/\d/g).join('')) };
     if (currentStaff) {
       if (JSON.stringify(staff) === JSON.stringify(currentStaff)) {
         resetCurrentStaff();
