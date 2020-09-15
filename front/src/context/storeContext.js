@@ -13,6 +13,7 @@ import {
   consumeProduct,
   deleteOrderAsync,
   restockProductAsync,
+  getCategoryAsync,
 } from '../services/storeService';
 
 const ACTIONS = {
@@ -62,6 +63,11 @@ const storeReducer = (state, { type, payload }) => {
       return {...state, orders: [...state.orders, payload]};
     case ACTIONS.DELETE_ORDER:
       return {...state, orders: state.orders.filter(order => order._id !== payload)};
+    case ACTIONS.SOCKET_GET_CATEGORY:
+      const category = state.categories.find(category => category._id === payload._id);
+      if (!category){
+        return { ...state, categories: [...state.categories, payload] };
+      }
     default:
       return state;
   }
@@ -253,6 +259,32 @@ const restockProduct = (dispatch) => {
     }
   }
 }
+
+const socketGetCategoryUtil = async (dispatch, cid, type) => {
+    const response = await getCategoryAsync(cid);
+    if (response.status === 200) {
+      dispatch({ type, payload: response.data });
+    }
+}
+
+const socketGetCategory = (dispatch) => {
+  return async (cid) => {
+    await socketGetCategoryUtil(dispatch, cid, ACTIONS.ADD_CATEGORY);
+  }
+}
+
+const socketUpdateCategory = (dispatch) => {
+  return async (cid) => {
+    await socketGetCategoryUtil(dispatch, cid, ACTIONS.UPDATE_CATEGORY);
+  }
+}
+
+const socketDeleteCategory = (dispatch) => {
+  return async (cid) => {
+    dispatch({type: ACTIONS.DELETE_CATEGORY, payload: cid});
+  }
+}
+
 export const { Context, Provider } = createDataContext(
   storeReducer,
   {
@@ -267,6 +299,9 @@ export const { Context, Provider } = createDataContext(
     createOrder,
     deleteOrder,
     restockProduct,
+    socketGetCategory,
+    socketUpdateCategory,
+    socketDeleteCategory,
   },
   {},
   'storeState'

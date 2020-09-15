@@ -10,6 +10,7 @@ import {
   Redirect,
   HashRouter,
 } from "react-router-dom";
+import socketIOClient from "socket.io-client";
 
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -22,11 +23,17 @@ import Loading from './pages/Loading';
 import Dashboard from './pages/Dashboard';
 import { Context as StoreContext } from './context/storeContext';
 import { Context as UserContext } from './context/userContext';
-
+const host = "http://localhost:3000";
 
 const App = () => {
   const { userState, signIn } = useContext(UserContext);
-  const { loadStore } = useContext(StoreContext);
+  const { 
+    storeState,
+    loadStore,
+    socketGetCategory,
+    socketUpdateCategory,
+    socketDeleteCategory,
+  } = useContext(StoreContext);
 
   const [fetchToken, setFetchToken] = useState(false);
   
@@ -46,6 +53,30 @@ const App = () => {
       () => { setFetchToken(true); }
     );
   }, []);
+
+  useEffect(() => {
+    const socket = socketIOClient(host);
+    if (fetchToken) {
+      socket.on(storeState._id, data => {
+        if (data.uid === userState._id) {
+          // if the operation is the same user, we know
+          // there is response data then do nothing
+          return;
+        }
+        switch (data.type) {
+          case 'ADD_CATEGORY':
+            socketGetCategory(data.payload);
+            break;
+          case 'UPDATE_CATEGORY':
+            socketUpdateCategory(data.payload);
+            break;
+          case 'DELETE_CATEGORY':
+            socketDeleteCategory(data.payload);
+            break;
+        }
+      });
+    }
+  }, [fetchToken]);
 
   if (localStorage.getItem('EXPRESS-POS/token') 
       && (window.location.href.includes('sale') 

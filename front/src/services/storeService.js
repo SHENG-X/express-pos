@@ -95,3 +95,11 @@ export const loadStoreAsync = async (storeId) => {
     return error.response;
   }
 }
+
+export const getCategoryAsync = async (cid) => {
+  try {
+    return await instance.get('/api/category', { params: { cid } });
+  } catch (error) {
+    return error.response;
+  }
+}
