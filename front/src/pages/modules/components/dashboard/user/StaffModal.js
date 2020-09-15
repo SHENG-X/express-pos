@@ -11,11 +11,13 @@ import {
   FormControl,
   InputLabel,
   Switch,
+  Input,
 } from '@material-ui/core';
 import { useToasts } from 'react-toast-notifications';
 
 import ModalBase from '../../ModalBase';
 import { Context } from '../../../../../context/userContext';
+import PhoneNumMask from '../../PhoneNumMask';
 
 const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
   let defaultStaff = {
@@ -37,6 +39,8 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
   const { addToast } = useToasts();
 
   const handleConfirm = () => {
+    let staffSubmit  = JSON.parse(JSON.stringify(staff));
+    staffSubmit = { ...staffSubmit,  phone: Number(staffSubmit.phone.match(/\d/g).join('')) };
     if (currentStaff) {
       if (JSON.stringify(staff) === JSON.stringify(currentStaff)) {
         resetCurrentStaff();
@@ -44,7 +48,7 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
         return;
       }
       updateStaff(
-        staff,
+        staffSubmit,
         () => {
           addToast('Staff updated', { appearance: 'success' });
           // close modal window on staff added
@@ -57,7 +61,7 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
       );
     } else {
       addStaff(
-        staff,
+        staffSubmit,
         () => {
           addToast('New staff was added', { appearance: 'success' });
           // close modal window on staff added
@@ -159,11 +163,10 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
               </Typography>
             </div>
             <div className="input">
-              <TextField
-                type="tel"
-                placeholder="Phone number"
+              <Input
                 value={staff.phone}
                 onChange={e => setStaff({...staff, phone: e.target.value})}
+                inputComponent={PhoneNumMask}
               />
             </div>
           </div>

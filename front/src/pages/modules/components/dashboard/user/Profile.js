@@ -7,12 +7,14 @@ import {
   TextField,
   Button,
   Typography,
+  Input,
 } from '@material-ui/core';
 import { useToasts } from 'react-toast-notifications';
 
 import CardBase from '../../cardbase/CardBase';
 import { Context } from '../../../../../context/userContext';
 import { fmtStaffNo } from '../../../../../utils';
+import PhoneNumMask from '../../PhoneNumMask';
 
 const Profile = () => {
   const { userState, updateStaff } = useContext(Context);
@@ -22,7 +24,11 @@ const Profile = () => {
   const { addToast } = useToasts();
 
   useEffect(() => {
-    if (JSON.stringify(profile) === JSON.stringify(userState)) {
+    let profileCopy = JSON.parse(JSON.stringify(profile));
+    if (typeof profileCopy.phone === 'string') {
+      profileCopy.phone = Number(profileCopy.phone.match(/\d/g).join(''));
+    }
+    if (JSON.stringify(profileCopy) === JSON.stringify(userState)) {
       setAllowUpdate(false);
     } else {
       setAllowUpdate(true);
@@ -38,9 +44,12 @@ const Profile = () => {
     setProfile({ ...profile, password: null });
   }
 
-  const handleConfirm = () =>{
+  const handleConfirm = () => {
+    let profileSubmit  = JSON.parse(JSON.stringify(profile));
+    profileSubmit = { ...profileSubmit,  phone: Number(profileSubmit.phone.match(/\d/g).join('')) };
+
     updateStaff(
-      profile,
+      profileSubmit,
       () => {
         addToast('Profile updated', { appearance: 'success' });
         // close modal window on staff added
@@ -118,10 +127,10 @@ const Profile = () => {
             </Typography>
         </div>
         <div className="value">
-          <TextField
-            type="tel"
+          <Input
             value={profile.phone}
-            onChange={e => setProfile({...profile, phone: Number(e.target.value)})}
+            onChange={e => setProfile({...profile, phone: e.target.value})}
+            inputComponent={PhoneNumMask}
           />
         </div>
       </div>
