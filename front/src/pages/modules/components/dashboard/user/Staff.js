@@ -32,15 +32,46 @@ const Staff = () => {
   const [open, setOpen] = useState(false);
   const { userState, getStaff } = useContext(Context);
   const [currentStaff, setCurrentStaff] = useState(null);
+  const [searchText, setSearchText] = useState('');
+  const [computedStaff, setComputedStaff] = useState([]);
+
   useEffect(() => {
     if (userState.staff === undefined) {
       getStaff();
     }
   }, []);
 
+  useEffect(() => {
+    setComputedStaff(computeStaff());
+  }, [searchText, userState.staff]);
+
   const updateCurrentStaff = (staff) => {
     setCurrentStaff(staff);
     setOpen(true);
+  }
+
+  const computeStaff = () => {
+    let staff = userState.staff;
+
+    if (searchText !== '') {
+      staff = staff.filter(stf => {
+        let stfObj = {
+          staffNo: fmtStaffNo(stf.staffNo),
+          enable: stf.enable,
+          role: stf.role,
+          lname: stf.lname,
+          fname: stf.fname,
+          phone: stf.phone,
+          email: stf.email,
+        };
+        const stfStr = Object.values(stfObj).join('');
+        if (stfStr.toLowerCase().includes(searchText.toLowerCase())) {
+          return stf;
+        }
+      })
+    }
+
+    return staff;
   }
 
   return (
@@ -63,6 +94,7 @@ const Staff = () => {
             <div className="search">
               <Input
                 placeholder={ 'Search for a staff' }
+                onChange={e => setSearchText(e.target.value)}
                 startAdornment={
                   <InputAdornment position="start">
                     <Search />
@@ -90,7 +122,7 @@ const Staff = () => {
               </TableHead>
               <TableBody>
                 {
-                  userState?.staff?.map(staff => <StaffRow staff={staff} handleUpdate={updateCurrentStaff} key={staff._id} />)
+                  computedStaff?.map(staff => <StaffRow staff={staff} handleUpdate={updateCurrentStaff} key={staff._id} />)
                 }
               </TableBody>
             </Table>
