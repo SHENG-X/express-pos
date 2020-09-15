@@ -4,7 +4,7 @@ const storeModel = require('../model/storeModel');
 
 const getProduct = async (req, res) => {
   const storeId = req.decoded.store;
-  const productId = req.query.id;
+  const productId = req.query.pid;
 
   try {
     if (!productId) {
@@ -40,6 +40,11 @@ const createProduct = async (req, res) => {
     // save product to database
     const savedProduct = await product.save();
     const savedProductDoc = savedProduct._doc;
+    
+    // emit add product event to according store so all users in the same store 
+    // can react to the event accordingly
+    res.io.emit(req.decoded.store, { type: 'ADD_PRODUCT', payload: savedProductDoc._id, uid: req.decoded.user });
+
     return res.status(201).json(savedProductDoc);
   } catch (error) {
     return res.status(500).json(error);
@@ -69,6 +74,11 @@ const updateProduct = async (req, res) => {
     }
 
     const updatedProductDoc = updatedProduct._doc;
+
+    // emit update product event to according store so all users in the same store 
+    // can react to the event accordingly
+    res.io.emit(req.decoded.store, { type: 'UPDATE_PRODUCT', payload: updatedProductDoc._id, uid: req.decoded.user });
+
     return res.status(200).json(updatedProductDoc);
   } catch (error) {
     return res.status(500).json(error);
@@ -89,6 +99,11 @@ const deleteProduct = async (req, res) => {
     await product.deleteOne();
     // remove product image
     removeImageFile(_id);
+
+    // emit delete product event to according store so all users in the same store 
+    // can react to the event accordingly
+    res.io.emit(req.decoded.store, { type: 'DELETE_PRODUCT', payload: _id, uid: req.decoded.user });
+
     return res.status(204).json(_id);
   } catch (error) {
     return res.status(500).json(error);
@@ -108,6 +123,11 @@ const consumeProduct = async (req, res) => {
     productObj.count -= count;
     const savedProduct = await productObj.save();
     const saveProductDoc = savedProduct._doc;
+
+    // emit update product event to according store so all users in the same store 
+    // can react to the event accordingly
+    res.io.emit(req.decoded.store, { type: 'UPDATE_PRODUCT', payload: saveProductDoc._id, uid: req.decoded.user });
+
     return res.status(200).json(saveProductDoc);
   } catch (error) {
     return res.status(500).json(error);
@@ -126,6 +146,11 @@ const restockProduct = async (req, res) => {
     productObj.count += count;
     const savedProduct = await productObj.save();
     const productDoc = savedProduct._doc;
+
+    // emit update product event to according store so all users in the same store 
+    // can react to the event accordingly
+    res.io.emit(req.decoded.store, { type: 'UPDATE_PRODUCT', payload: productDoc._id, uid: req.decoded.user });
+
     return res.status(200).json(productDoc);
   } catch (error) {
     return res.status(500).json(error);
