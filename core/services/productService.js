@@ -39,10 +39,6 @@ const createProduct = async (req, res) => {
 
     // save product to database
     const savedProduct = await product.save();
-    // append new product id to store products and save
-    const storeObj = await storeModel.findById(storeId);
-    storeObj.products.push(savedProduct._id);
-    await storeObj.save();
     const savedProductDoc = savedProduct._doc;
     return res.status(201).json(savedProductDoc);
   } catch (error) {
@@ -80,7 +76,6 @@ const updateProduct = async (req, res) => {
 }
 
 const deleteProduct = async (req, res) => {
-  const storeId = req.decoded.store;
   const { _id } = req.query;
 
   if (!_id) {
@@ -88,12 +83,11 @@ const deleteProduct = async (req, res) => {
   }
 
   try {
-    // delete the product from the product table
-    await productModel.findByIdAndDelete(_id);
-    const storeObj = await storeModel.findById(storeId);
-    // remove the product from the store products
-    storeObj.products = storeObj.products.filter(pid => pid.toString() !== _id);
-    await storeObj.save();
+    // find product by id
+    const product = await productModel.findById(_id);
+    // delete current product
+    await product.deleteOne();
+    // remove product image
     removeImageFile(_id);
     return res.status(204).json(_id);
   } catch (error) {

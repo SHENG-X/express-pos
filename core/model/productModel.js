@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const storeModel = require('./storeModel');
+
 const productSchema = new Schema(
   {
     enable: {
@@ -50,6 +52,26 @@ const productSchema = new Schema(
     timestamps: true,
   },
 );
+
+productSchema.post('save', async (product, next) => {
+  // find store object by product's store ref
+  const store = await storeModel.findById(product.store);
+  // add current product ref to the store products list 
+  store.products.push(product.id);
+  // update store
+  await store.save();
+  next();
+});
+
+productSchema.post('deleteOne', {document: true}, async (product, next) => {
+  // find store object by product's store ref
+  const store = await storeModel.findById(product.store);
+  // remove current product ref from the store products list
+  store.products = store.products.filter(pid => pid.toString() !== product.id);
+  // update store 
+  await store.save();
+  next();
+});
 
 const productModel = mongoose.model('Product', productSchema);
 
