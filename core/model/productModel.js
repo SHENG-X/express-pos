@@ -56,10 +56,15 @@ const productSchema = new Schema(
 productSchema.post('save', async (product, next) => {
   // find store object by product's store ref
   const store = await storeModel.findById(product.store);
-  // add current product ref to the store products list 
-  store.products.push(product.id);
-  // update store
-  await store.save();
+
+  if (!store.products.find(prod => prod.id === product.id.toString())){
+    // if product is not in the store products
+    // add current product ref to the store products list 
+    store.products.push(product.id);
+    // update store
+    await store.save();
+  }
+
   next();
 });
 
