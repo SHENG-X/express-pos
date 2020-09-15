@@ -64,11 +64,6 @@ const storeReducer = (state, { type, payload }) => {
       return {...state, orders: [...state.orders, payload]};
     case ACTIONS.DELETE_ORDER:
       return {...state, orders: state.orders.filter(order => order._id !== payload)};
-    case ACTIONS.SOCKET_GET_CATEGORY:
-      const category = state.categories.find(category => category._id === payload._id);
-      if (!category){
-        return { ...state, categories: [...state.categories, payload] };
-      }
     default:
       return state;
   }
