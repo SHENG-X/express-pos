@@ -16,6 +16,7 @@ import {
   getCategoryAsync,
   getProductAsync,
   getTaxAsync,
+  getOrderAsync,
 } from '../services/storeService';
 
 const ACTIONS = {
@@ -316,6 +317,21 @@ const socketUpdateTax = (dispatch) => {
   }
 }
 
+const socketAddOrder = (dispatch) => {
+  return async (oid) => {
+    const response = await getOrderAsync(oid);
+    if (response.status === 200) {
+      dispatch({ type: ACTIONS.CREATE_ORDER, payload: response.data });
+    }
+  }
+}
+
+const socketDeleteOrder = (dispatch) => {
+  return (oid) => {
+    dispatch({ type: ACTIONS.DELETE_ORDER, payload: oid });
+  }
+}
+
 export const { Context, Provider } = createDataContext(
   storeReducer,
   {
@@ -337,6 +353,8 @@ export const { Context, Provider } = createDataContext(
     socketUpdateProduct,
     socketDeleteProduct,
     socketUpdateTax,
+    socketAddOrder,
+    socketDeleteOrder,
   },
   {},
   'storeState'
