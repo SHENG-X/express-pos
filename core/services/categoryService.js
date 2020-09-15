@@ -5,7 +5,7 @@ const storeModel = require('../model/storeModel');
 const getCategory = async (req, res) => {
   const storeId = req.decoded.store; 
   // const store = req.query.store;
-  const categoryId = req.query.id;
+  const categoryId = req.query.cid;
 
   try {
     if (!categoryId) {
@@ -41,6 +41,11 @@ const createCategory = async (req, res) => {
     // save category
     const savedCategory = await category.save();
     const savedCategoryDoc = savedCategory._doc;
+
+    // emit add category event to according store so all users in the same store 
+    // can react to the event accordingly
+    res.io.emit(storeId, { type: 'ADD_CATEGORY', payload: savedCategoryDoc._id, uid: req.decoded.user });
+
     return res.status(201).json(savedCategoryDoc);
   } catch (error) {
     return res.status(500).json(error);
@@ -55,6 +60,12 @@ const updateCategory = async (req, res) => {
       writeImageFile(thumbnail, updatedCategory._id);
     }
     const updateCategoryDoc = updatedCategory._doc;
+
+    // emit update category event to according store so all users in the same store 
+    // can react to the event accordingly
+    res.io.emit(req.decoded.store, { type: 'UPDATE_CATEGORY', payload: updateCategoryDoc._id, uid: req.decoded.user });
+
+
     return res.status(200).json(updateCategoryDoc);
   } catch (error) {
     return res.status(500).json(error);
@@ -70,6 +81,11 @@ const deleteCategory = async (req, res) => {
     // remove the category
     await category.deleteOne();
     removeImageFile(_id);
+    
+    // emit update category event to according store so all users in the same store 
+    // can react to the event accordingly
+    res.io.emit(req.decoded.store, { type: 'DELETE_CATEGORY', payload: _id, uid: req.decoded.user });
+
     return res.status(204).json(_id);
   } catch (error) {
     return res.status(500).json(error);
