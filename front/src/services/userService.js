@@ -16,9 +16,9 @@ export const authenticate = async (email, password) => {
   }
 }
 
-export const getStaffAsync = async () => {
+export const getStaffAsync = async (uid) => {
   try {
-    return await instance.get('/api/user');
+    return await instance.get('/api/user', { params: { uid } });
   } catch (error) {
     return error.response;
   }

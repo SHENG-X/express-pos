@@ -26,8 +26,15 @@ import { Context as UserContext } from './context/userContext';
 const host = "http://localhost:3000";
 
 const App = () => {
-  const { userState, signIn } = useContext(UserContext);
-  const { 
+  const {
+    userState,
+    signIn,
+    socketAddStaff,
+    socketUpdateStaff,
+    socketDeleteStaff,
+  } = useContext(UserContext);
+
+  const {
     storeState,
     loadStore,
     socketGetCategory,
@@ -88,6 +95,15 @@ const App = () => {
             break;
           case 'UPDATE_TAX':
             socketUpdateTax();
+            break;
+          case 'ADD_STAFF':
+            socketAddStaff(data.payload);
+            break;
+          case 'UPDATE_STAFF':
+            socketUpdateStaff(data.payload);
+            break;
+          case 'DELETE_STAFF':
+            socketDeleteStaff(data.payload);
             break;
         }
       });

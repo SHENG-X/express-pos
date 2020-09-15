@@ -166,6 +166,31 @@ const deleteStaff = (dispatch) => {
     }
   }
 }
+
+const socketAddStaff = (dispatch) => {
+  return async (uid) => {
+    const response = await getStaffAsync(uid);
+    if (response.status === 200) {
+      dispatch({ type: ACTIONS.ADD_STAFF, payload: response.data });
+    }
+  }
+}
+
+const socketUpdateStaff = (dispatch) => {
+  return async (uid) => {
+    const response = await getStaffAsync(uid);
+    if (response.status === 200) {
+      dispatch({ type: ACTIONS.UPDATE_STAFF, payload: response.data });
+    }
+  }
+}
+
+const socketDeleteStaff = (dispatch) => {
+  return (uid) => {
+    dispatch({ type: ACTIONS.DELETE_STAFF, payload: uid });
+  }
+}
+
 export const { Context, Provider } = createDataContext(
   userReducer,
   {
@@ -176,6 +201,9 @@ export const { Context, Provider } = createDataContext(
     addStaff,
     updateStaff,
     deleteStaff,
+    socketAddStaff,
+    socketUpdateStaff,
+    socketDeleteStaff,
   },
   { authenticated: false },
   'userState'
