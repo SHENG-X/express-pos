@@ -45,3 +45,8 @@ export const computePriceSummary = (order) =>{
     total,
   }
 }
+
+export const formatPhone = (phone) => {
+  const matched = phone.toString().match(/^(\d{3})(\d{3})(\d{4})$/);
+  return `(${matched[1]}) ${matched[2]}-${matched[3]}`;
+}
