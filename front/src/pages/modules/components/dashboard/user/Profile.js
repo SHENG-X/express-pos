@@ -26,7 +26,7 @@ const Profile = () => {
   useEffect(() => {
     let profileCopy = JSON.parse(JSON.stringify(profile));
     if (typeof profileCopy.phone === 'string') {
-      profileCopy.phone = Number(profileCopy.phone.match(/\d/g).join(''));
+      profileCopy.phone = Number(`${profileCopy.phone}`.match(/\d/g)?.join(''));
     }
     if (JSON.stringify(profileCopy) === JSON.stringify(userState)) {
       setAllowUpdate(false);
@@ -46,7 +46,7 @@ const Profile = () => {
 
   const handleConfirm = () => {
     let profileSubmit  = JSON.parse(JSON.stringify(profile));
-    profileSubmit = { ...profileSubmit,  phone: Number(`${profileSubmit.phone}`.match(/\d/g).join('')) };
+    profileSubmit = { ...profileSubmit,  phone: Number(`${profileSubmit.phone}`.match(/\d/g)?.join('')) };
 
     updateStaff(
       profileSubmit,
