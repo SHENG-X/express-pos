@@ -34,7 +34,7 @@ categorySchema.post('save', async (category, next) => {
   const storeId = category.store.toString();
   const store = await storeModel.findById(storeId);
 
-  if (!store.categories.find(ctgy => ctgy.id === category.id.toString())) {
+  if (!store.categories.find(ctgy => ctgy.id.toString() === category.id)) {
     // if category ref is not in the store categories
     store.categories.push(category.id);
     await store.save();
