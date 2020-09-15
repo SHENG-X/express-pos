@@ -280,7 +280,7 @@ const socketUpdateCategory = (dispatch) => {
 }
 
 const socketDeleteCategory = (dispatch) => {
-  return async (cid) => {
+  return (cid) => {
     dispatch({type: ACTIONS.DELETE_CATEGORY, payload: cid});
   }
 }
