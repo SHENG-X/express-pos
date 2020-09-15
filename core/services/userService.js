@@ -38,8 +38,6 @@ const signInUser = async (req, res) => {
     }
   }
 
-  
-
   // check if the email exist
   const user = await userExist(email);
 
@@ -132,6 +130,11 @@ const addStaff = async (req, res) => {
   try {
     const savedStaff = await staff.save();
     const staffDoc = { ...savedStaff._doc, password: null };
+
+    // emit add staff event to according store so all users in the same store 
+    // can react to the event accordingly
+    res.io.emit(storeId, { type: 'ADD_STAFF', payload: staffDoc._id, uid: req.decoded.user });
+
     return res.status(201).json(staffDoc);
   } catch (error) {
     return res.status(500).json(error);
@@ -141,8 +144,18 @@ const addStaff = async (req, res) => {
 const getStaff = async (req, res) => {
   const storeId = req.decoded.store;
   const userId = req.decoded.user;
+
+  const uid = req.query.uid;
+
   try {
     const staff = await userModel.find({ store: storeId });
+
+    if (uid) {
+      // if uid is passed then the according staff should be returned
+      const currentStaff = staff.find(stf => stf.id === uid);
+      return res.status(200).json({ ...currentStaff._doc, password: null });
+    }
+
     const staffDoc = staff.filter(stf => {
       // do not send owner and current user back
       if (stf.role !== 'Owner' && stf.id !== userId) {
@@ -194,6 +207,11 @@ const updateStaff = async (req, res) => {
     const updatedStaff = await setStaffInfo(staff, enable, fname, lname, phone, password);
     const staffObj = await updatedStaff.save();
     const staffDoc = {...staffObj._doc, password: null};
+
+    // emit update staff event to according store so all users in the same store 
+    // can react to the event accordingly
+    res.io.emit(req.decoded.store, { type: 'UPDATE_STAFF', payload: staffDoc._id, uid: req.decoded.user });
+
     return res.status(200).json(staffDoc);
 
   } catch (error) {
@@ -220,6 +238,11 @@ const deleteStaff = async (req, res) => {
     }
     // proceed to delete a staff
     await userModel.findByIdAndDelete(staffId);
+
+    // emit delete staff event to according store so all users in the same store 
+    // can react to the event accordingly
+    res.io.emit(req.decoded.store, { type: 'DELETE_STAFF', payload: staffId, uid: req.decoded.user });
+
     return res.status(204).json(staffId);
   } catch (error) {
     return res.status(500).json(error);
