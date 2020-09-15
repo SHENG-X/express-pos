@@ -119,3 +119,11 @@ export const getTaxAsync = async () => {
     return error.response;
   }
 }
+
+export const getOrderAsync = async (oid) => {
+  try {
+    return await instance.get('/api/order', { params: { oid } });
+  } catch (error) {
+    return error.response;
+  }
+}
