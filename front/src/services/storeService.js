@@ -111,3 +111,11 @@ export const getProductAsync = async (pid) => {
     return error.response;
   }
 }
+
+export const getTaxAsync = async () => {
+  try {
+    return await instance.get('/api/tax');
+  } catch (error) {
+    return error.response;
+  }
+}

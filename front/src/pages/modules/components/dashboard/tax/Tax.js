@@ -32,6 +32,12 @@ const Tax = () => {
     }
   }, [tax]);
 
+  useEffect(() => {
+    // watch store tax change on tax change
+    // set component tax to store tax
+    setTax({ ...storeState.tax, rate: Number((storeState.tax.rate * 100).toFixed(2))});
+  }, [storeState.tax])
+
   const handleCancel = () => {
     setAllowUpdate(false);
     setTax({ ...storeState.tax, rate: Number((storeState.tax.rate * 100).toFixed(2))});

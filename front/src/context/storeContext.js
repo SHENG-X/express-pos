@@ -15,6 +15,7 @@ import {
   restockProductAsync,
   getCategoryAsync,
   getProductAsync,
+  getTaxAsync,
 } from '../services/storeService';
 
 const ACTIONS = {
@@ -306,6 +307,15 @@ const socketDeleteProduct = (dispatch) => {
   }
 }
 
+const socketUpdateTax = (dispatch) => {
+  return async () => {
+    const response = await getTaxAsync();
+    if (response.status === 200) {
+      dispatch({ type: ACTIONS.UPDATE_TAX, payload: response.data });
+    }
+  }
+}
+
 export const { Context, Provider } = createDataContext(
   storeReducer,
   {
@@ -326,6 +336,7 @@ export const { Context, Provider } = createDataContext(
     socketAddProduct,
     socketUpdateProduct,
     socketDeleteProduct,
+    socketUpdateTax,
   },
   {},
   'storeState'

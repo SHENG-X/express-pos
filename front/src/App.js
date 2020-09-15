@@ -36,6 +36,7 @@ const App = () => {
     socketAddProduct,
     socketUpdateProduct,
     socketDeleteProduct,
+    socketUpdateTax,
   } = useContext(StoreContext);
 
   const [fetchToken, setFetchToken] = useState(false);
@@ -84,6 +85,9 @@ const App = () => {
             break;
           case 'DELETE_PRODUCT':
             socketDeleteProduct(data.payload);
+            break;
+          case 'UPDATE_TAX':
+            socketUpdateTax();
             break;
         }
       });
