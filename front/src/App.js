@@ -33,6 +33,9 @@ const App = () => {
     socketGetCategory,
     socketUpdateCategory,
     socketDeleteCategory,
+    socketAddProduct,
+    socketUpdateProduct,
+    socketDeleteProduct,
   } = useContext(StoreContext);
 
   const [fetchToken, setFetchToken] = useState(false);
@@ -72,6 +75,15 @@ const App = () => {
             break;
           case 'DELETE_CATEGORY':
             socketDeleteCategory(data.payload);
+            break;
+          case 'ADD_PRODUCT':
+            socketAddProduct(data.payload);
+            break;
+          case 'UPDATE_PRODUCT':
+            socketUpdateProduct(data.payload);
+            break;
+          case 'DELETE_PRODUCT':
+            socketDeleteProduct(data.payload);
             break;
         }
       });

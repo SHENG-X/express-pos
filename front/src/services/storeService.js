@@ -103,3 +103,11 @@ export const getCategoryAsync = async (cid) => {
     return error.response;
   }
 }
+
+export const getProductAsync = async (pid) => {
+  try {
+    return await instance.get('/api/product', { params: { pid } });
+  } catch (error) {
+    return error.response;
+  }
+}

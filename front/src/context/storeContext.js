@@ -14,6 +14,7 @@ import {
   deleteOrderAsync,
   restockProductAsync,
   getCategoryAsync,
+  getProductAsync,
 } from '../services/storeService';
 
 const ACTIONS = {
@@ -285,6 +286,31 @@ const socketDeleteCategory = (dispatch) => {
   }
 }
 
+const socketGetProductUtil = async (dispatch, pid, type) => {
+  const response = await getProductAsync(pid);
+    if (response.status === 200) {
+      dispatch({ type, payload: response.data });
+    }
+}
+
+const socketAddProduct = (dispatch) => {
+  return async (pid) => {
+    await socketGetProductUtil(dispatch, pid, ACTIONS.ADD_PRODUCT);
+  }
+}
+
+const socketUpdateProduct = (dispatch) => {
+  return async (pid) => {
+    await socketGetProductUtil(dispatch, pid, ACTIONS.UPDATE_PRODUCT);
+  }
+}
+
+const socketDeleteProduct = (dispatch) => {
+  return (pid) => {
+    dispatch({type: ACTIONS.DELETE_PRODUCT, payload: pid});
+  }
+}
+
 export const { Context, Provider } = createDataContext(
   storeReducer,
   {
@@ -302,6 +328,9 @@ export const { Context, Provider } = createDataContext(
     socketGetCategory,
     socketUpdateCategory,
     socketDeleteCategory,
+    socketAddProduct,
+    socketUpdateProduct,
+    socketDeleteProduct,
   },
   {},
   'storeState'
