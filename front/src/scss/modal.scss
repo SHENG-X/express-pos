@@ -6,7 +6,7 @@
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   left: 0;
-  z-index: 9999;
+  z-index: 999;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,7 +27,7 @@
         max-height: calc(80vh - 58px);
         overflow: overlay;
       }
-      & > .actions {
+      form > .actions, & > .actions {
         padding: 1rem;
         display: flex;
         justify-content: flex-end;
