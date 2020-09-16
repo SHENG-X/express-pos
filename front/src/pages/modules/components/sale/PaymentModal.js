@@ -197,7 +197,10 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen, setOrderId, discou
                                 <Clear/>
                               </IconButton>
                             </InputAdornment>
-                          )
+                          ),
+                          inputProps: { 
+                            min: 0,
+                          }
                         }}
                       />
                     </div>

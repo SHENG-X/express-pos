@@ -152,6 +152,11 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                 onChange={e => setProduct({...product, count: e.target.value.replace(/^0+/,'')})}
                 type="number"
                 placeholder={ t('product.productCount') }
+                InputProps={{
+                  inputProps: { 
+                      min: 0,
+                  }
+                }}
               />
             </div>
           </div>
@@ -204,6 +209,11 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                       value={price.value}
                       onChange={e => setProductPrices(idx, 'value', e.target.value.replace(/^0+/,''))}
                       placeholder={ t('product.priceValue') }
+                      InputProps={{
+                        inputProps: { 
+                            min: 0,
+                        }
+                      }}
                     /> 
                     {
                       idx !== 0 ?
@@ -246,6 +256,11 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                 value={product.cost}
                 onChange={e => setProduct({...product, cost: e.target.value.replace(/^0+/,'')})}
                 placeholder={ t('product.productCost') }
+                InputProps={{
+                  inputProps: { 
+                      min: 0,
+                  }
+                }}
               />
             </div>
           </div>

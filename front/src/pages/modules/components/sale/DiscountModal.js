@@ -58,6 +58,9 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
                   startAdornment: (
                     <InputAdornment position="start">$</InputAdornment>
                   ),
+                  inputProps: { 
+                    min: 0,
+                  }
                 }}
               />
             }
@@ -72,7 +75,10 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
                     <InputAdornment position="end">
                       %
                     </InputAdornment>
-                  )
+                  ),
+                  inputProps: { 
+                    min: 0,
+                  }
                 }}
               />
             }
