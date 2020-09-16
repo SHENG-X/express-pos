@@ -4,13 +4,17 @@ import React, {
 } from 'react';
 import {
   Typography,
-  TextField,
   Button,
+  CircularProgress,
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { useToasts } from 'react-toast-notifications';
+import {Formik, Form, Field} from 'formik';
+import {
+  TextField,
+} from 'formik-material-ui';
 
-import ModalBase from '../../ModalBase';
+import ModalBaseV2 from '../../ModalBaseV2';
 import { Context } from '../../../../../context/storeContext';
 import ImageUpload from '../../upload/ImageUpload';
 
@@ -34,92 +38,124 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
     handleOpen(false);
   }
 
-  const handleConfirm = () => {
+  const handleConfirm = (values, completeSubmit) => {
+    const categorySubmit = { ...category, name: values.name };
     if (initCategory) {
-      const categoryOriginal = storeState.categories.find(ctgry => ctgry._id === category._id);
-      if (JSON.stringify(categoryOriginal) === JSON.stringify(category)) {
+      const categoryOriginal = storeState.categories.find(ctgry => ctgry._id === categorySubmit._id);
+      if (JSON.stringify(categoryOriginal) === JSON.stringify(categorySubmit)) {
+        completeSubmit();
         handleCancel();
       } else {
         updateCategory(
-          category,
+          categorySubmit,
           () => {
+            completeSubmit();
             handleCancel();
             addToast('Update the category success', { appearance: 'success' });
           },
           () => {
+            completeSubmit();
             addToast('Unable to update the category, please try again later', { appearance: 'error' });
           }
         );
       }
     } else {
       createCategory(
-        category,
-        () => { 
+        categorySubmit,
+        () => {
+          completeSubmit();
           handleCancel();
           addToast('Add a category success', { appearance: 'success' });
         },
         () => {
+          completeSubmit();
           addToast('Unable to create a category, please try again later', { appearance: 'error' });
         }
       );
     }
   }
+
   const handleImageUpload = (image) => {
     setCategory({ ...category, thumbnail: image });
   }
 
+  const validateCategory = (values) => {
+    const errors = {};
+    // create a category requires a category name
+    if (!values.name) {
+      errors.name = "Required";
+    }
+    return errors;
+  }
+
   return (
-    <ModalBase
+    <ModalBaseV2
       title={ initCategory ? t('category.update') : t('category.title') }
       className="category-modal"
-      content={
-        <div>
-          <div className="row">
-            <div className="label">
-              <Typography variant="subtitle2">
-                { t('common.thumbnail') }
-              </Typography>
-            </div>
-            <div className="input">
-              <ImageUpload handleImageUpload={handleImageUpload} obj={category} />
-            </div>
-          </div>
+    >
+      <Formik
+        initialValues={category}
+        validate={validateCategory}
+        onSubmit={(values, { setSubmitting }) => {
+          handleConfirm(values, () => setSubmitting(false));
+        }}
+      >
+        {({ submitForm, isSubmitting }) => (
+          <Form>
+            <div className="content">
+              <div className="row">
+                <div className="label">
+                  <Typography variant="subtitle2">
+                    { t('common.thumbnail') }
+                  </Typography>
+                </div>
+                <div className="input">
+                  <ImageUpload handleImageUpload={handleImageUpload} obj={category} />
+                </div>
+              </div>
 
-          <div className="row">
-            <div className="label">
-              <Typography variant="subtitle2">
-                { t('common.name') }
-              </Typography>
+              <div className="row">
+                <div className="label">
+                  <Typography variant="subtitle2">
+                    { t('common.name') }
+                  </Typography>
+                </div>
+                <div className="input">
+                  <Field
+                    component={TextField}
+                    name="name"
+                    placeholder={ t('category.categoryName') }
+                  />
+                </div>
+              </div>
             </div>
-            <div className="input">
-              <TextField
-                required
-                value={category.name}
-                onChange={e => setCategory({...category, name: e.target.value})}
-                placeholder={ t('category.categoryName') }
-              />
+            {
+              isSubmitting &&
+              <div className="flex justify-center">
+                <CircularProgress />
+              </div>
+            }
+            <div className="actions">
+              <Button
+                variant="contained"
+                onClick={handleCancel}
+                disabled={isSubmitting}
+              >
+                { t('common.cancel') }
+              </Button>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={submitForm}
+                disabled={isSubmitting}
+              >
+                { t('common.confirm') }
+              </Button>
             </div>
-          </div>
-        </div>
-      }
-      actions={
-        <React.Fragment>
-          <Button
-            variant="contained"
-            onClick={handleCancel}
-          >
-            { t('common.cancel') }
-          </Button>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={handleConfirm}
-          >
-            { t('common.confirm') }
-          </Button>
-        </React.Fragment>
-      }
-    />
+          </Form>
+        )}
+      </Formik>
+    </ModalBaseV2>
   );
 }
 
