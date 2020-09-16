@@ -4,10 +4,15 @@
   .container {
     height: 100%;
     --search-h: 74px;
+    overflow-y: auto;
     .search {
       height: var(--search-h);
       display: flex;
       padding: 1rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background-color: white;
       & > div {
         width: 300px;
         height: fit-content;
@@ -15,7 +20,6 @@
     }
     .list-container {
       height: calc(100% - var(--search-h));
-      overflow: overlay;
       padding: 0 1.5rem;
       .list {
         display: grid;
