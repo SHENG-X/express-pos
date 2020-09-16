@@ -20,12 +20,12 @@ import CardBase from '../../cardbase/CardBase';
 const Tax = () => {
   const { storeState, updateTax } = useContext(Context);
   const { t } = useTranslation();
-  const [tax, setTax] = useState({ ...storeState.tax, rate: Number((storeState.tax.rate * 100).toFixed(2))});
+  const [tax, setTax] = useState({ ...storeState.tax, rate: (storeState.tax.rate * 100).toString().replace(/^0+/,'')});
   const [allowUpdate, setAllowUpdate] = useState(false);
   const { addToast } = useToasts();
 
   useEffect(() => {
-    if (tax.enable !== storeState.tax.enable || tax.rate !== Number((storeState.tax.rate * 100).toFixed(2))) {
+    if (tax.enable !== storeState.tax.enable || tax.rate !== (storeState.tax.rate * 100).toString().replace(/^0+/,'')) {
       setAllowUpdate(true);
     } else {
       setAllowUpdate(false);
@@ -35,12 +35,12 @@ const Tax = () => {
   useEffect(() => {
     // watch store tax change on tax change
     // set component tax to store tax
-    setTax({ ...storeState.tax, rate: Number((storeState.tax.rate * 100).toFixed(2))});
+    setTax({ ...storeState.tax, rate: (storeState.tax.rate * 100).toString().replace(/^0+/,'')});
   }, [storeState.tax])
 
   const handleCancel = () => {
     setAllowUpdate(false);
-    setTax({ ...storeState.tax, rate: Number((storeState.tax.rate * 100).toFixed(2))});
+    setTax({ ...storeState.tax, rate: (storeState.tax.rate * 100).toString().replace(/^0+/,'')});
   }
 
   const handleConfirm = () => {
@@ -88,7 +88,7 @@ const Tax = () => {
             type="number"
             placeholder={ t('tax.taxRate') }
             value={tax.rate}
-            onChange={e => setTax({...tax, rate: Number(e.target.value)})}
+            onChange={e => setTax({...tax, rate: e.target.value.replace(/^0+/,'')})}
             inputProps={{step: 1}}
             InputProps={{
               endAdornment: (

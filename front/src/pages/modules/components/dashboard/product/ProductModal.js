@@ -28,12 +28,12 @@ const ProductModal = ({ handleOpen, initProduct }) => {
     thumbnail: '',
     enable: true,
     name: '',
-    count: undefined,
+    count: '',
     category: null,
     prices: [
-      { name:'', value: undefined }
+      { name:'', value: '' }
     ],
-    cost: undefined
+    cost: ''
   };
 
   if (initProduct) {
@@ -55,7 +55,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
   }
 
   const addNewPrice = () => {
-    setProduct({...product, prices: [...product.prices, { name: '', value: undefined }]});
+    setProduct({...product, prices: [...product.prices, { name: '', value: '' }]});
   }
 
   const deletePrice = (idx) => {
@@ -149,7 +149,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
               <TextField
                 required
                 value={product.count}
-                onChange={e => setProduct({...product, count: Number(e.target.value)})}
+                onChange={e => setProduct({...product, count: e.target.value.replace(/^0+/,'')})}
                 type="number"
                 placeholder={ t('product.productCount') }
               />
@@ -202,7 +202,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                       required
                       type="number"
                       value={price.value}
-                      onChange={e => setProductPrices(idx, 'value', Number(e.target.value))}
+                      onChange={e => setProductPrices(idx, 'value', e.target.value.replace(/^0+/,''))}
                       placeholder={ t('product.priceValue') }
                     /> 
                     {
@@ -244,7 +244,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                 required
                 type="number"
                 value={product.cost}
-                onChange={e => setProduct({...product, cost: Number(e.target.value)})}
+                onChange={e => setProduct({...product, cost: e.target.value.replace(/^0+/,'')})}
                 placeholder={ t('product.productCost') }
               />
             </div>

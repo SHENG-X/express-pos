@@ -15,7 +15,7 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
   const { t } = useTranslation();
   const [discount, setDiscount] = useState({
     method: 'Amount',
-    value: 0
+    value: ''
   });
 
   useEffect(() => {
@@ -35,14 +35,14 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
               <Button
                 variant="contained"
                 color={discount.method === 'Amount' ? 'primary' : 'default'}
-                onClick={() => setDiscount({ ...discount, method: 'Amount', value: 0 })}
+                onClick={() => setDiscount({ ...discount, method: 'Amount', value: '' })}
               >
                 Cash
               </Button>
               <Button
                 variant="contained"
                 color={discount.method === 'Percent' ? 'primary' : 'default'}
-                onClick={() => setDiscount({ ...discount, method: 'Percent', value: 0 })}
+                onClick={() => setDiscount({ ...discount, method: 'Percent', value: '' })}
               >
                 Percent
               </Button>
@@ -53,7 +53,7 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
               <TextField
                 type="number"
                 value={discount.value}
-                onChange={e => setDiscount({ ...discount, value: e.target.value })}
+                onChange={e => setDiscount({ ...discount, value: e.target.value.replace(/^0+/,'') })}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">$</InputAdornment>
@@ -66,7 +66,7 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
               <TextField
                 type="number"
                 value={discount.value}
-                onChange={e => setDiscount({ ...discount, value: e.target.value })}
+                onChange={e => setDiscount({ ...discount, value: e.target.value.replace(/^0+/,'') })}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
