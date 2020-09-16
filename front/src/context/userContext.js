@@ -126,10 +126,10 @@ const addStaff = (dispatch) => {
       dispatch({type: ACTIONS.ADD_STAFF, payload: response.data});
       if (success) {
         success();
-      } else {
-        if (fail) {
-          fail();
-        }
+      } 
+    } else {
+      if (fail) {
+        fail();
       }
     }
   }
