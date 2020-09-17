@@ -95,7 +95,10 @@ const Tax = () => {
                 <InputAdornment position="end">
                   %
                 </InputAdornment>
-              )
+              ),
+              inputProps: { 
+                min: 0,
+              }
             }}
           />
         </div>
