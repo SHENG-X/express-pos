@@ -233,7 +233,7 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen, setOrderId, discou
                       onClick={() => handleCashAmount(Number(payment))}
                       key={payment}
                     >
-                      + ${ payment }
+                      + ${ Number(payment.toFixed(2)) }
                     </Button>
                   ))
                   :
