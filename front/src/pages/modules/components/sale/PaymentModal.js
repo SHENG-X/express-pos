@@ -18,11 +18,13 @@ import { useToasts } from 'react-toast-notifications';
 
 import ModalBase from '../ModalBase';
 import { formatAsCurrency } from '../../../../utils';
-import { Context } from '../../../../context/storeContext';
+import { Context as StoreContext } from '../../../../context/storeContext';
+import { Context as OrderContext } from '../../../../context/orderContext';
 
 const PaymentModal = ({ order, total, paySuccess, handleOpen, setOrderId, discount }) => {
   const { t } = useTranslation();
-  const { storeState, createOrder } = useContext(Context);
+  const { storeState } = useContext(StoreContext);
+  const { createOrder } = useContext(OrderContext);
   const paymentOptions = [
     total,
     1,

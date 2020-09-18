@@ -3,13 +3,15 @@ import React, {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Context } from '../../../../context/storeContext';
+import { Context as OrderContext} from '../../../../context/orderContext';
+import { Context as StoreContext} from '../../../../context/storeContext';
 import { fmtStaffNo, computePriceSummary } from '../../../../utils';
 
 const PrintableReceipt = ({ orderId }) => {
   const { t } = useTranslation();
-  const { storeState } = useContext(Context);
-  const order = storeState.orders.find(ord => ord._id === orderId);
+  const { orderState } = useContext(OrderContext);
+  const { storeState } = useContext(StoreContext);
+  const order = orderState.find(ord => ord._id === orderId);
 
   const { subtotal, discount, tax, total } = computePriceSummary(order);
 
@@ -85,7 +87,7 @@ const PrintableReceipt = ({ orderId }) => {
 }
 
 const PrintableReceiptItem = ({ prod }) => {
-  const { storeState } = useContext(Context);
+  const { storeState } = useContext(StoreContext);
   const productName = storeState.products.find(product => product._id === prod.product).name;
 
   return (

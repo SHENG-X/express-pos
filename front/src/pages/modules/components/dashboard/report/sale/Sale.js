@@ -28,9 +28,10 @@ import { Context } from '../../../../../../context/storeContext';
 import { formatAsCurrency } from '../../../../../../utils';
 import OrderModal from './OrderModal';
 import SaleSummary from './SaleSummary';
+import { Context as OrderContext } from '../../../../../../context/orderContext';
 
 const SaleReport = () => {
-  const { storeState } = useContext(Context);
+  const { orderState, loadOrder } = useContext(OrderContext);
   const { t } = useTranslation();
   const DATE_OPTIONS = {
     TODAY: 'TODAY',
@@ -47,14 +48,17 @@ const SaleReport = () => {
   const [endDate, setEndDate] = useState(new Date());
   const [curOrder, setCurOrder] = useState(null);
   const [open, setOpen] = useState(false);
-  const [requestOrders, setRequestedOrders] = useState([]);
 
   useEffect(() => {
-    setRequestedOrders(filterDate(filter, storeState.orders));
-  }, [filter, storeState.orders, startDate, endDate]);
+    setDateFilter(filter);
+  }, [filter]);
+
+  useEffect(() => {
+    loadOrder(startDate.toISOString(), endDate.toISOString());
+  }, [startDate, endDate])
 
   const sortOrderListByDate = () => {
-    return requestOrders.sort((o1, o2) => {
+    return orderState.sort((o1, o2) => {
       const d1 = new Date(o1.createdAt);
       const d2 = new Date(o2.createdAt);
       if (d1 > d2) {
@@ -67,19 +71,12 @@ const SaleReport = () => {
     });
   }
 
-  const computeOrderList = () => {
-    // sort orders by created time,the latest order is
-    // displayed at the top row of the table
-    return sortOrderListByDate().map(order => <OrderRow order={order} handleViewOrder={handleViewOrder} key={order._id}/>);
-  }
-
-  const filterDate = (type, orders) => {
+  const setDateFilter = (type) => {
 
     const beforeOneWeek = new Date(new Date().getTime() - 60 * 60 * 24 * 7 * 1000)
     , day = beforeOneWeek.getDay()
     , diffToMonday = beforeOneWeek.getDate() - day + (day === 0 ? -6 : 1)
-    , lastMonday = new Date(beforeOneWeek.setDate(diffToMonday))
-    , lastSunday = new Date(beforeOneWeek.setDate(diffToMonday + 6));
+    , lastMonday = new Date(beforeOneWeek.setDate(diffToMonday));
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -95,7 +92,11 @@ const SaleReport = () => {
     curYearStart.setMonth(0);
     curYearStart.setDate(0);
 
-    let start = today;
+    let start = new Date();
+    start.setHours(0, 0, 0, 0);
+
+    let end = new Date();
+    end.setHours(23, 59, 59, 999);
 
     switch (type) {
       case DATE_OPTIONS.TODAY:
@@ -109,15 +110,9 @@ const SaleReport = () => {
       case DATE_OPTIONS.YEAR:
         start = new Date(curYearStart);
         break;
-      case DATE_OPTIONS.CUSTOM:
-        start = new Date(startDate);
-        const end = new Date(endDate);
-        // end date set hour to the last second of the day
-        end.setHours(23, 59, 59, 999);
-        // only return date ISOString within the start and end range
-        return orders.filter(d => (d.createdAt >= start.toISOString() && d.createdAt <= end.toISOString()));
     }
-    return orders.filter(d => d.createdAt > start.toISOString());
+    setStartDate(start);
+    setEndDate(end);
   }
 
   const handleViewOrder = (order) => {
@@ -173,7 +168,11 @@ const SaleReport = () => {
                 label={ t('report.startDate') }
                 className="start-date"
                 value={startDate}
-                onChange={setStartDate}
+                onChange={start => {
+                  const startDate = new Date(start);
+                  startDate.setHours(0, 0, 0, 0);
+                  setStartDate(startDate);
+                }}
                 animateYearScrolling
                 maxDate={new Date()}
               />
@@ -181,7 +180,11 @@ const SaleReport = () => {
                 label={ t('report.endDate') }
                 className="end-date"
                 value={endDate}
-                onChange={setEndDate}
+                onChange={end => {
+                  const endDate = new Date(end);
+                  endDate.setHours(23, 59, 59, 999);
+                  setEndDate(endDate);
+                }}
                 animateYearScrolling
                 minDate={new Date(startDate)}
                 maxDate={new Date()}
@@ -216,12 +219,12 @@ const SaleReport = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              { computeOrderList() }
+              { sortOrderListByDate().map(order => <OrderRow order={order} handleViewOrder={handleViewOrder} key={order._id}/>) }
             </TableBody>
           </Table>
         </Paper>
 
-        <SaleSummary orders={requestOrders}/>
+        <SaleSummary orders={orderState}/>
 
       </div>
 
@@ -234,7 +237,7 @@ const SaleReport = () => {
 }
 
 const OrderRow = ({ order, handleViewOrder }) => {
-  const { deleteOrder } = useContext(Context);
+  const { deleteOrder } = useContext(OrderContext);
   const { addToast } = useToasts();
 
   const handleDelete = () => {

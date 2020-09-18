@@ -6,16 +6,22 @@ const userModel = require('../model/userModel');
 const getOrder = async (req, res) => {
   const storeId = req.decoded.store;
 
-  const store = req.query.store;
-  const orderId = req.query.oid;
+  const { orderId, startDate, endDate } = req.query;
 
   try {
     if (!orderId) {
+      let orders;
       // no order id is set, return all orders belong to the store
-      const storeObj = await storeModel.findById(storeId);
-      const populatedStore = await storeObj.populate('orders').execPopulate();
-      const populatedOrdersDoc = populatedStore._doc.orders;
-      return res.status(200).json(populatedOrdersDoc); 
+      // according to selected date range
+      if (!startDate && !endDate) {
+        // if start date and end date is not set
+        // send all orders back
+        orders = await orderModel.find({ store: storeId });
+      } else {
+        orders = await orderModel.find({ store: storeId, createdAt: {"$gte": new Date(startDate), "$lt": new Date(endDate)} });
+      }
+      const ordersDoc = orders.map(ord => ord._doc);
+      return res.status(200).json(ordersDoc); 
     }
 
     // order id is set, return the order
@@ -37,11 +43,7 @@ const createOrder = async (req, res) => {
     // create a order object and save it to the database
     const cashierNo = await userModel.findById(userId);
     const orderObj = new orderModel({ products, paymentType, amountPaid, taxRate, discount, store: storeId, processedBy: cashierNo.staffNo });
-    const storeObj = await storeModel.findById(storeId);
     const savedOrder = await orderObj.save();
-    // add the order to the store orders
-    storeObj.orders.push(savedOrder._id);
-    await storeObj.save();
     const savedOrderDoc = savedOrder._doc;
 
     // emit add order event to according store so all users in the same store 
@@ -65,10 +67,6 @@ const deleteOrder = async (req, res) => {
   try {
     // delete order from order table
     await orderModel.findByIdAndDelete(_id);
-    // remove the order ref from the store orders
-    const storeObj = await storeModel.findById(storeId);
-    storeObj.orders = storeObj.orders.filter(odr => odr.toString() !== _id);
-    await storeObj.save();
 
     // emit delete order event to according store so all users in the same store 
     // can react to the event accordingly

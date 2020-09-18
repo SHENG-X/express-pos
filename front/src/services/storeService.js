@@ -56,25 +56,9 @@ export const updateCategoryAsync = async (category) => {
   }
 }
 
-export const createOrderAsync = async (order) => {
-  try {
-    return await instance.post('/api/order', { ...order });
-  } catch (error) {
-    return error.response;
-  }
-}
-
 export const consumeProduct = async (product) => {
   try {
     return await instance.put('/api/product/consume', {...product});
-  } catch (error) {
-    return error.response;
-  }
-}
-
-export const deleteOrderAsync = async (order) => {
-  try {
-    return await instance.delete('/api/order', { params: {...order} });
   } catch (error) {
     return error.response;
   }
@@ -115,14 +99,6 @@ export const getProductAsync = async (pid) => {
 export const getTaxAsync = async () => {
   try {
     return await instance.get('/api/tax');
-  } catch (error) {
-    return error.response;
-  }
-}
-
-export const getOrderAsync = async (oid) => {
-  try {
-    return await instance.get('/api/order', { params: { oid } });
   } catch (error) {
     return error.response;
   }

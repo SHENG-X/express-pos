@@ -9,14 +9,10 @@ import {
   deleteCategoryAsync,
   updateProductAsync,
   updateCategoryAsync,
-  createOrderAsync,
-  consumeProduct,
-  deleteOrderAsync,
   restockProductAsync,
   getCategoryAsync,
   getProductAsync,
   getTaxAsync,
-  getOrderAsync,
 } from '../services/storeService';
 
 const ACTIONS = {
@@ -28,8 +24,6 @@ const ACTIONS = {
   UPDATE_TAX: 'UPDATE_TAX',
   UPDATE_PRODUCT: 'UPDATE_PRODUCT',
   UPDATE_CATEGORY: 'UPDATE_CATEGORY',
-  CREATE_ORDER: 'CREATE_ORDER',
-  DELETE_ORDER: 'DELETE_ORDER',
 };
 
 const storeReducer = (state, { type, payload }) => {
@@ -62,10 +56,6 @@ const storeReducer = (state, { type, payload }) => {
         return category;
       });
       return {...state, categories: newCategories};
-    case ACTIONS.CREATE_ORDER:
-      return {...state, orders: [...state.orders, payload]};
-    case ACTIONS.DELETE_ORDER:
-      return {...state, orders: state.orders.filter(order => order._id !== payload)};
     default:
       return state;
   }
@@ -201,47 +191,6 @@ const updateCategory = (dispatch) => {
   }
 }
 
-const createOrder = (dispatch) => {
-  return async (order, success, fail) => {
-    const response = await createOrderAsync(order);
-    if (response.status === 201) {
-      dispatch({type: ACTIONS.CREATE_ORDER, payload: response.data});
-      
-      //update product count according to the amount of each order consumed
-      order.products.forEach(async (prod) => {
-        const response = await consumeProduct({ _id: prod.product, count: prod.count });
-        if (response.status === 200) {
-          dispatch({type: ACTIONS.UPDATE_PRODUCT, payload: response.data});
-        }
-      });
-
-      if (success) {
-        success(response.data._id);
-      }
-    } else {
-      if (fail) {
-        fail();
-      }
-    }
-  }
-}
-
-const deleteOrder = (dispatch) => {
-  return async (order, success, fail) => {
-    const response = await deleteOrderAsync(order);
-    if (response.status === 204) {
-      dispatch({type: ACTIONS.DELETE_ORDER, payload: order._id});
-      if (success) {
-        success();
-      }
-    } else {
-      if (fail) {
-        fail();
-      }
-    }
-  }
-}
-
 const restockProduct = (dispatch) => {
   return async (product, success, fail) => {
     const response = await restockProductAsync(product);
@@ -317,21 +266,6 @@ const socketUpdateTax = (dispatch) => {
   }
 }
 
-const socketAddOrder = (dispatch) => {
-  return async (oid) => {
-    const response = await getOrderAsync(oid);
-    if (response.status === 200) {
-      dispatch({ type: ACTIONS.CREATE_ORDER, payload: response.data });
-    }
-  }
-}
-
-const socketDeleteOrder = (dispatch) => {
-  return (oid) => {
-    dispatch({ type: ACTIONS.DELETE_ORDER, payload: oid });
-  }
-}
-
 export const { Context, Provider } = createDataContext(
   storeReducer,
   {
@@ -343,8 +277,6 @@ export const { Context, Provider } = createDataContext(
     updateTax,
     updateProduct,
     updateCategory,
-    createOrder,
-    deleteOrder,
     restockProduct,
     socketGetCategory,
     socketUpdateCategory,
@@ -353,8 +285,6 @@ export const { Context, Provider } = createDataContext(
     socketUpdateProduct,
     socketDeleteProduct,
     socketUpdateTax,
-    socketAddOrder,
-    socketDeleteOrder,
   },
   {},
   'storeState'
