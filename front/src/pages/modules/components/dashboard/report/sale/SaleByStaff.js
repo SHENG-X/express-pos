@@ -19,9 +19,11 @@ const SaleByStaff = () => {
     orderState.forEach(order => {
       const orderTotal = order.products.reduce((acc, prod) => acc + prod.price * prod.count, 0);
       if (saleByStaff[fmtStaffNo(order.processedBy)]) {
-        saleByStaff[fmtStaffNo(order.processedBy)] += Math.round(orderTotal);
+        saleByStaff[fmtStaffNo(order.processedBy)] += Number(orderTotal.toFixed(2));
+        // keep 2 decimals by to 2 decimals and cast to number type
+        saleByStaff[fmtStaffNo(order.processedBy)] = Number(saleByStaff[fmtStaffNo(order.processedBy)].toFixed(2));
       } else {
-        saleByStaff[fmtStaffNo(order.processedBy)] = Math.round(orderTotal);
+        saleByStaff[fmtStaffNo(order.processedBy)] = Number(orderTotal.toFixed(2));
       }
     });
     return { labels: Object.keys(saleByStaff), data: Object.values(saleByStaff) };
