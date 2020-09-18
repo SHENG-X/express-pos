@@ -75,7 +75,7 @@ const App = () => {
     const socket = socketIOClient(host);
     if (fetchToken) {
       socket.on(storeState._id, data => {
-        if (data.uid === userState._id) {
+        if (data.uid === userState._id && data.type !== 'ALTER_PRODUCT') {
           // if the operation is the same user, we know
           // there is response data then do nothing
           return;
@@ -93,6 +93,7 @@ const App = () => {
           case 'ADD_PRODUCT':
             socketAddProduct(data.payload);
             break;
+          case 'ALTER_PRODUCT':
           case 'UPDATE_PRODUCT':
             socketUpdateProduct(data.payload);
             break;
