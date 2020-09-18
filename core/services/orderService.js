@@ -37,11 +37,7 @@ const createOrder = async (req, res) => {
     // create a order object and save it to the database
     const cashierNo = await userModel.findById(userId);
     const orderObj = new orderModel({ products, paymentType, amountPaid, taxRate, discount, store: storeId, processedBy: cashierNo.staffNo });
-    const storeObj = await storeModel.findById(storeId);
     const savedOrder = await orderObj.save();
-    // add the order to the store orders
-    storeObj.orders.push(savedOrder._id);
-    await storeObj.save();
     const savedOrderDoc = savedOrder._doc;
 
     // emit add order event to according store so all users in the same store 
