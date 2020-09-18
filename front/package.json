@@ -11,6 +11,8 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.20.0",
+    "chart.js": "^2.9.3",
+    "d3": "^6.1.1",
     "final-form": "^4.20.1",
     "formik": "^2.1.5",
     "formik-material-ui": "^3.0.0",

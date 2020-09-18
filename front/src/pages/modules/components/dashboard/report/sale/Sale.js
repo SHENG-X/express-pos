@@ -28,6 +28,7 @@ import { Context } from '../../../../../../context/storeContext';
 import { formatAsCurrency } from '../../../../../../utils';
 import OrderModal from './OrderModal';
 import SaleSummary from './SaleSummary';
+import SaleByStaff from './SaleByStaff';
 import { Context as OrderContext } from '../../../../../../context/orderContext';
 
 const SaleReport = () => {
@@ -223,8 +224,11 @@ const SaleReport = () => {
             </TableBody>
           </Table>
         </Paper>
-
-        <SaleSummary orders={orderState}/>
+        
+        <div className="flex flex-col">
+          <SaleSummary orders={orderState}/>
+          <SaleByStaff/>
+        </div>
 
       </div>
 
