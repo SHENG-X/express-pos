@@ -35,7 +35,7 @@ export const computePriceSummary = (order) =>{
 
   const tax = Number(((subtotal + discount) * order.taxRate).toFixed(2));
   const cost = order.products.reduce((acc, prod) => acc + Number((prod.cost * prod.count).toFixed(2)), 0);
-  const total = subtotal + discount + tax;
+  const total = (subtotal + discount + tax).toFixed(2);
 
   return {
     subtotal,
