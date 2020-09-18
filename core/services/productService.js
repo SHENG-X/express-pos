@@ -110,30 +110,6 @@ const deleteProduct = async (req, res) => {
   }
 }
 
-const consumeProduct = async (req, res) => {
-  const { _id, count } = req.body;
-
-  if (!_id) {
-    return res.status(400).json('Product ID is required');
-  }
-
-  try {
-    // find product object and update product count
-    const productObj = await productModel.findById(_id);
-    productObj.count -= count;
-    const savedProduct = await productObj.save();
-    const saveProductDoc = savedProduct._doc;
-
-    // emit update product event to according store so all users in the same store 
-    // can react to the event accordingly
-    res.io.emit(req.decoded.store, { type: 'UPDATE_PRODUCT', payload: saveProductDoc._id, uid: req.decoded.user });
-
-    return res.status(200).json(saveProductDoc);
-  } catch (error) {
-    return res.status(500).json(error);
-  }
-}
-
 const restockProduct = async (req, res) => {
   const { _id, count } = req.body;
 
@@ -162,6 +138,5 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
-  consumeProduct,
   restockProduct,
 }

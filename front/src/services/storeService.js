@@ -56,14 +56,6 @@ export const updateCategoryAsync = async (category) => {
   }
 }
 
-export const consumeProduct = async (product) => {
-  try {
-    return await instance.put('/api/product/consume', {...product});
-  } catch (error) {
-    return error.response;
-  }
-}
-
 export const restockProductAsync = async (product) => {
   try {
     return await instance.put('/api/product/restock', {...product});

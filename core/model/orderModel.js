@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const productModel = require('./productModel');
+
 const orderSchema = new Schema(
   {
     store: {
@@ -67,6 +69,17 @@ const orderSchema = new Schema(
     timestamps: true
   },
 );
+
+orderSchema.post('save', {document: true}, async (order, next) => {
+  // on new order is created, loop through all products in the order
+  order.products.forEach(async (prod) => {
+    const prodObj = await productModel.findById(prod.product);
+    // deduct product count
+    prodObj.count -= prod.count;
+    await prodObj.save();
+  });
+  next();
+});
 
 const orderModel = mongoose.model('Order', orderSchema);
 
