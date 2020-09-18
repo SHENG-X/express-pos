@@ -27,7 +27,6 @@ const orderReducer = (state, { type, payload }) => {
 
 const loadOrder = (dispatch) => {
   return async (startDate, endDate, success, fail) => {
-    debugger;
     const response = await getOrderAsync(null, startDate, endDate);
     if (response.status === 200) {
       dispatch({type: ACTIONS.LOAD_ORDER, payload: response.data});
