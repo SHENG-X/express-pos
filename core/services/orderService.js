@@ -61,10 +61,6 @@ const deleteOrder = async (req, res) => {
   try {
     // delete order from order table
     await orderModel.findByIdAndDelete(_id);
-    // remove the order ref from the store orders
-    const storeObj = await storeModel.findById(storeId);
-    storeObj.orders = storeObj.orders.filter(odr => odr.toString() !== _id);
-    await storeObj.save();
 
     // emit delete order event to according store so all users in the same store 
     // can react to the event accordingly
