@@ -5,10 +5,10 @@ const userModel = require('../model/userModel');
 const getOrder = async (req, res) => {
   const storeId = req.decoded.store;
 
-  const { orderId, startDate, endDate } = req.query;
+  const { oid, startDate, endDate } = req.query;
 
   try {
-    if (!orderId) {
+    if (!oid) {
       let orders;
       // no order id is set, return all orders belong to the store
       // according to selected date range
@@ -24,7 +24,7 @@ const getOrder = async (req, res) => {
     }
 
     // order id is set, return the order
-    const orderObj = await orderModel.findById(orderId);
+    const orderObj = await orderModel.findById(oid);
     const orderObjDoc = orderObj._doc;
     return res.status(200).json(orderObjDoc);
   } catch (error) {
