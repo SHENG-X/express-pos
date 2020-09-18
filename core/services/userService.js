@@ -168,12 +168,13 @@ const getStaff = async (req, res) => {
   }
 }
 
-const setStaffInfo = async (staff, enable, fname, lname, phone, password) => {
+const setStaffInfo = async (staff, enable, role, fname, lname, phone, password) => {
   if (password) {
     // if password is set then hash password
     const hashedPassword = await bcrypt.hashSync(password, saltRounds);
     staff.password = hashedPassword;
   }
+  staff.role = role;
   staff.enable = enable;
   staff.fname = fname;
   staff.lname = lname;
@@ -186,7 +187,7 @@ const updateStaff = async (req, res) => {
   // Manager is allowed to update employee
   // Employee is not allow to update anyone
   const operatorId = req.decoded.user;
-  const { _id, enable, fname, lname, phone, password } = req.body;
+  const { _id, enable, role, fname, lname, phone, password } = req.body;
   try {
     const operator = await userModel.findById(operatorId);
     const staff = await userModel.findById(_id);
@@ -197,14 +198,15 @@ const updateStaff = async (req, res) => {
         return res.status(401).json('Unauthorized');
       }
       if (operator.role === 'Manager') {
-        if (staff.role === 'Manager' || staff.role === 'Owner') {
+        if (staff.role === 'Manager' || staff.role === 'Owner' || role !== 'Employee') {
+          // manager only allow to update a employee
           return res.status(401).json('Unauthorized');
         }
       }
     }
     // all owner to update a manager or a employee and
     // allow manager to update a staff
-    const updatedStaff = await setStaffInfo(staff, enable, fname, lname, phone, password);
+    const updatedStaff = await setStaffInfo(staff, enable, role, fname, lname, phone, password);
     const staffObj = await updatedStaff.save();
     const staffDoc = {...staffObj._doc, password: null};
 
