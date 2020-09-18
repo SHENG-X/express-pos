@@ -1,6 +1,6 @@
 const storeModel = require('../model/storeModel');
 const orderModel = require('../model/orderModel');
-const { populate } = require('../model/storeModel');
+const productModel = require('../model/productModel');
 const userModel = require('../model/userModel');
 
 const getOrder = async (req, res) => {
@@ -71,7 +71,19 @@ const deleteOrder = async (req, res) => {
 
   try {
     // delete order from order table
-    await orderModel.findByIdAndDelete(_id);
+    const order = await orderModel.findById(_id);
+    const products = order.products;
+    await order.deleteOne();
+
+    // loop through all products in the order
+    products.forEach(async (prod) => {
+      const prodObj = await productModel.findById(prod.product);
+      // increase product count
+      prodObj.count += prod.count;
+      await prodObj.save();
+      // emit product changed message
+      res.io.emit(storeId, { type: 'ALTER_PRODUCT', payload: prodObj.id, uid: req.decoded.user });
+    });
 
     // emit delete order event to according store so all users in the same store 
     // can react to the event accordingly
