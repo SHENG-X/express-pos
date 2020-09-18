@@ -5,8 +5,6 @@ const populateStore = async (store) => {
   store = await store.populate('categories').execPopulate();
   // populate products
   store = await store.populate('products').execPopulate();
-  // populate orders
-  store = await store.populate('orders').execPopulate();
 
   return store;
 }
