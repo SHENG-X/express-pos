@@ -1,4 +1,3 @@
-const storeModel = require('../model/storeModel');
 const orderModel = require('../model/orderModel');
 const productModel = require('../model/productModel');
 const userModel = require('../model/userModel');
@@ -80,6 +79,8 @@ const deleteOrder = async (req, res) => {
       const prodObj = await productModel.findById(prod.product);
       // increase product count
       prodObj.count += prod.count;
+      // decrease product sold
+      prodObj.sold -= prod.count;
       await prodObj.save();
       // emit product changed message
       res.io.emit(storeId, { type: 'ALTER_PRODUCT', payload: prodObj.id, uid: req.decoded.user });
