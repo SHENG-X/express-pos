@@ -6,16 +6,22 @@ const userModel = require('../model/userModel');
 const getOrder = async (req, res) => {
   const storeId = req.decoded.store;
 
-  const store = req.query.store;
-  const orderId = req.query.oid;
+  const { orderId, startDate, endDate } = req.query;
 
   try {
     if (!orderId) {
+      let orders;
       // no order id is set, return all orders belong to the store
-      const storeObj = await storeModel.findById(storeId);
-      const populatedStore = await storeObj.populate('orders').execPopulate();
-      const populatedOrdersDoc = populatedStore._doc.orders;
-      return res.status(200).json(populatedOrdersDoc); 
+      // according to selected date range
+      if (!startDate && !endDate) {
+        // if start date and end date is not set
+        // send all orders back
+        orders = await orderModel.find({ store: storeId });
+      } else {
+        orders = await orderModel.find({ store: storeId, createdAt: {"$gte": new Date(startDate), "$lt": new Date(endDate)} });
+      }
+      const ordersDoc = orders.map(ord => ord._doc);
+      return res.status(200).json(ordersDoc); 
     }
 
     // order id is set, return the order
