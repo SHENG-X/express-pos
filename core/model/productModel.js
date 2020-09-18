@@ -47,6 +47,10 @@ const productSchema = new Schema(
       ref: 'Store',
       required: true,
     },
+    sold: {
+      type: Number,
+      default: 0,
+    }
   },
   {
     timestamps: true,
