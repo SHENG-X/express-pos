@@ -114,29 +114,10 @@ const InventorySummary = () => {
 }
 
 const TopSelling = () => {
-  const { orderState, loadOrder } = useContext(OrderContext);
-
-  useEffect(() => {
-    loadOrder();
-  }, [])
+  const { storeState } = useContext(StoreContext);
 
   const computeTopSelling = (count = 3) => {
-    const productMap = {};
-    orderState.forEach(order => {
-      order.products.forEach(prod => {
-        if (productMap[prod.product]) {
-          productMap[prod.product] += prod.count;
-        } else {
-          productMap[prod.product] = 1;
-        }
-      });
-    });
-    let products = [];
-    for (const prod in productMap) {
-      products.push([prod, productMap[prod]])
-    }
-    products = products.sort((p1, p2) => p2[1] - p1[1]);
-
+    const products = storeState.products.filter(prod => prod.sold).sort((p1, p2) => p2.sold - p1.sold);
     return products.slice(0, count);
   }
 
@@ -147,7 +128,7 @@ const TopSelling = () => {
     >
       { 
         computeTopSelling().map(topSelling => 
-          <TopSellingCard topSelling={topSelling} key={topSelling[0]}/>
+          <TopSellingCard topSelling={topSelling} key={topSelling._id}/>
         )
       }
     </CardBase>
@@ -155,26 +136,21 @@ const TopSelling = () => {
 }
 
 const TopSellingCard = ({ topSelling }) => {
-  const { storeState } = useContext(StoreContext);
-
-  const computedProduct = () => {
-    return storeState.products.find(product => product._id === topSelling[0]);
-  }
 
   return (
     <div className="card">
       <div 
         className="media"
-        title={computedProduct()?.name}
-        style={{"backgroundImage": `url(${computedProduct()?.thumbnailFlag ? imagePath(topSelling[0]): '/static/media/no-product-image.b51a7162.png'})`}}
+        title={topSelling.name}
+        style={{"backgroundImage": `url(${topSelling.thumbnailFlag ? imagePath(topSelling._id): '/static/media/no-product-image.b51a7162.png'})`}}
       />
       <div className="name">
         <Typography variant="subtitle2">
-          { computedProduct(topSelling[0])?.name }
+          { topSelling.name }
         </Typography>
       </div>
       <div className="count">
-        { topSelling[1] } Sold
+        { topSelling.sold } Sold
       </div>
     </div>
   );
