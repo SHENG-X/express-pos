@@ -25,13 +25,6 @@ const storeSchema = new Schema({
     }],
     default: [],
   },
-  orders: {
-    type: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Order',
-    }],
-    default: []
-  },
   tax: {
     enable: {
       type: Boolean,

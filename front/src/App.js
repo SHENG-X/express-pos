@@ -23,6 +23,7 @@ import Loading from './pages/Loading';
 import Dashboard from './pages/Dashboard';
 import { Context as StoreContext } from './context/storeContext';
 import { Context as UserContext } from './context/userContext';
+import { Context as OrderContext } from './context/orderContext';
 const host = "http://localhost:3000";
 
 const App = () => {
@@ -44,9 +45,12 @@ const App = () => {
     socketUpdateProduct,
     socketDeleteProduct,
     socketUpdateTax,
+  } = useContext(StoreContext);
+
+  const {
     socketAddOrder,
     socketDeleteOrder,
-  } = useContext(StoreContext);
+  } = useContext(OrderContext);
 
   const [fetchToken, setFetchToken] = useState(false);
   

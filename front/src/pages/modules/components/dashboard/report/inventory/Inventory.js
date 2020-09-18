@@ -1,12 +1,14 @@
 import React, {
   useContext,
+  useEffect,
 } from 'react';
 import {
   Typography,
 } from '@material-ui/core';
-import { Context } from '../../../../../../context/storeContext';
+import { Context as StoreContext } from '../../../../../../context/storeContext';
 import { formatAsCurrency, imagePath } from '../../../../../../utils';
 import CardBase from '../../../cardbase/CardBase';
+import { Context as OrderContext } from '../../../../../../context/orderContext';
 
 const InventoryReport = () => {
   return (
@@ -20,7 +22,7 @@ const InventoryReport = () => {
 }
 
 const InventorySummary = () => {
-  const { storeState } = useContext(Context);
+  const { storeState } = useContext(StoreContext);
 
   const computeProducts = () => {
     return storeState.products.reduce((acc, prod) => acc + prod.count, 0);
@@ -112,11 +114,15 @@ const InventorySummary = () => {
 }
 
 const TopSelling = () => {
-  const { storeState } = useContext(Context);
+  const { orderState, loadOrder } = useContext(OrderContext);
+
+  useEffect(() => {
+    loadOrder();
+  }, [])
 
   const computeTopSelling = (count = 3) => {
     const productMap = {};
-    storeState.orders.forEach(order => {
+    orderState.forEach(order => {
       order.products.forEach(prod => {
         if (productMap[prod.product]) {
           productMap[prod.product] += prod.count;
@@ -149,7 +155,7 @@ const TopSelling = () => {
 }
 
 const TopSellingCard = ({ topSelling }) => {
-  const { storeState } = useContext(Context);
+  const { storeState } = useContext(StoreContext);
 
   const computedProduct = () => {
     return storeState.products.find(product => product._id === topSelling[0]);
