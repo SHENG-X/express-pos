@@ -50,6 +50,11 @@ const createOrder = async (req, res) => {
     // can react to the event accordingly
     res.io.emit(storeId, { type: 'ADD_ORDER', payload: savedOrderDoc._id, uid: req.decoded.user });
 
+    // loop through order products and emit product updated message
+    savedOrder.products.forEach(prod => {
+      res.io.emit(storeId, { type: 'ALTER_PRODUCT', payload: prod.product, uid: req.decoded.user });
+    });
+
     return res.status(201).json(savedOrderDoc);
   } catch (error) {
     return res.status(500).json(error);
