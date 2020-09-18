@@ -7,6 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import './i18n';
 import { Provider as StoreProvider } from './context/storeContext';
 import { Provider as UserProvider } from './context/userContext';
+import { Provider as OrderProvider } from './context/orderContext';
 import { ToastProvider } from 'react-toast-notifications';
 
 ReactDOM.render(
@@ -14,7 +15,9 @@ ReactDOM.render(
     <ToastProvider autoDismiss>
       <UserProvider>
         <StoreProvider>
-          <App />
+          <OrderProvider>
+            <App />
+          </OrderProvider>
         </StoreProvider>
       </UserProvider>
     </ToastProvider>
