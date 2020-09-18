@@ -76,6 +76,8 @@ orderSchema.post('save', {document: true}, async (order, next) => {
     const prodObj = await productModel.findById(prod.product);
     // deduct product count
     prodObj.count -= prod.count;
+    // increase product sold
+    prodObj.sold += prod.count;
     await prodObj.save();
   });
   next();
