@@ -1,59 +1,37 @@
 import React, {
   useContext,
   useState,
-  useEffect,
 } from 'react';
 import {
-  TextField,
   Button,
   Typography,
-  Input,
+  CircularProgress,
 } from '@material-ui/core';
 import { useToasts } from 'react-toast-notifications';
+import {Formik, Form, Field} from 'formik';
 
 import CardBase from '../../cardbase/CardBase';
 import { Context } from '../../../../../context/userContext';
 import { fmtStaffNo } from '../../../../../utils';
-import PhoneNumMask from '../../PhoneNumMask';
+import { UpdateUserSchema } from '../../../formik/validationSchema';
+import {
+  TextField,
+} from 'formik-material-ui';
+import PhoneNumberTextField from '../../../formik/PhoneNumberTextField';
 
 const Profile = () => {
   const { userState, updateStaff } = useContext(Context);
-  const [profile, setProfile] = useState(JSON.parse(JSON.stringify(userState)));
-  const [newPassword, setNewPassword] = useState(false);
-  const [allowUpdate, setAllowUpdate] = useState(false);
+  const [allowNewPassword, setAllowNewPassword] = useState(false);
   const { addToast } = useToasts();
 
-  useEffect(() => {
-    let profileCopy = JSON.parse(JSON.stringify(profile));
-    if (typeof profileCopy.phone === 'string') {
-      profileCopy.phone = Number(`${profileCopy.phone}`.match(/\d/g)?.join(''));
-    }
-    if (JSON.stringify(profileCopy) === JSON.stringify(userState)) {
-      setAllowUpdate(false);
-    } else {
-      setAllowUpdate(true);
-    }
-  }, [profile]);
-
-  useEffect(() => {
-    setProfile(JSON.parse(JSON.stringify(userState)));
-  }, [userState]);
-
-  const handleCancel = () => {
-    setNewPassword(false);
-    setProfile({ ...profile, password: null });
-  }
-
-  const handleConfirm = () => {
-    let profileSubmit  = JSON.parse(JSON.stringify(profile));
-    profileSubmit = { ...profileSubmit,  phone: Number(`${profileSubmit.phone}`.match(/\d/g)?.join('')) };
+  const handleConfirm = (profile, resetForm) => {
 
     updateStaff(
-      profileSubmit,
+      profile,
       () => {
+        setAllowNewPassword(false);
+        resetForm(userState);
         addToast('Profile updated', { appearance: 'success' });
-        // close modal window on staff added
-        handleCancel(false);
       },
       () => {
         addToast('Unable to update the profile', { appearance: 'error' });
@@ -62,152 +40,182 @@ const Profile = () => {
   }
 
   return (
-    <CardBase
-      title={ `Profile` }
-      className="profile"
+    <Formik
+      initialValues={userState}
+      validationSchema={UpdateUserSchema}
+      onSubmit={(values, { resetForm }) => {
+        handleConfirm(values, resetForm);
+      }}
     >
-      <div className="row">
-        <div className="label">
-          <Typography variant="subtitle2">
-            Role
-          </Typography>
-        </div>
-        <div className="value">
-          <Typography variant="body1">
-            { userState.role }
-          </Typography>
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="label">
-          <Typography variant="subtitle2">
-            Staff No.
-          </Typography>
-        </div>
-        <div className="value">
-          <Typography variant="body1">
-            { fmtStaffNo(userState.staffNo) }
-          </Typography>
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="label">
-          <Typography variant="subtitle2">
-            First Name
-          </Typography>
-        </div>
-        <div className="value">
-          <TextField
-            value={profile.fname}
-            onChange={e => setProfile({...profile, fname: e.target.value})}
-          />
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="label">
-          <Typography variant="subtitle2">
-            Last Name
-          </Typography>
-        </div>
-        <div className="value">
-          <TextField
-            value={profile.lname}
-            onChange={e => setProfile({...profile, lname: e.target.value})}
-          />
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="label">
-            <Typography variant="subtitle2">
-              Phone Number
-            </Typography>
-        </div>
-        <div className="value">
-          <Input
-            value={profile.phone}
-            onChange={e => setProfile({...profile, phone: e.target.value})}
-            inputComponent={PhoneNumMask}
-          />
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="label">
-          <Typography variant="subtitle2">
-            Email
-          </Typography>
-        </div>
-        <div className="value">
-          <Typography variant="body1">
-            { profile.email }
-          </Typography>
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="label">
-          <Typography variant="subtitle2">
-            Password
-          </Typography>
-        </div>
-        <div className="value password">
-          {
-            !newPassword ?
-            <Button
-              variant="contained"
-              onClick={() => setNewPassword(true)}
-            >
-              New Password
-            </Button>
-            :
-            <div className="form">
-              <div className="inputs">
-                <TextField
-                  type="password"
-                  placeholder={ `New password` }
-                  onChange={e => setProfile({...profile, password: e.target.value})}
-                />
-                {/* <TextField
-                  type="password"
-                  placeholder={ `Confirm password` }
-                  onChange={e => setProfile({...profile, newPassword: e.target.value})}
-                /> */}
+      {({ submitForm, isSubmitting, values, setFieldValue }) => (
+        <Form>
+          <CardBase
+            title={ `Profile` }
+            className="profile"
+          >
+            <div className="row">
+              <div className="label">
+                <Typography variant="subtitle2">
+                  Role
+                </Typography>
               </div>
-              <div className="cancel">
+              <div className="value">
+                <Typography variant="body1">
+                  { values.role }
+                </Typography>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="label">
+                <Typography variant="subtitle2">
+                  Staff No.
+                </Typography>
+              </div>
+              <div className="value">
+                <Typography variant="body1">
+                  { fmtStaffNo(values.staffNo) }
+                </Typography>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="label">
+                <Typography variant="subtitle2">
+                  First Name
+                </Typography>
+              </div>
+              <div className="value">
+                <Field
+                  component={TextField}
+                  name="fname"
+                  placeholder="First name"
+                />
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="label">
+                <Typography variant="subtitle2">
+                  Last Name
+                </Typography>
+              </div>
+              <div className="value">
+              <Field
+                  component={TextField}
+                  name="lname"
+                  placeholder="Last name"
+                />
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="label">
+                  <Typography variant="subtitle2">
+                    Phone Number
+                  </Typography>
+              </div>
+              <div className="value">
+                <Field
+                  component={PhoneNumberTextField}
+                  type="tel"
+                  name="phone"
+                  autoComplete='new-phone'
+                />
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="label">
+                <Typography variant="subtitle2">
+                  Email
+                </Typography>
+              </div>
+              <div className="value">
+                <Typography variant="body1">
+                  { values.email }
+                </Typography>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="label">
+                <Typography variant="subtitle2">
+                  Password
+                </Typography>
+              </div>
+              <div className="value password">
+                {
+                  !allowNewPassword ?
+                  <Button
+                    variant="contained"
+                    onClick={() => setAllowNewPassword(true)}
+                  >
+                    New Password
+                  </Button>
+                  :
+                  <div className="form">
+                    <div className="inputs">
+                      <Field
+                        component={TextField}
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        autoComplete='new-password'
+                      />
+                    </div>
+                    <div className="cancel">
+                      <Button
+                        variant="contained"
+                        onClick={() => {
+                          setFieldValue('password', null);
+                          setAllowNewPassword(false)
+                        }}
+                        disabled={isSubmitting}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+            {
+              isSubmitting &&
+              <div className="flex justify-center">
+                <CircularProgress />
+              </div>
+            }
+            {
+              JSON.stringify(values) !== JSON.stringify(userState) &&
+              <div className="row actions">
                 <Button
                   variant="contained"
-                  onClick={handleCancel}
+                  onClick={() => {
+                    setFieldValue('fname', userState.fname);
+                    setFieldValue('lname', userState.lname);
+                    setFieldValue('phone', userState.phone);
+                    setFieldValue('password', null);
+                    setAllowNewPassword(false);
+                  }}
+                  disabled={isSubmitting}
                 >
                   Cancel
                 </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={submitForm}
+                  disabled={isSubmitting}
+                >
+                  Confirm
+                </Button>
               </div>
-            </div>
-          }
-        </div>
-      </div>
-      {
-        allowUpdate &&
-        <div className="row actions">
-          <Button
-            onClick={() => setProfile(JSON.parse(JSON.stringify(userState)))}
-            variant="contained"
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleConfirm}
-          >
-            Confirm
-          </Button>
-        </div>
-      }
-    </CardBase>
+            }
+          </CardBase>
+        </Form>
+      )}
+    </Formik>
   );
 }
 
