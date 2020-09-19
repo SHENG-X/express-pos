@@ -15,7 +15,7 @@ import {
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { useToasts } from 'react-toast-notifications';
-import {Formik, Form, Field} from 'formik';
+import { Formik, Form, Field, FieldArray } from 'formik';
 import {
   TextField,
 } from 'formik-material-ui';
@@ -23,8 +23,8 @@ import {
 import ModalBaseV2 from '../../ModalBaseV2';
 import { Context } from '../../../../../context/storeContext';
 import ImageUpload from '../../upload/ImageUpload';
-import PriceTextField from '../../../formikTextField/PriceTextField';
-import IntegerTextField from '../../../formikTextField/IntegerTextField';
+import PriceTextField from '../../../formik/PriceTextField';
+import IntegerTextField from '../../../formik/IntegerTextField';
 
 const ProductModal = ({ handleOpen, initProduct }) => {
   let defaultProduct = {
@@ -50,16 +50,6 @@ const ProductModal = ({ handleOpen, initProduct }) => {
   const { t } = useTranslation();
 
   const { addToast } = useToasts();
-
-  const addNewPrice = (values) => {
-    setProduct({...values, prices: [...values.prices, { name: '', value: '' }]});
-  }
-
-  const deletePrice = (idx) => {
-    const newPrices = [...product.prices];
-    newPrices.splice(idx, 1);
-    setProduct({...product, prices: newPrices});
-  }
 
   const handleCancel = () => {
     // reset default product state
@@ -212,52 +202,62 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                     { t('sale.prices') }
                   </Typography>
                 </div>
-                <div className="input price">
-                  <div className="price-row">
-                    {
-                      values.prices.map((price, idx) => (
-                      <div>
-                        <Field
-                          component={TextField}
-                          name={`prices[${idx}].name`}
-                          placeholder={ t('product.priceName') }
-                        />
-                        <Field
-                          component={PriceTextField}
-                          name={`prices[${idx}].value`}
-                          placeholder={ t('product.priceValue') }
-                          InputProps={{
-                            inputProps: { 
-                              min: 0,
-                            }
-                          }}
-                        />
-                        {
-                          idx !== 0 ?
-                          <IconButton
-                            color="primary"
-                            size="small"
-                            onClick={() => deletePrice(idx)}
-                          >
-                            <Delete />
-                          </IconButton>
-                          :
-                          null
-                        }
-                      </div>
-                      ))
-                    }
-                  </div>
-                  <div className="add">
-                    <IconButton
-                      color="primary"
-                      size="small"
-                      onClick={() => addNewPrice(values)}
-                    >
-                      <Add />
-                    </IconButton>
-                  </div>
-                </div>
+                <FieldArray name="prices">
+                  {({ insert, remove, push }) => (
+                    <div className="input price">
+                      <div className="price-row">
+                        <React.Fragment>
+                          {
+                            values.prices.map((price, idx) => (
+                            <div
+                              className="flex"
+                              style={{paddingRight: `${idx === 0 ? '2rem': ''}`}}
+                              key={idx}
+                            >
+                              <Field
+                                component={TextField}
+                                name={`prices.${idx}.name`}
+                                placeholder={ t('product.priceName') }
+                              />
+                              <Field
+                                component={PriceTextField}
+                                name={`prices.${idx}.value`}
+                                placeholder={ t('product.priceValue') }
+                                InputProps={{
+                                  inputProps: { 
+                                    min: 0,
+                                  }
+                                }}
+                              />
+                              {
+                                idx !== 0 ?
+                                <IconButton
+                                  color="primary"
+                                  size="small"
+                                  onClick={() => remove(idx)}
+                                >
+                                  <Delete />
+                                </IconButton>
+                                :
+                                null
+                              }
+                            </div>
+                            ))
+                          }
+                        </React.Fragment>
+                    </div>
+                      <div className="add">
+                      <IconButton
+                        color="primary"
+                        size="small"
+                        onClick={() => push({name: "", value: ""})}
+                      >
+                        <Add />
+                      </IconButton>
+                    </div>
+                    </div>
+                  )}
+                </FieldArray>
               </div>
 
               <div className="row">
