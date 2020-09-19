@@ -49,7 +49,6 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
   const { addToast } = useToasts();
 
   const handleConfirm = (values, completeSubmit) => {
-    values = { ...values, phone: Number(`${values.phone}`.match(/\d/g)?.join(''))}
     if (currentStaff) {
       if (JSON.stringify(values) === JSON.stringify(currentStaff)) {
         completeSubmit();

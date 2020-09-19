@@ -46,11 +46,6 @@ export const computePriceSummary = (order) =>{
   }
 }
 
-export const formatPhone = (phone) => {
-  const matched = phone.toString().match(/^(\d{3})(\d{3})(\d{4})$/);
-  return `(${matched[1]}) ${matched[2]}-${matched[3]}`;
-}
-
 const calculatePoint = (i, intervalSize, colorRangeInfo) => {
   var { colorStart, colorEnd, useEndAsStart } = colorRangeInfo;
   return (useEndAsStart
