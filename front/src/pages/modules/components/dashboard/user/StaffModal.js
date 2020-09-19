@@ -23,8 +23,8 @@ import {
   validateEmail,
   validatePassword,
  } from '../../../form/validation';
- import LowerCaseTextField from '../../../formikTextField/LowerCaseTextField';
- import PhoneNumberTextField from '../../../formikTextField/PhoneNumberTextField';
+ import LowerCaseTextField from '../../../formik/LowerCaseTextField';
+ import PhoneNumberTextField from '../../../formik/PhoneNumberTextField';
 
 
 const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
