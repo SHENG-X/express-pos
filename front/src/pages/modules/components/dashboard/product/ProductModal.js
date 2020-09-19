@@ -25,6 +25,7 @@ import { Context } from '../../../../../context/storeContext';
 import ImageUpload from '../../upload/ImageUpload';
 import PriceTextField from '../../../formik/PriceTextField';
 import IntegerTextField from '../../../formik/IntegerTextField';
+import { ProductSchema } from '../../../formik/validationSchema';
 
 const ProductModal = ({ handleOpen, initProduct }) => {
   let defaultProduct = {
@@ -105,19 +106,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
     >
       <Formik
         initialValues={product}
-        validate={(values)=>{
-          const errors = {};
-          if (!values.name) {
-            errors.name = "Required";
-          }
-          if (!values.count) {
-            errors.count = "Required";
-          }
-          if (!values.cost) {
-            errors.cost = "Required";
-          }
-          return errors;
-        }}
+        validationSchema={ProductSchema}
         onSubmit={(values, { setSubmitting }) => {
           handleConfirm(values, () => setSubmitting(false));
         }}
