@@ -24,6 +24,7 @@ import ModalBaseV2 from '../../ModalBaseV2';
 import { Context } from '../../../../../context/storeContext';
 import ImageUpload from '../../upload/ImageUpload';
 import PriceTextField from '../../../formikTextField/PriceTextField';
+import IntegerTextField from '../../../formikTextField/IntegerTextField';
 
 const ProductModal = ({ handleOpen, initProduct }) => {
   let defaultProduct = {
@@ -169,9 +170,8 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                 </div>
                 <div className="input">
                   <Field
-                    component={PriceTextField}
+                    component={IntegerTextField}
                     name="count"
-                    type="number"
                     placeholder={ t('product.productCount') }
                     InputProps={{
                       inputProps: { 
