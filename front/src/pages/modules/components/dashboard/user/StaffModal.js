@@ -17,15 +17,9 @@ import {
 
 import ModalBaseV2 from '../../ModalBaseV2';
 import { Context } from '../../../../../context/userContext';
-import { 
-  validateName,
-  validatePhone,
-  validateEmail,
-  validatePassword,
- } from '../../../form/validation';
- import LowerCaseTextField from '../../../formik/LowerCaseTextField';
- import PhoneNumberTextField from '../../../formik/PhoneNumberTextField';
-
+import LowerCaseTextField from '../../../formik/LowerCaseTextField';
+import PhoneNumberTextField from '../../../formik/PhoneNumberTextField';
+import { CreateUserSchema, UpdateUserSchema } from '../../../formik/validationSchema';
 
 const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
   let defaultStaff = {
@@ -35,13 +29,14 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
     fname: '',
     lname: '',
     phone: '',
-    email: '',
-    password: '',
   };
+
+  let validationSchema = CreateUserSchema;
 
   if (currentStaff) {
     // current staff was set, staff modal should be in update mode
     defaultStaff = { ...currentStaff };
+    validationSchema = UpdateUserSchema;
   }
 
   const [ staff ] = useState({ ...defaultStaff });
@@ -94,55 +89,7 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
     >
       <Formik
         initialValues={staff}
-        validate={(values) => {
-          const errors =  {};
-          if (currentStaff) {
-            // validate for update
-            if (values.fname !== currentStaff.fname) {
-              if (validateName(values.fname)) {
-                errors.fname = validateName(values.fname);
-              }
-            }
-            if (values.lname !== currentStaff.lname) {
-              if (validateName(values.lname)) {
-                errors.lname = validateName(values.lname);
-              }
-            }
-            if (values.email !== currentStaff.email) {
-              if (validateEmail(values.email)) {
-                errors.email = validateEmail(values.email);
-              }
-            }
-            if (Number(`${values.phone}`?.match(/\d/g)?.join('')) !== Number(currentStaff.phone)) {
-              if (validatePhone(values.phone)) {
-                errors.phone = validatePhone(values.phone);
-              }
-            }
-            if (values.password !== currentStaff.password) {
-              if (validatePassword(values.password)) {
-                errors.password = validatePassword(values.password);
-              }
-            }
-            
-          } else {
-            if (validateName(values.fname)) {
-              errors.fname = validateName(values.fname);
-            }
-            if (validateName(values.lname)) {
-              errors.lname = validateName(values.lname);
-            }
-            if (validateEmail(values.email)) {
-              errors.email = validateEmail(values.email);
-            }
-            if (validatePhone(values.phone)) {
-              errors.phone = validatePhone(values.phone);
-            }
-            if (validatePassword(values.password)) {
-              errors.password = validatePassword(values.password);
-            }
-          }
-          return errors;
-        }}
+        validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting }) => {
           handleConfirm(values, () => setSubmitting(false));
         }}
