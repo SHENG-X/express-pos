@@ -224,7 +224,6 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                         />
                         <Field
                           component={PriceTextField}
-                          type="number"
                           name={`prices[${idx}].value`}
                           placeholder={ t('product.priceValue') }
                           InputProps={{
@@ -270,7 +269,6 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                 <div className="input">
                   <Field
                     component={PriceTextField}
-                    type="number"
                     name="cost"
                     placeholder={ t('product.productCost') }
                     InputProps={{
