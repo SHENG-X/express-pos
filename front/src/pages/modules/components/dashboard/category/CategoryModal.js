@@ -17,6 +17,7 @@ import {
 import ModalBaseV2 from '../../ModalBaseV2';
 import { Context } from '../../../../../context/storeContext';
 import ImageUpload from '../../upload/ImageUpload';
+import { CategorySchema } from '../../../formik/validationSchema';
 
 const CategoryModal = ({ handleOpen, initCategory }) => {
   let defaultCategory = {
@@ -79,15 +80,6 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
     setCategory({ ...category, thumbnail: image });
   }
 
-  const validateCategory = (values) => {
-    const errors = {};
-    // create a category requires a category name
-    if (!values.name) {
-      errors.name = "Required";
-    }
-    return errors;
-  }
-
   return (
     <ModalBaseV2
       title={ initCategory ? t('category.update') : t('category.title') }
@@ -95,7 +87,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
     >
       <Formik
         initialValues={category}
-        validate={validateCategory}
+        validationSchema={CategorySchema}
         onSubmit={(values, { setSubmitting }) => {
           handleConfirm(values, () => setSubmitting(false));
         }}
