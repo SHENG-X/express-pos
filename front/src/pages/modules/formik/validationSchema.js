@@ -10,11 +10,11 @@ export const CategorySchema = Yup.object().shape({
 export const ProductSchema = Yup.object().shape({
   name: Yup.string()
     .min(2, 'Too short')
-    .max(10, 'Too long')
+    .max(50, 'Too long')
     .required('Required'),
-  count: Yup.string().required('Required'),
+  count: Yup.number().moreThan(0, 'Required').required('Required'),
   prices: Yup.array().of(Yup.object().shape({
-            value: Yup.string().required('Required')
+            value: Yup.number().moreThan(0, 'Required').required('Required')
           })),
-  cost: Yup.string().required('Required'),
+  cost: Yup.number().moreThan(0, 'Required').required('Required'),
 });
