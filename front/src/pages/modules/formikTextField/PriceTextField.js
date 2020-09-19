@@ -4,9 +4,7 @@ import React, {
 import {
   fieldToTextField,
 } from 'formik-material-ui';
-import {
-  TextField,
-} from '@material-ui/core';
+import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 
 const PriceTextField = (props) => {
   const {
@@ -14,13 +12,12 @@ const PriceTextField = (props) => {
     field: {name},
   } = props;
   const onChange = useCallback(
-    (event) => {
-      const {value} = event.target;
-      setFieldValue(name, value ? value.replace(/^0+/,'') : '');
+    (event, value) => {
+      setFieldValue(name, value);
     },
     [setFieldValue, name]
   );
-  return <TextField {...fieldToTextField(props)} onChange={onChange} />;
+  return <CurrencyTextField {...fieldToTextField(props)} onChange={onChange} />;
 }
 
 export default PriceTextField;
