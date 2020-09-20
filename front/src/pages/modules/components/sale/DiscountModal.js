@@ -8,6 +8,7 @@ import {
   InputAdornment,
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 
 import ModalBase from '../ModalBase';
 
@@ -50,14 +51,10 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
             <div className="right">
             {
               discount.method === 'Amount' &&
-              <TextField
-                type="number"
+              <CurrencyTextField
                 value={discount.value}
-                onChange={e => setDiscount({ ...discount, value: e.target.value.replace(/^0+/,'') })}
+                onChange={(e, value) => setDiscount({ ...discount, value })}
                 InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">$</InputAdornment>
-                  ),
                   inputProps: { 
                     min: 0,
                   }
