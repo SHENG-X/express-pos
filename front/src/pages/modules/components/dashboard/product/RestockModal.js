@@ -18,10 +18,11 @@ import { useToasts } from 'react-toast-notifications';
 
 import ModalBase from '../../ModalBase';
 import { Context } from '../../../../../context/storeContext';
+import MdcIntTextField from '../../../overwrite/MdcIntTextField';
 
 const RestockModal = ({ product, handleOpen }) => {
   const { t } = useTranslation();
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState('');
   const  { restockProduct } = useContext(Context);
   const { addToast } = useToasts();
 
@@ -43,7 +44,8 @@ const RestockModal = ({ product, handleOpen }) => {
   }
 
   const handleAdd = (increment) => {
-    setAmount(amount + increment);
+    const updatedAmount = Number(amount) + increment;
+    setAmount(updatedAmount === 0 ? '' : updatedAmount );
   }
 
   return (
@@ -73,10 +75,9 @@ const RestockModal = ({ product, handleOpen }) => {
             >
               <Add/>
             </IconButton>
-            <TextField
-              type="number"
+            <MdcIntTextField
               value={amount}
-              onChange={e => setAmount(Number(e.target.value))}
+              onChange={e => setAmount(e.target.value ? e.target.value.replace(/\./g, '') : '')}
             />
             <IconButton
               variant="contained"
