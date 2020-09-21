@@ -77,26 +77,30 @@ const ProductModal = ({ selectedProduct, handleOpen, handleConfirm }) => {
                 { t('sale.price') }
               </Typography>
             </div>
-            <div className="action">
-              <FormControl variant="outlined" >
-                <InputLabel id="demo-simple-select-outlined-label">{ t('sale.price') }</InputLabel>
-                <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  value={product.price}
-                  onChange={(e) => setProduct({...product, price: e.target.value})}
-                  label={ t('sale.price') }
-                >
-                  {
-                    product.prices.map(p => (<MenuItem value={p.value} key={p.value}>{
-                        p.name ? 
-                        `${p.name} - ${p.value}`
-                        :
-                        p.value
-                    }</MenuItem>))
-                  }
-                </Select>
-              </FormControl>
+            <div className="action flex items-center">
+              {
+                product.prices.length === 1 ?
+                <Typography variant="body1">
+                  { product.prices[0].value }
+                </Typography>
+                :
+                <FormControl variant="outlined" >
+                  <Select
+                    value={product.price}
+                    onChange={(e) => setProduct({...product, price: e.target.value})}
+                    disabled={product.prices.length === 1}
+                  >
+                    {
+                      product.prices.map(p => (<MenuItem value={p.value} key={p.value}>{
+                          p.name ? 
+                          `${p.name} - ${p.value}`
+                          :
+                          p.value
+                      }</MenuItem>))
+                    }
+                  </Select>
+                </FormControl>
+              }
             </div>
           </div>
         </React.Fragment>
