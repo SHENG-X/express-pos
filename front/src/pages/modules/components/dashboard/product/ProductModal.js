@@ -7,7 +7,8 @@ import {
   MenuItem,
   Button,
   IconButton,
-  CircularProgress
+  CircularProgress,
+  Tooltip,
 } from '@material-ui/core';
 import {
   Add,
@@ -198,52 +199,60 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                         <React.Fragment>
                           {
                             values.prices.map((price, idx) => (
-                            <div
-                              className="flex"
-                              style={{paddingRight: `${idx === 0 ? '2rem': ''}`}}
-                              key={idx}
-                            >
-                              <Field
-                                component={TextField}
-                                name={`prices.${idx}.name`}
-                                placeholder={ t('product.priceName') }
-                              />
-                              <Field
-                                component={PriceTextField}
-                                name={`prices.${idx}.value`}
-                                placeholder={ t('product.priceValue') }
-                                InputProps={{
-                                  inputProps: { 
-                                    min: 0,
-                                  }
-                                }}
-                              />
-                              {
-                                idx !== 0 ?
-                                <IconButton
-                                  color="primary"
-                                  size="small"
-                                  onClick={() => remove(idx)}
-                                >
-                                  <Delete />
-                                </IconButton>
-                                :
-                                null
-                              }
-                            </div>
+                              <div
+                                className="flex"
+                                style={{paddingRight: `${idx === 0 ? '2rem': ''}`}}
+                                key={idx}
+                              >
+                                <Field
+                                  component={TextField}
+                                  name={`prices.${idx}.name`}
+                                  placeholder={ t('product.priceName') }
+                                />
+                                <Field
+                                  component={PriceTextField}
+                                  name={`prices.${idx}.value`}
+                                  placeholder={ t('product.priceValue') }
+                                  InputProps={{
+                                    inputProps: { 
+                                      min: 0,
+                                    }
+                                  }}
+                                />
+                                {
+                                  idx !== 0 &&
+                                  <Tooltip
+                                    title="Delete"
+                                    arrow
+                                  >
+                                    <IconButton
+                                      color="primary"
+                                      size="small"
+                                      onClick={() => remove(idx)}
+                                    >
+                                      <Delete />
+                                    </IconButton>
+                                  </Tooltip>
+                                }
+                              </div>
                             ))
                           }
                         </React.Fragment>
-                    </div>
+                      </div>
                       <div className="add">
-                      <IconButton
-                        color="primary"
-                        size="small"
-                        onClick={() => push({name: "", value: ""})}
-                      >
-                        <Add />
-                      </IconButton>
-                    </div>
+                        <Tooltip
+                          title="Add"
+                          arrow
+                        >
+                          <IconButton
+                            color="primary"
+                            size="small"
+                            onClick={() => push({name: "", value: ""})}
+                          >
+                            <Add />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
                     </div>
                   )}
                 </FieldArray>

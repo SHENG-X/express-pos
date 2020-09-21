@@ -14,6 +14,7 @@ import {
   TableRow,
   TableCell,
   Button,
+  Tooltip,
 } from '@material-ui/core';
 import {
   Search,
@@ -189,77 +190,102 @@ const ProductRow = ({ product, editProduct, restockProduct }) => {
       <TableCell>
         <div className="actions">
           <div>
-            <IconButton
-              color="primary"
-              size="small"
-              onClick={() => editProduct( product )}
+            <Tooltip
+              title="Edit"
+              arrow
             >
-              <Edit />
-            </IconButton>
+              <IconButton
+                color="primary"
+                size="small"
+                onClick={() => editProduct( product )}
+              >
+                <Edit />
+              </IconButton>
+            </Tooltip>
           </div>
           <div>
-            <IconButton
-              color="primary"
-              size="small"
-              onClick={() => restockProduct( product )}
+            <Tooltip
+              title="Restock"
+              arrow
             >
-              <Storage />
-            </IconButton>
+              <IconButton
+                color="primary"
+                size="small"
+                onClick={() => restockProduct( product )}
+              >
+                <Storage />
+              </IconButton>
+            </Tooltip>
           </div>
           {
             product.enable ?
             <div>
-              <IconButton
-                color="primary"
-                size="small"
-                onClick={() => updateProduct(
-                  {...product, enable: false},
-                  () => {
-                    addToast(`Disable product success`, { appearance: 'success' });
-                  },
-                  () => {
-                    addToast('Unable to disable the product, please try again later', { appearance: 'error' });
-                  }
-                )}
+              <Tooltip
+                title="Disable"
+                arrow
               >
-                <Visibility />
-              </IconButton>
+                <IconButton
+                  color="primary"
+                  size="small"
+                  onClick={() => updateProduct(
+                    {...product, enable: false},
+                    () => {
+                      addToast(`Disable product success`, { appearance: 'success' });
+                    },
+                    () => {
+                      addToast('Unable to disable the product, please try again later', { appearance: 'error' });
+                    }
+                  )}
+                >
+                  <Visibility />
+                </IconButton>
+              </Tooltip>
             </div>
             :
             <div>
-              <IconButton
-                color="primary"
-                size="small"
-                onClick={() => updateProduct(
-                  {...product, enable: true},
-                  () => {
-                    addToast(`Enable product success`, { appearance: 'success' });
-                  },
-                  () => {
-                    addToast('Unable to enable the product, please try again later', { appearance: 'error' });
-                  }
-                )}
+              <Tooltip
+                title="Enable"
+                arrow
               >
-                <VisibilityOff />
-              </IconButton>
+                <IconButton
+                  color="primary"
+                  size="small"
+                  onClick={() => updateProduct(
+                    {...product, enable: true},
+                    () => {
+                      addToast(`Enable product success`, { appearance: 'success' });
+                    },
+                    () => {
+                      addToast('Unable to enable the product, please try again later', { appearance: 'error' });
+                    }
+                  )}
+                >
+                  <VisibilityOff />
+                </IconButton>
+              </Tooltip>
             </div>
           }
           <div>
-            <IconButton
-              color="primary"
-              size="small"
-              onClick={() => deleteProduct(
-                { _id: product._id },
-                () => {
-                  addToast(`Delete product success`, { appearance: 'success' });
-                },
-                () => {
-                  addToast('Unable to delete the product, please try again later', { appearance: 'error' });
-                }
-              )}
+            <Tooltip
+              title="Delete"
+              arrow
             >
-              <Delete />
-            </IconButton>
+              <IconButton
+                color="primary"
+                size="small"
+                onClick={() => deleteProduct(
+                  { _id: product._id },
+                  () => {
+                    addToast(`Delete product success`, { appearance: 'success' });
+                  },
+                  () => {
+                    addToast('Unable to delete the product, please try again later', { appearance: 'error' });
+                  }
+                )}
+              >
+                <Delete />
+              </IconButton>
+            </Tooltip>
           </div>
         </div>
       </TableCell>
