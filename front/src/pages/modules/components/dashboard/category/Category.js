@@ -14,6 +14,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Tooltip,
 } from '@material-ui/core';
 import {
   Search,
@@ -141,28 +142,38 @@ const CategoryRow = ({ category, handleEdit }) => {
         { productCount() }
       </TableCell>
       <TableCell>
-        <IconButton
+        <Tooltip
+          title="Edit"
+          arrow
+        >
+          <IconButton
             color="primary"
             size="small"
             onClick={() => handleEdit(category)}
           >
             <Edit />
           </IconButton>
-        <IconButton
-          color="primary"
-          size="small"
-          onClick={() => deleteCategory(
-            { _id: category._id },
-            () => {
-              addToast('Category deleted', { appearance: 'success' });
-            },
-            () => {
-              addToast('Error on deleting the category, please try again later', { appearance: 'error' });
-            }
-          )}
+        </Tooltip>
+        <Tooltip
+          title="Delete"
+          arrow
         >
-          <Delete />
-        </IconButton>
+          <IconButton
+            color="primary"
+            size="small"
+            onClick={() => deleteCategory(
+              { _id: category._id },
+              () => {
+                addToast('Category deleted', { appearance: 'success' });
+              },
+              () => {
+                addToast('Error on deleting the category, please try again later', { appearance: 'error' });
+              }
+            )}
+          >
+            <Delete />
+          </IconButton>
+        </Tooltip>
       </TableCell>
     </TableRow>
   );
