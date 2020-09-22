@@ -66,7 +66,7 @@ const ProductItem = ({ product, handleOpen }) => {
       <Card className="card">
         <CardMedia
           className="media"
-          image={ product.thumbnailFlag ? imagePath(product._id) : require('../../../../static/no-product-image.png')}
+          image={ product.thumbnailFileName ? imagePath(product.thumbnailFileName) : require('../../../../static/no-product-image.png')}
           title={product.name}
         />
         <Typography variant="subtitle2">
