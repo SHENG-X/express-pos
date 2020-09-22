@@ -14,6 +14,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Tooltip,
 } from '@material-ui/core';
 import {
   Search,
@@ -185,30 +186,40 @@ const StaffRow = ({ staff, handleUpdate }) => {
       {
         userState.role !== 'Employee' &&
         <TableCell>
-          <IconButton
-            color="primary"
-            size="small"
-            onClick={() => handleUpdate(staff)}
-            disabled={staff.role === 'Manager' && userState.role === 'Manager'}
+          <Tooltip
+            title="Edit"
+            arrow
           >
-            <Edit/>
-          </IconButton>
-          <IconButton
-            color="primary"
-            size="small"
-            onClick={() => deleteStaff(
-              staff._id,
-              () => {
-                addToast('Staff was deleted', { appearance: 'success' });
-              },
-              () => {
-                addToast('Unable to delete the staff', { appearance: 'error' });
-              }
-            )}
-            disabled={staff.role === 'Manager' && userState.role === 'Manager'}
+            <IconButton
+              color="primary"
+              size="small"
+              onClick={() => handleUpdate(staff)}
+              disabled={staff.role === 'Manager' && userState.role === 'Manager'}
+            >
+              <Edit/>
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            title="Delete"
+            arrow
           >
-            <Delete/>
-          </IconButton>
+            <IconButton
+              color="primary"
+              size="small"
+              onClick={() => deleteStaff(
+                staff._id,
+                () => {
+                  addToast('Staff was deleted', { appearance: 'success' });
+                },
+                () => {
+                  addToast('Unable to delete the staff', { appearance: 'error' });
+                }
+              )}
+              disabled={staff.role === 'Manager' && userState.role === 'Manager'}
+            >
+              <Delete/>
+            </IconButton>
+          </Tooltip>
         </TableCell>
       }
     </TableRow>
