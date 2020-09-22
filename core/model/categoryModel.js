@@ -9,9 +9,9 @@ const categorySchema = new Schema(
       type: String,
       required: true,
     },
-    thumbnailFlag: {
-      type: Boolean,
-      default: false,
+    thumbnailFileName: {
+      type: String,
+      default: '',
     },
     store: {
       type: Schema.Types.ObjectId,
