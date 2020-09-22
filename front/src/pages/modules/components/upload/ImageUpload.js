@@ -7,7 +7,6 @@ import {
   ButtonBase,
 } from '@material-ui/core';
 import {
-  Add,
   Delete,
 } from '@material-ui/icons';
 import './index.scss';
@@ -41,7 +40,7 @@ const ImageUpload = ({ handleImageUpload, obj }) => {
           errors,
         }) => (
           <React.Fragment>
-            <div className="upload__image-wrapper" style={{backgroundImage: `url(${obj.thumbnailFlag ? imagePath(obj._id) : ''})`}}>
+            <div className="upload__image-wrapper" style={{backgroundImage: `url(${imagePath(obj.thumbnailFileName)})`}}>
               <ButtonBase
                 className="upload-button"
                 onClick={onImageUpload}
@@ -56,7 +55,6 @@ const ImageUpload = ({ handleImageUpload, obj }) => {
                     className="image-item"
                     style={{backgroundImage: `url(${image['data_url']})`}}
                   >
-                    {/* <img src={image['data_url']} alt="" width="100" /> */}
                     <div className="image-item__btn-wrapper">
                       <IconButton
                         size="small"
