@@ -142,7 +142,7 @@ const TopSellingCard = ({ topSelling }) => {
       <div 
         className="media"
         title={topSelling.name}
-        style={{"backgroundImage": `url(${topSelling.thumbnailFlag ? imagePath(topSelling._id): '/static/media/no-product-image.b51a7162.png'})`}}
+        style={{"backgroundImage": `url(${topSelling.thumbnailFileName ? imagePath(topSelling.thumbnailFileName) : '/static/media/no-product-image.b51a7162.png'})`}}
       />
       <div className="name">
         <Typography variant="subtitle2">
