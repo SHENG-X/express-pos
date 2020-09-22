@@ -121,11 +121,11 @@ const CategoryRow = ({ category, handleEdit }) => {
     <TableRow>
       <TableCell key={category.key}>
         {
-          category.thumbnailFlag ?
+          category.thumbnailFileName ?
           <div
             className="thumbnail"
             title={category.name}
-            style={{"backgroundImage": `url(${imagePath(category._id)})`}}
+            style={{"backgroundImage": `url(${imagePath(category.thumbnailFileName)})`}}
           />
           :
           <div

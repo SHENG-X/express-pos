@@ -1,3 +1,5 @@
+const uuid = require('uuid'); 
+
 const { writeImageFile, removeImageFile } = require('../utils');
 const productModel = require('../model/productModel');
 const storeModel = require('../model/storeModel');
@@ -28,13 +30,15 @@ const getProduct = async (req, res) => {
 const createProduct = async (req, res) => {
   const storeId = req.decoded.store;
   const { thumbnail, name, prices, cost, count, category } = req.body;
-  
+  let imgFileName;
+
   try {
     const product = new productModel({ name, prices, cost, count, category, store: storeId });
 
     if (thumbnail) {
-      writeImageFile(thumbnail, product._id);
-      product.thumbnailFlag = true;
+      imgFileName = uuid.v4(); 
+      product.thumbnailFileName = imgFileName;
+      writeImageFile(thumbnail, imgFileName);
     }
 
     // save product to database
@@ -52,34 +56,41 @@ const createProduct = async (req, res) => {
 }
 
 const updateProduct = async (req, res) => {
-  const { _id, thumbnail, thumbnailFlag, enable, name, prices, cost, count, category } = req.body;
+  const { _id, thumbnail, enable, name, prices, cost, count, category } = req.body;
+  let imgFileName;
 
   if (!_id) {
     return res.status(400).json('Product ID is required');
   }
 
   try {
-    const updatedProduct = await productModel.findByIdAndUpdate(_id, {
-      thumbnailFlag: (thumbnailFlag || thumbnail ? true: false ),
-      enable,
-      name,
-      prices,
-      cost,
-      count,
-      category
-    }, { new: true });
+    const product = await productModel.findById(_id);
+    // update product fields
+    product.enable = enable;
+    product.name = name;
+    product.cost = cost;
+    product.prices = prices;
+    product.count = count;
+    product.category = category;
 
     if (thumbnail) {
-      writeImageFile(thumbnail, updatedProduct._id);
+      if (product.thumbnailFileName) {
+        // check if thumbnail was set. Removing the thumbnail if 
+        // if was set
+        removeImageFile(product.thumbnailFileName);
+      }
+      imgFileName = uuid.v4();
+      product.thumbnailFileName = imgFileName;
+      writeImageFile(thumbnail, imgFileName);
     }
-
-    const updatedProductDoc = updatedProduct._doc;
+    const savedProduct = await product.save();
+    const savedProductDoc = savedProduct._doc;
 
     // emit update product event to according store so all users in the same store 
     // can react to the event accordingly
-    res.io.emit(req.decoded.store, { type: 'UPDATE_PRODUCT', payload: updatedProductDoc._id, uid: req.decoded.user });
+    res.io.emit(req.decoded.store, { type: 'UPDATE_PRODUCT', payload: savedProductDoc._id, uid: req.decoded.user });
 
-    return res.status(200).json(updatedProductDoc);
+    return res.status(200).json(savedProductDoc);
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -95,10 +106,10 @@ const deleteProduct = async (req, res) => {
   try {
     // find product by id
     const product = await productModel.findById(_id);
+    // remove product image
+    removeImageFile(product.thumbnailFileName);
     // delete current product
     await product.deleteOne();
-    // remove product image
-    removeImageFile(_id);
 
     // emit delete product event to according store so all users in the same store 
     // can react to the event accordingly

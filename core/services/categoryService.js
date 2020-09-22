@@ -1,3 +1,5 @@
+const uuid = require('uuid'); 
+
 const { writeImageFile, removeImageFile } = require('../utils');
 const categoryModel = require('../model/categoryModel');
 const storeModel = require('../model/storeModel');
@@ -29,12 +31,13 @@ const getCategory = async (req, res) => {
 const createCategory = async (req, res) => {
   const storeId = req.decoded.store;
   const { thumbnail, name } = req.body;
-
+  let imgFileName;
   const category = new categoryModel({ name, store: storeId });
 
   if (thumbnail) {
-    writeImageFile(thumbnail, category._id);
-    category.thumbnailFlag = true;
+    imgFileName = uuid.v4();
+    category.thumbnailFileName = imgFileName;
+    writeImageFile(thumbnail, imgFileName);
   }
 
   try {
@@ -53,18 +56,27 @@ const createCategory = async (req, res) => {
 }
 
 const updateCategory = async (req, res) => {
-  const { _id, thumbnail, thumbnailFlag, name } = req.body;
+  const { _id, thumbnail, name } = req.body;
   try {
-    const updatedCategory = await categoryModel.findByIdAndUpdate(_id, { name, thumbnailFlag: (thumbnail || thumbnailFlag ? true: false ) }, {new: true});
+    let imgFileName;
+    const category = await categoryModel.findById(_id);
+    category.name = name;
     if (thumbnail) {
-      writeImageFile(thumbnail, updatedCategory._id);
+      if (category.thumbnailFileName) {
+        // if there is previous thumbnail then remove it
+        removeImageFile(category.thumbnailFileName);
+      }
+      imgFileName = uuid.v4();
+      category.thumbnailFileName = imgFileName;
+      writeImageFile(thumbnail, imgFileName);
     }
+    const updatedCategory = await category.save();
+
     const updateCategoryDoc = updatedCategory._doc;
 
     // emit update category event to according store so all users in the same store 
     // can react to the event accordingly
     res.io.emit(req.decoded.store, { type: 'UPDATE_CATEGORY', payload: updateCategoryDoc._id, uid: req.decoded.user });
-
 
     return res.status(200).json(updateCategoryDoc);
   } catch (error) {
@@ -78,9 +90,10 @@ const deleteCategory = async (req, res) => {
   try {
     // find category by id
     const category = await categoryModel.findById(_id);
+    // remove category thumbnail
+    removeImageFile(category.thumbnailFileName);
     // remove the category
     await category.deleteOne();
-    removeImageFile(_id);
     
     // emit update category event to according store so all users in the same store 
     // can react to the event accordingly
