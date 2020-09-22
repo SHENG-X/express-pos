@@ -62,12 +62,15 @@ const updateCategory = async (req, res) => {
     const category = await categoryModel.findById(_id);
     category.name = name;
     if (thumbnail) {
+      if (category.thumbnailFileName) {
+        // if there is previous thumbnail then remove it
+        removeImageFile(category.thumbnailFileName);
+      }
       imgFileName = uuid.v4();
       category.thumbnailFileName = imgFileName;
-      removeImageFile(category.thumbnailFileName);
       writeImageFile(thumbnail, imgFileName);
     }
-    const updatedCategory = await categoryModel.save();
+    const updatedCategory = await category.save();
 
     const updateCategoryDoc = updatedCategory._doc;
 
