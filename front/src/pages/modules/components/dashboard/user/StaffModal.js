@@ -106,23 +106,27 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
                     </Typography>
                   </div>
                   <div className="input">
-                    <Field
-                      component={TextField}
-                      type="text"
-                      name="role"
-                      select
-                      variant="outlined"
-                    >
-                      {
-                        userState.role === 'Owner' &&
+                    {
+                      userState.role === 'Owner' ?
+                      <Field
+                        component={TextField}
+                        type="text"
+                        name="role"
+                        select
+                        variant="outlined"
+                      >
                         <MenuItem value={'Manager'}>
                           Manager
                         </MenuItem>
-                      }
-                      <MenuItem value={'Employee'}>
+                        <MenuItem value={'Employee'}>
+                          Employee
+                        </MenuItem>
+                      </Field>
+                      :
+                      <Typography variant="body1">
                         Employee
-                      </MenuItem>
-                    </Field>
+                      </Typography>
+                    }
                   </div>
                 </div>
                 
