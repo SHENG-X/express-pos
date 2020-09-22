@@ -150,11 +150,11 @@ const ProductRow = ({ product, editProduct, restockProduct }) => {
     <TableRow>
       <TableCell key={product.key}>
         {
-          product.thumbnailFlag ?
+          product.thumbnailFileName ?
           <div
             className="thumbnail"
             title={product.name}
-            style={{"backgroundImage": `url(${imagePath(product._id)})`}}
+            style={{"backgroundImage": `url(${imagePath(product.thumbnailFileName)})`}}
           />
           :
           <div
