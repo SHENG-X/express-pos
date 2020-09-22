@@ -90,9 +90,10 @@ const deleteCategory = async (req, res) => {
   try {
     // find category by id
     const category = await categoryModel.findById(_id);
+    // remove category thumbnail
+    removeImageFile(category.thumbnailFileName);
     // remove the category
     await category.deleteOne();
-    removeImageFile(category._id);
     
     // emit update category event to according store so all users in the same store 
     // can react to the event accordingly
