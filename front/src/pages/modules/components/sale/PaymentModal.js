@@ -90,10 +90,9 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen, setOrderId, discou
       (oid) => {
         setOrderId(oid);
         setPaid(true);
-        addToast('Order saved success', { appearance: 'success' });
       },
       () => {
-        addToast('Unable to save the order, please try again later', { appearance: 'error' });
+        addToast('Unable to save current order.', { appearance: 'error' });
       }
     );
   }
