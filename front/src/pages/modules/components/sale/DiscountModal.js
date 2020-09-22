@@ -49,36 +49,36 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
               </Button>
             </div>
             <div className="right">
-            {
-              discount.method === 'Amount' &&
-              <CurrencyTextField
-                value={discount.value}
-                onChange={(e, value) => setDiscount({ ...discount, value })}
-                InputProps={{
-                  inputProps: { 
-                    min: 0,
-                  }
-                }}
-              />
-            }
-            {
-              discount.method === 'Percent' &&
-              <TextField
-                type="number"
-                value={discount.value}
-                onChange={e => setDiscount({ ...discount, value: e.target.value.replace(/^0+/,'') })}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      %
-                    </InputAdornment>
-                  ),
-                  inputProps: { 
-                    min: 0,
-                  }
-                }}
-              />
-            }
+              {
+                discount.method === 'Amount' &&
+                <CurrencyTextField
+                  value={discount.value}
+                  onChange={(e, value) => setDiscount({ ...discount, value })}
+                  InputProps={{
+                    inputProps: { 
+                      min: 0,
+                    }
+                  }}
+                />
+              }
+              {
+                discount.method === 'Percent' &&
+                <TextField
+                  type="number"
+                  value={discount.value}
+                  onChange={e => setDiscount({ ...discount, value: e.target.value.replace(/^0+/,'') })}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        %
+                      </InputAdornment>
+                    ),
+                    inputProps: { 
+                      min: 0,
+                    }
+                  }}
+                />
+              }
             </div>
           </div>
         </React.Fragment>
