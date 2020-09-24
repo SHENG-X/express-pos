@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const productModel = require('./productModel');
+const ProductModel = require('./productModel');
+
+const { Schema } = mongoose;
 
 const orderSchema = new Schema(
   {
@@ -13,7 +14,7 @@ const orderSchema = new Schema(
     paymentType: {
       type: String,
       enum: ['Cash', 'Card', 'None'],
-      default: 'None'
+      default: 'None',
     },
     amountPaid: {
       type: Number,
@@ -28,12 +29,12 @@ const orderSchema = new Schema(
         method: {
           type: String,
           enum: ['Percent', 'Amount'],
-          required: true
+          required: true,
         },
         value: {
           type: Number,
           default: 0,
-        }
+        },
       },
       default: null,
     },
@@ -41,8 +42,8 @@ const orderSchema = new Schema(
       type: [
         {
           product: {
-              type: Schema.Types.ObjectId,
-              ref: 'Product'
+            type: Schema.Types.ObjectId,
+            ref: 'Product',
           },
           price: {
             type: Number,
@@ -55,8 +56,8 @@ const orderSchema = new Schema(
           count: {
             type: Number,
             default: 1,
-          }
-        }
+          },
+        },
       ],
       required: true,
     },
@@ -66,23 +67,24 @@ const orderSchema = new Schema(
     },
   },
   {
-    timestamps: true
+    timestamps: true,
   },
 );
 
-orderSchema.post('save', {document: true}, async (order, next) => {
+orderSchema.post('save', { document: true }, async (order, next) => {
   // on new order is created, loop through all products in the order
   order.products.forEach(async (prod) => {
-    const prodObj = await productModel.findById(prod.product);
+    const prodObj = await ProductModel.findById(prod.product);
     // deduct product count
     prodObj.count -= prod.count;
     // increase product sold
     prodObj.sold += prod.count;
     await prodObj.save();
   });
+
   next();
 });
 
-const orderModel = mongoose.model('Order', orderSchema);
+const OrderModel = mongoose.model('Order', orderSchema);
 
-module.exports = orderModel;
+module.exports = OrderModel;

@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const storeModel = require('./storeModel');
+const StoreModel = require('./storeModel');
+
+const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
@@ -43,21 +44,21 @@ const userSchema = new Schema(
     staffNo: {
       type: Number,
       default: 1,
-    }
+    },
   },
   {
     timestamps: true,
   },
 );
 
-// use middleware to increase staff number 
+// use middleware to increase staff number
 // on new staff added
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async (next) => {
   if (!this.isNew) {
     next();
     return;
   }
-  const store = await storeModel.findById(this.store.toString());
+  const store = await StoreModel.findById(this.store.toString());
   if (!store) {
     // store does not exist, a brand new store will be created
     next();
@@ -66,11 +67,11 @@ userSchema.pre('save', async function (next) {
   // if a new staff is added
   const lastHiredNo = store.hiredNo;
   this.staffNo = lastHiredNo + 1;
-  store.hiredNo++;
+  store.hiredNo += 1;
   await store.save();
   next();
 });
 
-const userModel = mongoose.model('User', userSchema);
+const UserModel = mongoose.model('User', userSchema);
 
-module.exports = userModel;
+module.exports = UserModel;

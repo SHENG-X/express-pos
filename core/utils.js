@@ -1,14 +1,13 @@
+/* eslint-disable no-console */
 const fs = require('fs');
 
-const genImagePath = (key) => {
-  return `static/${key}.jpg`;
-}
+const genImagePath = (key) => `static/${key}.jpg`;
 
 const writeImageFile = (thumbnail, itemId) => {
   const image = thumbnail.split(',')[1];
-  const bitmap = new Buffer(image, 'base64');
+  const bitmap = Buffer.from(image, 'base64');
   fs.writeFileSync(genImagePath(itemId), bitmap);
-}
+};
 
 const removeImageFile = (itemId) => {
   try {
@@ -19,8 +18,9 @@ const removeImageFile = (itemId) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
+
 module.exports = {
   writeImageFile,
   removeImageFile,
-}
+};

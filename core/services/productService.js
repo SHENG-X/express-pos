@@ -1,8 +1,8 @@
-const uuid = require('uuid'); 
+const uuid = require('uuid');
 
 const { writeImageFile, removeImageFile } = require('../utils');
-const productModel = require('../model/productModel');
-const storeModel = require('../model/storeModel');
+const ProductModel = require('../model/productModel');
+const StoreModel = require('../model/storeModel');
 
 const getProduct = async (req, res) => {
   const storeId = req.decoded.store;
@@ -10,33 +10,49 @@ const getProduct = async (req, res) => {
 
   try {
     if (!productId) {
-      // if no product id was set then return 
+      // if no product id was set then return
       // all products belong to the store
-      const storeObj = await storeModel.findById(storeId);
+      const storeObj = await StoreModel.findById(storeId);
       const populatedStore = await storeObj.populate('products').execPopulate();
       const productsDoc = populatedStore._doc.products;
       return res.status(200).json(productsDoc);
     }
 
     // product id was set, return the product
-    const product = await productModel.findById(productId);
+    const product = await ProductModel.findById(productId);
     const productDoc = product._doc;
     return res.status(200).json(productDoc);
   } catch (error) {
     return res.status(500).json(error);
   }
-}
+};
 
 const createProduct = async (req, res) => {
   const storeId = req.decoded.store;
-  const { thumbnail, name, prices, cost, count, category } = req.body;
+  const {
+    thumbnail,
+    name,
+    prices,
+    cost,
+    count,
+    category,
+  } = req.body;
   let imgFileName;
 
   try {
-    const product = new productModel({ name, prices, cost, count, category, store: storeId });
+    const product = new ProductModel(
+      {
+        name,
+        prices,
+        cost,
+        count,
+        category,
+        store: storeId,
+      },
+    );
 
     if (thumbnail) {
-      imgFileName = uuid.v4(); 
+      imgFileName = uuid.v4();
       product.thumbnailFileName = imgFileName;
       writeImageFile(thumbnail, imgFileName);
     }
@@ -44,8 +60,8 @@ const createProduct = async (req, res) => {
     // save product to database
     const savedProduct = await product.save();
     const savedProductDoc = savedProduct._doc;
-    
-    // emit add product event to according store so all users in the same store 
+
+    // emit add product event to according store so all users in the same store
     // can react to the event accordingly
     res.io.emit(req.decoded.store, { type: 'ADD_PRODUCT', payload: savedProductDoc._id, uid: req.decoded.user });
 
@@ -53,10 +69,19 @@ const createProduct = async (req, res) => {
   } catch (error) {
     return res.status(500).json(error);
   }
-}
+};
 
 const updateProduct = async (req, res) => {
-  const { _id, thumbnail, enable, name, prices, cost, count, category } = req.body;
+  const {
+    _id,
+    thumbnail,
+    enable,
+    name,
+    prices,
+    cost,
+    count,
+    category,
+  } = req.body;
   let imgFileName;
 
   if (!_id) {
@@ -64,7 +89,7 @@ const updateProduct = async (req, res) => {
   }
 
   try {
-    const product = await productModel.findById(_id);
+    const product = await ProductModel.findById(_id);
     // update product fields
     product.enable = enable;
     product.name = name;
@@ -75,7 +100,7 @@ const updateProduct = async (req, res) => {
 
     if (thumbnail) {
       if (product.thumbnailFileName) {
-        // check if thumbnail was set. Removing the thumbnail if 
+        // check if thumbnail was set. Removing the thumbnail if
         // if was set
         removeImageFile(product.thumbnailFileName);
       }
@@ -86,7 +111,7 @@ const updateProduct = async (req, res) => {
     const savedProduct = await product.save();
     const savedProductDoc = savedProduct._doc;
 
-    // emit update product event to according store so all users in the same store 
+    // emit update product event to according store so all users in the same store
     // can react to the event accordingly
     res.io.emit(req.decoded.store, { type: 'UPDATE_PRODUCT', payload: savedProductDoc._id, uid: req.decoded.user });
 
@@ -94,7 +119,7 @@ const updateProduct = async (req, res) => {
   } catch (error) {
     return res.status(500).json(error);
   }
-}
+};
 
 const deleteProduct = async (req, res) => {
   const { _id } = req.query;
@@ -105,13 +130,13 @@ const deleteProduct = async (req, res) => {
 
   try {
     // find product by id
-    const product = await productModel.findById(_id);
+    const product = await ProductModel.findById(_id);
     // remove product image
     removeImageFile(product.thumbnailFileName);
     // delete current product
     await product.deleteOne();
 
-    // emit delete product event to according store so all users in the same store 
+    // emit delete product event to according store so all users in the same store
     // can react to the event accordingly
     res.io.emit(req.decoded.store, { type: 'DELETE_PRODUCT', payload: _id, uid: req.decoded.user });
 
@@ -119,7 +144,7 @@ const deleteProduct = async (req, res) => {
   } catch (error) {
     return res.status(500).json(error);
   }
-}
+};
 
 const restockProduct = async (req, res) => {
   const { _id, count } = req.body;
@@ -129,12 +154,12 @@ const restockProduct = async (req, res) => {
   }
 
   try {
-    const productObj = await productModel.findById(_id);
+    const productObj = await ProductModel.findById(_id);
     productObj.count += count;
     const savedProduct = await productObj.save();
     const productDoc = savedProduct._doc;
 
-    // emit update product event to according store so all users in the same store 
+    // emit update product event to according store so all users in the same store
     // can react to the event accordingly
     res.io.emit(req.decoded.store, { type: 'UPDATE_PRODUCT', payload: productDoc._id, uid: req.decoded.user });
 
@@ -142,7 +167,7 @@ const restockProduct = async (req, res) => {
   } catch (error) {
     return res.status(500).json(error);
   }
-}
+};
 
 module.exports = {
   getProduct,
@@ -150,4 +175,4 @@ module.exports = {
   updateProduct,
   deleteProduct,
   restockProduct,
-}
+};

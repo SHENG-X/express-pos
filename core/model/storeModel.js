@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
+const { Schema } = mongoose;
 
 const storeSchema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: true,
   },
   name: {
     type: String,
@@ -28,19 +29,19 @@ const storeSchema = new Schema({
   tax: {
     enable: {
       type: Boolean,
-      default: false
+      default: false,
     },
     rate: {
       type: Number,
-      default: 0.0
-    }
+      default: 0.0,
+    },
   },
   hiredNo: {
     type: Number,
     default: 1,
-  }
+  },
 });
 
-const storeModel = mongoose.model('Store', storeSchema);
+const StoreModel = mongoose.model('Store', storeSchema);
 
-module.exports = storeModel;
+module.exports = StoreModel;

@@ -1,7 +1,8 @@
 const express = require('express');
-const router = express.Router();
 
 const { getOrder, createOrder, deleteOrder } = require('../services/orderService');
+
+const router = express.Router();
 
 router.get('/', getOrder);
 

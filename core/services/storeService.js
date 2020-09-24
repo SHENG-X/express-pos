@@ -1,26 +1,27 @@
-const storeModel = require('../model/storeModel');
+const StoreModel = require('../model/storeModel');
 
 const populateStore = async (store) => {
+  let populatedStore = null;
   // populate categories
-  store = await store.populate('categories').execPopulate();
+  populatedStore = await store.populate('categories').execPopulate();
   // populate products
-  store = await store.populate('products').execPopulate();
+  populatedStore = await store.populate('products').execPopulate();
 
-  return store;
-}
+  return populatedStore;
+};
 
 const getStore = async (req, res) => {
   const storeId = req.decoded.store;
   try {
-    const storeObj = await storeModel.findById(storeId);
+    const storeObj = await StoreModel.findById(storeId);
     const populatedStore = await populateStore(storeObj);
     const storeDoc = { ...populatedStore._doc };
     return res.status(200).json(storeDoc);
   } catch (error) {
     return res.status(500).json(error);
   }
-}
+};
 
 module.exports = {
   getStore,
-}
+};
