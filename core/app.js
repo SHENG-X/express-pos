@@ -1,10 +1,12 @@
+/* eslint-disable no-console */
 const express = require('express');
-const app = express();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+
+const app = express();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 
 const productRouter = require('./routes/product');
 const categoryRouter = require('./routes/category');
@@ -47,9 +49,9 @@ app.use('/static', express.static('static'));
 mongoose.connect(process.env.MONGODB_URI, options).then(() => {
   http.listen(PORT, () => {
     console.log(`Listen to port ${PORT}`);
-  });  
+  });
   io.on('connection', (socket) => {
-    console.log(`connected`, socket);
+    console.log(`connected ${socket}`);
   });
 });
 mongoose.set('useCreateIndex', true);

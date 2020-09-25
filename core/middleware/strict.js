@@ -12,11 +12,11 @@ const authenticate = (req, res, next) => {
     // append decoded to req so we can access it in the next handler
     req.decoded = decoded;
     return next();
-  } catch( error ) {
+  } catch (error) {
     return res.status(401).json('Unauthorized');
   }
-}
+};
 
 module.exports = {
   authenticate,
-}
+};

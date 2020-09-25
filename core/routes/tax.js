@@ -1,7 +1,8 @@
 const express = require('express');
-const router = express.Router();
 
 const { updateTax, getTax } = require('../services/taxService');
+
+const router = express.Router();
 
 router.get('/', getTax);
 

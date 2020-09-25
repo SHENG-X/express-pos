@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const storeModel = require('./storeModel');
+const StoreModel = require('./storeModel');
+
+const { Schema } = mongoose;
 
 const productSchema = new Schema(
   {
@@ -26,11 +27,11 @@ const productSchema = new Schema(
         value: {
           type: Number,
           required: true,
-        }
+        },
       }],
       required: true,
     },
-    cost :{
+    cost: {
       type: Number,
       default: 0,
     },
@@ -40,7 +41,7 @@ const productSchema = new Schema(
     },
     category: {
       type: Schema.Types.ObjectId,
-      ref: 'Category'
+      ref: 'Category',
     },
     store: {
       type: Schema.Types.ObjectId,
@@ -50,7 +51,7 @@ const productSchema = new Schema(
     sold: {
       type: Number,
       default: 0,
-    }
+    },
   },
   {
     timestamps: true,
@@ -59,11 +60,11 @@ const productSchema = new Schema(
 
 productSchema.post('save', async (product, next) => {
   // find store object by product's store ref
-  const store = await storeModel.findById(product.store);
+  const store = await StoreModel.findById(product.store);
 
-  if (!store.products.find(prod => prod.toString() === product.id)){
+  if (!store.products.find((prod) => prod.toString() === product.id)) {
     // if product is not in the store products
-    // add current product ref to the store products list 
+    // add current product ref to the store products list
     store.products.push(product.id);
     // update store
     await store.save();
@@ -72,16 +73,16 @@ productSchema.post('save', async (product, next) => {
   next();
 });
 
-productSchema.post('deleteOne', {document: true}, async (product, next) => {
+productSchema.post('deleteOne', { document: true }, async (product, next) => {
   // find store object by product's store ref
-  const store = await storeModel.findById(product.store);
+  const store = await StoreModel.findById(product.store);
   // remove current product ref from the store products list
-  store.products = store.products.filter(pid => pid.toString() !== product.id);
-  // update store 
+  store.products = store.products.filter((pid) => pid.toString() !== product.id);
+  // update store
   await store.save();
   next();
 });
 
-const productModel = mongoose.model('Product', productSchema);
+const ProductModel = mongoose.model('Product', productSchema);
 
-module.exports = productModel;
+module.exports = ProductModel;

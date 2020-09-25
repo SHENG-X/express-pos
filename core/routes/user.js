@@ -1,7 +1,6 @@
 const express = require('express');
-const router = express.Router();
-const strict = require('../middleware/strict');
 
+const strict = require('../middleware/strict');
 const {
   signInUser,
   signUpUser,
@@ -11,6 +10,8 @@ const {
   updateStaff,
   deleteStaff,
 } = require('../services/userService');
+
+const router = express.Router();
 
 router.get('/', strict.authenticate, getStaff);
 
