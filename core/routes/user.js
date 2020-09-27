@@ -4,7 +4,6 @@ const strict = require('../middleware/strict');
 const {
   signInUser,
   signUpUser,
-  updateUser,
   addStaff,
   getStaff,
   updateStaff,
@@ -24,7 +23,5 @@ router.post('/staff', strict.authenticate, addStaff);
 router.put('/staff', strict.authenticate, updateStaff);
 
 router.delete('/staff', strict.authenticate, deleteStaff);
-
-router.put('/', updateUser);
 
 module.exports = router;
