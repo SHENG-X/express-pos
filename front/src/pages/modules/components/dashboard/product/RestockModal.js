@@ -3,8 +3,6 @@ import React, {
   useContext,
 } from 'react';
 import {
-  Typography,
-  TextField,
   Button,
   IconButton,
 } from '@material-ui/core';
@@ -15,6 +13,7 @@ import {
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { useToasts } from 'react-toast-notifications';
+import PropTypes from 'prop-types';
 
 import ModalBase from '../../ModalBase';
 import { Context } from '../../../../../context/storeContext';
@@ -23,12 +22,12 @@ import MdcIntTextField from '../../../overwrite/MdcIntTextField';
 const RestockModal = ({ product, handleOpen }) => {
   const { t } = useTranslation();
   const [amount, setAmount] = useState('');
-  const  { restockProduct } = useContext(Context);
+  const { restockProduct } = useContext(Context);
   const { addToast } = useToasts();
 
   const handleCancel = () => {
     handleOpen(false);
-  }
+  };
 
   const handleConfirm = () => {
     restockProduct(
@@ -39,14 +38,14 @@ const RestockModal = ({ product, handleOpen }) => {
       },
       () => {
         addToast('Unable to restock the product, please try again later', { appearance: 'error' });
-      }
-    )
-  }
+      },
+    );
+  };
 
   const handleAdd = (increment) => {
     const updatedAmount = Number(amount) + increment;
-    setAmount(updatedAmount === 0 ? '' : updatedAmount );
-  }
+    setAmount(updatedAmount === 0 ? '' : updatedAmount);
+  };
 
   return (
     <ModalBase
@@ -60,7 +59,7 @@ const RestockModal = ({ product, handleOpen }) => {
               <div className="value">{ product.count }</div>
             </div>
             <div className="icon">
-              <ArrowForward/>
+              <ArrowForward />
             </div>
             <div className="right">
               <div className="label">New Stock</div>
@@ -73,18 +72,18 @@ const RestockModal = ({ product, handleOpen }) => {
               size="small"
               onClick={() => handleAdd(1)}
             >
-              <Add/>
+              <Add />
             </IconButton>
             <MdcIntTextField
               value={amount}
-              onChange={e => setAmount(e.target.value ? e.target.value.replace(/\./g, '') : '')}
+              onChange={(e) => setAmount(e.target.value ? e.target.value.replace(/\./g, '') : '')}
             />
             <IconButton
               variant="contained"
               size="small"
               onClick={() => handleAdd(-1)}
             >
-              <Remove/>
+              <Remove />
             </IconButton>
           </div>
         </>
@@ -108,6 +107,11 @@ const RestockModal = ({ product, handleOpen }) => {
       }
     />
   );
-}
+};
+
+RestockModal.propTypes = {
+  product: PropTypes.instanceOf(PropTypes.object).isRequired,
+  handleOpen: PropTypes.func.isRequired,
+};
 
 export default RestockModal;

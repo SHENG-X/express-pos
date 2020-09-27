@@ -85,7 +85,7 @@ const ImageUpload = ({ handleImageUpload, obj }) => {
 
 ImageUpload.propTypes = {
   handleImageUpload: PropTypes.func.isRequired,
-  obj: PropTypes.objectOf(PropTypes.object()).isRequired,
+  obj: PropTypes.instanceOf(PropTypes.object).isRequired,
 };
 
 export default ImageUpload;

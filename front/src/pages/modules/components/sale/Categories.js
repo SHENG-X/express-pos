@@ -89,7 +89,7 @@ Categories.propTypes = {
 };
 
 CategoryItem.propTypes = {
-  category: PropTypes.objectOf(PropTypes.object()).isRequired,
+  category: PropTypes.instanceOf(PropTypes.object).isRequired,
   selectedCID: PropTypes.string.isRequired,
   selectCategory: PropTypes.func.isRequired,
 };

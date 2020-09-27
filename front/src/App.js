@@ -4,13 +4,12 @@ import React, {
   useState,
 } from 'react';
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
   HashRouter,
-} from "react-router-dom";
-import socketIOClient from "socket.io-client";
+} from 'react-router-dom';
+import socketIOClient from 'socket.io-client';
 
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -24,7 +23,8 @@ import Dashboard from './pages/Dashboard';
 import { Context as StoreContext } from './context/storeContext';
 import { Context as UserContext } from './context/userContext';
 import { Context as OrderContext } from './context/orderContext';
-const host = "http://localhost:3000";
+
+const host = 'http://localhost:3000';
 
 const App = () => {
   const {
@@ -53,28 +53,28 @@ const App = () => {
   } = useContext(OrderContext);
 
   const [fetchToken, setFetchToken] = useState(false);
-  
+
   useEffect(() => {
     signIn(
       { email: null, password: null },
-      () => { 
+      () => {
         loadStore(
           () => {
             setFetchToken(true);
           },
           () => {
             setFetchToken(true);
-          }
-        )
+          },
+        );
       },
-      () => { setFetchToken(true); }
+      () => { setFetchToken(true); },
     );
   }, []);
 
   useEffect(() => {
     const socket = socketIOClient(host);
     if (fetchToken) {
-      socket.on(storeState._id, data => {
+      socket.on(storeState._id, (data) => {
         if (data.uid === userState._id && data.type !== 'ALTER_PRODUCT') {
           // if the operation is the same user, we know
           // there is response data then do nothing
@@ -118,17 +118,19 @@ const App = () => {
           case 'DELETE_ORDER':
             socketDeleteOrder(data.payload);
             break;
+          default:
+            break;
         }
       });
     }
   }, [fetchToken]);
 
-  if (localStorage.getItem('EXPRESS-POS/token') 
-      && (window.location.href.includes('sale') 
+  if (localStorage.getItem('EXPRESS-POS/token')
+      && (window.location.href.includes('sale')
         || window.location.href.includes('dashboard'))) {
     if (!fetchToken) {
       return (
-        <Loading/>
+        <Loading />
       );
     }
   }
@@ -153,19 +155,21 @@ const App = () => {
         </Route>
         <Route path="/sale">
           {
-            userState.authenticated ?
-          <Sale />
-          :
-          <Redirect to="/" />
+            userState.authenticated ? (
+              <Sale />
+            ) : (
+              <Redirect to="/" />
+            )
           }
         </Route>
         <Route path="/dashboard">
-        {
-            userState.authenticated ?
-            <Dashboard />
-          :
-          <Redirect to="/" />
-        }
+          {
+            userState.authenticated ? (
+              <Dashboard />
+            ) : (
+              <Redirect to="/" />
+            )
+          }
         </Route>
         <Route path="/">
           <Home />
@@ -173,6 +177,6 @@ const App = () => {
       </Switch>
     </HashRouter>
   );
-}
+};
 
 export default App;

@@ -132,7 +132,7 @@ const SignIn = () => {
                 type="password"
                 margin="normal"
               />
-              <FormSpy subscription={{ submitError: true }}>
+              {/* <FormSpy subscription={{ submitError: true }}>
                 {
                   ({ submitError }) => submitError && (
                     <FormFeedback className={classes.feedback} error>
@@ -140,7 +140,7 @@ const SignIn = () => {
                     </FormFeedback>
                   )
                 }
-              </FormSpy>
+              </FormSpy> */}
               <FormButton
                 className={classes.button}
                 disabled={submitting || sent}

@@ -68,7 +68,7 @@ function ProductHero(props) {
 }
 
 ProductHero.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.object()).isRequired,
+  classes: PropTypes.instanceOf(PropTypes.object).isRequired,
 };
 
 export default withStyles(styles)(ProductHero);

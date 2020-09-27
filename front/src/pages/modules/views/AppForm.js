@@ -37,7 +37,7 @@ function AppForm(props) {
 
 AppForm.propTypes = {
   children: PropTypes.node,
-  classes: PropTypes.objectOf(PropTypes.object()).isRequired,
+  classes: PropTypes.instanceOf(PropTypes.object).isRequired,
 };
 
 AppForm.defaultProps = {

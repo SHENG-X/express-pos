@@ -41,7 +41,7 @@ const FormFeedback = ({
 
 FormFeedback.propTypes = {
   children: PropTypes.node,
-  classes: PropTypes.objectOf(PropTypes.object()).isRequired,
+  classes: PropTypes.instanceOf(PropTypes.object).isRequired,
   className: PropTypes.string,
   error: PropTypes.bool,
   success: PropTypes.bool,

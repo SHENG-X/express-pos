@@ -1,6 +1,6 @@
 import React, {
   useState,
-  useContext
+  useContext,
 } from 'react';
 import {
   Typography,
@@ -12,14 +12,20 @@ import {
 } from '@material-ui/core';
 import {
   Add,
-  Delete
+  Delete,
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { useToasts } from 'react-toast-notifications';
-import { Formik, Form, Field, FieldArray } from 'formik';
+import {
+  Formik,
+  Form,
+  Field,
+  FieldArray,
+} from 'formik';
 import {
   TextField,
 } from 'formik-material-ui';
+import PropTypes from 'prop-types';
 
 import ModalBaseV2 from '../../ModalBaseV2';
 import { Context } from '../../../../../context/storeContext';
@@ -36,9 +42,9 @@ const ProductModal = ({ handleOpen, initProduct }) => {
     count: '',
     category: null,
     prices: [
-      { name:'', value: '' }
+      { name: '', value: '' },
     ],
-    cost: ''
+    cost: '',
   };
 
   if (initProduct) {
@@ -58,17 +64,17 @@ const ProductModal = ({ handleOpen, initProduct }) => {
     setProduct(JSON.parse(JSON.stringify(defaultProduct)));
     // close modal window
     handleOpen(false);
-  }
+  };
 
-  const handleConfirm = (product, completeSubmit) => {
+  const handleConfirm = (productSubmit, completeSubmit) => {
     if (initProduct) {
-      const productOriginal = storeState.products.find(prod => prod._id === product._id);
-      if (JSON.stringify(productOriginal) === JSON.stringify(product)) {
+      const productOriginal = storeState.products.find((prod) => prod._id === productSubmit._id);
+      if (JSON.stringify(productOriginal) === JSON.stringify(productSubmit)) {
         completeSubmit();
         handleCancel();
       } else {
         updateProduct(
-          product,
+          productSubmit,
           () => {
             completeSubmit();
             handleCancel();
@@ -77,12 +83,12 @@ const ProductModal = ({ handleOpen, initProduct }) => {
           () => {
             completeSubmit();
             addToast('Unable to update the product, please try again later', { appearance: 'error' });
-          }
+          },
         );
       }
     } else {
       createProduct(
-        product,
+        productSubmit,
         () => {
           completeSubmit();
           handleCancel();
@@ -91,18 +97,18 @@ const ProductModal = ({ handleOpen, initProduct }) => {
         () => {
           completeSubmit();
           addToast('Unable to create the product, please try again later', { appearance: 'error' });
-        }
+        },
       );
     }
-  }
+  };
 
   const handleImageUpload = (image) => {
     setProduct({ ...product, thumbnail: image });
-  }
+  };
 
   return (
     <ModalBaseV2
-      title={ initProduct ? t('product.update') : t('product.title') }
+      title={initProduct ? t('product.update') : t('product.title')}
       className="product-modal"
     >
       <Formik
@@ -137,7 +143,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                   <Field
                     component={TextField}
                     name="name"
-                    placeholder={ t('product.productName') }
+                    placeholder={t('product.productName')}
                   />
                 </div>
               </div>
@@ -152,11 +158,11 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                   <Field
                     component={IntegerTextField}
                     name="count"
-                    placeholder={ t('product.productCount') }
+                    placeholder={t('product.productCount')}
                     InputProps={{
-                      inputProps: { 
+                      inputProps: {
                         min: 0,
-                      }
+                      },
                     }}
                   />
                 </div>
@@ -180,7 +186,14 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                       <em>{ t('common.none') }</em>
                     </MenuItem>
                     {
-                      storeState.categories.map(category => <MenuItem value={category._id} key={category._id} >{ category.name }</MenuItem>)
+                      storeState.categories.map((category) => (
+                        <MenuItem
+                          value={category._id}
+                          key={category._id}
+                        >
+                          { category.name }
+                        </MenuItem>
+                      ))
                     }
                   </Field>
                 </div>
@@ -193,7 +206,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                   </Typography>
                 </div>
                 <FieldArray name="prices">
-                  {({ insert, remove, push }) => (
+                  {({ remove, push }) => (
                     <div className="input price">
                       <div className="price-row">
                         <>
@@ -201,38 +214,39 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                             values.prices.map((price, idx) => (
                               <div
                                 className="flex"
-                                style={{paddingRight: `${idx === 0 ? '2rem': ''}`}}
-                                key={idx}
+                                style={{ paddingRight: `${idx === 0 ? '2rem' : ''}` }}
+                                key={`${price.name}-${price.value}`}
                               >
                                 <Field
                                   component={TextField}
                                   name={`prices.${idx}.name`}
-                                  placeholder={ t('product.priceName') }
+                                  placeholder={t('product.priceName')}
                                 />
                                 <Field
                                   component={PriceTextField}
                                   name={`prices.${idx}.value`}
-                                  placeholder={ t('product.priceValue') }
+                                  placeholder={t('product.priceValue')}
                                   InputProps={{
-                                    inputProps: { 
+                                    inputProps: {
                                       min: 0,
-                                    }
+                                    },
                                   }}
                                 />
                                 {
-                                  idx !== 0 &&
-                                  <Tooltip
-                                    title="Delete"
-                                    arrow
-                                  >
-                                    <IconButton
-                                      color="primary"
-                                      size="small"
-                                      onClick={() => remove(idx)}
+                                  idx !== 0 && (
+                                    <Tooltip
+                                      title="Delete"
+                                      arrow
                                     >
-                                      <Delete />
-                                    </IconButton>
-                                  </Tooltip>
+                                      <IconButton
+                                        color="primary"
+                                        size="small"
+                                        onClick={() => remove(idx)}
+                                      >
+                                        <Delete />
+                                      </IconButton>
+                                    </Tooltip>
+                                  )
                                 }
                               </div>
                             ))
@@ -247,7 +261,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                           <IconButton
                             color="primary"
                             size="small"
-                            onClick={() => push({name: "", value: ""})}
+                            onClick={() => push({ name: '', value: '' })}
                           >
                             <Add />
                           </IconButton>
@@ -268,21 +282,22 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                   <Field
                     component={PriceTextField}
                     name="cost"
-                    placeholder={ t('product.productCost') }
+                    placeholder={t('product.productCost')}
                     InputProps={{
-                      inputProps: { 
+                      inputProps: {
                         min: 0,
-                      }
+                      },
                     }}
                   />
                 </div>
               </div>
             </div>
             {
-              isSubmitting &&
-              <div className="flex justify-center">
-                <CircularProgress />
-              </div>
+              isSubmitting && (
+                <div className="flex justify-center">
+                  <CircularProgress />
+                </div>
+              )
             }
             <div className="actions">
               <Button
@@ -305,8 +320,12 @@ const ProductModal = ({ handleOpen, initProduct }) => {
         )}
       </Formik>
     </ModalBaseV2>
-    
   );
-}
+};
+
+ProductModal.propTypes = {
+  handleOpen: PropTypes.func.isRequired,
+  initProduct: PropTypes.instanceOf(PropTypes.object).isRequired,
+};
 
 export default ProductModal;

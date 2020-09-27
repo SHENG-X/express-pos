@@ -31,5 +31,10 @@ module.exports = {
       prop: 'ignore',
     }],
     'react/jsx-props-no-spreading': 'off',
+    'import/no-unresolved': [
+      2,
+      { caseSensitive: false },
+    ],
+    'no-plusplus': [2, { allowForLoopAfterthoughts: true }],
   },
 };

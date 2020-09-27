@@ -180,7 +180,7 @@ AppAppBar.propTypes = {
   /**
    * Override or extend the styles applied to the component.
    */
-  classes: PropTypes.objectOf(PropTypes.object()).isRequired,
+  classes: PropTypes.instanceOf(PropTypes.object).isRequired,
   beforeRouteChange: PropTypes.func,
 };
 

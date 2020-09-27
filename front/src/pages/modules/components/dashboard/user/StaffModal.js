@@ -9,11 +9,12 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 import { useToasts } from 'react-toast-notifications';
-import {Formik, Form, Field} from 'formik';
+import { Formik, Form, Field } from 'formik';
 import {
   TextField,
   Switch,
 } from 'formik-material-ui';
+import PropTypes from 'prop-types';
 
 import ModalBaseV2 from '../../ModalBaseV2';
 import { Context } from '../../../../../context/userContext';
@@ -96,58 +97,59 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
       >
         {({ submitForm, isSubmitting }) => (
           <Form>
-            <React.Fragment>
+            <>
 
               <div className="content">
                 <div className="row">
                   <div className="label">
                     <Typography variant="subtitle2">
-                      { 'Role' }
+                      Role
                     </Typography>
                   </div>
                   <div className="input">
                     {
-                      userState.role === 'Owner' ?
-                      <Field
-                        component={TextField}
-                        type="text"
-                        name="role"
-                        select
-                        variant="outlined"
-                      >
-                        <MenuItem value={'Manager'}>
-                          Manager
-                        </MenuItem>
-                        <MenuItem value={'Employee'}>
+                      userState.role === 'Owner' ? (
+                        <Field
+                          component={TextField}
+                          type="text"
+                          name="role"
+                          select
+                          variant="outlined"
+                        >
+                          <MenuItem value="Manager">
+                            Manager
+                          </MenuItem>
+                          <MenuItem value="Employee">
+                            Employee
+                          </MenuItem>
+                        </Field>
+                      ) : (
+                        <Typography variant="body1">
                           Employee
-                        </MenuItem>
-                      </Field>
-                      :
-                      <Typography variant="body1">
-                        Employee
-                      </Typography>
+                        </Typography>
+                      )
                     }
                   </div>
                 </div>
-                
                 {
-                  currentStaff &&
-                  <div className="row">
-                    <div className="label">
-                      <Typography variant="subtitle2">
-                        Enable
-                      </Typography>
+                  currentStaff && (
+                    <div className="row">
+                      <div className="label">
+                        <Typography variant="subtitle2">
+                          Enable
+                        </Typography>
+                      </div>
+                      <div className="input">
+                        <Field
+                          component={Switch}
+                          type="checkbox"
+                          name="enable"
+                          color="primary"
+                        />
+                      </div>
                     </div>
-                    <div className="input">
-                      <Field
-                        component={Switch}
-                        type="checkbox"
-                        name="enable"
-                        color="primary"
-                      />
-                    </div>
-                  </div>
-                } 
+                  )
+                }
 
                 <div className="row">
                   <div className="label">
@@ -160,7 +162,7 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
                       component={TextField}
                       name="fname"
                       placeholder="First name"
-                      autoComplete='new-fname'
+                      autoComplete="new-fname"
                     />
                   </div>
                 </div>
@@ -176,7 +178,7 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
                       component={TextField}
                       name="lname"
                       placeholder="Last name"
-                      autoComplete='new-lname'
+                      autoComplete="new-lname"
                     />
                   </div>
                 </div>
@@ -192,7 +194,7 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
                       component={PhoneNumberTextField}
                       type="tel"
                       name="phone"
-                      autoComplete='new-phone'
+                      autoComplete="new-phone"
                     />
                   </div>
                 </div>
@@ -209,7 +211,7 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
                       type="email"
                       name="email"
                       placeholder="Email"
-                      autoComplete='new-email'
+                      autoComplete="new-email"
                     />
                   </div>
                 </div>
@@ -226,16 +228,17 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
                       type="password"
                       name="password"
                       placeholder="Password"
-                      autoComplete='new-password'
+                      autoComplete="new-password"
                     />
                   </div>
                 </div>
               </div>
               {
-                  isSubmitting &&
-                  <div className="flex justify-center">
-                    <CircularProgress />
-                  </div>
+                  isSubmitting && (
+                    <div className="flex justify-center">
+                      <CircularProgress />
+                    </div>
+                  )
               }
               <div className="actions">
                 <Button
@@ -244,7 +247,7 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
                     if (currentStaff) {
                       resetCurrentStaff();
                     }
-                    handleOpen(false)
+                    handleOpen(false);
                   }}
                   disabled={isSubmitting}
                 >
@@ -258,13 +261,19 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
                 >
                   Confirm
                 </Button>
-            </div>
-            </React.Fragment>
+              </div>
+            </>
           </Form>
         )}
       </Formik>
     </ModalBaseV2>
-  )
+  );
+};
+
+StaffModal.propTypes = {
+  handleOpen: PropTypes.func.isRequired,
+  currentStaff: PropTypes.instanceOf(PropTypes.object).isRequired,
+  resetCurrentStaff: PropTypes.func.isRequired,
 };
 
 export default StaffModal;

@@ -108,7 +108,7 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
 };
 
 DiscountModal.propTypes = {
-  discountProp: PropTypes.objectOf(PropTypes.object()).isRequired,
+  discountProp: PropTypes.instanceOf(PropTypes.object).isRequired,
   handleOpen: PropTypes.func.isRequired,
   handleConfirm: PropTypes.func.isRequired,
 };

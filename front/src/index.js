@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ToastProvider } from 'react-toast-notifications';
+
 import './index.css';
 import './scss/app.scss';
 import App from './App';
@@ -8,7 +10,6 @@ import './i18n';
 import { Provider as StoreProvider } from './context/storeContext';
 import { Provider as UserProvider } from './context/userContext';
 import { Provider as OrderProvider } from './context/orderContext';
-import { ToastProvider } from 'react-toast-notifications';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -22,7 +23,7 @@ ReactDOM.render(
       </UserProvider>
     </ToastProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change
