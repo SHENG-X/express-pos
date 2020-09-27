@@ -129,7 +129,7 @@ function ProductHowItWorks(props) {
 }
 
 ProductHowItWorks.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.object()).isRequired,
 };
 
 export default withStyles(styles)(ProductHowItWorks);

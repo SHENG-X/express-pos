@@ -37,7 +37,11 @@ function AppForm(props) {
 
 AppForm.propTypes = {
   children: PropTypes.node,
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.object()).isRequired,
+};
+
+AppForm.defaultProps = {
+  children: null,
 };
 
 export default withStyles(styles)(AppForm);

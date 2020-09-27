@@ -8,15 +8,15 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 import { useToasts } from 'react-toast-notifications';
-import {Formik, Form, Field} from 'formik';
+import { Formik, Form, Field } from 'formik';
+import {
+  TextField,
+} from 'formik-material-ui';
 
 import CardBase from '../../cardbase/CardBase';
 import { Context } from '../../../../../context/userContext';
 import { fmtStaffNo } from '../../../../../utils';
 import { UpdateUserSchema } from '../../../formik/validationSchema';
-import {
-  TextField,
-} from 'formik-material-ui';
 import PhoneNumberTextField from '../../../formik/PhoneNumberTextField';
 
 const Profile = () => {
@@ -25,7 +25,6 @@ const Profile = () => {
   const { addToast } = useToasts();
 
   const handleConfirm = (profile, resetForm) => {
-
     updateStaff(
       profile,
       () => {
@@ -35,9 +34,9 @@ const Profile = () => {
       },
       () => {
         addToast('Unable to update the profile', { appearance: 'error' });
-      }
+      },
     );
-  }
+  };
 
   return (
     <Formik
@@ -50,7 +49,7 @@ const Profile = () => {
       {({ submitForm, isSubmitting, values, setFieldValue }) => (
         <Form>
           <CardBase
-            title={ `Profile` }
+            title="Profile"
             className="profile"
           >
             <div className="row">
@@ -101,7 +100,7 @@ const Profile = () => {
                 </Typography>
               </div>
               <div className="value">
-              <Field
+                <Field
                   component={TextField}
                   name="lname"
                   placeholder="Last name"
@@ -111,16 +110,16 @@ const Profile = () => {
 
             <div className="row">
               <div className="label">
-                  <Typography variant="subtitle2">
-                    Phone Number
-                  </Typography>
+                <Typography variant="subtitle2">
+                  Phone Number
+                </Typography>
               </div>
               <div className="value">
                 <Field
                   component={PhoneNumberTextField}
                   type="tel"
                   name="phone"
-                  autoComplete='new-phone'
+                  autoComplete="new-phone"
                 />
               </div>
             </div>
@@ -181,10 +180,11 @@ const Profile = () => {
               </div>
             </div>
             {
-              isSubmitting &&
-              <div className="flex justify-center">
-                <CircularProgress />
-              </div>
+              isSubmitting && (
+                <div className="flex justify-center">
+                  <CircularProgress />
+                </div>
+              )
             }
             {
               JSON.stringify(values) !== JSON.stringify(userState) &&
@@ -217,6 +217,6 @@ const Profile = () => {
       )}
     </Formik>
   );
-}
+};
 
 export default Profile;

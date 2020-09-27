@@ -6,7 +6,7 @@ import { Field, Form, FormSpy } from 'react-final-form';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 
 import Typography from './modules/components/Typography';
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   error: {
     color: '#f44336',
-  }
+  },
 }));
 
 const SignIn = () => {
@@ -47,7 +47,6 @@ const SignIn = () => {
   const { addToast } = useToasts();
 
   const validate = (values) => {
-
     const errors = required(['email', 'password'], values, t('common.required'));
 
     if (!errors.email) {
@@ -72,22 +71,22 @@ const SignIn = () => {
           },
           () => {
             addToast('Unable to load store', { appearance: 'error' });
-          }
-        )
-      }, 
+          },
+        );
+      },
       () => {
         // on fail show error message
         addToast(t('signIn.invalid'), { appearance: 'error' });
-      }
+      },
     );
     setSent(false);
   };
 
   return (
-    <React.Fragment>
+    <>
       <AppAppBar />
       <AppForm>
-        <React.Fragment>
+        <>
           <Typography variant="h3" gutterBottom marked="center" align="center">
             { t('signIn.heading') }
           </Typography>
@@ -101,7 +100,7 @@ const SignIn = () => {
               { t('signIn.subtitleAction') }
             </Link>
           </Typography>
-        </React.Fragment>
+        </>
         <Form
           onSubmit={handleSubmit}
           subscription={{ submitting: true }}
@@ -115,7 +114,7 @@ const SignIn = () => {
                 component={RFTextField}
                 disabled={submitting || sent}
                 fullWidth
-                label={ t('common.email') }
+                label={t('common.email')}
                 margin="normal"
                 name="email"
                 required
@@ -129,17 +128,17 @@ const SignIn = () => {
                 required
                 name="password"
                 autoComplete="current-password"
-                label={ t('common.password') }
+                label={t('common.password')}
                 type="password"
                 margin="normal"
               />
               <FormSpy subscription={{ submitError: true }}>
-                {({ submitError }) =>
-                  submitError ? (
+                {
+                  ({ submitError }) => submitError && (
                     <FormFeedback className={classes.feedback} error>
                       {submitError}
                     </FormFeedback>
-                  ) : null
+                  )
                 }
               </FormSpy>
               <FormButton
@@ -164,8 +163,8 @@ const SignIn = () => {
         </Typography>
       </AppForm>
       <AppFooter />
-    </React.Fragment>
+    </>
   );
-}
+};
 
 export default withRoot(SignIn);

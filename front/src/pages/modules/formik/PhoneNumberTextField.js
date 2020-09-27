@@ -18,24 +18,25 @@ const PhoneNumberTextField = (props) => {
   } = props;
   const onChange = useCallback(
     (event) => {
-      const {value} = event.target;
+      const { value } = event.target;
       setFieldValue(name, value ? value.toLowerCase() : '');
     },
-    [setFieldValue, name]
+    [setFieldValue, name],
   );
 
   const textFieldProps = fieldToTextField(props);
   return (
-    <React.Fragment>
+    <>
       <Input inputComponent={PhoneNumMask} {...fieldToTextField(props)} onChange={onChange} />
       {
-        textFieldProps.error &&
-        <FormHelperText error>
-          { textFieldProps.helperText }
-        </FormHelperText>
+        textFieldProps.error && (
+          <FormHelperText error>
+            { textFieldProps.helperText }
+          </FormHelperText>
+        )
       }
-    </React.Fragment>
+    </>
   );
-}
+};
 
 export default PhoneNumberTextField;

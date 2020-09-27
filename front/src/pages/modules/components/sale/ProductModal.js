@@ -40,7 +40,7 @@ const ProductModal = ({ selectedProduct, handleOpen, handleConfirm }) => {
       title={ t('product.title') }
       className="product-modal"
       content={
-        <React.Fragment>
+        <>
           <div className="count row">
             <div className="label">
             <Typography variant="subtitle1">
@@ -103,10 +103,10 @@ const ProductModal = ({ selectedProduct, handleOpen, handleConfirm }) => {
               }
             </div>
           </div>
-        </React.Fragment>
+        </>
       }
       actions={
-        <React.Fragment>
+        <>
           <Button
             variant="contained"
             onClick={() => handleOpen(false)}
@@ -120,7 +120,7 @@ const ProductModal = ({ selectedProduct, handleOpen, handleConfirm }) => {
           >
             { t('common.confirm') }
           </Button>
-        </React.Fragment>
+        </>
       }
     />
   );

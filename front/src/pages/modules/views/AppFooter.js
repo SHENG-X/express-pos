@@ -4,25 +4,25 @@ import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
+import {
+  LinkedIn,
+  GitHub,
+} from '@material-ui/icons';
 
 import Typography from '../components/Typography';
 import TextField from '../components/TextField';
 import { classNames } from '../../../utils';
 
-import {
-  LinkedIn,
-  GitHub
-} from '@material-ui/icons';
-
 function Copyright() {
   return (
-    <React.Fragment>
+    <>
       {'© '}
       <Link color="inherit" href="/">
         Express POS
-      </Link>{' '}
+      </Link>
+      {' '}
       {new Date().getFullYear()}
-    </React.Fragment>
+    </>
   );
 }
 
@@ -86,10 +86,10 @@ const LANGUAGES = [
 
 export default function AppFooter() {
   const classes = useStyles();
-  const { i18n }= useTranslation();
+  const { i18n } = useTranslation();
 
   return (
-    <React.Fragment>
+    <>
       <Typography component="footer" className={classes.root}>
         <Container className={classes.container}>
           <Grid container spacing={5}>
@@ -102,13 +102,13 @@ export default function AppFooter() {
               >
                 <Grid item className={classNames([classes.icons, 'social-media'])}>
                   <a href="https://www.linkedin.com/in/sheng-x/" className={classes.icon}>
-                    <LinkedIn/>
+                    <LinkedIn />
                   </a>
                   <a
                     href="https://github.com/SHENG-X"
                     className={classes.icon}
                   >
-                    <GitHub/>
+                    <GitHub />
                   </a>
                 </Grid>
                 <Grid item>
@@ -140,7 +140,7 @@ export default function AppFooter() {
                   native: true,
                 }}
                 className={classes.language}
-                onChange={e => {i18n.changeLanguage(e.target.value)}}
+                onChange={(e) => i18n.changeLanguage(e.target.value)}
               >
                 {LANGUAGES.map((language) => (
                   <option value={language.code} key={language.code}>
@@ -152,19 +152,20 @@ export default function AppFooter() {
           </Grid>
           <Grid container>
             <Typography variant="caption" className="caption">
-              Made with <i className="icon ion-heart"></i> By
+              Made with
+              <i className="icon ion-heart" />
+              By
               <Link
                 href="https://github.com/SHENG-X"
                 rel="sponsored"
                 title="SHENG.X"
               >
-                { ` SHENG.X ` }
+                SHENG.X
               </Link>
             </Typography>
           </Grid>
         </Container>
       </Typography>
-      
-    </React.Fragment>
+    </>
   );
 }

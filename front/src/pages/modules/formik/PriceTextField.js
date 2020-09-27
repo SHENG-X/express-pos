@@ -15,9 +15,9 @@ const PriceTextField = (props) => {
     (event, value) => {
       setFieldValue(name, value);
     },
-    [setFieldValue, name]
+    [setFieldValue, name],
   );
   return <CurrencyTextField {...fieldToTextField(props)} onChange={onChange} />;
-}
+};
 
 export default PriceTextField;

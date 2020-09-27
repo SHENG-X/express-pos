@@ -39,7 +39,7 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
     validationSchema = UpdateUserSchema;
   }
 
-  const [ staff ] = useState({ ...defaultStaff });
+  const [staff] = useState({ ...defaultStaff });
   const { userState, addStaff, updateStaff } = useContext(Context);
   const { addToast } = useToasts();
 
@@ -63,7 +63,7 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
         () => {
           completeSubmit();
           addToast('Unable to update the staff', { appearance: 'error' });
-        }
+        },
       );
     } else {
       addStaff(
@@ -77,10 +77,10 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
         () => {
           completeSubmit();
           addToast('Unable to add the staff, please try again later', { appearance: 'error' });
-        }
+        },
       );
     }
-  }
+  };
 
   return (
     <ModalBaseV2
@@ -265,6 +265,6 @@ const StaffModal = ({ handleOpen, currentStaff, resetCurrentStaff }) => {
       </Formik>
     </ModalBaseV2>
   )
-}
+};
 
 export default StaffModal;

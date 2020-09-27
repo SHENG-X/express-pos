@@ -11,7 +11,7 @@ import withRoot from './modules/withRoot';
 
 function Index() {
   return (
-    <React.Fragment>
+    <>
       <AppAppBar />
       <ProductHero />
       <ProductValues />
@@ -20,7 +20,7 @@ function Index() {
       <ProductCTA />
       <ProductSmokingHero />
       <AppFooter />
-    </React.Fragment>
+    </>
   );
 }
 

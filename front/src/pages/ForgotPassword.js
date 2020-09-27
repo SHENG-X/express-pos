@@ -46,18 +46,18 @@ function ForgotPassword() {
   };
 
   return (
-    <React.Fragment>
+    <>
       <AppAppBar />
       <AppForm>
-        <React.Fragment>
+        <>
           <Typography variant="h3" gutterBottom marked="center" align="center">
             Forgot your password?
           </Typography>
           <Typography variant="body2" align="center">
-            {"Enter your email address below and we'll " +
-              'send you a link to reset your password.'}
+            Enter your email address below and
+            we&aposll send you a link to reset your password.
           </Typography>
-        </React.Fragment>
+        </>
         <Form
           onSubmit={handleSubmit}
           subscription={{ submitting: true }}
@@ -78,12 +78,15 @@ function ForgotPassword() {
                 size="large"
               />
               <FormSpy subscription={{ submitError: true }}>
-                {({ submitError }) =>
-                  submitError ? (
-                    <FormFeedback className={classes.feedback} error>
+                {
+                  ({ submitError }) => submitError && (
+                    <FormFeedback
+                      className={classes.feedback}
+                      error
+                    >
                       {submitError}
                     </FormFeedback>
-                  ) : null
+                  )
                 }
               </FormSpy>
               <FormButton
@@ -100,7 +103,7 @@ function ForgotPassword() {
         </Form>
       </AppForm>
       <AppFooter />
-    </React.Fragment>
+    </>
   );
 }
 

@@ -22,7 +22,7 @@ const OrderModal = ({ order, closeModal }) => {
       className="order-view-modal"
       title={'Order Snapshot'}
       content={
-        <React.Fragment>
+        <>
           <div className="summary">
             <div className="row">
               <div className="label">
@@ -103,7 +103,7 @@ const OrderModal = ({ order, closeModal }) => {
               order.products.map(odr => <ProductItem order={odr} key={odr._id}/>)
             }
           </div>
-        </React.Fragment>
+        </>
       }
       actions={
         <Button

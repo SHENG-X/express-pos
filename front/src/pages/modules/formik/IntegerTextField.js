@@ -15,21 +15,24 @@ const IntegerTextField = (props) => {
   } = props;
   const onChange = useCallback(
     (event) => {
-      const {value} = event.target;
+      const { value } = event.target;
       setFieldValue(name, value ? value.replace(/\./g, '') : '');
     },
-    [setFieldValue, name]
+    [setFieldValue, name],
   );
-  return <TextField
-          {...fieldToTextField(props)}
-          type="number"
-          step="1" 
-          onChange={onChange} onKeyDown={(e) => {
-            if (e.keyCode === 190) {
-              e.preventDefault()
-            }
-          }}
-        />;
-}
+  return (
+    <TextField
+      {...fieldToTextField(props)}
+      type="number"
+      step="1"
+      onChange={onChange}
+      onKeyDown={(e) => {
+        if (e.keyCode === 190) {
+          e.preventDefault();
+        }
+      }}
+    />
+  );
+};
 
 export default IntegerTextField;

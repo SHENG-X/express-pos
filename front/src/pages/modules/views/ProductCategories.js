@@ -183,7 +183,7 @@ function ProductCategories(props) {
 }
 
 ProductCategories.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.object()).isRequired,
 };
 
 export default withStyles(styles)(ProductCategories);

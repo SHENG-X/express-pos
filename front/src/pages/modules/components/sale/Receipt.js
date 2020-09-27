@@ -85,16 +85,16 @@ const Receipt = ({ order, setOrder }) => {
   }
 
   return (
-    <React.Fragment>
+    <>
       <div className="container">
         <div className="list">
-          <React.Fragment>
+          <>
             { order.map(prod => <ReceiptItem product={prod} deleteProduct={deleteProduct} key={`${prod._id}-${prod.price}`}/>) }
-          </React.Fragment>
-          <React.Fragment>
+          </>
+          <>
             <div className="summary">
               <div className={classNames(['separator', order.length ? '' : 'hidden'])}/>
-                <React.Fragment>
+                <>
                   <div className={classNames(['subtotal', order.length && storeState.tax.enable ? '' : 'hidden'])}>
                     <div className="label">
                       <Typography variant="body1">
@@ -125,7 +125,7 @@ const Receipt = ({ order, setOrder }) => {
                       { formatAsCurrency(computeTax()) }
                     </div>
                   </div>
-                </React.Fragment>
+                </>
               <div className={classNames(['total', order.length ? '' : 'hidden'])}>
                 <div className="label">
                   <Typography variant="h6">
@@ -140,7 +140,7 @@ const Receipt = ({ order, setOrder }) => {
               </div>
             </div>
             <EmptyCart className={`${order.length ? 'hidden' : ''}`}/>
-          </React.Fragment>
+          </>
         </div>
         <div className="controller">
           <Button
@@ -167,7 +167,7 @@ const Receipt = ({ order, setOrder }) => {
       { open && <PaymentModal order={order} discount={discount} total={computeTotal()} paySuccess={cancelOrder} handleOpen={(val) => setOpen(val)} setOrderId={setOrderId}/> }
       { orderId && <PrintableReceipt order={order} orderId={orderId}/> }
       { !!order.length && discountOpen && <DiscountModal discountProp={discount} handleOpen={val => setDiscountOpen(val)} handleConfirm={(discount) => {handleAddDiscount(discount)}} /> }
-    </React.Fragment>
+    </>
   );
 }
 

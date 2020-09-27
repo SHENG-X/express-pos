@@ -55,7 +55,7 @@ const Category = () => {
   }
 
   return (
-    <React.Fragment>
+    <>
       <CardBase
         title={t('category.heading')}
         className="category-tab"
@@ -100,7 +100,7 @@ const Category = () => {
         open &&
         <CategoryModal handleOpen={val => setOpen(val)} initCategory={currentCategory}/>
       }
-    </React.Fragment>
+    </>
   );
 }
 

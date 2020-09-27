@@ -53,7 +53,7 @@ const RestockModal = ({ product, handleOpen }) => {
       title="Restock"
       className="restock-modal"
       content={
-        <React.Fragment>
+        <>
           <div className="top">
             <div className="left">
               <div className="label">Current Stock</div>
@@ -87,10 +87,10 @@ const RestockModal = ({ product, handleOpen }) => {
               <Remove/>
             </IconButton>
           </div>
-        </React.Fragment>
+        </>
       }
       actions={
-        <React.Fragment>
+        <>
           <Button
             variant="contained"
             onClick={handleCancel}
@@ -104,7 +104,7 @@ const RestockModal = ({ product, handleOpen }) => {
           >
             { t('common.confirm') }
           </Button>
-        </React.Fragment>
+        </>
       }
     />
   );

@@ -33,12 +33,12 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen, setOrderId, discou
     10,
     20,
     50,
-    100
+    100,
   ];
   const METHODS = {
     CASH: 'Cash',
     CARD: 'Card',
-  }
+  };
   const [method, setMethod] = useState(METHODS.CASH); // methods: Cash, Card
   const [payment, setPayment] = useState(null);
   const [valid, setValid] = useState(false);
@@ -66,24 +66,29 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen, setOrderId, discou
       setPayment(0);
     }
     setMethod(method);
-  }
+  };
 
   const handleCancel = () => {
     handleOpen(false);
-  }
+  };
 
   const handleCashAmount = (val) => {
     setPayment(payment + val);
-  }
+  };
 
   const computeChange = () => {
     const change = total - payment;
-    return change >= 0 ? '' : change; 
-  }
+    return change >= 0 ? '' : change;
+  };
 
   const confirmPay = () => {
     const taxRate = storeState.tax.enable ? storeState.tax.rate : 0;
-    const products = order.map(odr => ({ product: odr._id, price: odr.price, count: odr.count , cost: odr.cost}));
+    const products = order.map((odr) => (
+      {
+        product: odr._id, price: odr.price, count: odr.count, cost: odr.cost,
+      }
+    ));
+
     order = { paymentType: method,amountPaid: payment, products, taxRate, discount };
     createOrder(
       order,
@@ -93,24 +98,24 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen, setOrderId, discou
       },
       () => {
         addToast('Unable to save current order.', { appearance: 'error' });
-      }
+      },
     );
-  }
+  };
 
   const handleDone = () => {
     paySuccess();
     handleCancel();
-  }
+  };
 
   return (
     <ModalBase
-      title={ t('pay.payment') }
+      title={t('pay.payment')}
       className="payment-modal"
       content={
-        <React.Fragment>
+        <>
           {
             paid ? 
-            <React.Fragment>
+            <>
               <div className="paid-btns">
                 <Button
                   onClick={() => window.print()}
@@ -126,7 +131,7 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen, setOrderId, discou
                   { t('common.done') }
                 </Button>
               </div>
-            </React.Fragment>
+            </>
             :
             <div className="container">
               <div className="left">
@@ -244,15 +249,15 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen, setOrderId, discou
             </div>
             </div>
           }
-        </React.Fragment>
+        </>
       }
       actions={
-        <React.Fragment>
+        <>
           {
             paid ?
             null
             :
-            <React.Fragment>
+            <>
             <div className="whitespace"/>
               <div className="btns">
                 <Button
@@ -270,12 +275,12 @@ const PaymentModal = ({ order, total, paySuccess, handleOpen, setOrderId, discou
                   { t('common.confirm') }
                 </Button>
               </div>
-            </React.Fragment>
+            </>
           }
-        </React.Fragment>
+        </>
       }
     />
   );
-}
+};
 
 export default PaymentModal;

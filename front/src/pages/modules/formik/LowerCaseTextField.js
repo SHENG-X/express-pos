@@ -15,12 +15,12 @@ const LowerCaseTextField = (props) => {
   } = props;
   const onChange = useCallback(
     (event) => {
-      const {value} = event.target;
+      const { value } = event.target;
       setFieldValue(name, value ? value.toLowerCase() : '');
     },
-    [setFieldValue, name]
+    [setFieldValue, name],
   );
   return <TextField {...fieldToTextField(props)} onChange={onChange} />;
-}
+};
 
 export default LowerCaseTextField;

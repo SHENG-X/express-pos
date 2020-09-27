@@ -1,14 +1,12 @@
 import React, {
   useState,
-  useContext
+  useContext,
 } from 'react';
 import {
   Input,
   InputAdornment,
-  Typography,
   IconButton,
   Paper,
-  Table,
   TableHead,
   TableBody,
   TableRow,
@@ -49,12 +47,12 @@ const Product = () => {
   const editProduct = (product) => {
     setCurrentProduct(product);
     setOpen(true);
-  }
+  };
 
   const restockProduct = (product) => {
     setCurrentProduct(product);
     setRestockOpen(true);
-  }
+  };
 
   const computeList = () => {
     let products = storeState.products;
@@ -69,10 +67,10 @@ const Product = () => {
         key={prod._id}
       />
     );
-  }
+  };
 
   return (
-    <React.Fragment>
+    <>
       <CardBase
         title={t('product.heading')}
         className="product-tab"
@@ -130,7 +128,7 @@ const Product = () => {
           product={currentProduct}
         />
       }
-    </React.Fragment>
+    </>
   );
 }
 

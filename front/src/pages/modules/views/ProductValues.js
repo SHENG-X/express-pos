@@ -37,7 +37,7 @@ const styles = (theme) => ({
   },
 });
 
-function ProductValues(props) {
+const ProductValues = (props) => {
   const { classes } = props;
 
   return (
@@ -60,9 +60,7 @@ function ProductValues(props) {
                 Easy to use
               </Typography>
               <Typography variant="h5">
-                {
-                  'Minimalist design with carefully designed interface to minimize the learning curve'
-                }
+                Minimalist design with carefully designed interface to minimize the learning curve
               </Typography>
             </div>
           </Grid>
@@ -77,9 +75,7 @@ function ProductValues(props) {
                 New experiences
               </Typography>
               <Typography variant="h5">
-                {
-                  'Your records will be saved securely in the cloud. No extra hardware required'
-                }
+                Your records will be saved securely in the cloud. No extra hardware required
               </Typography>
             </div>
           </Grid>
@@ -94,9 +90,7 @@ function ProductValues(props) {
                 Money Saving
               </Typography>
               <Typography variant="h5">
-                {
-                  'No more extra effort spend to managing your store records on papers or spreadsheets'
-                }
+                No more extra effort spend to managing your store records on papers or spreadsheets
               </Typography>
             </div>
           </Grid>
@@ -104,10 +98,10 @@ function ProductValues(props) {
       </Container>
     </section>
   );
-}
+};
 
 ProductValues.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.object()).isRequired,
 };
 
 export default withStyles(styles)(ProductValues);

@@ -56,10 +56,10 @@ function Snackbar(props) {
         },
       }}
       message={
-        <React.Fragment>
+        <>
           <InfoIcon className={classes.info} />
           <span>{message}</span>
-        </React.Fragment>
+        </>
       }
       action={[
         <IconButton

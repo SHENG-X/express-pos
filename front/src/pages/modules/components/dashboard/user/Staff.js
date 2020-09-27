@@ -42,21 +42,17 @@ const Staff = () => {
     }
   }, []);
 
-  useEffect(() => {
-    setComputedStaff(computeStaff());
-  }, [searchText, userState.staff]);
-
   const updateCurrentStaff = (staff) => {
     setCurrentStaff(staff);
     setOpen(true);
-  }
+  };
 
   const computeStaff = () => {
-    let staff = userState.staff;
+    let { staff } = userState;
 
     if (searchText !== '') {
-      staff = staff.filter(stf => {
-        let stfObj = {
+      staff = staff.filter((stf) => {
+        const stfObj = {
           staffNo: fmtStaffNo(stf.staffNo),
           enable: stf.enable,
           role: stf.role,
@@ -69,16 +65,20 @@ const Staff = () => {
         if (stfStr.toLowerCase().includes(searchText.toLowerCase())) {
           return stf;
         }
-      })
+      });
     }
 
     return staff;
-  }
+  };
+
+  useEffect(() => {
+    setComputedStaff(computeStaff());
+  }, [searchText, userState.staff]);
 
   return (
-    <React.Fragment>
+    <>
       <CardBase
-        title={ `Manage Staff` }
+        title="Manage Staff"
         className="staff"
       >
         <div className="row actions">
@@ -130,7 +130,7 @@ const Staff = () => {
           </div>
       </CardBase>
       { open && <StaffModal handleOpen={val => setOpen(val)} currentStaff={currentStaff} resetCurrentStaff={() => setCurrentStaff(null)}/> }
-    </React.Fragment>
+    </>
   );
 }
 

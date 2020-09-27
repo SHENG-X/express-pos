@@ -196,7 +196,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                   {({ insert, remove, push }) => (
                     <div className="input price">
                       <div className="price-row">
-                        <React.Fragment>
+                        <>
                           {
                             values.prices.map((price, idx) => (
                               <div
@@ -237,7 +237,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                               </div>
                             ))
                           }
-                        </React.Fragment>
+                        </>
                       </div>
                       <div className="add">
                         <Tooltip
