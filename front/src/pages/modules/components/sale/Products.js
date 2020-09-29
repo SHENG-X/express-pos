@@ -13,6 +13,8 @@ import {
 import {
   Search,
 } from '@material-ui/icons';
+import PropTypes from 'prop-types';
+
 import { Context } from '../../../../context/storeContext';
 import { imagePath } from '../../../../utils';
 
@@ -21,17 +23,21 @@ const Products = ({ handleOpen, selectedCID }) => {
   const [searchText, setSearchText] = useState('');
 
   const computeProductList = () => {
-    let products = storeState.products;
+    let { products } = storeState;
 
     if (selectedCID !== '') {
       // if filter by category is selected then filter by category first
-      products = products.filter(prod => prod.category === selectedCID);
+      products = products.filter((prod) => prod.category === selectedCID);
     }
     if (searchText !== '') {
-      products = products.filter(prod => prod.name.toLowerCase().includes(searchText.toLowerCase()));
+      products = products.filter((prod) => (
+        prod.name.toLowerCase().includes(searchText.toLowerCase())
+      ));
     }
-    return products.map(prod => prod.enable && <ProductItem product={prod} handleOpen={handleOpen} key={prod._id}/>);
-  }
+    return products.map((prod) => (
+      prod.enable && <ProductItem product={prod} handleOpen={handleOpen} key={prod._id} />
+    ));
+  };
 
   return (
     <div className="container">
@@ -43,7 +49,7 @@ const Products = ({ handleOpen, selectedCID }) => {
               <Search />
             </InputAdornment>
           }
-          onChange={e => setSearchText(e.target.value)}
+          onChange={(e) => setSearchText(e.target.value)}
         />
       </div>
       <div className="list-container">
@@ -55,26 +61,34 @@ const Products = ({ handleOpen, selectedCID }) => {
       </div>
     </div>
   );
-}
+};
 
-const ProductItem = ({ product, handleOpen }) => {
-  return (
-    <ButtonBase
-      className="card-button"
-      onClick={() => handleOpen(product)}
-    >
-      <Card className="card">
-        <CardMedia
-          className="media"
-          image={ product.thumbnailFileName ? imagePath(product.thumbnailFileName) : require('../../../../static/no-product-image.png')}
-          title={product.name}
-        />
-        <Typography variant="subtitle2">
-          { product.name }
-        </Typography>
-      </Card>
-    </ButtonBase>
-  );
-}
+const ProductItem = ({ product, handleOpen }) => (
+  <ButtonBase
+    className="card-button"
+    onClick={() => handleOpen(product)}
+  >
+    <Card className="card">
+      <CardMedia
+        className="media"
+        image={product.thumbnailFileName ? imagePath(product.thumbnailFileName) : require('../../../../static/no-product-image.png')}
+        title={product.name}
+      />
+      <Typography variant="subtitle2">
+        { product.name }
+      </Typography>
+    </Card>
+  </ButtonBase>
+);
+
+Products.propTypes = {
+  handleOpen: PropTypes.func.isRequired,
+  selectedCID: PropTypes.string.isRequired,
+};
+
+ProductItem.propTypes = {
+  product: PropTypes.instanceOf(PropTypes.object).isRequired,
+  handleOpen: PropTypes.func.isRequired,
+};
 
 export default Products;

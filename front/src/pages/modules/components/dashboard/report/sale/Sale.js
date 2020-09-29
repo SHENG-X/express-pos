@@ -14,18 +14,16 @@ import {
   TableRow,
   TableCell,
 } from '@material-ui/core';
-import { DatePicker } from "@material-ui/pickers";
 import {
   Delete,
   AmpStories,
 } from '@material-ui/icons';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { useTranslation } from 'react-i18next';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import { useToasts } from 'react-toast-notifications';
+import PropTypes from 'prop-types';
 
-import { Context } from '../../../../../../context/storeContext';
-import { formatAsCurrency } from '../../../../../../utils';
 import OrderModal from './OrderModal';
 import SaleSummary from './SaleSummary';
 import SaleByStaff from './SaleByStaff';
@@ -51,33 +49,26 @@ const SaleReport = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setDateFilter(filter);
-  }, [filter]);
-
-  useEffect(() => {
     loadOrder(startDate.toISOString(), endDate.toISOString());
-  }, [startDate, endDate])
+  }, [startDate, endDate]);
 
-  const sortOrderListByDate = () => {
-    return orderState.sort((o1, o2) => {
-      const d1 = new Date(o1.createdAt);
-      const d2 = new Date(o2.createdAt);
-      if (d1 > d2) {
-        return -1;
-      }
-      if (d1 < d2) {
-        return  1;
-      }
-      return 0;
-    });
-  }
+  const sortOrderListByDate = () => orderState.sort((o1, o2) => {
+    const d1 = new Date(o1.createdAt);
+    const d2 = new Date(o2.createdAt);
+    if (d1 > d2) {
+      return -1;
+    }
+    if (d1 < d2) {
+      return 1;
+    }
+    return 0;
+  });
 
   const setDateFilter = (type) => {
-
-    const beforeOneWeek = new Date(new Date().getTime() - 60 * 60 * 24 * 7 * 1000)
-    , day = beforeOneWeek.getDay()
-    , diffToMonday = beforeOneWeek.getDate() - day + (day === 0 ? -6 : 1)
-    , lastMonday = new Date(beforeOneWeek.setDate(diffToMonday));
+    const beforeOneWeek = new Date(new Date().getTime() - 60 * 60 * 24 * 7 * 1000);
+    const day = beforeOneWeek.getDay();
+    const diffToMonday = beforeOneWeek.getDate() - day + (day === 0 ? -6 : 1);
+    const lastMonday = new Date(beforeOneWeek.setDate(diffToMonday));
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -96,7 +87,7 @@ const SaleReport = () => {
     let start = new Date();
     start.setHours(0, 0, 0, 0);
 
-    let end = new Date();
+    const end = new Date();
     end.setHours(23, 59, 59, 999);
 
     switch (type) {
@@ -111,50 +102,56 @@ const SaleReport = () => {
       case DATE_OPTIONS.YEAR:
         start = new Date(curYearStart);
         break;
+      default:
+        break;
     }
     setStartDate(start);
     setEndDate(end);
-  }
+  };
+
+  useEffect(() => {
+    setDateFilter(filter);
+  }, [filter]);
 
   const handleViewOrder = (order) => {
     setCurOrder(order);
     setOpen(true);
-  }
+  };
 
   return (
     <div className="report-sale-tab">
       <Paper elevation={3} className="filters">
         <div>
           <Button
-            color={filter === DATE_OPTIONS.TODAY ? 'primary': 'default'}
+            color={filter === DATE_OPTIONS.TODAY ? 'primary' : 'default'}
             variant="contained"
             onClick={() => setFilter(DATE_OPTIONS.TODAY)}
           >
             { t('date.today') }
           </Button>
           <Button
-            color={filter === DATE_OPTIONS.WEEK ? 'primary': 'default'}
+            color={filter === DATE_OPTIONS.WEEK ? 'primary' : 'default'}
             variant="contained"
             onClick={() => setFilter(DATE_OPTIONS.WEEK)}
           >
             { t('date.thisWeek') }
           </Button>
           <Button
-            color={filter === DATE_OPTIONS.MONTH ? 'primary': 'default'}
+            color={filter === DATE_OPTIONS.MONTH ? 'primary' : 'default'}
             variant="contained"
             onClick={() => setFilter(DATE_OPTIONS.MONTH)}
           >
             { t('date.thisMonth') }
           </Button>
           <Button
-            color={filter === DATE_OPTIONS.YEAR ? 'primary': 'default'}
+            color={filter === DATE_OPTIONS.YEAR ? 'primary' : 'default'}
             variant="contained"
             onClick={() => setFilter(DATE_OPTIONS.YEAR)}
           >
             { t('date.thisYear') }
           </Button>
           <Button
-            color={filter === DATE_OPTIONS.CUSTOM ? 'primary': 'default'}
+            color={filter === DATE_OPTIONS.CUSTOM ? 'primary' : 'default'}
             variant="contained"
             onClick={() => setFilter(DATE_OPTIONS.CUSTOM)}
           >
@@ -162,42 +159,41 @@ const SaleReport = () => {
           </Button>
         </div>
         {
-          filter === DATE_OPTIONS.CUSTOM ?
-          <div className="custom-date">
-            <MuiPickersUtilsProvider utils={MomentUtils}>
-              <DatePicker
-                label={ t('report.startDate') }
-                className="start-date"
-                value={startDate}
-                onChange={start => {
-                  const startDate = new Date(start);
-                  startDate.setHours(0, 0, 0, 0);
-                  setStartDate(startDate);
-                }}
-                animateYearScrolling
-                maxDate={new Date()}
-              />
-              <DatePicker
-                label={ t('report.endDate') }
-                className="end-date"
-                value={endDate}
-                onChange={end => {
-                  const endDate = new Date(end);
-                  endDate.setHours(23, 59, 59, 999);
-                  setEndDate(endDate);
-                }}
-                animateYearScrolling
-                minDate={new Date(startDate)}
-                maxDate={new Date()}
-              />
-            </MuiPickersUtilsProvider>
-          </div>
-          :
-          null
+          filter === DATE_OPTIONS.CUSTOM && (
+            <div className="custom-date">
+              <MuiPickersUtilsProvider utils={MomentUtils}>
+                <DatePicker
+                  label={t('report.startDate')}
+                  className="start-date"
+                  value={startDate}
+                  onChange={(start) => {
+                    const pickedStartDate = new Date(start);
+                    pickedStartDate.setHours(0, 0, 0, 0);
+                    setStartDate(pickedStartDate);
+                  }}
+                  animateYearScrolling
+                  maxDate={new Date()}
+                />
+                <DatePicker
+                  label={t('report.endDate')}
+                  className="end-date"
+                  value={endDate}
+                  onChange={(end) => {
+                    const pickedEndDate = new Date(end);
+                    pickedEndDate.setHours(23, 59, 59, 999);
+                    setEndDate(pickedEndDate);
+                  }}
+                  animateYearScrolling
+                  minDate={new Date(startDate)}
+                  maxDate={new Date()}
+                />
+              </MuiPickersUtilsProvider>
+            </div>
+          )
         }
       </Paper>
 
-      <div className="content" style={{height: `${filter === DATE_OPTIONS.CUSTOM ? 'calc(100% - 124px)': 'calc(100% - 48px)'}`}}>
+      <div className="content" style={{ height: `${filter === DATE_OPTIONS.CUSTOM ? 'calc(100% - 124px)' : 'calc(100% - 48px)'}` }}>
         <Paper elevation={3} className="orders">
           <Table stickyHeader className="table">
             <TableHead className="header">
@@ -220,25 +216,38 @@ const SaleReport = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              { sortOrderListByDate().map(order => <OrderRow order={order} handleViewOrder={handleViewOrder} key={order._id}/>) }
+              {
+                sortOrderListByDate()
+                  .map((order) => (
+                    <OrderRow
+                      order={order}
+                      handleViewOrder={handleViewOrder}
+                      key={order._id}
+                    />
+                  ))
+              }
             </TableBody>
           </Table>
         </Paper>
-        
+
         <div className="flex flex-col">
-          <SaleSummary orders={orderState}/>
-          <SaleByStaff/>
+          <SaleSummary orders={orderState} />
+          <SaleByStaff />
         </div>
 
       </div>
 
       {
-        open &&
-        <OrderModal order={curOrder} closeModal={() => setOpen(false)}/>
+        open && (
+          <OrderModal
+            order={curOrder}
+            closeModal={() => setOpen(false)}
+          />
+        )
       }
     </div>
   );
-}
+};
 
 const OrderRow = ({ order, handleViewOrder }) => {
   const { deleteOrder } = useContext(OrderContext);
@@ -252,9 +261,9 @@ const OrderRow = ({ order, handleViewOrder }) => {
       },
       () => {
         addToast('Unable to delete the order, please try again later', { appearance: 'error' });
-      }
+      },
     );
-  }
+  };
 
   return (
     <TableRow>
@@ -288,6 +297,11 @@ const OrderRow = ({ order, handleViewOrder }) => {
       </TableCell>
     </TableRow>
   );
-}
+};
+
+OrderRow.propTypes = {
+  order: PropTypes.instanceOf(PropTypes.object).isRequired,
+  handleViewOrder: PropTypes.func.isRequired,
+};
 
 export default SaleReport;

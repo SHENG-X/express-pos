@@ -5,8 +5,7 @@ import Button from '../components/Button';
 import Typography from '../components/Typography';
 import ProductHeroLayout from './ProductHeroLayout';
 
-const backgroundImage =
-  'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80';
+const backgroundImage = 'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80';
 
 const styles = (theme) => ({
   background: {
@@ -69,7 +68,7 @@ function ProductHero(props) {
 }
 
 ProductHero.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.instanceOf(PropTypes.object).isRequired,
 };
 
 export default withStyles(styles)(ProductHero);

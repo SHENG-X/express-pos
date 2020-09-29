@@ -10,7 +10,7 @@ import terms from './modules/views/terms.md';
 
 function Terms() {
   return (
-    <React.Fragment>
+    <>
       <AppAppBar />
       <Container>
         <Box mt={7} mb={12}>
@@ -21,7 +21,7 @@ function Terms() {
         </Box>
       </Container>
       <AppFooter />
-    </React.Fragment>
+    </>
   );
 }
 

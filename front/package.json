@@ -13,6 +13,7 @@
     "@unicef/material-ui-currency-textfield": "^0.8.6",
     "axios": "^0.20.0",
     "chart.js": "^2.9.3",
+    "clsx": "^1.1.1",
     "d3": "^6.1.1",
     "final-form": "^4.20.1",
     "formik": "^2.1.5",
@@ -21,6 +22,7 @@
     "markdown-to-jsx": "^6.11.4",
     "moment": "^2.27.0",
     "node-sass": "^4.14.1",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-final-form": "^6.5.1",
@@ -53,5 +55,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.21.2",
+    "eslint-plugin-react-hooks": "^4.1.2"
   }
 }

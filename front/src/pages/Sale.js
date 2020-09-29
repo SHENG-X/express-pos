@@ -16,37 +16,40 @@ const Sale = () => {
   const [selectedCID, setSelectedCID] = useState('');
 
   const handleOpen = (product) => {
-    setSelectedProduct({...product, price: Math.max(...product.prices)});
+    setSelectedProduct({ ...product, price: Math.max(...product.prices) });
     setOpen(true);
-  }
+  };
 
   const handleConfirm = (product) => {
-    const productAdded = order.find(prod => prod._id === product._id && prod.price === product.price);
+    const productAdded = order.find((prod) => (
+      prod._id === product._id
+      && prod.price === product.price
+    ));
     let newOrder = [];
     if (productAdded) {
-      newOrder = order.map(prod => {
+      newOrder = order.map((prod) => {
         if (prod._id === product._id && prod.price === product.price) {
-          return {...prod, count: prod.count + product.count};
+          return { ...prod, count: prod.count + product.count };
         }
         return prod;
-      })
+      });
     } else {
       newOrder = [...order, product];
     }
     setOrder(newOrder);
     setSelectedProduct({});
     setOpen(false);
-  }
+  };
 
   const beforeRouteChange = (callback) => {
     if (order.length) {
-      if (window.confirm("You have unplaced order. If you navigate away, you will lose you changes.")) {
+      if (window.confirm('You have unplaced order. If you navigate away, you will lose you changes.')) {
         callback();
       }
     } else {
       callback();
     }
-  }
+  };
 
   const handleSelectChange = (cid) => {
     if (cid === selectedCID) {
@@ -54,12 +57,12 @@ const Sale = () => {
     } else {
       setSelectedCID(cid);
     }
-  }
+  };
 
   return (
-    <div className="sale" >
-      <React.Fragment>
-        <AppAppBar beforeRouteChange={beforeRouteChange}/>
+    <div className="sale">
+      <>
+        <AppAppBar beforeRouteChange={beforeRouteChange} />
         <div className="container">
           <div className="receipt">
             <Receipt order={order} setOrder={setOrder} />
@@ -70,16 +73,15 @@ const Sale = () => {
           <Categories selectedCID={selectedCID} handleSelectChange={handleSelectChange} />
         </div>
         {
-          open &&
-          <ProductModal
+          open && <ProductModal
             selectedProduct={selectedProduct}
-            handleOpen={val => setOpen(val)}
+            handleOpen={(val) => setOpen(val)}
             handleConfirm={handleConfirm}
           />
         }
-      </React.Fragment>
+      </>
     </div>
   );
-}
+};
 
 export default withRoot(Sale);

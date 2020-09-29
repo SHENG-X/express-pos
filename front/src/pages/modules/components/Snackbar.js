@@ -41,7 +41,9 @@ function Transition(props) {
 }
 
 function Snackbar(props) {
-  const { classes, message, closeFunc, ...other } = props;
+  const {
+    classes, message, closeFunc, ...other
+  } = props;
 
   return (
     <MuiSnackbar
@@ -56,10 +58,10 @@ function Snackbar(props) {
         },
       }}
       message={
-        <React.Fragment>
+        <>
           <InfoIcon className={classes.info} />
           <span>{message}</span>
-        </React.Fragment>
+        </>
       }
       action={[
         <IconButton
@@ -81,12 +83,17 @@ Snackbar.propTypes = {
   /**
    * Override or extend the styles applied to the component.
    */
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.instanceOf(PropTypes.object).isRequired,
   closeFunc: PropTypes.func,
   /**
    * The message to display.
    */
   message: PropTypes.node,
+};
+
+Snackbar.defaultProps = {
+  closeFunc: () => {},
+  message: null,
 };
 
 export default withStyles(styles)(Snackbar);

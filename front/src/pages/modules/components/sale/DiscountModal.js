@@ -8,7 +8,8 @@ import {
   InputAdornment,
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import CurrencyTextField from '@unicef/material-ui-currency-textfield'
+import CurrencyTextField from '@unicef/material-ui-currency-textfield';
+import PropTypes from 'prop-types';
 
 import ModalBase from '../ModalBase';
 
@@ -16,21 +17,21 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
   const { t } = useTranslation();
   const [discount, setDiscount] = useState({
     method: 'Amount',
-    value: ''
+    value: '',
   });
 
   useEffect(() => {
     if (discountProp) {
-      setDiscount({...discountProp, value: discountProp.method === 'Percent' ? discountProp.value * 100 : discountProp.value });
+      setDiscount({ ...discountProp, value: discountProp.method === 'Percent' ? discountProp.value * 100 : discountProp.value });
     }
   }, []);
 
   return (
     <ModalBase
-      title={ 'Discount' }
+      title="Discount"
       className="discount-modal"
       content={
-        <React.Fragment>
+        <>
           <div className="flex">
             <div className="flex flex-col left">
               <Button
@@ -50,41 +51,43 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
             </div>
             <div className="right">
               {
-                discount.method === 'Amount' &&
-                <CurrencyTextField
-                  value={discount.value}
-                  onChange={(e, value) => setDiscount({ ...discount, value })}
-                  InputProps={{
-                    inputProps: { 
-                      min: 0,
-                    }
-                  }}
-                />
+                discount.method === 'Amount' && (
+                  <CurrencyTextField
+                    value={discount.value}
+                    onChange={(e, value) => setDiscount({ ...discount, value })}
+                    InputProps={{
+                      inputProps: {
+                        min: 0,
+                      },
+                    }}
+                  />
+                )
               }
               {
-                discount.method === 'Percent' &&
-                <TextField
-                  type="number"
-                  value={discount.value}
-                  onChange={e => setDiscount({ ...discount, value: e.target.value.replace(/^0+/,'') })}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        %
-                      </InputAdornment>
-                    ),
-                    inputProps: { 
-                      min: 0,
-                    }
-                  }}
-                />
+                discount.method === 'Percent' && (
+                  <TextField
+                    type="number"
+                    value={discount.value}
+                    onChange={(e) => setDiscount({ ...discount, value: e.target.value.replace(/^0+/, '') })}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          %
+                        </InputAdornment>
+                      ),
+                      inputProps: {
+                        min: 0,
+                      },
+                    }}
+                  />
+                )
               }
             </div>
           </div>
-        </React.Fragment>
+        </>
       }
       actions={
-        <React.Fragment>
+        <>
           <Button
             variant="contained"
             onClick={() => handleOpen(false)}
@@ -98,10 +101,16 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
           >
             { t('common.confirm') }
           </Button>
-        </React.Fragment>
+        </>
       }
     />
   );
-}
+};
+
+DiscountModal.propTypes = {
+  discountProp: PropTypes.instanceOf(PropTypes.object).isRequired,
+  handleOpen: PropTypes.func.isRequired,
+  handleConfirm: PropTypes.func.isRequired,
+};
 
 export default DiscountModal;

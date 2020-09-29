@@ -5,10 +5,11 @@ const instance = axios.create({
 });
 
 // Set the AUTH token for any request
-instance.interceptors.request.use(function (config) {
+instance.interceptors.request.use((config) => {
+  const configInner = config;
   const token = localStorage.getItem('EXPRESS-POS/token');
-  config.headers.Authorization =  token ? `Bearer ${token}` : '';
-  return config;
+  configInner.headers.Authorization = token ? `Bearer ${token}` : '';
+  return configInner;
 });
 
 export default instance;

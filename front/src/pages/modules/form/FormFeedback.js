@@ -18,29 +18,40 @@ const styles = (theme) => ({
   },
 });
 
-function FormFeedback(props) {
-  return (
-    <div
-      className={clsx(
-        props.classes.root,
-        {
-          [props.classes.error]: !!props.error,
-          [props.classes.success]: !!props.success,
-        },
-        props.className,
-      )}
-    >
-      <Typography color="inherit">{props.children}</Typography>
-    </div>
-  );
-}
+const FormFeedback = ({
+  classes,
+  error,
+  success,
+  className,
+  children,
+}) => (
+  <div
+    className={clsx(
+      classes.root,
+      {
+        [classes.error]: !!error,
+        [classes.success]: !!success,
+      },
+      className,
+    )}
+  >
+    <Typography color="inherit">{children}</Typography>
+  </div>
+);
 
 FormFeedback.propTypes = {
   children: PropTypes.node,
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.instanceOf(PropTypes.object).isRequired,
   className: PropTypes.string,
   error: PropTypes.bool,
   success: PropTypes.bool,
+};
+
+FormFeedback.defaultProps = {
+  children: null,
+  className: '',
+  error: false,
+  success: false,
 };
 
 export default withStyles(styles)(FormFeedback);

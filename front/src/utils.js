@@ -4,24 +4,23 @@ export const formatAsCurrency = (amount) => {
     currency: 'USD',
   });
   return formatter.format(amount);
-}
+};
 
-export const classNames = (classes) => {
-  return classes.join(' ');
-}
+export const classNames = (classes) => classes.join(' ');
 
 export const imagePath = (itemId) => {
-  const host = "http://localhost:3000";
+  const host = 'http://localhost:3000';
   return `${host}/static/${itemId}.jpg`;
-}
+};
 
 export const fmtStaffNo = (staffNo) => {
   const staffNoLength = 5;
   return staffNo.toString().padStart(staffNoLength, '0');
-}
+};
 
-export const computePriceSummary = (order) =>{
-  const subtotal = order.products.reduce((acc, prod) => acc + Number((prod.price * prod.count).toFixed(2)), 0);
+export const computePriceSummary = (order) => {
+  const subtotal = order.products
+    .reduce((acc, prod) => acc + Number((prod.price * prod.count).toFixed(2)), 0);
   let discount = 0;
   const discountObj = order.discount;
 
@@ -34,7 +33,8 @@ export const computePriceSummary = (order) =>{
   }
 
   const tax = Number(((subtotal + discount) * order.taxRate).toFixed(2));
-  const cost = order.products.reduce((acc, prod) => acc + Number((prod.cost * prod.count).toFixed(2)), 0);
+  const cost = order.products
+    .reduce((acc, prod) => acc + Number((prod.cost * prod.count).toFixed(2)), 0);
   const total = (subtotal + discount + tax).toFixed(2);
 
   return {
@@ -43,27 +43,27 @@ export const computePriceSummary = (order) =>{
     tax,
     cost,
     total,
-  }
-}
+  };
+};
 
 const calculatePoint = (i, intervalSize, colorRangeInfo) => {
-  var { colorStart, colorEnd, useEndAsStart } = colorRangeInfo;
+  const { colorStart, colorEnd, useEndAsStart } = colorRangeInfo;
   return (useEndAsStart
     ? (colorEnd - (i * intervalSize))
     : (colorStart + (i * intervalSize)));
-}
+};
 
 export const interpolateColors = (dataLength, colorScale, colorRangeInfo) => {
-  var { colorStart, colorEnd } = colorRangeInfo;
-  var colorRange = colorEnd - colorStart;
-  var intervalSize = colorRange / dataLength;
-  var i, colorPoint;
-  var colorArray = [];
+  const { colorStart, colorEnd } = colorRangeInfo;
+  const colorRange = colorEnd - colorStart;
+  const intervalSize = colorRange / dataLength;
+  let colorPoint;
+  const colorArray = [];
 
-  for (i = 0; i < dataLength; i++) {
+  for (let i = 0; i < dataLength; i++) {
     colorPoint = calculatePoint(i, intervalSize, colorRangeInfo);
     colorArray.push(colorScale(colorPoint));
   }
 
   return colorArray;
-}
+};

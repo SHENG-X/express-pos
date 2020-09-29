@@ -32,22 +32,22 @@ const styles = (theme) => ({
     },
   },
   disabled: {},
-  [inputSyleMapping['small']]: {
+  [inputSyleMapping.small]: {
     fontSize: 14,
     padding: theme.spacing(1),
     width: `calc(100% - ${theme.spacing(2)}px)`,
   },
-  [inputSyleMapping['medium']]: {
+  [inputSyleMapping.medium]: {
     fontSize: 16,
     padding: theme.spacing(2),
     width: `calc(100% - ${theme.spacing(4)}px)`,
   },
-  [inputSyleMapping['large']]: {
+  [inputSyleMapping.large]: {
     fontSize: 18,
     padding: 20,
     width: `calc(100% - ${20 * 2}px)`,
   },
-  [inputSyleMapping['xlarge']]: {
+  [inputSyleMapping.xlarge]: {
     fontSize: 20,
     padding: 25,
     width: `calc(100% - ${25 * 2}px)`,
@@ -125,24 +125,32 @@ TextField.propTypes = {
   /**
    * Override or extend the styles applied to the component.
    */
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.instanceOf(PropTypes.object).isRequired,
   /**
    * Props applied to the [`InputLabel`](/api/input-label/) element.
    */
-  InputLabelProps: PropTypes.object,
+  InputLabelProps: PropTypes.instanceOf(PropTypes.object),
   /**
    * Props applied to the Input element.
    * It will be a [`FilledInput`](/api/filled-input/),
    * [`OutlinedInput`](/api/outlined-input/) or [`Input`](/api/input/)
    * component depending on the `variant` prop value.
    */
-  InputProps: PropTypes.object,
+  InputProps: PropTypes.instanceOf(PropTypes.object),
   noBorder: PropTypes.bool,
   /**
    * Props applied to the [`Select`](/api/select/) element.
    */
-  SelectProps: PropTypes.object,
+  SelectProps: PropTypes.instanceOf(PropTypes.object),
   size: PropTypes.oneOf(['large', 'medium', 'small', 'xlarge']),
+};
+
+TextField.defaultProps = {
+  InputLabelProps: {},
+  InputProps: {},
+  noBorder: false,
+  SelectProps: {},
+  size: 'small',
 };
 
 export default withStyles(styles)(TextField);

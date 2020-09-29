@@ -1,5 +1,6 @@
 import React from 'react';
 import MaskedInput from 'react-text-mask';
+import PropTypes from 'prop-types';
 
 const PhoneNumMask = (props) => {
   const { inputRef, ...other } = props;
@@ -15,6 +16,10 @@ const PhoneNumMask = (props) => {
       showMask
     />
   );
-}
+};
+
+PhoneNumMask.propTypes = {
+  inputRef: PropTypes.node.isRequired,
+};
 
 export default PhoneNumMask;

@@ -1,13 +1,11 @@
 import React, {
   useState,
-  useContext
+  useContext,
 } from 'react';
 import {
   Input,
   InputAdornment,
-  Typography,
   IconButton,
-  Paper,
   Table,
   TableHead,
   TableBody,
@@ -26,6 +24,7 @@ import {
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { useToasts } from 'react-toast-notifications';
+import PropTypes from 'prop-types';
 
 import { Context } from '../../../../../context/storeContext';
 import ProductModal from './ProductModal';
@@ -44,35 +43,37 @@ const Product = () => {
   const handleAddProduct = () => {
     setCurrentProduct(null);
     setOpen(true);
-  }
+  };
 
   const editProduct = (product) => {
     setCurrentProduct(product);
     setOpen(true);
-  }
+  };
 
   const restockProduct = (product) => {
     setCurrentProduct(product);
     setRestockOpen(true);
-  }
+  };
 
   const computeList = () => {
-    let products = storeState.products;
+    let { products } = storeState;
     if (searchText !== '') {
-      products = products.filter(prod => prod.name.toLowerCase().includes(searchText.toLowerCase()));
+      products = products.filter((prod) => (
+        prod.name.toLowerCase().includes(searchText.toLowerCase())
+      ));
     }
-    return products.map(prod =>
-      <ProductRow 
+    return products.map((prod) => (
+      <ProductRow
         product={prod}
         editProduct={editProduct}
         restockProduct={restockProduct}
         key={prod._id}
       />
-    );
-  }
+    ));
+  };
 
   return (
-    <React.Fragment>
+    <>
       <CardBase
         title={t('product.heading')}
         className="product-tab"
@@ -87,13 +88,13 @@ const Product = () => {
           </Button>
           <div className="search">
             <Input
-              placeholder={ t('product.search') }
+              placeholder={t('product.search')}
               startAdornment={
                 <InputAdornment position="start">
                   <Search />
                 </InputAdornment>
               }
-              onChange={e => setSearchText(e.target.value)}
+              onChange={(e) => setSearchText(e.target.value)}
             />
           </div>
         </div>
@@ -117,51 +118,54 @@ const Product = () => {
         </div>
       </CardBase>
       {
-        open &&
-        <ProductModal
-          handleOpen={val => setOpen(val)}
-          initProduct={currentProduct}
-        />
+        open && (
+          <ProductModal
+            handleOpen={(val) => setOpen(val)}
+            initProduct={currentProduct}
+          />
+        )
       }
       {
-        restockOpen &&
-        <RestockModal
-          handleOpen={val => setRestockOpen(val)}
-          product={currentProduct}
-        />
+        restockOpen && (
+          <RestockModal
+            handleOpen={(val) => setRestockOpen(val)}
+            product={currentProduct}
+          />
+        )
       }
-    </React.Fragment>
+    </>
   );
-}
+};
 
 const ProductRow = ({ product, editProduct, restockProduct }) => {
   const { storeState, deleteProduct, updateProduct } = useContext(Context);
   const { addToast } = useToasts();
 
   const computeCategoryName = () => {
-    const category = storeState.categories.find(category => category._id === product.category);
+    const category = storeState.categories.find((item) => item._id === product.category);
     if (category) {
       return category.name;
     }
     return '';
-  }
+  };
 
   return (
     <TableRow>
       <TableCell key={product.key}>
         {
-          product.thumbnailFileName ?
-          <div
-            className="thumbnail"
-            title={product.name}
-            style={{"backgroundImage": `url(${imagePath(product.thumbnailFileName)})`}}
-          />
-          :
-          <div
-            className="thumbnail"
-            title={product.name}
-            style={{"backgroundImage": `url(/static/media/no-product-image.b51a7162.png)`}}
-          />
+          product.thumbnailFileName ? (
+            <div
+              className="thumbnail"
+              title={product.name}
+              style={{ backgroundImage: `url(${imagePath(product.thumbnailFileName)})` }}
+            />
+          ) : (
+            <div
+              className="thumbnail"
+              title={product.name}
+              style={{ backgroundImage: 'url(/static/media/no-product-image.b51a7162.png)' }}
+            />
+          )
         }
       </TableCell>
       <TableCell>
@@ -175,7 +179,7 @@ const ProductRow = ({ product, editProduct, restockProduct }) => {
       </TableCell>
       <TableCell>
         {
-          product.prices.map(price => (
+          product.prices.map((price) => (
             <div className="price-item" key={`${price.name}-${price.value}`}>
               <div className={classNames(['name', price.name ? '' : 'hidden'])}>{ price.name }</div>
               <div className={classNames(['separator', price.name ? '' : 'hidden'])}>-</div>
@@ -197,7 +201,7 @@ const ProductRow = ({ product, editProduct, restockProduct }) => {
               <IconButton
                 color="primary"
                 size="small"
-                onClick={() => editProduct( product )}
+                onClick={() => editProduct(product)}
               >
                 <Edit />
               </IconButton>
@@ -211,59 +215,60 @@ const ProductRow = ({ product, editProduct, restockProduct }) => {
               <IconButton
                 color="primary"
                 size="small"
-                onClick={() => restockProduct( product )}
+                onClick={() => restockProduct(product)}
               >
                 <Storage />
               </IconButton>
             </Tooltip>
           </div>
           {
-            product.enable ?
-            <div>
-              <Tooltip
-                title="Disable"
-                arrow
-              >
-                <IconButton
-                  color="primary"
-                  size="small"
-                  onClick={() => updateProduct(
-                    {...product, enable: false},
-                    () => {
-                      addToast(`Disable product success`, { appearance: 'success' });
-                    },
-                    () => {
-                      addToast('Unable to disable the product, please try again later', { appearance: 'error' });
-                    }
-                  )}
+            product.enable ? (
+              <div>
+                <Tooltip
+                  title="Disable"
+                  arrow
                 >
-                  <Visibility />
-                </IconButton>
-              </Tooltip>
-            </div>
-            :
-            <div>
-              <Tooltip
-                title="Enable"
-                arrow
-              >
-                <IconButton
-                  color="primary"
-                  size="small"
-                  onClick={() => updateProduct(
-                    {...product, enable: true},
-                    () => {
-                      addToast(`Enable product success`, { appearance: 'success' });
-                    },
-                    () => {
-                      addToast('Unable to enable the product, please try again later', { appearance: 'error' });
-                    }
-                  )}
+                  <IconButton
+                    color="primary"
+                    size="small"
+                    onClick={() => updateProduct(
+                      { ...product, enable: false },
+                      () => {
+                        addToast('Disable product success', { appearance: 'success' });
+                      },
+                      () => {
+                        addToast('Unable to disable the product, please try again later', { appearance: 'error' });
+                      },
+                    )}
+                  >
+                    <Visibility />
+                  </IconButton>
+                </Tooltip>
+              </div>
+            ) : (
+              <div>
+                <Tooltip
+                  title="Enable"
+                  arrow
                 >
-                  <VisibilityOff />
-                </IconButton>
-              </Tooltip>
-            </div>
+                  <IconButton
+                    color="primary"
+                    size="small"
+                    onClick={() => updateProduct(
+                      { ...product, enable: true },
+                      () => {
+                        addToast('Enable product success', { appearance: 'success' });
+                      },
+                      () => {
+                        addToast('Unable to enable the product, please try again later', { appearance: 'error' });
+                      },
+                    )}
+                  >
+                    <VisibilityOff />
+                  </IconButton>
+                </Tooltip>
+              </div>
+            )
           }
           <div>
             <Tooltip
@@ -276,11 +281,11 @@ const ProductRow = ({ product, editProduct, restockProduct }) => {
                 onClick={() => deleteProduct(
                   { _id: product._id },
                   () => {
-                    addToast(`Delete product success`, { appearance: 'success' });
+                    addToast('Delete product success', { appearance: 'success' });
                   },
                   () => {
                     addToast('Unable to delete the product, please try again later', { appearance: 'error' });
-                  }
+                  },
                 )}
               >
                 <Delete />
@@ -291,6 +296,12 @@ const ProductRow = ({ product, editProduct, restockProduct }) => {
       </TableCell>
     </TableRow>
   );
-}
+};
+
+ProductRow.propTypes = {
+  product: PropTypes.instanceOf(PropTypes.object).isRequired,
+  editProduct: PropTypes.func.isRequired,
+  restockProduct: PropTypes.func.isRequired,
+};
 
 export default Product;

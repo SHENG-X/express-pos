@@ -5,7 +5,7 @@ function isEmail(string) {
 }
 
 export function email(value, message) {
-  return value && !isEmail(value.trim()) ? (message ? message : 'Invalid email') : null;
+  return value && !isEmail(value.trim()) ? (message || 'Invalid email') : null;
 }
 
 function isDirty(value) {
@@ -16,7 +16,7 @@ export function required(requiredFields, values, message) {
   return requiredFields.reduce(
     (fields, field) => ({
       ...fields,
-      ...(isDirty(values[field]) ? undefined : { [field]: (message ? message : 'Required') }),
+      ...(isDirty(values[field]) ? undefined : { [field]: (message || 'Required') }),
     }),
     {},
   );
@@ -25,35 +25,39 @@ export function required(requiredFields, values, message) {
 export const validateName = (name) => {
   if (!name) {
     return 'Required';
-  } else if (name.length < 3) {
-    return 'At least 3 characters'
+  } if (name.length < 3) {
+    return 'At least 3 characters';
   }
-}
+  return null;
+};
 
 export const validatePhone = (phone) => {
   if (!phone) {
     return 'Required';
-  } else if (`${phone}`.match(/\d/g)?.join('').length !== 10) {
-    return 'Invalid phone number'
+  } if (`${phone}`.match(/\d/g)?.join('').length !== 10) {
+    return 'Invalid phone number';
   }
-}
+  return null;
+};
 
-export const validateEmail = (email) => {
-  if (!email) {
+export const validateEmail = (_email) => {
+  if (!_email) {
     return 'Required';
-  } else if (
+  } if (
     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
   ) {
     return 'Invalid email address';
   }
-}
+  return null;
+};
 
 export const validatePassword = (password) => {
   // for now only require more than 4 characters
   // TODO: validate with strong password schema
-  if (!password){
+  if (!password) {
     return 'Required';
-  } else if (password.length < 4) {
+  } if (password.length < 4) {
     return 'At least 4 characters';
   }
-}
+  return null;
+};

@@ -4,20 +4,27 @@ import React, {
 import {
   fieldToTextField,
 } from 'formik-material-ui';
-import CurrencyTextField from '@unicef/material-ui-currency-textfield'
+import PropTypes from 'prop-types';
+
+import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 
 const PriceTextField = (props) => {
   const {
-    form: {setFieldValue},
-    field: {name},
+    form: { setFieldValue },
+    field: { name },
   } = props;
   const onChange = useCallback(
     (event, value) => {
       setFieldValue(name, value);
     },
-    [setFieldValue, name]
+    [setFieldValue, name],
   );
   return <CurrencyTextField {...fieldToTextField(props)} onChange={onChange} />;
-}
+};
+
+PriceTextField.propTypes = {
+  form: PropTypes.func.isRequired,
+  field: PropTypes.string.isRequired,
+};
 
 export default PriceTextField;

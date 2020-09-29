@@ -6,7 +6,7 @@ export const createProductAsync = async (product) => {
   } catch (error) {
     return error.response;
   }
-}
+};
 
 export const createCategoryAsync = async (category) => {
   try {
@@ -14,7 +14,7 @@ export const createCategoryAsync = async (category) => {
   } catch (error) {
     return error.response;
   }
-}
+};
 
 export const updateTaxAsync = async (tax) => {
   try {
@@ -22,7 +22,7 @@ export const updateTaxAsync = async (tax) => {
   } catch (error) {
     return error.response;
   }
-}
+};
 
 export const deleteCategoryAsync = async (category) => {
   try {
@@ -30,15 +30,15 @@ export const deleteCategoryAsync = async (category) => {
   } catch (error) {
     return error.response;
   }
-}
+};
 
 export const deleteProductAsync = async (product) => {
   try {
-    return await instance.delete('/api/product', { params: {...product} });
+    return await instance.delete('/api/product', { params: { ...product } });
   } catch (error) {
     return error.response;
   }
-}
+};
 
 export const updateProductAsync = async (product) => {
   try {
@@ -46,7 +46,7 @@ export const updateProductAsync = async (product) => {
   } catch (error) {
     return error.response;
   }
-}
+};
 
 export const updateCategoryAsync = async (category) => {
   try {
@@ -54,23 +54,23 @@ export const updateCategoryAsync = async (category) => {
   } catch (error) {
     return error.response;
   }
-}
+};
 
 export const restockProductAsync = async (product) => {
   try {
-    return await instance.put('/api/product/restock', {...product});
+    return await instance.put('/api/product/restock', { ...product });
   } catch (error) {
     return error.response;
   }
-}
+};
 
-export const loadStoreAsync = async (storeId) => {
+export const loadStoreAsync = async () => {
   try {
     return await instance.get('/api/store');
   } catch (error) {
     return error.response;
   }
-}
+};
 
 export const getCategoryAsync = async (cid) => {
   try {
@@ -78,7 +78,7 @@ export const getCategoryAsync = async (cid) => {
   } catch (error) {
     return error.response;
   }
-}
+};
 
 export const getProductAsync = async (pid) => {
   try {
@@ -86,7 +86,7 @@ export const getProductAsync = async (pid) => {
   } catch (error) {
     return error.response;
   }
-}
+};
 
 export const getTaxAsync = async () => {
   try {
@@ -94,4 +94,4 @@ export const getTaxAsync = async () => {
   } catch (error) {
     return error.response;
   }
-}
+};

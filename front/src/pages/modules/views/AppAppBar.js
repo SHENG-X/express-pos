@@ -1,10 +1,10 @@
 import React, {
-  useContext
+  useContext,
 } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { 
+import {
   withStyles,
   Link as MDCLink,
 } from '@material-ui/core';
@@ -48,8 +48,8 @@ const styles = (theme) => ({
   },
 });
 
-function AppAppBar(props) {
-  const { classes } = props;
+const AppAppBar = (props) => {
+  const { classes, beforeRouteChange } = props;
   const { t } = useTranslation();
   const { userState, signOut } = useContext(UserContext);
   const { storeState } = useContext(StoreContext);
@@ -66,119 +66,127 @@ function AppAppBar(props) {
               color="inherit"
               className={classNames([classes.title, 'app-bar-action'])}
               onClick={() => {
-                if (props.beforeRouteChange) {
-                  props.beforeRouteChange(() => history.push('/'));
+                if (beforeRouteChange) {
+                  beforeRouteChange(() => history.push('/'));
                 } else {
-                  history.push('/')
+                  history.push('/');
                 }
               }}
             >
               <span>
-                {'Express POS'}
+                Express POS
               </span>
               {
-                userState.authenticated ?
-                <React.Fragment>
-                  <span className="dash-separator">
-                    -
-                  </span>  
-                  <span>
-                    { storeState.name }
-                  </span>
-                </React.Fragment>
-                :
-                null
+                userState.authenticated && (
+                  <>
+                    <span className="dash-separator">
+                      -
+                    </span>
+                    <span>
+                      { storeState.name }
+                    </span>
+                  </>
+                )
               }
             </MDCLink>
           </div>
           <div className={classes.right}>
             {
-              userState.authenticated === true ?
-              <React.Fragment>
-                {
-                  history.location.pathname !== '/dashboard' &&
-                  <MDCLink
-                    variant="h6"
-                    underline="none"
-                    className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
-                    onClick={() => {
-                      if (props.beforeRouteChange) {
-                        props.beforeRouteChange(() => history.push('/dashboard'));
-                      } else {
-                        history.push('/dashboard');
-                      }
-                    }}
-                  >
-                    { `Dashboard` }
-                  </MDCLink>
-                }
-                {
-                  history.location.pathname !== '/sale' &&
-                  <MDCLink
-                    variant="h6"
-                    underline="none"
-                    className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
-                    onClick={() => {
-                      if (props.beforeRouteChange) {
-                        props.beforeRouteChange(() => history.push('/sale'));
-                      } else {
-                        history.push('/sale')
-                      }
-                    }}
-                  >
-                    { `Sale` }
-                  </MDCLink>
-                }
-                <MDCLink
-                  variant="h6"
-                  underline="none"
-                  className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
-                  onClick={() => {
-                    if (props.beforeRouteChange) {
-                      props.beforeRouteChange(() => signOut(()=>{history.push('/')}));
-                    } else {
-                      signOut(()=>{history.push('/')});
+              userState.authenticated === true
+                ? (
+                  <>
+                    {
+                      history.location.pathname !== '/dashboard' && (
+                        <MDCLink
+                          variant="h6"
+                          underline="none"
+                          className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
+                          onClick={() => {
+                            if (props.beforeRouteChange) {
+                              props.beforeRouteChange(() => history.push('/dashboard'));
+                            } else {
+                              history.push('/dashboard');
+                            }
+                          }}
+                        >
+                          Dashboard
+                        </MDCLink>
+                      )
                     }
-                  }}
-                >
-                  { `SIGN OUT` }
-                </MDCLink>
-              </React.Fragment>
-              :
-              <React.Fragment>
-                <MDCLink
-                  color="inherit"
-                  variant="h6"
-                  underline="none"
-                  className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
-                  onClick={() => history.push('/sign-in')}
-                >
-                  { t('signIn.heading') }
-                </MDCLink>
-                <MDCLink
-                  variant="h6"
-                  underline="none"
-                  className={classNames([clsx(classes.rightLink, classes.linkSecondary), 'app-bar-action'])}
-                  onClick={() => history.push('/sign-up')}
-                >
-                  { t('signUp.heading') }
-                </MDCLink>
-              </React.Fragment>
-            }
-            
+                    {
+                      history.location.pathname !== '/sale' && (
+                        <MDCLink
+                          variant="h6"
+                          underline="none"
+                          className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
+                          onClick={() => {
+                            if (props.beforeRouteChange) {
+                              props.beforeRouteChange(() => history.push('/sale'));
+                            } else {
+                              history.push('/sale');
+                            }
+                          }}
+                        >
+                          Sale
+                        </MDCLink>
+                      )
+                    }
+                    <MDCLink
+                      variant="h6"
+                      underline="none"
+                      className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
+                      onClick={() => {
+                        if (props.beforeRouteChange) {
+                          props.beforeRouteChange(() => signOut(() => history.push('/')));
+                        } else {
+                          signOut(() => history.push('/'));
+                        }
+                      }}
+                    >
+                      SIGN OUT
+                    </MDCLink>
+                  </>
+                ) : (
+                  <>
+                    <MDCLink
+                      color="inherit"
+                      variant="h6"
+                      underline="none"
+                      className={classNames([clsx(classes.rightLink), 'app-bar-action'])}
+                      onClick={() => history.push('/sign-in')}
+                    >
+                      { t('signIn.heading') }
+                    </MDCLink>
+                    <MDCLink
+                      variant="h6"
+                      underline="none"
+                      className={classNames([clsx(classes.rightLink, classes.linkSecondary), 'app-bar-action'])}
+                      onClick={() => history.push('/sign-up')}
+                    >
+                      { t('signUp.heading') }
+                    </MDCLink>
+                  </>
+                )
+              }
           </div>
         </Toolbar>
       </AppBar>
       <div className={classes.placeholder} />
     </div>
   );
-}
+};
 
 AppAppBar.propTypes = {
   /**
    * Override or extend the styles applied to the component.
    */
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.instanceOf(PropTypes.object).isRequired,
+  beforeRouteChange: PropTypes.func,
+};
+
+AppAppBar.defaultProps = {
+  // set default props
+  beforeRouteChange: () => {},
 };
 
 export default withStyles(styles)(AppAppBar);

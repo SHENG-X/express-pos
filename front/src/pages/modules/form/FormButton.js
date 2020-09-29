@@ -25,4 +25,9 @@ FormButton.propTypes = {
   mounted: PropTypes.bool,
 };
 
+FormButton.defaultProps = {
+  disabled: false,
+  mounted: false,
+};
+
 export default defer(FormButton);

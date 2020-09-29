@@ -31,28 +31,28 @@ const markSyleMapping = {
 };
 
 const styles = (theme) => ({
-  [markSyleMapping['center']['h2']]: {
+  [markSyleMapping.center.h2]: {
     height: 4,
     width: 73,
     display: 'block',
     margin: `${theme.spacing(1)}px auto 0`,
     backgroundColor: theme.palette.secondary.main,
   },
-  [markSyleMapping['center']['h3']]: {
+  [markSyleMapping.center.h3]: {
     height: 4,
     width: 55,
     display: 'block',
     margin: `${theme.spacing(1)}px auto 0`,
     backgroundColor: theme.palette.secondary.main,
   },
-  [markSyleMapping['center']['h4']]: {
+  [markSyleMapping.center.h4]: {
     height: 4,
     width: 55,
     display: 'block',
     margin: `${theme.spacing(1)}px auto 0`,
     backgroundColor: theme.palette.secondary.main,
   },
-  [markSyleMapping['left']['h6']]: {
+  [markSyleMapping.left.h6]: {
     height: 2,
     width: 28,
     display: 'block',
@@ -72,7 +72,9 @@ const variantMapping = {
 };
 
 function Typography(props) {
-  const { children, variant, classes, marked = 'none', ...other } = props;
+  const {
+    children, variant, classes, marked = 'none', ...other
+  } = props;
 
   let markedClassName = '';
   if (variant && variant in markSyleMapping[marked]) {
@@ -95,7 +97,7 @@ Typography.propTypes = {
   /**
    * Override or extend the styles applied to the component.
    */
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.instanceOf(PropTypes.object).isRequired,
   marked: PropTypes.oneOf(['center', 'left', 'none']),
   /**
    * Applies the theme typography styles.
@@ -116,6 +118,12 @@ Typography.propTypes = {
     'subtitle1',
     'subtitle2',
   ]),
+};
+
+Typography.defaultProps = {
+  children: null,
+  marked: 'left',
+  variant: 'body1',
 };
 
 export default withStyles(styles)(Typography);

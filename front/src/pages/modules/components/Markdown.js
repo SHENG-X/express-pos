@@ -24,11 +24,9 @@ const options = {
       ),
     },
     h4: {
-      component: (props) => {
-        return (
-          <Typography gutterBottom variant="caption" paragraph {...props} />
-        );
-      },
+      component: (props) => (
+        <Typography gutterBottom variant="caption" paragraph {...props} />
+      ),
     },
     p: {
       component: (props) => <Typography paragraph {...props} />,

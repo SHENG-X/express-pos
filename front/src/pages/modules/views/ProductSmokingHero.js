@@ -51,7 +51,7 @@ function ProductSmokingHero(props) {
 }
 
 ProductSmokingHero.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.instanceOf(PropTypes.object).isRequired,
 };
 
 export default withStyles(styles)(ProductSmokingHero);

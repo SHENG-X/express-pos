@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import { Field, Form, FormSpy } from 'react-final-form';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 
 import Typography from './modules/components/Typography';
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
   lname: {
     marginLeft: '0.5rem',
-  }
+  },
 }));
 
 const SignUp = () => {
@@ -76,7 +76,14 @@ const SignUp = () => {
   const handleSubmit = async (values) => {
     setSent(true);
     await signUp(
-      { name: values.name, fname: values.fname, lname: values.lname, password: values.password, email: values.email, phone: values.phone },
+      {
+        name: values.name,
+        fname: values.fname,
+        lname: values.lname,
+        password: values.password,
+        email: values.email,
+        phone: values.phone,
+      },
       async () => {
         // on success redirect to sale page
         await loadStore(
@@ -85,22 +92,22 @@ const SignUp = () => {
           },
           () => {
             addToast('Failed to load store', { appearance: 'error' });
-          }
+          },
         );
       },
       () => {
         // on fail show error message
         addToast(t('signUp.invalid'), { appearance: 'error' });
-      }
+      },
     );
     setSent(false);
   };
 
   return (
-    <React.Fragment>
+    <>
       <AppAppBar />
       <AppForm>
-        <React.Fragment>
+        <>
           <Typography variant="h3" gutterBottom marked="center" align="center">
             { t('signUp.heading') }
           </Typography>
@@ -109,7 +116,7 @@ const SignUp = () => {
               { t('signUp.subtitle') }
             </Link>
           </Typography>
-        </React.Fragment>
+        </>
         <Form
           onSubmit={handleSubmit}
           subscription={{ submitting: true }}
@@ -122,7 +129,7 @@ const SignUp = () => {
                 component={RFTextField}
                 disabled={submitting || sent}
                 fullWidth
-                label={ t('signUp.business') }
+                label={t('signUp.business')}
                 name="name"
                 required
               />
@@ -133,7 +140,7 @@ const SignUp = () => {
                   disabled={submitting || sent}
                   className={classes.fname}
                   fullWidth
-                  label={ `First name` }
+                  label="First name"
                   name="fname"
                   required
                 />
@@ -143,7 +150,7 @@ const SignUp = () => {
                   disabled={submitting || sent}
                   className={classes.lname}
                   fullWidth
-                  label={ `Last name` }
+                  label="Last name"
                   name="lname"
                   required
                 />
@@ -153,7 +160,7 @@ const SignUp = () => {
                 component={RFTextField}
                 disabled={submitting || sent}
                 fullWidth
-                label={ `Phone Number` }
+                label="Phone Number"
                 margin="normal"
                 name="phone"
                 required
@@ -163,7 +170,7 @@ const SignUp = () => {
                 component={RFTextField}
                 disabled={submitting || sent}
                 fullWidth
-                label={ t('common.email') }
+                label={t('common.email')}
                 margin="normal"
                 name="email"
                 required
@@ -175,19 +182,19 @@ const SignUp = () => {
                 required
                 name="password"
                 autoComplete="current-password"
-                label={ t('common.password') }
+                label={t('common.password')}
                 type="password"
                 margin="normal"
               />
-              <FormSpy subscription={{ submitError: true }}>
-                {({ submitError }) =>
-                  submitError ? (
+              {/* <FormSpy subscription={{ submitError: true }}>
+                {
+                  ({ submitError }) => submitError && (
                     <FormFeedback className={classes.feedback} error>
                       {submitError}
                     </FormFeedback>
-                  ) : null
+                  )
                 }
-              </FormSpy>
+              </FormSpy> */}
               <FormButton
                 className={classes.button}
                 disabled={submitting || sent}
@@ -201,8 +208,8 @@ const SignUp = () => {
         </Form>
       </AppForm>
       <AppFooter />
-    </React.Fragment>
+    </>
   );
-}
+};
 
 export default withRoot(SignUp);

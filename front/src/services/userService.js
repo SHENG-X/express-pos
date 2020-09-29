@@ -2,11 +2,13 @@ import instance from './index';
 
 export const register = async (name, email, fname, lname, password, phone) => {
   try {
-    return await instance.post('/api/user/create', { name, email, fname, lname, password, phone });
+    return await instance.post('/api/user/create', {
+      name, email, fname, lname, password, phone,
+    });
   } catch (error) {
     return error.response;
   }
-}
+};
 
 export const authenticate = async (email, password) => {
   try {
@@ -14,7 +16,7 @@ export const authenticate = async (email, password) => {
   } catch (error) {
     return error.response;
   }
-}
+};
 
 export const getStaffAsync = async (uid) => {
   try {
@@ -22,7 +24,7 @@ export const getStaffAsync = async (uid) => {
   } catch (error) {
     return error.response;
   }
-}
+};
 
 export const addStaffAsync = async (staff) => {
   try {
@@ -30,21 +32,20 @@ export const addStaffAsync = async (staff) => {
   } catch (error) {
     return error.response;
   }
-}
+};
 
 export const updateStaffAsync = async (staff) => {
   try {
-    return await instance.put('/api/user/staff', { ...staff })
+    return await instance.put('/api/user/staff', { ...staff });
   } catch (error) {
     return error.response;
   }
-}
+};
 
 export const deleteStaffAsync = async (staffId) => {
   try {
-    return await instance.delete('/api/user/staff', { params: { staffId } })
+    return await instance.delete('/api/user/staff', { params: { staffId } });
   } catch (error) {
     return error.response;
   }
-}
-
+};

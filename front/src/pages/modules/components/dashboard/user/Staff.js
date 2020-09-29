@@ -21,8 +21,8 @@ import {
   Edit,
   Delete,
 } from '@material-ui/icons';
-import { useTranslation } from 'react-i18next';
 import { useToasts } from 'react-toast-notifications';
+import PropTypes from 'prop-types';
 
 import { Context } from '../../../../../context/userContext';
 import CardBase from '../../cardbase/CardBase';
@@ -42,21 +42,17 @@ const Staff = () => {
     }
   }, []);
 
-  useEffect(() => {
-    setComputedStaff(computeStaff());
-  }, [searchText, userState.staff]);
-
   const updateCurrentStaff = (staff) => {
     setCurrentStaff(staff);
     setOpen(true);
-  }
+  };
 
   const computeStaff = () => {
-    let staff = userState.staff;
+    let { staff } = userState;
 
     if (searchText !== '') {
-      staff = staff.filter(stf => {
-        let stfObj = {
+      staff = staff.filter((stf) => {
+        const stfObj = {
           staffNo: fmtStaffNo(stf.staffNo),
           enable: stf.enable,
           role: stf.role,
@@ -66,73 +62,89 @@ const Staff = () => {
           email: stf.email,
         };
         const stfStr = Object.values(stfObj).join('');
-        if (stfStr.toLowerCase().includes(searchText.toLowerCase())) {
-          return stf;
-        }
-      })
+        return stfStr.toLowerCase().includes(searchText.toLowerCase());
+      });
     }
 
     return staff;
-  }
+  };
+
+  useEffect(() => {
+    setComputedStaff(computeStaff());
+  }, [searchText, userState.staff]);
 
   return (
-    <React.Fragment>
+    <>
       <CardBase
-        title={ `Manage Staff` }
+        title="Manage Staff"
         className="staff"
       >
         <div className="row actions">
-            {
-              userState.role !== 'Employee' &&
+          {
+            userState.role !== 'Employee' && (
               <Button
-              color="primary"
-              variant="contained"
-              onClick={() => setOpen(true)}
-            >
-              Add Staff
-            </Button>
-            }
-            <div className="search">
-              <Input
-                placeholder={ 'Search for a staff' }
-                onChange={e => setSearchText(e.target.value)}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                }
-              />
-            </div>
+                color="primary"
+                variant="contained"
+                onClick={() => setOpen(true)}
+              >
+                Add Staff
+              </Button>
+            )
+          }
+          <div className="search">
+            <Input
+              placeholder="Search for a staff"
+              onChange={(e) => setSearchText(e.target.value)}
+              startAdornment={
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              }
+            />
           </div>
-          <div className="table-container">
-            <Table stickyHeader >
-              <TableHead>
-                <TableRow>
-                  <TableCell>Staff No.</TableCell>
-                  <TableCell>Enable</TableCell>
-                  <TableCell>Role</TableCell>
-                  <TableCell>First Name</TableCell>
-                  <TableCell>Last Name</TableCell>
-                  <TableCell>Phone Number</TableCell>
-                  <TableCell>Email</TableCell>
-                  {
-                    userState.role !== 'Employee' &&
-                    <TableCell>Actions</TableCell>
-                  }
-                </TableRow>
-              </TableHead>
-              <TableBody>
+        </div>
+        <div className="table-container">
+          <Table stickyHeader>
+            <TableHead>
+              <TableRow>
+                <TableCell>Staff No.</TableCell>
+                <TableCell>Enable</TableCell>
+                <TableCell>Role</TableCell>
+                <TableCell>First Name</TableCell>
+                <TableCell>Last Name</TableCell>
+                <TableCell>Phone Number</TableCell>
+                <TableCell>Email</TableCell>
                 {
-                  computedStaff?.map(staff => <StaffRow staff={staff} handleUpdate={updateCurrentStaff} key={staff._id} />)
+                  userState.role !== 'Employee' && (
+                    <TableCell>Actions</TableCell>
+                  )
                 }
-              </TableBody>
-            </Table>
-          </div>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {
+                computedStaff?.map((staff) => (
+                  <StaffRow
+                    staff={staff}
+                    handleUpdate={updateCurrentStaff}
+                    key={staff._id}
+                  />
+                ))
+              }
+            </TableBody>
+          </Table>
+        </div>
       </CardBase>
-      { open && <StaffModal handleOpen={val => setOpen(val)} currentStaff={currentStaff} resetCurrentStaff={() => setCurrentStaff(null)}/> }
-    </React.Fragment>
+      { open && (
+        <StaffModal
+          handleOpen={(val) => setOpen(val)}
+          currentStaff={currentStaff}
+          resetCurrentStaff={() => setCurrentStaff(null)}
+        />
+      )}
+    </>
   );
-}
+};
 
 const StaffRow = ({ staff, handleUpdate }) => {
   const { userState, deleteStaff } = useContext(Context);
@@ -184,46 +196,52 @@ const StaffRow = ({ staff, handleUpdate }) => {
         </Typography>
       </TableCell>
       {
-        userState.role !== 'Employee' &&
-        <TableCell>
-          <Tooltip
-            title="Edit"
-            arrow
-          >
-            <IconButton
-              color="primary"
-              size="small"
-              onClick={() => handleUpdate(staff)}
-              disabled={staff.role === 'Manager' && userState.role === 'Manager'}
+        userState.role !== 'Employee' && (
+          <TableCell>
+            <Tooltip
+              title="Edit"
+              arrow
             >
-              <Edit/>
-            </IconButton>
-          </Tooltip>
-          <Tooltip
-            title="Delete"
-            arrow
-          >
-            <IconButton
-              color="primary"
-              size="small"
-              onClick={() => deleteStaff(
-                staff._id,
-                () => {
-                  addToast('Staff was deleted', { appearance: 'success' });
-                },
-                () => {
-                  addToast('Unable to delete the staff', { appearance: 'error' });
-                }
-              )}
-              disabled={staff.role === 'Manager' && userState.role === 'Manager'}
+              <IconButton
+                color="primary"
+                size="small"
+                onClick={() => handleUpdate(staff)}
+                disabled={staff.role === 'Manager' && userState.role === 'Manager'}
+              >
+                <Edit />
+              </IconButton>
+            </Tooltip>
+            <Tooltip
+              title="Delete"
+              arrow
             >
-              <Delete/>
-            </IconButton>
-          </Tooltip>
-        </TableCell>
+              <IconButton
+                color="primary"
+                size="small"
+                onClick={() => deleteStaff(
+                  staff._id,
+                  () => {
+                    addToast('Staff was deleted', { appearance: 'success' });
+                  },
+                  () => {
+                    addToast('Unable to delete the staff', { appearance: 'error' });
+                  },
+                )}
+                disabled={staff.role === 'Manager' && userState.role === 'Manager'}
+              >
+                <Delete />
+              </IconButton>
+            </Tooltip>
+          </TableCell>
+        )
       }
     </TableRow>
   );
-}
+};
+
+StaffRow.propTypes = {
+  staff: PropTypes.instanceOf(PropTypes.object).isRequired,
+  handleUpdate: PropTypes.func.isRequired,
+};
 
 export default Staff;

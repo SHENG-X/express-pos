@@ -1,15 +1,15 @@
 import React, {
   useState,
-  useEffect,
   useContext,
 } from 'react';
+import PropTypes from 'prop-types';
 import {
   Tabs,
   Tab,
   Typography,
 } from '@material-ui/core';
 import {
-  useHistory
+  useHistory,
 } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -34,14 +34,14 @@ const Dashboard = () => {
     tabIdx = 9;
   }
   const [value, setValue] = useState(tabIdx);
-  
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
     <div className="dashboard">
-      <React.Fragment>
+      <>
         <AppAppBar />
         <div className="container">
           <div className="left">
@@ -52,24 +52,24 @@ const Dashboard = () => {
               onChange={handleChange}
               className="tabs"
             >
-              <Tab label={ t('sale.heading') } onClick={() => history.push('/sale')}/>
+              <Tab label={t('sale.heading')} onClick={() => history.push('/sale')} />
               <div className="heading">
                 <Typography variant="subtitle1">
                   { t('store.heading') }
                 </Typography>
               </div>
-              <Tab  
-                label={ t('product.heading') }
+              <Tab
+                label={t('product.heading')}
                 className="sub-item"
                 disabled={userState.role === 'Employee'}
               />
               <Tab
-                label={ t('category.heading') }
+                label={t('category.heading')}
                 className="sub-item"
                 disabled={userState.role === 'Employee'}
               />
-              <Tab 
-                label={ t('tax.heading') }
+              <Tab
+                label={t('tax.heading')}
                 className="sub-item"
                 disabled={userState.role === 'Employee'}
               />
@@ -79,73 +79,87 @@ const Dashboard = () => {
                 </Typography>
               </div>
               <Tab
-                label={ t('sale.heading') }
+                label={t('sale.heading')}
                 className="sub-item"
                 disabled={userState.role === 'Employee'}
               />
               <Tab
-                label={ t('inventory.heading') }
+                label={t('inventory.heading')}
                 className="sub-item"
                 disabled={userState.role === 'Employee'}
               />
               <div className="heading">
                 <Typography variant="subtitle1">
-                  { `User` }
+                  User
                 </Typography>
               </div>
               <Tab
-                label={ `Profile` }
+                label="Profile "
                 className="sub-item"
               />
               <Tab
-                label={ `Staff` }
+                label="Staff"
                 className="sub-item"
               />
             </Tabs>
           </div>
           <div className="right">
             <TabPanel value={value} index={2} className="tab-panel-product">
-              <Product/>
+              <Product />
             </TabPanel>
             <TabPanel value={value} index={3} className="tab-panel-category">
-              <Category/>
+              <Category />
             </TabPanel>
             <TabPanel value={value} index={4} className="tab-panel-tax">
-              <Tax/>
+              <Tax />
             </TabPanel>
             <TabPanel value={value} index={6} className="tab-panel-report--sale">
-              <SaleReport/>
+              <SaleReport />
             </TabPanel>
             <TabPanel value={value} index={7} className="tab-panel-report--inventory">
-              <InventoryReport/>
+              <InventoryReport />
             </TabPanel>
             <TabPanel value={value} index={9} className="tab-panel-user--profile">
-              <Profile/>
+              <Profile />
             </TabPanel>
             <TabPanel value={value} index={10} className="tab-panel-user--users">
-              <Staff/>
+              <Staff />
             </TabPanel>
           </div>
         </div>
-      </React.Fragment>
+      </>
     </div>
   );
-}
+};
 
-const TabPanel = ({ children, index, value, className = '' }) => {
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      className={classNames(['tab-panel', className])}
-    >
-      {value === index && (
-        <React.Fragment>
-          {children}
-        </React.Fragment>
-      )}
-    </div>
-  );
-}
+const TabPanel = ({
+  children,
+  index,
+  value,
+  className,
+}) => (
+  <div
+    role="tabpanel"
+    hidden={value !== index}
+    className={classNames(['tab-panel', className])}
+  >
+    {value === index && (
+      <>
+        {children}
+      </>
+    )}
+  </div>
+);
+
+TabPanel.propTypes = {
+  children: PropTypes.node.isRequired,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+  className: PropTypes.string,
+};
+
+TabPanel.defaultProps = {
+  className: '',
+};
 
 export default withRoot(Dashboard);

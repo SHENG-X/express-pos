@@ -2,18 +2,24 @@ import React, {
   useContext,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import { Context as OrderContext} from '../../../../context/orderContext';
-import { Context as StoreContext} from '../../../../context/storeContext';
+import { Context as OrderContext } from '../../../../context/orderContext';
+import { Context as StoreContext } from '../../../../context/storeContext';
 import { fmtStaffNo, computePriceSummary } from '../../../../utils';
 
 const PrintableReceipt = ({ orderId }) => {
   const { t } = useTranslation();
   const { orderState } = useContext(OrderContext);
   const { storeState } = useContext(StoreContext);
-  const order = orderState.find(ord => ord._id === orderId);
+  const order = orderState.find((ord) => ord._id === orderId);
 
-  const { subtotal, discount, tax, total } = computePriceSummary(order);
+  const {
+    subtotal,
+    discount,
+    tax,
+    total,
+  } = computePriceSummary(order);
 
   return (
     <div className="print">
@@ -23,13 +29,19 @@ const PrintableReceipt = ({ orderId }) => {
             { storeState.name }
           </div>
           <div className="type">
-            <span>{ t('sale.type') }:</span>
+            <span>
+              { t('sale.type') }
+              :
+            </span>
             <span>
               { order.paymentType }
             </span>
           </div>
           <div className="type">
-            <span>{ `Cashier No.` }:</span>
+            <span>
+              Cashier No.
+              :
+            </span>
             <span>
               { fmtStaffNo(order.processedBy) }
             </span>
@@ -40,37 +52,42 @@ const PrintableReceipt = ({ orderId }) => {
         </div>
         <div className="main">
           {
-            order.products.map(prod => <PrintableReceiptItem prod={prod} key={prod.product}/>)
+            order.products.map((prod) => <PrintableReceiptItem prod={prod} key={prod.product} />)
           }
           <div className="summary">
             {
-              tax !== 0 && 
-              <div className="subtotal row">
-                <div>{ t('sale.subtotal') }</div>
-                <div>
-                  { subtotal }
+              tax !== 0 && (
+                <div className="subtotal row">
+                  <div>{ t('sale.subtotal') }</div>
+                  <div>
+                    { subtotal }
+                  </div>
                 </div>
-              </div>
+              )
             }
             {
-              order.discount &&
-              <div className="discount row">
-                <div>Discount</div>
-                <div>
-                  { discount }
+              order.discount && (
+                <div className="discount row">
+                  <div>Discount</div>
+                  <div>
+                    { discount }
+                  </div>
                 </div>
-              </div>
+              )
             }
             {
-              tax !== 0 && 
-              <div className="tax row">
-                <div>
-                  { t('tax.heading') } { order.taxRate * 100 }%
+              tax !== 0 && (
+                <div className="tax row">
+                  <div>
+                    { t('tax.heading') }
+                    { order.taxRate * 100 }
+                    %
+                  </div>
+                  <div>
+                    { tax }
+                  </div>
                 </div>
-                <div>
-                  { tax }
-                </div>
-              </div>
+              )
             }
             <div className="total row">
               <div>{ t('sale.total') }</div>
@@ -84,11 +101,11 @@ const PrintableReceipt = ({ orderId }) => {
       </div>
     </div>
   );
-}
+};
 
 const PrintableReceiptItem = ({ prod }) => {
   const { storeState } = useContext(StoreContext);
-  const productName = storeState.products.find(product => product._id === prod.product).name;
+  const productName = storeState.products.find((product) => product._id === prod.product).name;
 
   return (
     <div className="item">
@@ -97,10 +114,20 @@ const PrintableReceiptItem = ({ prod }) => {
         <div>{ (prod.count * prod.price).toFixed(2) }</div>
       </div>
       <div className="subtitle">
-        { prod.count } x { prod.price}
+        { prod.count }
+        x
+        { prod.price}
       </div>
     </div>
   );
-}
+};
+
+PrintableReceipt.propTypes = {
+  orderId: PropTypes.string.isRequired,
+};
+
+PrintableReceiptItem.propTypes = {
+  prod: PropTypes.instanceOf(PropTypes.object).isRequired,
+};
 
 export default PrintableReceipt;
