@@ -7,11 +7,12 @@ import {
 import {
   TextField,
 } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 const LowerCaseTextField = (props) => {
   const {
-    form: {setFieldValue},
-    field: {name},
+    form: { setFieldValue },
+    field: { name },
   } = props;
   const onChange = useCallback(
     (event) => {
@@ -21,6 +22,11 @@ const LowerCaseTextField = (props) => {
     [setFieldValue, name],
   );
   return <TextField {...fieldToTextField(props)} onChange={onChange} />;
+};
+
+LowerCaseTextField.propTypes = {
+  form: PropTypes.func.isRequired,
+  field: PropTypes.string.isRequired,
 };
 
 export default LowerCaseTextField;

@@ -7,11 +7,12 @@ import {
 import {
   TextField,
 } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 const IntegerTextField = (props) => {
   const {
-    form: {setFieldValue},
-    field: {name},
+    form: { setFieldValue },
+    field: { name },
   } = props;
   const onChange = useCallback(
     (event) => {
@@ -33,6 +34,11 @@ const IntegerTextField = (props) => {
       }}
     />
   );
+};
+
+IntegerTextField.propTypes = {
+  form: PropTypes.func.isRequired,
+  field: PropTypes.string.isRequired,
 };
 
 export default IntegerTextField;

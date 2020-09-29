@@ -4,7 +4,7 @@ export const CategorySchema = Yup.object().shape({
   name: Yup.string()
     .min(2, 'Too short')
     .max(10, 'Too long')
-    .required('Required')
+    .required('Required'),
 });
 
 export const ProductSchema = Yup.object().shape({
@@ -14,7 +14,7 @@ export const ProductSchema = Yup.object().shape({
     .required('Required'),
   count: Yup.number().moreThan(0, 'Required').required('Required'),
   prices: Yup.array().of(Yup.object().shape({
-    value: Yup.number().moreThan(0, 'Required').required('Required')
+    value: Yup.number().moreThan(0, 'Required').required('Required'),
   })),
   cost: Yup.number().moreThan(0, 'Required').required('Required'),
 });

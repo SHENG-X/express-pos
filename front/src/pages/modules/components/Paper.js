@@ -11,13 +11,13 @@ const backgroundStyleMapping = {
 };
 
 const styles = (theme) => ({
-  [backgroundStyleMapping['light']]: {
+  [backgroundStyleMapping.light]: {
     backgroundColor: theme.palette.secondary.light,
   },
-  [backgroundStyleMapping['main']]: {
+  [backgroundStyleMapping.main]: {
     backgroundColor: theme.palette.secondary.main,
   },
-  [backgroundStyleMapping['dark']]: {
+  [backgroundStyleMapping.dark]: {
     backgroundColor: theme.palette.secondary.dark,
   },
   padding: {
@@ -26,7 +26,9 @@ const styles = (theme) => ({
 });
 
 function Paper(props) {
-  const { background, classes, className, padding, ...other } = props;
+  const {
+    background, classes, className, padding, ...other
+  } = props;
 
   return (
     <MuiPaper
@@ -49,9 +51,14 @@ Paper.propTypes = {
   /**
    * Override or extend the styles applied to the component.
    */
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.instanceOf(PropTypes.object).isRequired,
   className: PropTypes.string,
   padding: PropTypes.bool,
+};
+
+Paper.defaultProps = {
+  className: '',
+  padding: false,
 };
 
 export default withStyles(styles)(Paper);

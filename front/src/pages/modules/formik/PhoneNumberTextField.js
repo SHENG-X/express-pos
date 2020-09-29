@@ -8,13 +8,14 @@ import {
   Input,
   FormHelperText,
 } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 import PhoneNumMask from '../components/PhoneNumMask';
 
 const PhoneNumberTextField = (props) => {
   const {
-    form: {setFieldValue},
-    field: {name},
+    form: { setFieldValue },
+    field: { name },
   } = props;
   const onChange = useCallback(
     (event) => {
@@ -37,6 +38,11 @@ const PhoneNumberTextField = (props) => {
       }
     </>
   );
+};
+
+PhoneNumberTextField.propTypes = {
+  form: PropTypes.func.isRequired,
+  field: PropTypes.string.isRequired,
 };
 
 export default PhoneNumberTextField;

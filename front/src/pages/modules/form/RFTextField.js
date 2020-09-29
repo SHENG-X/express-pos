@@ -51,20 +51,20 @@ RFTextField.propTypes = {
    * [`OutlinedInput`](/api/outlined-input/) or [`Input`](/api/input/)
    * component depending on the `variant` prop value.
    */
-  InputProps: PropTypes.object,
+  InputProps: PropTypes.instanceOf(PropTypes.object),
   meta: PropTypes.shape({
     active: PropTypes.bool,
-    data: PropTypes.object,
+    data: PropTypes.instanceOf(PropTypes.object),
     dirty: PropTypes.bool,
     dirtySinceLastSubmit: PropTypes.bool,
-    error: PropTypes.any,
+    error: PropTypes.instanceOf(PropTypes.any),
     initial: PropTypes.string,
     invalid: PropTypes.bool,
     length: PropTypes.number,
     modified: PropTypes.bool,
     modifiedSinceLastSubmit: PropTypes.bool,
     pristine: PropTypes.bool,
-    submitError: PropTypes.any,
+    submitError: PropTypes.instanceOf(PropTypes.any),
     submitFailed: PropTypes.bool,
     submitSucceeded: PropTypes.bool,
     submitting: PropTypes.bool,
@@ -73,6 +73,11 @@ RFTextField.propTypes = {
     validating: PropTypes.bool,
     visited: PropTypes.bool,
   }).isRequired,
+};
+
+RFTextField.defaultProps = {
+  autoComplete: null,
+  InputProps: null,
 };
 
 export default RFTextField;
