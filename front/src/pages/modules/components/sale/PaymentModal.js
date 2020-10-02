@@ -16,6 +16,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useToasts } from 'react-toast-notifications';
 import PropTypes from 'prop-types';
+import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 
 import ModalBase from '../ModalBase';
 import { formatAsCurrency } from '../../../../utils';
@@ -196,10 +197,9 @@ const PaymentModal = ({
                             { formatAsCurrency(total) }
                           </div>
                           <div className="paid">
-                            <TextField
-                              type="number"
+                            <CurrencyTextField
                               value={payment}
-                              onChange={(e) => setPayment(e.target.value)}
+                              onChange={(e, val) => setPayment(val)}
                               InputProps={{
                                 startAdornment: (
                                   <InputAdornment position="start">$</InputAdornment>
