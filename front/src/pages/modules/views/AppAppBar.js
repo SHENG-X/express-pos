@@ -186,7 +186,7 @@ AppAppBar.propTypes = {
 
 AppAppBar.defaultProps = {
   // set default props
-  beforeRouteChange: () => {},
+  beforeRouteChange: null,
 };
 
 export default withStyles(styles)(AppAppBar);
