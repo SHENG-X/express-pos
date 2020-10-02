@@ -86,7 +86,7 @@ const ProductModal = ({ selectedProduct, handleOpen, handleConfirm }) => {
                 product.prices.length === 1
                   ? (
                     <Typography variant="body1">
-                      { product.prices[0].value }
+                      { product.prices[0].value.toFixed(2) }
                     </Typography>
                   )
                   : (
