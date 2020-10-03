@@ -45,7 +45,7 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm, total }) => {
         }}
         validate={(values) => {
           const errors = {};
-          const discountAmount = values.method === 'Percent' ? values.value / 100 : values.value; 
+          const discountAmount = values.method === 'Percent' ? total * values.value / 100 : values.value; 
           if (discountAmount > total) {
             errors.value = "You can not discount more than the total amount";
           }
