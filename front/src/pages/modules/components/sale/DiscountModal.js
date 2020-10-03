@@ -20,7 +20,7 @@ import {
 import ModalBaseV2 from '../ModalBaseV2';
 import PriceTextField from '../../formik/PriceTextField';
 
-const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
+const DiscountModal = ({ discountProp, handleOpen, handleConfirm, total }) => {
   const { t } = useTranslation();
   const [discount, setDiscount] = useState({
     method: 'Amount',
@@ -42,6 +42,14 @@ const DiscountModal = ({ discountProp, handleOpen, handleConfirm }) => {
         initialValues={{...discount}}
         onSubmit={(values) => {
           handleConfirm({ ...values, value: values.method === 'Percent' ? values.value / 100 : values.value })
+        }}
+        validate={(values) => {
+          const errors = {};
+          const discountAmount = values.method === 'Percent' ? values.value / 100 : values.value; 
+          if (discountAmount > total) {
+            errors.value = "You can not discount more than the total amount";
+          }
+          return errors;
         }}
         enableReinitialize
       >

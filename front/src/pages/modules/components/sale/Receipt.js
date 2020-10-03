@@ -182,6 +182,7 @@ const Receipt = ({ order, setOrder }) => {
         (!!order.length && discountOpen) && (
           <DiscountModal
             discountProp={discount}
+            total={computeTotal()}
             handleOpen={(val) => setDiscountOpen(val)}
             handleConfirm={(_discount) => { handleAddDiscount(_discount); }}
           />
