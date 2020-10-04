@@ -120,7 +120,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
         enableReinitialize
       >
         {({ submitForm, isSubmitting, values }) => (
-          <Form>
+          <Form autoComplete="off">
             <div className="content">
               <div className="row">
                 <div className="label">
@@ -144,6 +144,11 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                     component={TextField}
                     name="name"
                     placeholder={t('product.productName')}
+                    InputProps={{
+                      inputProps: {
+                        autocomplete: "new-product-name"
+                      },
+                    }}
                   />
                 </div>
               </div>
@@ -286,6 +291,7 @@ const ProductModal = ({ handleOpen, initProduct }) => {
                     InputProps={{
                       inputProps: {
                         min: 0,
+                        autocomplete: "off",
                       },
                     }}
                   />
