@@ -96,7 +96,7 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
         }}
       >
         {({ submitForm, isSubmitting }) => (
-          <Form>
+          <Form autoComplete="off">
             <div className="content">
               <div className="row">
                 <div className="label">
@@ -120,6 +120,11 @@ const CategoryModal = ({ handleOpen, initCategory }) => {
                     component={TextField}
                     name="name"
                     placeholder={t('category.categoryName')}
+                    InputProps={{
+                      inputProps: {
+                        autocomplete: "off"
+                      },
+                    }}
                   />
                 </div>
               </div>
