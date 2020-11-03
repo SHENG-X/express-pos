@@ -1,12 +1,25 @@
 /* eslint-disable no-console */
+const fs = require('fs');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const app = express();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+
+// Certificate
+const privateKey = fs.readFileSync('./privkey.pem', 'utf8');
+const certificate = fs.readFileSync('./cert.pem', 'utf8');
+const ca = fs.readFileSync('./chain.pem', 'utf8');
+
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+  ca: ca
+};
+
+const https = require('https').createServer(credentials, app);
+const io = require('socket.io')(https);
 
 const productRouter = require('./routes/product');
 const categoryRouter = require('./routes/category');
@@ -47,7 +60,7 @@ app.use('/api/order', strict.authenticate, orderRouter);
 app.use('/static', express.static('static'));
 
 mongoose.connect(process.env.MONGODB_URI, options).then(() => {
-  http.listen(PORT, () => {
+  https.listen(PORT, () => {
     console.log(`Listen to port ${PORT}`);
   });
   io.on('connection', (socket) => {
